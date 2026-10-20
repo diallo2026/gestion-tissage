@@ -1,8 +1,8 @@
-/* NEINDI ERP — service worker
+/* AGAT — service worker
    Version générée à chaque compilation : les téléphones déjà installés
    détectent toujours la nouvelle version. */
-var VERSION = 'nerp-20261020-0155';
-var SHELL = ['./', 'index.html', 'manifest.json', 'config.js', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
+var VERSION = 'nerp-20261020-1528';
+var SHELL = ['./', 'index.html', 'manifest.json', 'config.js', 'icons/agat-logo-160.webp', 'icons/agat-logo-512.webp', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(VERSION).then(function (c) { return c.addAll(SHELL).catch(function () {}); }).then(function () { return self.skipWaiting(); }));

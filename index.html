@@ -4,15 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#141b3d">
-<meta name="description" content="NEINDI ERP — gestion intégrée de la production textile, du commerce et de la formation.">
+<meta name="description" content="AGAT — application de gestion des ateliers de tissage : achats, teinture, métiers, stock, ventes, caisse et formation.">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="NEINDI ERP">
-<meta name="application-name" content="NEINDI ERP">
+<meta name="apple-mobile-web-app-title" content="AGAT">
+<meta name="application-name" content="AGAT">
 <meta name="format-detection" content="telephone=no">
-<title>NEINDI ERP</title>
+<title>AGAT — Gestion des ateliers de tissage</title>
 <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +25,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js" defer></script>
 <style>
 /* =====================================================================
-   NEINDI ERP — styles
+   AGAT — styles
    Palette tirée de la cuve d'indigo et du léppi : indigo profond,
    bleu de cuve, blanc de coton, ocre or des fils de motif.
    ===================================================================== */
@@ -167,6 +168,110 @@ input[type=color] { padding: 3px; height: 40px; }
 .lnd-foot { margin-top: 32px; font-size: 12.5px; color: var(--ink-3); }
 .contacts { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
 .contacts .btn { min-height: 34px; font-size: 13px; }
+
+/* ---------- AGAT : barre de plateforme, accueil à deux choix, connexion ---------- */
+.home { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: var(--bg); }
+.pbar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 12px; padding: 10px 18px; background: var(--indigo-950); color: #fff; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.pbar-brand { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.pbar-brand strong { display: block; font-family: var(--display); font-size: 1.05rem; letter-spacing: .02em; line-height: 1.1; }
+.pbar-brand span { display: block; font-size: 11.5px; color: #8f99bd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pbar-back { display: inline-grid; place-items: center; width: 36px; height: 36px; border: 1px solid rgba(255, 255, 255, .16); border-radius: var(--r); background: transparent; color: #fff; cursor: pointer; }
+.pbar-back:hover { background: rgba(255, 255, 255, .08); }
+.pbar-install { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .25); }
+.pbar-install:hover { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .4); }
+
+.home-hero { position: relative; overflow: hidden; flex: 1; display: flex; align-items: center; padding: 48px 20px 56px; }
+.home-hero .weave-cloth { position: absolute; inset: 0; }
+.home-hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 38%, rgba(16, 22, 58, .62) 0%, rgba(16, 22, 58, .9) 70%, rgba(16, 22, 58, .97) 100%); }
+.home-in { position: relative; z-index: 1; width: 100%; max-width: 900px; margin: 0 auto; text-align: center; }
+.lockup { display: inline-block; }
+.lockup-img { display: block; width: clamp(190px, 24vw, 250px); height: auto; border-radius: 50%; box-shadow: 0 0 0 6px rgba(243, 245, 250, .12), 0 18px 44px rgba(0, 0, 0, .45); }
+.brandmark { border-radius: 50%; object-fit: contain; flex: none; background: #fff; }
+.boot-logo { border-radius: 50%; background: #fff; }
+.side-co img.brandmark, .pb-g img.brandmark, .pbar img.brandmark { border-radius: 50%; padding: 0; width: auto; }
+.home-line { color: #dfe4f3; font-size: 1.08rem; max-width: 52ch; margin: 22px auto 30px; }
+.home-msg { display: inline-block; background: var(--err-50); color: var(--err); border-radius: var(--r); padding: 8px 12px; margin: 0 auto 18px; }
+.choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; text-align: left; }
+.choice { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 24px 22px 22px; border: 1px solid rgba(255, 255, 255, .14); border-radius: var(--r-xl); background: rgba(243, 245, 250, .97); color: var(--ink); font: inherit; cursor: pointer; text-align: left; transition: transform .15s, box-shadow .15s; }
+.choice:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(0, 0, 0, .3); }
+.choice:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.choice-ic { display: inline-grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--vat-50); color: var(--vat); }
+.choice-ic .ic { width: 22px; height: 22px; }
+.choice-t { font-family: var(--display); font-size: 1.3rem; font-weight: 700; color: var(--indigo-800); line-height: 1.15; }
+.choice-s { color: var(--ink-2); font-size: 14px; margin-bottom: 10px; }
+.choice-go { margin-top: auto; display: inline-flex; align-items: center; min-height: 40px; padding: 8px 16px; border-radius: var(--r); border: 1px solid var(--vat); color: var(--vat); font-weight: 600; }
+.choice.prime .choice-go { background: var(--vat); color: #fff; }
+.choice.prime { border-top: 4px solid var(--gold); }
+
+.pfoot { background: var(--indigo-950); color: #c9d0e6; padding: 18px 20px; }
+.pfoot-in { max-width: 1040px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.pfoot strong { display: block; color: #fff; font-size: 13.5px; }
+.pfoot span { font-size: 12.5px; color: #8f99bd; }
+.pfoot .contacts { margin: 0; }
+.pfoot .btn.ghost { color: #fff; border-color: rgba(255, 255, 255, .25); }
+
+.cn-main { flex: 1; display: flex; justify-content: center; padding: 34px 18px 48px; }
+.cn-card { width: 100%; max-width: 460px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-xl); padding: 26px 24px; align-self: flex-start; }
+.cn-card h1 { font-size: 1.6rem; }
+.cn-new { margin: 22px 0 0; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-2); }
+
+/* ---------- portail de l'atelier (disposition du portail AGV) ---------- */
+.portail-page { min-height: 100vh; min-height: 100dvh; background: var(--bg); display: flex; flex-direction: column; }
+.portail-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 9px 18px; background: var(--indigo-950); color: #fff; }
+.pb-g { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.pb-g img { height: 38px; width: auto; max-width: 120px; object-fit: contain; background: #fff; border-radius: 6px; padding: 3px; }
+.pb-t strong { display: block; font-family: var(--display); font-size: 1rem; line-height: 1.15; }
+.pb-t span { display: block; font-size: 11.5px; color: #8f99bd; }
+.pb-qui { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #cbd2e8; }
+.pb-qui .ic { width: 16px; height: 16px; }
+.pb-out { display: inline-flex; align-items: center; gap: 5px; background: none; border: 0; color: #f4b3b3; font: 600 13px var(--font); cursor: pointer; padding: 6px 4px; }
+.pb-out .ic { width: 16px; height: 16px; }
+.portail { background: var(--surface); border-bottom: 1px solid var(--line); padding: 26px 16px 30px; }
+.portail-in { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 18px; justify-items: center; }
+.tuile { position: relative; width: 100%; max-width: 236px; display: flex; flex-direction: column; align-items: center; gap: 3px; border: 1px solid var(--line); border-radius: 10px; padding: 20px 14px 16px; text-align: center; cursor: pointer; background: var(--surface); font: inherit; color: inherit; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.tuile:hover { border-color: var(--vat); box-shadow: 0 6px 18px rgba(20, 27, 61, .10); transform: translateY(-2px); }
+.tuile-rond { width: 56px; height: 56px; border-radius: 50%; margin-bottom: 8px; display: grid; place-items: center; background: var(--vat-50); color: var(--vat); }
+.tuile-rond .ic { width: 27px; height: 27px; stroke-width: 1.6; }
+.tuile-logo { width: 56px; height: 56px; object-fit: contain; margin-bottom: 8px; }
+.tuile-t { font-family: var(--display); font-size: 14.5px; font-weight: 700; color: var(--indigo-700); }
+.tuile-s { font-size: 12px; color: var(--ink-2); line-height: 1.45; }
+.tuile-g { font-size: 12px; color: var(--ink); font-weight: 600; margin-top: 2px; }
+.tuile-tag { position: absolute; top: 8px; left: 8px; font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 20px; background: var(--gold-50); color: var(--gold-ink); }
+.tuile.neuve { border-style: dashed; background: transparent; }
+.tuile.neuve .tuile-rond { background: var(--gold-50); color: var(--gold-ink); }
+.portail-corps { flex: 1; padding: 22px 16px 40px; }
+.pc-in { max-width: 1040px; margin: 0 auto; }
+.pc-table td, .pc-table th { white-space: nowrap; }
+.band { display: flex; align-items: stretch; border-radius: var(--r-l); overflow: hidden; margin: 10px 0; border: 1px solid var(--line); background: var(--surface); }
+.band-l { flex: 1; padding: 12px 16px; border-left: 6px solid var(--b, var(--vat)); }
+.band-l strong { display: block; font-family: var(--display); font-size: 15px; margin-bottom: 6px; }
+.band-blocs { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.band-blocs span { display: flex; flex-direction: column; font-weight: 600; font-size: 15px; }
+.band-blocs small { font-size: 11px; color: var(--ink-3); font-weight: 600; }
+.band-r { min-width: 210px; padding: 12px 16px; background: var(--indigo-900); color: #fff; display: flex; flex-direction: column; justify-content: center; }
+.band-r small { color: #aab3d4; font-size: 12px; }
+.band-r b { font-family: var(--display); font-size: 1.25rem; }
+.band.dettes { --b: #b23a3a; } .band.creances { --b: #d9a21b; } .band.caisse { --b: #2f7d4f; } .band.mobile { --b: #d76d1c; } .band.banque { --b: #1d5a3a; }
+.stock-boxes { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.sbox { background: var(--indigo-800); color: #fff; border-radius: var(--r-l); padding: 12px 14px; }
+.sbox small { display: block; color: #aab3d4; font-size: 12px; }
+.sbox b { font-family: var(--display); font-size: 1.15rem; }
+.sbox.tot { background: var(--gold); color: var(--indigo-950); }
+.sbox.tot small { color: #5c3f0c; }
+
+/* barre latérale : retour au portail, bloc ouvert */
+.side-portail { display: flex; align-items: center; gap: 8px; margin: 10px 10px 0; padding: 8px 10px; border: 1px solid rgba(255, 255, 255, .14); border-radius: var(--r); background: transparent; color: #fff; font: 600 13.5px var(--font); cursor: pointer; }
+.side-portail:hover { background: rgba(255, 255, 255, .08); }
+.side-bloc { margin: 10px 10px 0; padding: 8px 12px; border-radius: var(--r); background: rgba(201, 147, 46, .14); border-left: 3px solid var(--gold); }
+.side-bloc b { display: block; color: #f1d39a; font-size: 12px; letter-spacing: .03em; }
+.side-bloc small { display: block; color: #fff; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* cases à cocher multiples (rôles, blocs) */
+fieldset.checks { border: 1px solid var(--line); border-radius: var(--r-l); padding: 10px 14px 12px; margin: 0; }
+fieldset.checks legend { font-size: 13px; font-weight: 600; color: var(--ink-2); padding: 0 6px; }
+.checks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 2px 16px; margin-top: 4px; }
+.checks-grid .chk small { font-size: 12px; }
+fieldset.checks.bad { border-color: var(--err); }
 
 .cologin { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: var(--bg); }
 .co-head { background: var(--indigo-900); color: #fff; text-align: center; padding: 34px 20px 26px; position: relative; overflow: hidden; }
@@ -393,6 +498,18 @@ input[type=color] { padding: 3px; height: 40px; }
   .topbar { padding: 0 12px; }
   .main { padding: 14px 12px 60px; }
   .banner { padding: 10px 12px; }
+  .choices { grid-template-columns: 1fr; }
+  .home-hero { padding: 30px 16px 40px; align-items: flex-start; }
+  .lockup-img { width: 168px; }
+  .home-line { font-size: 1rem; margin: 16px auto 22px; }
+  .pbar-brand span { display: none; }
+  .portail { padding: 18px 12px 22px; }
+  .portail-in { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tuile { padding: 30px 10px 14px; }
+  .tuile-rond { width: 46px; height: 46px; }
+  .band { flex-direction: column; }
+  .band-r { min-width: 0; }
+  .pb-qui { display: none; }
   .landing { grid-template-columns: 1fr; }
   .weave { min-height: 230px; padding: 24px 20px; }
   .weave-brand strong { font-size: 1.5rem; }
@@ -428,27 +545,31 @@ input[type=color] { padding: 3px; height: 40px; }
 </style>
 </head>
 <body>
-<div id="scr-boot" class="screen boot"><div class="boot-in"><svg width="54" height="54" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="11" fill="#22306b"/><g fill="none"><path d="M8 12h32M8 20h32M8 28h32M8 36h32" stroke="#3d56a8" stroke-width="3"/><path d="M24 8 36 24 24 40 12 24z" stroke="#f3f5fa" stroke-width="2.6"/><path d="M24 16 30 24 24 32 18 24z" fill="#c9932e"/></g></svg><p id="boot-msg">Chargement de NEINDI ERP…</p><span class="spin"></span></div></div>
+<div id="scr-boot" class="screen boot"><div class="boot-in"><img src="icons/agat-logo-160.webp" width="96" height="96" alt="AGAT" class="boot-logo"><p id="boot-msg">Chargement d'AGAT…</p><span class="spin"></span></div></div>
 <div id="scr-config" class="screen" hidden></div>
 <div id="scr-landing" class="screen" hidden></div>
+<div id="scr-connect" class="screen" hidden></div>
 <div id="scr-register" class="screen" hidden></div>
 <div id="scr-login" class="screen" hidden></div>
 <div id="scr-blocked" class="screen" hidden></div>
+<div id="scr-portail" class="screen" hidden></div>
 <div id="scr-app" class="screen app" hidden></div>
 <div id="scr-concepteur" class="screen" hidden></div>
 <div id="modals"></div>
 <div id="toasts" aria-live="polite"></div>
-<noscript><p style="padding:20px">NEINDI ERP a besoin de JavaScript pour fonctionner.</p></noscript>
+<noscript><p style="padding:20px">AGAT a besoin de JavaScript pour fonctionner.</p></noscript>
 <script>
 /* ===== 01-core.js ===== */
 /* =====================================================================
-   NEINDI ERP — cœur : utilitaires, formats, état global, événements
+   AGAT (ex-NEINDI ERP) — cœur : utilitaires, formats, état global, événements
    ===================================================================== */
 'use strict';
 
 var NERP = window.NERP = window.NERP || {};
+/* nom de l'application affiché partout */
+var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261020-0155';
+NERP.build = '20261020-1528';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -551,7 +672,8 @@ var Bus = {
    S.d['module/collection'] = { id: objet } — copie vivante de la base   */
 var S = {
   tid: null, code: null, user: null, member: null, role: null,
-  tenant: null, info: {}, params: {}, roles: {}, members: {},
+  tenant: null, info: {}, params: {}, roles: {}, members: {}, blocs: {},
+  bloc: 'A', mode: 'bloc',
   d: {}, loaded: {}, online: true, admin: false
 };
 
@@ -578,9 +700,16 @@ var ACTIONS = [
   { k: 'supprimer', n: 'Supprimer' },
   { k: 'valider', n: 'Valider' },
   { k: 'annuler', n: 'Annuler' },
-  { k: 'exporter', n: 'Exporter' }
+  { k: 'exporter', n: 'Exporter' },
+  { k: 'livrer', n: 'Livrer', only: ['ventes'] }
 ];
-var WRITE_ACTIONS = ['creer', 'modifier', 'supprimer', 'valider', 'annuler'];
+var WRITE_ACTIONS = ['creer', 'modifier', 'supprimer', 'valider', 'annuler', 'livrer'];
+function actionFor(mod, a) { return !a.only || a.only.indexOf(mod) >= 0; }
+
+/* Blocs : chaque bloc est un atelier complet (stock, production, ventes, caisse…).
+   Le BLOC A garde les données d'origine ; les suivants sont créés vides. */
+var BLOC_IDS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+var BLOCS_INCLUS = 3;
 
 /* Emplacements créés pour chaque nouvelle entreprise (modifiables). */
 var EMPLACEMENTS_DEFAUT = [
@@ -664,8 +793,8 @@ var PREFIXES_DEFAUT = {
 var PAD = { PCE: 5, FAC: 5, RC: 5, DEP: 5, AV: 5, DEV: 5, CMD: 5 };
 
 /* ---------- rôles modèles ---------- */
-function roleModele(id, nom, levels, flags) {
-  /* levels : { module: 'L' | 'S' | 'V' | 'T' } */
+function roleModele(id, nom, levels, flags, extra) {
+  /* levels : { module: 'L' | 'S' | 'V' | 'T' } ; extra : { module: { action: true } } */
   var p = {}, r = {}, w = {};
   MODULES.forEach(function (m) {
     var lv = levels[m.k] || '';
@@ -675,28 +804,97 @@ function roleModele(id, nom, levels, flags) {
     if (lv === 'V' || lv === 'T') { a.valider = true; a.annuler = true; a.exporter = true; }
     if (lv === 'T') { a.supprimer = true; }
     if (lv === 'L' && (flags || {}).exporter) a.exporter = true;
+    if (extra && extra[m.k]) Object.keys(extra[m.k]).forEach(function (x) { a[x] = true; a.consulter = true; });
     p[m.k] = a;
     if (a.consulter) r[m.k] = true;
     if (WRITE_ACTIONS.some(function (x) { return a[x]; })) w[m.k] = true;
   });
-  return { nom: nom, systeme: false, modele: id, p: p, r: r, w: w, f: !!(flags || {}).f, conf: !!(flags || {}).conf };
+  return { nom: nom, desc: (flags || {}).desc || '', systeme: false, modele: id, p: p, r: r, w: w, f: !!(flags || {}).f, conf: !!(flags || {}).conf };
 }
-function rolesParDefaut() {
+/* Les sept rôles de gérant d'AGAT : chacun avec ses autorisations, modifiables
+   ensuite dans Administration → Rôles et droits. Un gérant peut en cumuler plusieurs. */
+function rolesAgat() {
   return {
-    directeur: roleModele('directeur', 'Directeur', { tableau: 'L', parametres: 'L', achats: 'V', stock: 'V', teinture: 'V', production: 'V', qualite: 'V', ventes: 'V', formation: 'V', finances: 'V', rapports: 'V', admin: 'V' }, { f: true, conf: true }),
-    achats: roleModele('achats', 'Responsable des achats', { tableau: 'L', achats: 'V', stock: 'L', teinture: 'L', finances: 'L', rapports: 'L' }, { f: true }),
-    magasinier: roleModele('magasinier', 'Magasinier', { tableau: 'L', achats: 'S', stock: 'S', teinture: 'L', production: 'S', ventes: 'L', qualite: 'L' }, {}),
-    teinturier: roleModele('teinturier', 'Responsable de la teinture', { tableau: 'L', achats: 'S', stock: 'L', teinture: 'V', qualite: 'S', production: 'L', formation: 'L' }, {}),
-    production: roleModele('production', 'Responsable de production', { tableau: 'L', achats: 'S', stock: 'L', teinture: 'L', production: 'V', qualite: 'S', ventes: 'L', formation: 'L' }, {}),
-    tisserand: roleModele('tisserand', 'Tisserand', { production: 'S' }, {}),
-    commercial: roleModele('commercial', 'Responsable commercial', { tableau: 'L', stock: 'L', production: 'L', ventes: 'V', finances: 'L', rapports: 'L' }, { f: true }),
-    caissier: roleModele('caissier', 'Caissier ou comptable', { tableau: 'L', achats: 'L', stock: 'L', ventes: 'S', formation: 'S', finances: 'V', rapports: 'L' }, { f: true }),
-    resp_formation: roleModele('resp_formation', 'Responsable des formations', { tableau: 'L', achats: 'S', stock: 'L', production: 'L', formation: 'V', finances: 'L' }, {}),
-    formateur: roleModele('formateur', 'Formateur', { formation: 'S' }, {}),
-    vendeur: roleModele('vendeur', 'Agent de vente', { stock: 'L', ventes: 'S' }, {}),
-    auditeur: roleModele('auditeur', 'Auditeur (lecture seule)', { tableau: 'L', parametres: 'L', achats: 'L', stock: 'L', teinture: 'L', production: 'L', qualite: 'L', ventes: 'L', formation: 'L', finances: 'L', rapports: 'L', admin: 'L' }, { f: true, conf: true, exporter: true })
+    gestionnaire: roleModele('gestionnaire', 'Gestionnaire', { tableau: 'L', parametres: 'L', achats: 'V', stock: 'V', teinture: 'V', production: 'V', qualite: 'V', ventes: 'V', formation: 'V', finances: 'V', rapports: 'V', admin: 'V' },
+      { f: true, conf: true, desc: "Dirige l'atelier : toutes les opérations, validations et rapports, sans la gestion des comptes." }, { ventes: { livrer: true } }),
+    producteur: roleModele('producteur', 'Producteur', { tableau: 'L', stock: 'L', teinture: 'S', production: 'S', qualite: 'S' },
+      { desc: 'Teinture, ordres de production, suivi des métiers et contrôles qualité.' }),
+    vendeur: roleModele('vendeur', 'Vendeur', { tableau: 'L', stock: 'L', ventes: 'S' },
+      { desc: 'Ventes au mètre et à la pièce, devis, commandes et clients.' }),
+    livreur: roleModele('livreur', 'Livreur', {}, { desc: 'Voit les ventes à livrer et confirme chaque livraison.' }, { ventes: { livrer: true } }),
+    caissier: roleModele('caissier', 'Caissier', { tableau: 'L', stock: 'L', ventes: 'S', formation: 'S', finances: 'S' },
+      { f: true, desc: 'Encaissements, ventes au comptant, caisse et dépenses courantes.' }),
+    comptable: roleModele('comptable', 'Comptable', { tableau: 'L', achats: 'S', stock: 'L', ventes: 'L', formation: 'L', finances: 'S', rapports: 'L', admin: 'L' },
+      { f: true, conf: true, exporter: true, desc: 'Factures fournisseurs, dépenses, journal de caisse et rapports financiers.' }),
+    tresorier: roleModele('tresorier', 'Trésorier', { tableau: 'L', achats: 'L', ventes: 'L', finances: 'V', rapports: 'L' },
+      { f: true, conf: true, exporter: true, desc: 'Comptes et caisses : transferts, comptages, validations des écarts et clôtures.' })
   };
 }
+var ROLES_AGAT_ORDRE = ['gestionnaire', 'producteur', 'vendeur', 'livreur', 'caissier', 'comptable', 'tresorier'];
+function rolesParDefaut() { return rolesAgat(); }
+
+/* ---------- rôles cumulés d'une personne ----------
+   member.roles = { vendeur: true, caissier: true } ; member.role = le premier
+   (gardé pour les comptes créés avant l'ajout des rôles multiples).        */
+function memberRoleIds(m) {
+  if (!m) return [];
+  if (m.role === 'proprietaire') return ['proprietaire'];
+  if (m.roles && typeof m.roles === 'object') {
+    var k = Object.keys(m.roles).filter(function (x) { return m.roles[x]; });
+    if (k.length) return k;
+  }
+  return m.role ? [m.role] : [];
+}
+/* Droits réunis de plusieurs rôles : une action est permise si l'un des rôles la permet. */
+function mergeRoles(ids, roles) {
+  var out = { p: {}, r: {}, w: {}, v: {}, f: false, conf: false };
+  (ids || []).forEach(function (id) {
+    var r = (roles || {})[id]; if (!r) return;
+    Object.keys(r.p || {}).forEach(function (mod) {
+      Object.keys(r.p[mod] || {}).forEach(function (a) {
+        if (!r.p[mod][a]) return;
+        (out.p[mod] = out.p[mod] || {})[a] = true;
+        if (a === 'consulter') out.r[mod] = true;
+        if (WRITE_ACTIONS.indexOf(a) >= 0) out.w[mod] = true;
+        if (a === 'valider') out.v[mod] = true;
+      });
+    });
+    Object.keys(r.r || {}).forEach(function (mod) { if (r.r[mod]) out.r[mod] = true; });
+    Object.keys(r.w || {}).forEach(function (mod) { if (r.w[mod]) out.w[mod] = true; });
+    if (r.f) out.f = true;
+    if (r.conf) out.conf = true;
+  });
+  return out;
+}
+/* Droits recopiés sur la fiche de la personne : le serveur les contrôle ainsi
+   même quand elle cumule plusieurs rôles. */
+function aclFor(ids, roles) {
+  var m = mergeRoles(ids, roles);
+  return { r: m.r, w: m.w, v: m.v, f: m.f, conf: m.conf };
+}
+
+/* ---------- blocs accessibles ---------- */
+function blocIdsAll() {
+  var ids = Object.keys(S.blocs || {}).filter(function (b) { return BLOC_IDS.indexOf(b) >= 0 && !(S.blocs[b] || {}).archive; });
+  if (ids.indexOf('A') < 0) ids.push('A');
+  return ids.sort(function (a, b) { return BLOC_IDS.indexOf(a) - BLOC_IDS.indexOf(b); });
+}
+function memberBlocs(m) {
+  if (!m) return [];
+  if (m.role === 'proprietaire') return blocIdsAll();
+  if (m.blocs && typeof m.blocs === 'object') {
+    var all = blocIdsAll();
+    return all.filter(function (b) { return m.blocs[b]; });
+  }
+  return ['A'];
+}
+function blocName(b) {
+  var x = (S.blocs || {})[b];
+  if (x && x.nom) return x.nom;
+  return b === 'A' ? 'Atelier principal' : 'Bloc ' + b;
+}
+function blocLabel(b) { return 'BLOC ' + b + ' — ' + blocName(b); }
+function maxBlocs() { var n = S.tenant && Number(S.tenant.maxBlocs); return n > 0 ? Math.min(n, BLOC_IDS.length) : BLOCS_INCLUS; }
 
 /* ---------- permissions de l'utilisateur connecté ---------- */
 function isOwnerRole() { return S.member && S.member.role === 'proprietaire'; }
@@ -779,7 +977,15 @@ var FB = {
   offset: 0,
   now: function () { return Date.now() + (FB.offset || 0); },
   ref: function (p) { return FB.db.ref(p); },
-  tref: function (p) { return FB.db.ref('t/' + S.tid + (p ? '/' + p : '')); },
+  tref: function (p) { p = FB.bp(p); return FB.db.ref('t/' + S.tid + (p ? '/' + p : '')); },
+  /* Données d'un bloc : le BLOC A reste à t/<tid>/d (données d'origine),
+     les blocs suivants vivent à t/<tid>/blocs/<X>/d. Tout chemin « d/… »
+     de l'application est redirigé ici vers le bloc ouvert. */
+  bp: function (p) {
+    if (!p || !S.bloc || S.bloc === 'A') return p;
+    if (p === 'd' || p.indexOf('d/') === 0) return 'blocs/' + S.bloc + '/' + p;
+    return p;
+  },
   TS: function () { return firebase.database.ServerValue.TIMESTAMP; },
   inc: function (n) { return firebase.database.ServerValue.increment(n); },
   newId: function () { return FB.db.ref('t').push().key; },
@@ -838,7 +1044,7 @@ var Data = {
 
   /* chemins relatifs à t/<tid>/d/ — sauf 'params', 'roles', 'members', 'info' */
   fullPath: function (p) {
-    if (/^(params|roles|members|info|support|audit|fichiers|compteurs|supportLog)$/.test(p)) return p;
+    if (/^(params|roles|members|info|support|audit|fichiers|compteurs|supportLog|blocsInfo)$/.test(p)) return p;
     return 'd/' + p;
   },
 
@@ -1013,7 +1219,7 @@ Tx.prototype.op = function (o) {
 
 Tx.prototype.audit = function (action, objet, ref, extra) {
   var id = FB.newId();
-  var a = { ts: FB.TS(), uid: S.user.uid, nom: S.member.nom, action: action, objet: objet || null, ref: ref || null };
+  var a = { ts: FB.TS(), uid: S.user.uid, nom: S.member.nom, action: action, objet: objet || null, ref: ref || null, bloc: S.bloc || 'A' };
   if (extra) ['avant', 'apres', 'motif', 'detail'].forEach(function (k) { if (extra[k] !== undefined) a[k] = extra[k]; });
   this.patch['audit/' + id] = a;
   return this;
@@ -1024,6 +1230,12 @@ Tx.prototype.commit = function () {
   if (!S.online) return Promise.reject(new Error("Pas de connexion Internet : rien n'a été enregistré. Réessayez dès le retour du réseau."));
   if (!Object.keys(this.patch).length) return Promise.resolve();
   Object.keys(this.patch).forEach(function (k) { if (self.patch[k] === undefined) self.patch[k] = null; });
+  /* chemins de données redirigés vers le bloc ouvert */
+  if (S.bloc && S.bloc !== 'A') {
+    var mapped = {};
+    Object.keys(this.patch).forEach(function (k) { mapped[FB.bp(k)] = self.patch[k]; });
+    this.patch = mapped;
+  }
   /* Firebase refuse une mise à jour qui écrit à la fois un nœud et l'un de ses
      enfants : on replie l'enfant dans l'objet parent. */
   var keys = Object.keys(this.patch).sort();
@@ -1071,6 +1283,9 @@ function lotNum(id) { var L = get('stock/lots', id); return L ? L.num : (id === 
    ===================================================================== */
 
 var ICONS = {
+  login: '<path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/>',
+  truck: '<path d="M2 6h11v10H2z"/><path d="M13 9h4l4 4v3h-8"/><circle cx="6" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>',
+  direction: '<path d="M3 21h18"/><path d="M12 3 4 7v3h16V7z"/><path d="M6 10v8M10 10v8M14 10v8M18 10v8"/>',
   home: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
   cart: '<path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.4-1.1L21 8H6.2"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>',
   box: '<path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5"/><path d="M12 12v9"/>',
@@ -1216,6 +1431,16 @@ var UI = {
           opts.map(function (o) { var ov = Array.isArray(o) ? o[0] : o.v, ol = Array.isArray(o) ? o[1] : o.t; return '<option value="' + attr(ov) + '"' + (String(ov) === String(val) ? ' selected' : '') + '>' + esc(ol) + '</option>'; }).join('') + '</select>'; break;
       case 'checkbox':
         return '<label class="chk ' + (f.span === 2 ? 'span2' : '') + '"><input type="checkbox"' + common + (val ? ' checked' : '') + '><span>' + esc(f.t) + '</span>' + (f.help ? '<small class="muted">' + esc(f.help) + '</small>' : '') + '</label>';
+      case 'checks': {
+        /* cases à cocher multiples : valeur = { id: true, … } */
+        var copts = typeof f.opts === 'function' ? f.opts() : (f.opts || []);
+        var cur = val && typeof val === 'object' ? val : {};
+        return '<fieldset class="fld checks span2" data-k="' + attr(f.k) + '" data-type="checks"' + (f.readonly ? ' disabled' : '') + '><legend>' + esc(f.t) + req + '</legend>' +
+          (f.help ? '<small class="muted">' + esc(f.help) + '</small>' : '') +
+          '<div class="checks-grid">' + copts.map(function (o) {
+            return '<label class="chk ck"><input type="checkbox" data-ck="' + attr(o[0]) + '"' + (cur[o[0]] ? ' checked' : '') + '><span>' + esc(o[1]) + '</span>' + (o[2] ? '<small class="muted">' + esc(o[2]) + '</small>' : '') + '</label>';
+          }).join('') + '</div><small class="ferr"></small></fieldset>';
+      }
       case 'money':
         input = '<input inputmode="numeric" autocomplete="off"' + common + ' value="' + attr(val === '' ? '' : String(val)) + '" placeholder="' + attr(f.ph || '0') + '">'; break;
       case 'qty': case 'number':
@@ -1251,6 +1476,7 @@ var UI = {
       var v, raw = el.type === 'checkbox' ? el.checked : (el.value || '').trim();
       var bad = null;
       switch (f.type) {
+        case 'checks': v = {}; $$('input[data-ck]', el).forEach(function (c) { if (c.checked) v[c.dataset.ck] = true; }); if (!Object.keys(v).length) v = f.req ? '' : null; break;
         case 'checkbox': v = !!raw; break;
         case 'money': v = raw === '' ? null : toMoney(raw); if (raw !== '' && isNaN(v)) bad = 'Montant invalide.'; else if (v !== null && v < 0 && !f.neg) bad = 'Le montant ne peut pas être négatif.'; break;
         case 'qty': v = raw === '' ? null : toQ(raw); if (raw !== '' && isNaN(v)) bad = 'Quantité invalide.'; else if (v !== null && v < 0) bad = 'Quantité négative.'; break;
@@ -1512,7 +1738,7 @@ var STATUTS = {
   preparation: ['En préparation', 'info'], production: ['En production', 'info'], qualite: ['En contrôle qualité', 'warn'],
   termine: ['Terminé', 'ok'], suspendu: ['Suspendu', 'warn'], payee: ['Payée', 'ok'], impayee: ['Impayée', 'err'], payee_partiel: ['Payée en partie', 'warn'],
   ouverte: ['Ouverte', 'warn'], fermee: ['Fermée', ''], planifiee: ['Planifiée', 'info'], terminee: ['Terminée', 'ok'], inscrit: ['Inscrit', 'info'],
-  abandon: ['Abandon', 'err'], diplome: ['Attestation délivrée', 'ok'], acceptee: ['Acceptée', 'ok'], convertie: ['Convertie', 'ok'], livree: ['Livrée', 'ok'],
+  abandon: ['Abandon', 'err'], diplome: ['Attestation délivrée', 'ok'], acceptee: ['Acceptée', 'ok'], convertie: ['Convertie', 'ok'], a_livrer: ['À livrer', 'warn'], livree: ['Livrée', 'ok'],
   essai: ["Période d'essai", 'info'], actif: ['Actif', 'ok'], archive: ['Archivé', ''], expire: ['Expiré', 'err']
 };
 function statutBadge(s) { var x = STATUTS[s] || [s || '—', '']; return UI.badge(x[0], x[1]); }
@@ -1530,7 +1756,7 @@ function statutLabel(s) { return (STATUTS[s] || [s || '—'])[0]; }
 var Platform = {
   pub: null,
   defaults: {
-    nom: 'NEINDI ERP', tel: '+224 623 03 04 03', whatsapp: '224623030403', email: 'neindimultiservice@gmail.com',
+    nom: 'AGAT', tel: '+224 623 03 04 03', whatsapp: '224623030403', email: 'neindimultiservice@gmail.com',
     concepteur: 'Souleymane Diallo', essaiJours: 60, essaiMaxUsers: 5, graceJours: 0,
     messageSuspension: "L'accès à votre espace est suspendu. Vos données sont conservées intégralement. Réglez votre abonnement puis contactez-nous pour le rétablir."
   },
@@ -1543,14 +1769,14 @@ var Platform = {
   contactsHtml: function () {
     var p = Platform.p();
     return '<div class="contacts">' +
-      '<a class="btn wa" href="' + attr(Platform.waLink('Bonjour, je vous contacte au sujet de NEINDI ERP.')) + '" target="_blank" rel="noopener">' + icon('whatsapp') + ' WhatsApp ' + esc(p.tel) + '</a>' +
+      '<a class="btn wa" href="' + attr(Platform.waLink('Bonjour, je vous contacte au sujet d\'AGAT.')) + '" target="_blank" rel="noopener">' + icon('whatsapp') + ' WhatsApp ' + esc(p.tel) + '</a>' +
       (p.email ? '<a class="btn ghost" href="mailto:' + attr(p.email) + '">' + esc(p.email) + '</a>' : '') + '</div>';
   }
 };
 
 /* ---------- écrans ---------- */
 var Screens = {
-  ids: ['scr-config', 'scr-boot', 'scr-landing', 'scr-register', 'scr-login', 'scr-blocked', 'scr-app', 'scr-concepteur'],
+  ids: ['scr-config', 'scr-boot', 'scr-landing', 'scr-connect', 'scr-register', 'scr-login', 'scr-blocked', 'scr-portail', 'scr-app', 'scr-concepteur'],
   show: function (id) {
     Screens.ids.forEach(function (x) { var el = document.getElementById(x); if (el) el.hidden = (x !== id); });
     document.body.dataset.screen = id;
@@ -1585,64 +1811,78 @@ var Device = {
 function authEmail(code, ident) {
   return 'u.' + String(code).toLowerCase() + '.' + ident + '.' + randomCode(4).toLowerCase() + '@comptes.neindi-erp.app';
 }
-function genTenantCode() { return 'NERP-' + randomCode(4) + '-' + randomCode(4); }
+function genTenantCode() { return 'AGAT-' + randomCode(4) + '-' + randomCode(4); }
 function cleanCode(v) { return String(v || '').trim().toUpperCase().replace(/\s+/g, ''); }
 function isConcepteurWord(v) { return String(v || '').trim().toUpperCase() === '@CONCEPTEUR'; }
 
 /* =====================================================================
-   Accueil
+   Accueil de la plateforme : deux choix seulement, créer un nouvel atelier
+   ou se connecter à un atelier existant. La connexion a sa propre page.
    ===================================================================== */
+function topBar(back) {
+  return '<header class="pbar">' +
+    (back ? '<button type="button" class="pbar-back" id="pb-back" aria-label="Retour à l\'accueil">' + icon('back') + '</button>' : '') +
+    '<div class="pbar-brand">' + Brand.mark(34) + '<div><strong>' + esc(APP.nom) + '</strong><span>' + esc(APP.long) + '</span></div></div>' +
+    '<button type="button" class="btn sm pbar-install" id="pb-install" hidden>' + icon('install') + ' Installer</button>' +
+    '</header>';
+}
+function bindTopBar(onBack) {
+  var b = $('#pb-back'); if (b) b.addEventListener('click', onBack || function () { Landing.render(); });
+  Install.bindButton($('#pb-install'));
+}
+function footBand() {
+  var p = Platform.p();
+  return '<footer class="pfoot"><div class="pfoot-in">' +
+    '<div><strong>Conçu et développé par ' + esc(p.concepteur || 'Souleymane Diallo') + '</strong><span>NEINDI MULTI-SERVICES, Kindia — assistance et formation à l\'utilisation.</span></div>' +
+    Platform.contactsHtml() + '</div></footer>';
+}
+
 var Landing = {
   render: function (msg) {
     var el = $('#scr-landing');
-    var known = Device.list();
     var p = Platform.p();
-    el.innerHTML =
-      '<div class="landing">' +
-      '<section class="weave" aria-hidden="true"><div class="weave-cloth"></div>' +
-        '<div class="weave-brand">' + Brand.mark(56) + '<div><strong>NEINDI ERP</strong><span>Production textile, commerce et formation</span></div></div>' +
-        '<p class="weave-line">De la cuve d\'indigo à la facture : chaque kilo de fil, chaque mètre de léppi et chaque franc suivis au même endroit.</p>' +
-      '</section>' +
-      '<section class="access">' +
-        '<div class="access-in">' +
-        '<h1>Accéder à votre espace</h1>' +
-        '<p class="muted">Saisissez le code de votre entreprise. Il vous a été remis à la création de l\'espace.</p>' +
-        '<form id="lnd-form" class="stack" novalidate autocomplete="off">' +
-          '<label class="fld"><span>Code de l\'entreprise</span><input id="lnd-code" class="code-input" placeholder="NERP-XXXX-XXXX" autocapitalize="characters" spellcheck="false" inputmode="text"></label>' +
-          '<p class="ferr" id="lnd-err" role="alert">' + esc(msg || '') + '</p>' +
-          '<button class="btn primary big" id="lnd-go" type="submit">Continuer</button>' +
-        '</form>' +
-        (known.length ? '<div class="known"><h2>Sur cet appareil</h2><div class="known-list">' + known.map(function (k) {
-          return '<button type="button" class="known-co" data-code="' + attr(k.code) + '">' +
-            (k.logo ? '<img src="' + attr(k.logo) + '" alt="">' : '<span class="mono-av">' + esc(initials(k.nom)) + '</span>') +
-            '<span><strong>' + esc(k.nom) + '</strong><small>' + esc(k.code) + (k.ident ? ' · ' + esc(k.ident) : '') + '</small></span></button>';
-        }).join('') + '</div></div>' : '') +
-        '<div class="newco"><p>Votre entreprise n\'a pas encore d\'espace ?</p><button type="button" class="btn ghost" id="lnd-new">Créer l\'espace de mon entreprise</button>' +
-          '<button type="button" class="btn ghost" id="lnd-install" hidden>' + icon('install') + ' Installer l\'application</button></div>' +
-        '<footer class="lnd-foot"><p>Conçu et développé par ' + esc(p.concepteur || 'Souleymane Diallo') + ' — NEINDI MULTI-SERVICES, Kindia.</p>' + Platform.contactsHtml() + '</footer>' +
+    var known = Device.list();
+    el.innerHTML = '<div class="home">' + topBar(false) +
+      '<section class="home-hero"><div class="weave-cloth" aria-hidden="true"></div><div class="home-in">' +
+        '<div class="home-logo">' + Brand.lockup() + '</div>' +
+        '<p class="home-line">Achats de fil, teinture, métiers, stock, ventes et caisse : chaque atelier suivi au mètre près, chaque gérant avec son rôle.</p>' +
+        (msg ? '<p class="home-msg" role="alert">' + esc(msg) + '</p>' : '') +
+        '<div class="choices">' +
+          '<div class="choice prime" id="hm-connect" role="button" tabindex="0">' +
+            '<span class="choice-ic">' + icon('login') + '</span>' +
+            '<span class="choice-t">Se connecter à mon atelier</span>' +
+            '<span class="choice-s">' + (known.length ? 'Ateliers ouverts sur cet appareil : ' + esc(known.slice(0, 2).map(function (k) { return k.nom; }).join(', ')) + (known.length > 2 ? '…' : '') : "Votre atelier existe déjà : entrez avec son code, puis votre identifiant.") + '</span>' +
+            '<span class="choice-go">Se connecter</span></div>' +
+          '<div class="choice" id="hm-new" role="button" tabindex="0">' +
+            '<span class="choice-ic">' + icon('plus') + '</span>' +
+            '<span class="choice-t">Créer un nouvel atelier</span>' +
+            '<span class="choice-s">Essai gratuit de ' + esc(p.essaiJours || 60) + ' jours. Le code de votre atelier vous est remis aussitôt.</span>' +
+            '<span class="choice-go">Créer mon atelier</span></div>' +
         '</div>' +
-      '</section></div>';
+      '</div></section>' + footBand() + '</div>';
     Screens.show('scr-landing');
-    var inp = $('#lnd-code');
-    inp.addEventListener('input', function () {
-      if (isConcepteurWord(inp.value)) { inp.value = ''; Concepteur.openLogin(); }
-    });
-    $('#lnd-form').addEventListener('submit', function (e) { e.preventDefault(); Landing.go(cleanCode(inp.value)); });
-    $('#lnd-new').addEventListener('click', function () { Register.render(); });
-    $$('.known-co', el).forEach(function (b) { b.addEventListener('click', function () { Landing.go(b.dataset.code); }); });
-    Install.bindButton($('#lnd-install'));
+    bindTopBar();
+    var choisir = function (id, fn) {
+      var b = $(id);
+      b.addEventListener('click', fn);
+      b.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(); } });
+    };
+    choisir('#hm-connect', function () { Connect.render(); });
+    choisir('#hm-new', function () { Register.render(); });
   },
 
+  /* ouvre la page de connexion de l'atelier dont le code est donné */
   go: function (code) {
-    var err = $('#lnd-err'), btn = $('#lnd-go');
+    var err = $('#cn-err'), btn = $('#cn-go');
     if (isConcepteurWord(code)) { Concepteur.openLogin(); return; }
-    if (!code) { if (err) err.textContent = 'Saisissez le code de votre entreprise.'; return; }
+    if (!code) { if (err) err.textContent = "Saisissez le code de votre atelier."; else Connect.render(); return; }
     if (err) err.textContent = '';
     if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Recherche…'; }
     Landing.lookup(code).then(function (pub) {
       Login.render(pub);
     }).catch(function (e) {
-      if (err) err.textContent = e.message || FB.errMsg(e);
+      var m = e.message || FB.errMsg(e);
+      if (err) err.textContent = m; else Connect.render(m, code);
     }).then(function () { if (btn && document.body.contains(btn)) { btn.disabled = false; btn.textContent = 'Continuer'; } });
   },
 
@@ -1659,6 +1899,41 @@ var Landing = {
       if (e && /PERMISSION|permission/.test(e.code || e.message)) throw new Error('Accès au serveur refusé. Les règles de sécurité de la base ne sont pas publiées.');
       throw e;
     });
+  }
+};
+
+/* =====================================================================
+   Se connecter à un atelier : code de l'atelier, ou atelier déjà ouvert
+   sur cet appareil. L'espace concepteur s'ouvre par @CONCEPTEUR.
+   ===================================================================== */
+var Connect = {
+  render: function (msg, code) {
+    var el = $('#scr-connect');
+    var known = Device.list();
+    el.innerHTML = '<div class="home">' + topBar(true) +
+      '<main class="cn-main"><div class="cn-card">' +
+        '<h1>Se connecter à un atelier</h1>' +
+        '<p class="muted">Saisissez le code de l\'atelier. Il a été remis à sa création, par exemple <span class="code">AGAT-7K2P-QX4M</span>.</p>' +
+        '<form id="cn-form" class="stack" novalidate autocomplete="off">' +
+          '<label class="fld"><span>Code de l\'atelier</span><input id="cn-code" class="code-input" placeholder="AGAT-XXXX-XXXX" autocapitalize="characters" spellcheck="false" inputmode="text" value="' + attr(code || '') + '"></label>' +
+          '<p class="ferr" id="cn-err" role="alert">' + esc(msg || '') + '</p>' +
+          '<button class="btn primary big" id="cn-go" type="submit">Continuer</button>' +
+        '</form>' +
+        (known.length ? '<div class="known"><h2>Ateliers déjà ouverts sur cet appareil</h2><div class="known-list">' + known.map(function (k) {
+          return '<button type="button" class="known-co" data-code="' + attr(k.code) + '">' +
+            (k.logo ? '<img src="' + attr(k.logo) + '" alt="">' : '<span class="mono-av">' + esc(initials(k.nom)) + '</span>') +
+            '<span><strong>' + esc(k.nom) + '</strong><small>' + esc(k.code) + (k.ident ? ' · ' + esc(k.ident) : '') + '</small></span></button>';
+        }).join('') + '</div></div>' : '') +
+        '<p class="cn-new">Pas encore d\'atelier ? <button type="button" class="linkbtn" id="cn-new">Créer un nouvel atelier</button></p>' +
+      '</div></main>' + footBand() + '</div>';
+    Screens.show('scr-connect');
+    bindTopBar();
+    var inp = $('#cn-code');
+    inp.addEventListener('input', function () { if (isConcepteurWord(inp.value)) { inp.value = ''; Concepteur.openLogin(); } });
+    $('#cn-form').addEventListener('submit', function (e) { e.preventDefault(); Landing.go(cleanCode(inp.value)); });
+    $('#cn-new').addEventListener('click', function () { Register.render(); });
+    $$('.known-co', el).forEach(function (b) { b.addEventListener('click', function () { Landing.go(b.dataset.code); }); });
+    if (!known.length) try { inp.focus(); } catch (x) {}
   }
 };
 
@@ -1694,7 +1969,7 @@ var Login = {
         '</form>' +
         '<p class="small muted center"><button type="button" class="linkbtn" id="lg-forgot">Mot de passe oublié ?</button></p>' +
       '</main>' +
-      '<footer class="co-foot"><span class="muted small">Code ' + esc(pub.code) + '</span><button type="button" class="btn ghost sm" id="lg-change">Changer d\'entreprise</button></footer>' +
+      '<footer class="co-foot"><span class="muted small">Code ' + esc(pub.code) + '</span><button type="button" class="btn ghost sm" id="lg-change">Changer d\'atelier</button></footer>' +
       '</div>';
     Screens.show('scr-login');
     var id = $('#lg-id'), pwd = $('#lg-pwd');
@@ -1702,12 +1977,12 @@ var Login = {
     id.addEventListener('input', function () { if (isConcepteurWord(id.value)) { id.value = ''; Concepteur.openLogin(); } });
     $('#lg-eye').addEventListener('click', function () { pwd.type = pwd.type === 'password' ? 'text' : 'password'; });
     $('#lg-form').addEventListener('submit', function (e) { e.preventDefault(); Login.submit(); });
-    $('#lg-change').addEventListener('click', function () { history.replaceState(null, '', location.pathname); Landing.render(); });
+    $('#lg-change').addEventListener('click', function () { history.replaceState(null, '', location.pathname); Connect.render(); });
     $('#lg-forgot').addEventListener('click', function () {
       UI.modal({
         title: 'Mot de passe oublié', size: 's',
-        body: '<p>Pour un membre du personnel : l\'administrateur de votre entreprise peut vous attribuer un nouveau mot de passe depuis Paramètres, Utilisateurs.</p>' +
-          '<p>Pour le propriétaire de l\'espace : contactez le support de la plateforme, qui vérifiera votre identité.</p>' + Platform.contactsHtml(),
+        body: '<p>Pour un gérant ou un membre du personnel : le propriétaire de l\'atelier peut vous attribuer un nouveau mot de passe depuis Administration, Utilisateurs.</p>' +
+          '<p>Pour le propriétaire de l\'atelier : contactez le support de la plateforme, qui vérifiera votre identité.</p>' + Platform.contactsHtml(),
         actions: [{ t: 'Fermer', act: 'ok', cls: 'primary' }], onAct: function (a, b, m) { m.close(); }
       });
     });
@@ -1743,13 +2018,13 @@ var Login = {
    Création de l'espace d'une entreprise
    ===================================================================== */
 var REG_FIELDS = [
-  { type: 'section', t: 'Votre entreprise' },
-  { k: 'nom', t: "Nom de l'entreprise", req: true, ph: 'Atelier de tissage …', max: 80, span: 2 },
+  { type: 'section', t: 'Votre atelier' },
+  { k: 'nom', t: "Nom de l'atelier", req: true, ph: 'Atelier de tissage …', max: 80, span: 2 },
   { k: 'ville', t: 'Ville', req: true, ph: 'Kindia' },
   { k: 'tel', t: 'Téléphone', type: 'tel', req: true, ph: '+224 6xx xx xx xx' },
   { k: 'email', t: 'Email (facultatif)', type: 'email', ph: 'contact@…', span: 2 },
   { k: 'logo', t: 'Logo (facultatif)', type: 'image', span: 2 },
-  { type: 'section', t: 'Votre compte de propriétaire', help: 'Vous vous connecterez avec cet identifiant et ce mot de passe. Vous créerez ensuite les comptes de votre personnel.' },
+  { type: 'section', t: 'Votre compte de propriétaire', help: 'Vous vous connecterez avec cet identifiant et ce mot de passe. Vous créerez ensuite les comptes de vos gérants et leur affecterez un rôle.' },
   { k: 'prenom', t: 'Prénom', req: true },
   { k: 'nomp', t: 'Nom', req: true },
   { k: 'ident', t: 'Identifiant de connexion', req: true, ph: 'ex. souleymane', help: 'Lettres, chiffres, point ou tiret, sans espace.',
@@ -1762,9 +2037,9 @@ var Register = {
   render: function () {
     var el = $('#scr-register');
     el.innerHTML = '<div class="regwrap"><header class="reg-head"><button type="button" class="ibtn" id="rg-back" aria-label="Retour">' + icon('back') + '</button>' +
-      '<div><h1>Créer l\'espace de votre entreprise</h1><p class="muted">Essai gratuit de ' + esc(Platform.p().essaiJours || 60) + ' jours, sans engagement. Vos données vous appartiennent et ne sont visibles que par votre entreprise.</p></div></header>' +
+      '<div><h1>Créer un nouvel atelier</h1><p class="muted">Essai gratuit de ' + esc(Platform.p().essaiJours || 60) + ' jours, sans engagement. Vos données vous appartiennent et ne sont visibles que par votre atelier.</p></div></header>' +
       '<form id="rg-form" class="regform" novalidate>' + UI.fields(REG_FIELDS, {}) +
-      '<p class="ferr" id="rg-err" role="alert"></p><div class="reg-actions"><button type="submit" class="btn primary big" id="rg-go">Créer l\'espace</button></div></form></div>';
+      '<p class="ferr" id="rg-err" role="alert"></p><div class="reg-actions"><button type="submit" class="btn primary big" id="rg-go">Créer l\'atelier</button></div></form></div>';
     Screens.show('scr-register');
     UI.bindImages(el);
     $$('input[data-img-for]', el).forEach(function (i) { i.dataset.max = '256'; });
@@ -1781,13 +2056,13 @@ var Register = {
     if (!v) { err.textContent = 'Corrigez les champs signalés.'; return; }
     err.textContent = '';
     v.ident = normIdent(v.ident);
-    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Création de l\'espace…';
+    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Création de l\'atelier…';
     Tenant.create(v, null).then(function (res) {
       Register.success(res);
     }).catch(function (e) {
       console.error(e);
       err.textContent = FB.errMsg(e);
-    }).then(function () { if (document.body.contains(btn)) { btn.disabled = false; btn.textContent = 'Créer l\'espace'; } });
+    }).then(function () { if (document.body.contains(btn)) { btn.disabled = false; btn.textContent = 'Créer l\'atelier'; } });
   },
 
   success: function (res) {
@@ -1795,13 +2070,13 @@ var Register = {
     var link = location.origin + location.pathname + '?e=' + res.code;
     el.innerHTML = '<div class="regwrap done">' +
       '<div class="done-mark">' + icon('check') + '</div>' +
-      '<h1>L\'espace ' + (/^[aeiouyhàâäéèêëîïôöûü]/i.test(res.nom) ? 'd\'' : 'de ') + esc(res.nom) + ' est prêt</h1>' +
-      '<p class="muted">Notez le code de votre entreprise : votre personnel en aura besoin pour se connecter.</p>' +
+      '<h1>L\'atelier ' + esc(res.nom) + ' est prêt</h1>' +
+      '<p class="muted">Notez le code de votre atelier : vos gérants en auront besoin pour se connecter.</p>' +
       '<div class="bigcode" id="rg-code">' + esc(res.code) + '</div>' +
       '<div class="row center"><button type="button" class="btn ghost" id="rg-copy">Copier le code</button><button type="button" class="btn ghost" id="rg-link">Copier le lien de connexion</button></div>' +
       UI.kv([['Identifiant du propriétaire', '<strong>' + esc(res.ident) + '</strong>'], ['Fin de la période d\'essai', fmtDate(isoDate(new Date(res.fin)))], ['Lien direct', '<span class="small">' + esc(link) + '</span>']]) +
-      '<div class="row center"><button type="button" class="btn primary big" id="rg-open">Ouvrir mon espace</button></div>' +
-      '<p class="small muted center">Un souci ? ' + '<a href="' + attr(Platform.waLink('Bonjour, je viens de créer l\'espace ' + res.nom + ' (' + res.code + ') sur NEINDI ERP.')) + '" target="_blank" rel="noopener">Écrire au support sur WhatsApp</a></p></div>';
+      '<div class="row center"><button type="button" class="btn primary big" id="rg-open">Ouvrir mon atelier</button></div>' +
+      '<p class="small muted center">Un souci ? ' + '<a href="' + attr(Platform.waLink('Bonjour, je viens de créer l\'atelier ' + res.nom + ' (' + res.code + ') sur AGAT.')) + '" target="_blank" rel="noopener">Écrire au support sur WhatsApp</a></p></div>';
     var copy = function (txt, b) { (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(function () { b.textContent = 'Copié'; }).catch(function () { b.textContent = txt; }); };
     $('#rg-copy').addEventListener('click', function (e) { copy(res.code, e.currentTarget); });
     $('#rg-link').addEventListener('click', function (e) { copy(link, e.currentTarget); });
@@ -1884,9 +2159,9 @@ var Blocked = {
     el.innerHTML = '<div class="blocked">' + Brand.mark(44) +
       '<h1>' + (reason === 'expire' ? 'Votre abonnement est arrivé à échéance' : 'Accès suspendu') + '</h1>' +
       '<p class="lead">' + esc(p.messageSuspension) + '</p>' +
-      UI.kv([['Entreprise', esc(tenant.nom)], ['Code', esc(tenant.code)], ['Fin de l\'accès', tenant.finAcces ? fmtDate(isoDate(new Date(tenant.finAcces))) : '—']]) +
+      UI.kv([['Atelier', esc(tenant.nom)], ['Code', esc(tenant.code)], ['Fin de l\'accès', tenant.finAcces ? fmtDate(isoDate(new Date(tenant.finAcces))) : '—']]) +
       Platform.contactsHtml() +
-      (owner ? '<div class="blk-pay"><h2>Déjà payé ?</h2><p class="muted">Déclarez votre paiement : le concepteur le vérifie et rétablit l\'accès.</p><button type="button" class="btn primary" id="blk-declare">Déclarer un paiement</button><div id="blk-offres"></div></div>' : '<p class="muted">Prévenez le propriétaire de votre entreprise.</p>') +
+      (owner ? '<div class="blk-pay"><h2>Déjà payé ?</h2><p class="muted">Déclarez votre paiement : le concepteur le vérifie et rétablit l\'accès.</p><button type="button" class="btn primary" id="blk-declare">Déclarer un paiement</button><div id="blk-offres"></div></div>' : '<p class="muted">Prévenez le propriétaire de votre atelier.</p>') +
       '<button type="button" class="btn ghost" id="blk-out">' + icon('logout') + ' Se déconnecter</button></div>';
     Screens.show('scr-blocked');
     $('#blk-out').addEventListener('click', function () { App.logout(); });
@@ -1948,16 +2223,17 @@ var Licence = {
   }
 };
 
-/* Marque : losange tissé (motif de bande léppi), dessiné en SVG. */
+/* Marque AGAT : le logo fourni par le concepteur (badge rond : métier à tisser,
+   tissus, bobines, « AGAT »), détouré en rond. Deux tailles, en WebP léger. */
 var Brand = {
+  src: function (s) { return s > 80 ? 'icons/agat-logo-512.webp' : 'icons/agat-logo-160.webp'; },
   mark: function (s) {
     s = s || 40;
-    return '<svg class="brandmark" width="' + s + '" height="' + s + '" viewBox="0 0 48 48" aria-hidden="true">' +
-      '<rect width="48" height="48" rx="11" fill="#22306b"/>' +
-      '<g fill="none" stroke-linecap="square">' +
-      '<path d="M8 12h32M8 20h32M8 28h32M8 36h32" stroke="#3d56a8" stroke-width="3"/>' +
-      '<path d="M24 8 36 24 24 40 12 24z" stroke="#f3f5fa" stroke-width="2.6"/>' +
-      '<path d="M24 16 30 24 24 32 18 24z" fill="#c9932e" stroke="none"/></g></svg>';
+    return '<img class="brandmark" src="' + Brand.src(s) + '" width="' + s + '" height="' + s + '" alt="' + esc(APP.nom) + '" onerror="this.style.visibility=\'hidden\'">';
+  },
+  lockup: function () {
+    return '<div class="lockup"><img class="lockup-img" src="icons/agat-logo-512.webp" width="240" height="240" alt="' + esc(APP.nom + ' — ' + APP.long) + '"></div>' +
+      '<h1 class="sr">' + esc(APP.nom + ' — ' + APP.long) + '</h1>';
   }
 };
 
@@ -2108,7 +2384,7 @@ var Concepteur = {
     var el = $('#scr-concepteur');
     el.innerHTML = '<div class="cc">' +
       '<header class="cc-top">' + Brand.mark(34) + '<div class="cc-title"><strong>Espace concepteur</strong><span>' + esc(Concepteur.me.nom) + '</span></div>' +
-      '<nav class="cc-tabs" role="tablist">' + [['entreprises', 'Entreprises'], ['paiements', 'Paiements'], ['offres', 'Offres et tarifs'], ['reglages', 'Réglages'], ['journal', 'Journal']].map(function (t) {
+      '<nav class="cc-tabs" role="tablist">' + [['entreprises', 'Ateliers'], ['paiements', 'Paiements'], ['offres', 'Offres et tarifs'], ['reglages', 'Réglages'], ['journal', 'Journal']].map(function (t) {
         return '<button type="button" role="tab" class="cc-tab' + (Concepteur.tab === t[0] ? ' on' : '') + '" data-cct="' + t[0] + '">' + t[1] + (t[0] === 'paiements' ? '<span class="cc-count" id="cc-ndecl"></span>' : '') + '</button>';
       }).join('') + '</nav>' +
       '<button type="button" class="btn ghost sm" id="cc-out">' + icon('logout') + ' Quitter</button></header>' +
@@ -2138,7 +2414,7 @@ var Concepteur = {
     return '<div class="cc-stats">' + stats.map(function (s) {
       return '<button type="button" class="cc-stat' + (Concepteur.filtre === s[0] ? ' on' : '') + '" data-act="filtre" data-id="' + s[0] + '"><span>' + s[1] + '</span><strong>' + s[2] + '</strong></button>';
     }).join('') + '</div>' +
-      '<div class="row between"><h2>Espaces d\'entreprise</h2><div class="row">' + UI.btn(icon('download') + ' Exporter', 'export', 'ghost sm') + UI.btn(icon('plus') + ' Créer une entreprise', 'creer', 'primary sm') + '</div></div>' +
+      '<div class="row between"><h2>Ateliers inscrits</h2><div class="row">' + UI.btn(icon('download') + ' Exporter', 'export', 'ghost sm') + UI.btn(icon('plus') + ' Créer un atelier', 'creer', 'primary sm') + '</div></div>' +
       UI.table({
         id: 'cc-tenants', rows: rows, sort: 'creeLe', dir: -1, ph: 'Rechercher un nom, un code, un téléphone',
         cols: [
@@ -2152,7 +2428,7 @@ var Concepteur = {
           { k: 'creeLe', t: 'Créée le', f: function (t) { return t.creeLe ? fmtDate(isoDate(new Date(t.creeLe))) : '—'; }, sv: function (t) { return t.creeLe || 0; } }
         ],
         actions: function (t) { return UI.btn('Gérer', 'gerer', 'sm', ' data-id="' + attr(t.id) + '"'); },
-        empty: 'Aucune entreprise inscrite pour le moment.'
+        empty: 'Aucun atelier inscrit pour le moment.'
       });
   },
   badge: function (e) {
@@ -2176,7 +2452,7 @@ var Concepteur = {
       }) : '<p class="muted">Aucune déclaration en attente.</p>') +
       '<h2 class="mt">Paiements enregistrés</h2>' +
       UI.table({
-        id: 'cc-paie', rows: pay, ph: 'Rechercher une entreprise ou un reçu',
+        id: 'cc-paie', rows: pay, ph: 'Rechercher un atelier ou un reçu',
         cols: [{ k: 'recu', t: 'Reçu', f: function (p) { return '<span class="code">' + esc(p.recu) + '</span>'; } }, { k: 'date', t: 'Date', f: function (p) { return fmtDate(p.date); } },
           { k: 'tnom', t: 'Entreprise' }, { k: 'offreNom', t: 'Formule' }, { k: 'jours', t: 'Durée', num: true, f: function (p) { return plural(p.jours || 0, 'jour'); } },
           { k: 'montant', t: 'Montant', num: true, f: function (p) { return fmtGNF(p.montant); } }],
@@ -2191,7 +2467,7 @@ var Concepteur = {
     var o = vals(Concepteur.offres).sort(byKey('ordre'));
     var pub = Concepteur.pub || {};
     return '<div class="row between"><h2>Offres d\'abonnement</h2><div class="row">' + UI.btn('Rétablir les offres par défaut', 'offres-defaut', 'ghost sm') + UI.btn(icon('plus') + ' Ajouter une offre', 'offre-new', 'primary sm') + '</div></div>' +
-      '<label class="chk"><input type="checkbox" id="cc-publier"' + (pub.publierTarifs !== false ? ' checked' : '') + ' data-act="publier"><span>Afficher les tarifs aux entreprises (paramètres et écran de suspension)</span></label>' +
+      '<label class="chk"><input type="checkbox" id="cc-publier"' + (pub.publierTarifs !== false ? ' checked' : '') + ' data-act="publier"><span>Afficher les tarifs aux ateliers (paramètres et écran de suspension)</span></label>' +
       UI.table({
         id: 'cc-offres', rows: o, search: false,
         cols: [{ k: 'nom', t: 'Offre', f: function (x) { return '<strong>' + esc(x.nom) + '</strong>'; } }, { k: 'jours', t: 'Durée', num: true, f: function (x) { return plural(x.jours, 'jour'); } },
@@ -2241,7 +2517,7 @@ var Concepteur = {
     filtre: function (id) { Concepteur.filtre = id; Concepteur.refresh(true); },
     export: function () {
       var rows = vals(Concepteur.tenants).map(function (t) { return [t.code, t.nom, t.ville, t.ownerNom, t.tel, t.email, Concepteur.etat(t), t.offreNom, t.finAcces ? isoDate(new Date(t.finAcces)) : '', t.nbUsers || 0, t.maxUsers || '']; });
-      UI.exportCSV('entreprises-' + today(), ['Code', 'Entreprise', 'Ville', 'Propriétaire', 'Téléphone', 'Email', 'État', 'Formule', "Fin d'accès", 'Utilisateurs', 'Maximum'], rows);
+      UI.exportCSV('entreprises-' + today(), ['Code', 'Atelier', 'Ville', 'Propriétaire', 'Téléphone', 'Email', 'État', 'Formule', "Fin d'accès", 'Utilisateurs', 'Maximum'], rows);
     },
     creer: function () { Concepteur.creerEntreprise(); },
     gerer: function (id) { Concepteur.fiche(id); },
@@ -2266,7 +2542,7 @@ var Concepteur = {
       });
     },
     publier: function (id, b) {
-      FB.ref('platform/public/publierTarifs').set(!!b.checked).then(function () { UI.toast(b.checked ? 'Tarifs affichés aux entreprises.' : 'Tarifs masqués.', 'ok'); }).catch(function (e) { UI.toast(FB.errMsg(e), 'err'); });
+      FB.ref('platform/public/publierTarifs').set(!!b.checked).then(function () { UI.toast(b.checked ? 'Tarifs affichés aux ateliers.' : 'Tarifs masqués.', 'ok'); }).catch(function (e) { UI.toast(FB.errMsg(e), 'err'); });
     },
     'reg-save': function (id, b) {
       var v = UI.readFields($('#cc-reg'), Concepteur.regFields); if (!v) return;
@@ -2299,7 +2575,7 @@ var Concepteur = {
       title: t.nom, size: 'l',
       body: '<div class="two">' + UI.kv([['Code', '<span class="code">' + esc(t.code) + '</span>'], ['État', Concepteur.badge(e)], ['Formule', esc(t.offreNom || '—')],
         ['Fin de période payée', t.fin ? fmtDate(isoDate(new Date(t.fin))) : '—'], ['Accès jusqu\'au', t.finAcces ? fmtDate(isoDate(new Date(t.finAcces))) + ' (' + (j >= 0 ? j + ' j restants' : 'échu') + ')' : '—'],
-        ['Utilisateurs', (t.nbUsers || 0) + ' / ' + (t.maxUsers || 'illimité')], ['Module formation', t.off && t.off.formation ? 'Désactivé' : 'Activé']]) +
+        ['Utilisateurs', (t.nbUsers || 0) + ' / ' + (t.maxUsers || 'illimité')], ['Blocs autorisés', String(t.maxBlocs || 3)], ['Module formation', t.off && t.off.formation ? 'Désactivé' : 'Activé']]) +
         UI.kv([['Propriétaire', esc(t.ownerNom || '')], ['Téléphone', esc(t.tel || '')], ['Email', esc(t.email || '')], ['Ville', esc(t.ville || '')], ['Créée le', t.creeLe ? fmtDateTime(t.creeLe) : '—'], ['Dernier paiement', t.dernierPaiement ? fmtDate(t.dernierPaiement) : '—']]) + '</div>' +
         '<div class="row wrap mt">' +
         '<button type="button" class="btn primary" data-mact="payer">Enregistrer un paiement</button>' +
@@ -2308,10 +2584,10 @@ var Concepteur = {
         '<button type="button" class="btn ghost" data-mact="limites">Limites et modules</button>' +
         '<button type="button" class="btn ghost" data-mact="proprio">Rétablir l\'accès du propriétaire</button>' +
         (t.etat === 'suspendu' || t.etat === 'archive' ? '<button type="button" class="btn ghost" data-mact="reactiver">Réactiver</button>' : '<button type="button" class="btn danger" data-mact="suspendre">Suspendre</button>') +
-        '<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/' + attr(String(t.tel || '').replace(/\D/g, '')) + '?text=' + encodeURIComponent('Bonjour ' + (t.ownerNom || '') + ', au sujet de votre espace NEINDI ERP ' + t.nom + ' (' + t.code + ') : votre accès court jusqu\'au ' + (t.finAcces ? fmtDate(isoDate(new Date(t.finAcces))) : '—') + '.') + '">' + icon('whatsapp') + ' WhatsApp</a>' +
+        '<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/' + attr(String(t.tel || '').replace(/\D/g, '')) + '?text=' + encodeURIComponent('Bonjour ' + (t.ownerNom || '') + ', au sujet de votre atelier AGAT ' + t.nom + ' (' + t.code + ') : votre accès court jusqu\'au ' + (t.finAcces ? fmtDate(isoDate(new Date(t.finAcces))) : '—') + '.') + '">' + icon('whatsapp') + ' WhatsApp</a>' +
         (t.etat !== 'archive' ? '<button type="button" class="btn ghost" data-mact="archiver">Archiver</button>' : '') +
         '</div>' +
-        '<h3 class="mt">Paiements de cette entreprise</h3>' + (pays.length ? '<table class="grid"><thead><tr><th>Reçu</th><th>Date</th><th>Formule</th><th class="num">Montant</th></tr></thead><tbody>' +
+        '<h3 class="mt">Paiements de cet atelier</h3>' + (pays.length ? '<table class="grid"><thead><tr><th>Reçu</th><th>Date</th><th>Formule</th><th class="num">Montant</th></tr></thead><tbody>' +
           pays.map(function (p) { return '<tr><td class="code">' + esc(p.recu) + '</td><td>' + fmtDate(p.date) + '</td><td>' + esc(p.offreNom) + '</td><td class="num">' + fmtGNF(p.montant) + '</td></tr>'; }).join('') + '</tbody></table>' : '<p class="muted">Aucun paiement.</p>'),
       actions: [{ t: 'Fermer', act: 'close', cls: 'ghost' }],
       onAct: function (act) {
@@ -2410,7 +2686,7 @@ var Concepteur = {
   grace: function (tid) {
     var t = Concepteur.tenants[tid];
     return UI.formModal({
-      title: 'Délai de grâce', size: 's', intro: "L'entreprise garde l'accès après la fin de sa période payée, avec un bandeau d'échéance.",
+      title: 'Délai de grâce', size: 's', intro: "L'atelier garde l'accès après la fin de sa période payée, avec un bandeau d'échéance.",
       fields: [{ k: 'jours', t: 'Jours de grâce après la fin payée', type: 'number', req: true, min: 0, maxv: 90, dflt: Math.round((t.grace || 0) / 86400000) }],
       save: function (v) {
         var g = v.jours * 86400000;
@@ -2423,11 +2699,14 @@ var Concepteur = {
     var t = Concepteur.tenants[tid];
     return UI.formModal({
       title: 'Limites et modules', size: 's',
-      fields: [{ k: 'maxUsers', t: "Nombre maximal d'utilisateurs (vide = illimité)", type: 'number', min: 1, dflt: t.maxUsers || '' }, { k: 'formation', t: 'Module formation activé', type: 'checkbox', dflt: !(t.off && t.off.formation) }],
+      fields: [{ k: 'maxUsers', t: "Nombre maximal d'utilisateurs (vide = illimité)", type: 'number', min: 1, dflt: t.maxUsers || '' },
+        { k: 'maxBlocs', t: 'Nombre de blocs (ateliers) autorisés', type: 'number', min: 1, maxv: 10, dflt: t.maxBlocs || 3, help: '3 blocs compris par défaut, 10 au maximum.' },
+        { k: 'formation', t: 'Module formation activé', type: 'checkbox', dflt: !(t.off && t.off.formation) }],
       save: function (v) {
-        if (v.maxUsers && v.maxUsers < (t.nbUsers || 0)) throw new Error("L'entreprise a déjà " + t.nbUsers + ' utilisateurs.');
+        if (v.maxUsers && v.maxUsers < (t.nbUsers || 0)) throw new Error("L'atelier a déjà " + t.nbUsers + ' utilisateurs.');
         var u = {}; u['tenants/' + tid + '/maxUsers'] = v.maxUsers || null; u['tenants/' + tid + '/off/formation'] = v.formation ? null : true;
-        return FB.ref().update(u).then(function () { Concepteur.journal('Limites modifiées', t.nom, (v.maxUsers || 'illimité') + ' utilisateurs, formation ' + (v.formation ? 'oui' : 'non')); });
+        u['tenants/' + tid + '/maxBlocs'] = v.maxBlocs && v.maxBlocs !== 3 ? v.maxBlocs : null;
+        return FB.ref().update(u).then(function () { Concepteur.journal('Limites modifiées', t.nom, (v.maxUsers || 'illimité') + ' utilisateurs, ' + (v.maxBlocs || 3) + ' blocs, formation ' + (v.formation ? 'oui' : 'non')); });
       },
       okMsg: 'Limites enregistrées.'
     }).then(function (r) { return !!r; });
@@ -2437,12 +2716,12 @@ var Concepteur = {
      inscrite dans le journal de l'entreprise et dans celui de la plateforme. */
   retablir: function (tid) {
     var t = Concepteur.tenants[tid];
-    if (!t.ownerIdent || !t.owner) { UI.toast("Identifiant du propriétaire inconnu pour cette entreprise.", 'err'); return Promise.resolve(false); }
+    if (!t.ownerIdent || !t.owner) { UI.toast("Identifiant du propriétaire inconnu pour cet atelier.", 'err'); return Promise.resolve(false); }
     var pwd = '';
     return UI.formModal({
       title: "Rétablir l'accès du propriétaire", size: 's',
       intro: "À faire uniquement après avoir vérifié l'identité de " + esc(t.ownerNom || 'la personne') + " (appel au numéro enregistré, pièce d'identité). " +
-        "Un mot de passe provisoire remplace l'ancien. L'identifiant « " + esc(t.ownerIdent) + " » et toutes les données de l'entreprise restent inchangés. L'opération apparaît dans le journal d'audit de l'entreprise.",
+        "Un mot de passe provisoire remplace l'ancien. L'identifiant « " + esc(t.ownerIdent) + " » et toutes les données de l'atelier restent inchangés. L'opération apparaît dans le journal d'audit de l'entreprise.",
       fields: [
         { k: 'pwd', t: 'Nouveau mot de passe provisoire', type: 'password', req: true, valid: function (v) { return v && v.length < 8 ? '8 caractères au minimum.' : null; } },
         { k: 'motif', t: 'Vérification effectuée', type: 'textarea', req: true, ph: 'Ex. : appel au propriétaire, carte d\'identité vérifiée' }
@@ -2470,11 +2749,11 @@ var Concepteur = {
     }).then(function (v) {
       if (!v) return false;
       var lien = location.origin + location.pathname + '?e=' + t.code;
-      var txt = 'NEINDI ERP — ' + t.nom + '\nCode entreprise : ' + t.code + '\nIdentifiant : ' + t.ownerIdent + '\nMot de passe provisoire : ' + pwd + '\nLien : ' + lien + '\nChangez ce mot de passe dès votre connexion (menu de votre compte).';
+      var txt = APP.nom + ' — ' + t.nom + '\nCode de l\'atelier : ' + t.code + '\nIdentifiant : ' + t.ownerIdent + '\nMot de passe provisoire : ' + pwd + '\nLien : ' + lien + '\nChangez ce mot de passe dès votre connexion (menu de votre compte).';
       UI.modal({
         title: 'Accès rétabli — ' + t.nom, size: 's',
         body: '<p>Transmettez ces informations au propriétaire. Le mot de passe ne sera plus affiché.</p>' +
-          UI.kv([['Code entreprise', '<span class="code">' + esc(t.code) + '</span>'], ['Identifiant', '<span class="code">' + esc(t.ownerIdent) + '</span>'], ['Mot de passe', '<span class="code">' + esc(pwd) + '</span>']]) +
+          UI.kv([['Code de l\'atelier', '<span class="code">' + esc(t.code) + '</span>'], ['Identifiant', '<span class="code">' + esc(t.ownerIdent) + '</span>'], ['Mot de passe', '<span class="code">' + esc(pwd) + '</span>']]) +
           '<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/' + attr(String(t.tel || '').replace(/\D/g, '')) + '?text=' + encodeURIComponent(txt) + '">' + icon('whatsapp') + ' Envoyer par WhatsApp</a>',
         actions: [{ t: 'Terminé', act: 'x', cls: 'primary' }], onAct: function (a, b, mm) { mm.close(); }
       });
@@ -2503,7 +2782,7 @@ var Concepteur = {
       title: id ? "Modifier l'offre" : 'Nouvelle offre', size: 's', values: o,
       fields: [{ k: 'nom', t: 'Nom', req: true }, { k: 'jours', t: 'Durée (jours)', type: 'number', req: true, min: 1 }, { k: 'prix', t: 'Prix (GNF)', type: 'money', req: true },
         { k: 'maxUsers', t: 'Utilisateurs maximum', type: 'number', min: 1 }, { k: 'formation', t: 'Module formation inclus', type: 'checkbox' },
-        { k: 'active', t: 'Proposée aux entreprises', type: 'checkbox' }, { k: 'ordre', t: "Ordre d'affichage", type: 'number' }],
+        { k: 'active', t: 'Proposée aux ateliers', type: 'checkbox' }, { k: 'ordre', t: "Ordre d'affichage", type: 'number' }],
       save: function (v) { var k = id || ('o' + Date.now().toString(36)); return FB.ref('platform/offres/' + k).set(v).then(function () { Concepteur.journal(id ? 'Offre modifiée' : 'Offre créée', null, v.nom + ' — ' + fmtGNF(v.prix)); }); },
       okMsg: 'Offre enregistrée.'
     });
@@ -2515,8 +2794,8 @@ var Concepteur = {
       { k: 'offre', t: 'Formule', type: 'select', req: true, opts: [['essai', 'Essai (' + (Platform.p().essaiJours || 60) + ' jours)']].concat(offres.map(function (o) { return [o.id, o.nom]; })) }
     ]);
     UI.formModal({
-      title: 'Créer une entreprise', size: 'l', fields: fields,
-      intro: "Le propriétaire recevra le code de l'entreprise, son identifiant et son mot de passe provisoire.",
+      title: 'Créer un atelier', size: 'l', fields: fields,
+      intro: "Le propriétaire recevra le code de l'atelier, son identifiant et son mot de passe provisoire.",
       ok: "Créer l'espace",
       save: function (v) {
         v.ident = normIdent(v.ident);
@@ -2526,7 +2805,7 @@ var Concepteur = {
           UI.modal({
             title: 'Espace créé', size: 's',
             body: '<p>Transmettez ces informations au propriétaire :</p>' + UI.kv([['Code', '<span class="code">' + esc(res.code) + '</span>'], ['Identifiant', esc(res.ident)], ['Mot de passe provisoire', 'celui que vous avez saisi']]) +
-              '<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/' + attr(String(v.tel).replace(/\D/g, '')) + '?text=' + encodeURIComponent('Votre espace NEINDI ERP est prêt. Code entreprise : ' + res.code + ' — identifiant : ' + res.ident + '. Lien : ' + location.origin + location.pathname + '?e=' + res.code) + '">' + icon('whatsapp') + ' Envoyer par WhatsApp</a>',
+              '<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/' + attr(String(v.tel).replace(/\D/g, '')) + '?text=' + encodeURIComponent('Votre atelier AGAT est prêt. Code de l\'atelier : ' + res.code + ' — identifiant : ' + res.ident + '. Lien : ' + location.origin + location.pathname + '?e=' + res.code) + '">' + icon('whatsapp') + ' Envoyer par WhatsApp</a>',
             actions: [{ t: 'Fermer', act: 'x', cls: 'primary' }], onAct: function (a, b, m) { m.close(); }
           });
         });
@@ -2580,29 +2859,58 @@ var NAV = [
     { r: 'qualite', t: 'Qualité', i: 'shield', mod: 'qualite', tabs: [['qualite/controles', 'Contrôles'], ['qualite/nc', 'Non-conformités']] }
   ] },
   { g: 'Commerce et formation', items: [
-    { r: 'ventes', t: 'Ventes', i: 'tag', mod: 'ventes', tabs: [['ventes/caisse', 'Nouvelle vente'], ['ventes/factures', 'Factures'], ['ventes/creances', 'Créances clients'], ['ventes/devis', 'Devis et commandes'], ['ventes/clients', 'Clients'], ['ventes/tarifs', 'Tarifs']] },
+    { r: 'ventes', t: 'Ventes', i: 'tag', mod: 'ventes', tabs: [['ventes/caisse', 'Nouvelle vente'], ['ventes/factures', 'Factures'], ['ventes/creances', 'Créances clients'], ['ventes/devis', 'Devis et commandes'], ['ventes/livraisons', 'Livraisons'], ['ventes/clients', 'Clients'], ['ventes/tarifs', 'Tarifs']] },
     { r: 'formation', t: 'Formation', i: 'grad', mod: 'formation', tabs: [['formation/sessions', 'Sessions'], ['formation/apprenants', 'Apprenants'], ['formation/paiements', 'Paiements et impayés'], ['formation/catalogue', 'Catalogue']] }
   ] },
   { g: 'Gestion', items: [
     { r: 'finances', t: 'Finances', i: 'wallet', mod: 'finances', tabs: [['finances/tresorerie', 'Trésorerie'], ['finances/depenses', 'Dépenses'], ['finances/journal', 'Journal de caisse'], ['finances/clotures', 'Clôtures']] },
     { r: 'rapports', t: 'Rapports', i: 'chart', mod: 'rapports' }
   ] },
-  { g: 'Administration', items: [
+  { g: 'Contrôle', items: [
     { r: 'admin', t: 'Validations et audit', i: 'audit', mod: 'admin', tabs: [['admin/validations', 'Validations'], ['admin/audit', "Journal d'audit"], ['admin/sauvegarde', 'Sauvegarde']] },
-    { r: 'parametres', t: 'Paramètres', i: 'gear', mod: 'parametres', tabs: [['parametres/entreprise', 'Entreprise'], ['parametres/listes', 'Listes'], ['parametres/personnel', 'Personnel'], ['parametres/utilisateurs', 'Utilisateurs'], ['parametres/roles', 'Rôles et droits'], ['parametres/abonnement', 'Abonnement']] }
+    { r: 'parametres', t: 'Personnel du bloc', i: 'users', mod: 'parametres', tabs: [['parametres/personnel', 'Personnel']] }
   ] }
 ];
+/* Administration (ouverte depuis le portail) : ce qui vaut pour tous les blocs */
+var NAV_ADMIN = [
+  { g: "L'atelier", items: [
+    { r: 'parametres', t: 'Atelier et blocs', i: 'gear', mod: 'parametres', tabs: [['parametres/entreprise', 'Informations'], ['parametres/blocs', 'Blocs'], ['parametres/listes', 'Listes'], ['parametres/abonnement', 'Abonnement']] }
+  ] },
+  { g: 'Les personnes', items: [
+    { r: 'gerants', t: 'Gérants et rôles', i: 'users', mod: 'utilisateurs', tabs: [['parametres/utilisateurs', 'Gérants'], ['parametres/roles', 'Rôles et droits']] }
+  ] },
+  { g: 'Le contrôle', items: [
+    { r: 'admin', t: "Journal d'audit", i: 'audit', mod: 'admin', tabs: [['admin/audit', "Journal d'audit"], ['admin/sauvegarde', 'Sauvegarde']] }
+  ] }
+];
+function navList() { return S.mode === 'admin' ? NAV_ADMIN : NAV; }
 /* Les onglets Utilisateurs et Rôles relèvent du droit « utilisateurs » ; Abonnement du propriétaire. */
-var TAB_MOD = { 'parametres/utilisateurs': 'utilisateurs', 'parametres/roles': 'utilisateurs', 'parametres/abonnement': 'parametres', 'admin/validations': '*' };
+var TAB_MOD = { 'parametres/utilisateurs': 'utilisateurs', 'parametres/roles': 'utilisateurs', 'parametres/abonnement': 'parametres', 'parametres/blocs': 'parametres', 'admin/validations': '*' };
+/* onglets qui demandent une action précise en plus de la consultation */
+var TAB_CHECK = {
+  'ventes/caisse': function () { return can('ventes', 'creer'); },
+  'ventes/livraisons': function () { return can('ventes', 'livrer') || can('ventes', 'creer'); }
+};
+/* pages de l'Administration : communes à tous les blocs, ouvertes depuis le portail */
+var ADMIN_ROUTES = ['parametres/entreprise', 'parametres/blocs', 'parametres/listes', 'parametres/abonnement', 'parametres/utilisateurs', 'parametres/roles'];
 
 function navItemFor(route) {
   var top = route.split('/')[0], found = null;
-  NAV.forEach(function (g) { g.items.forEach(function (it) { if (it.r === top) found = it; }); });
+  navList().forEach(function (g) { g.items.forEach(function (it) { if (!found && it.tabs && it.tabs.some(function (t) { return t[0] === route; })) found = it; }); });
+  if (!found) navList().forEach(function (g) { g.items.forEach(function (it) { if (!found && (it.r === route || it.r === top)) found = it; }); });
   return found;
 }
+function inMenu(route) {
+  var ok = false;
+  navList().forEach(function (g) { g.items.forEach(function (it) { if (it.r === route || (it.tabs && it.tabs.some(function (t) { return t[0] === route; }))) ok = true; }); });
+  return ok;
+}
 function tabAllowed(route) {
+  if (S.mode === 'admin') { if (!inMenu(route)) return false; }
+  else if (ADMIN_ROUTES.indexOf(route) >= 0) return false;
   var need = TAB_MOD[route];
   if (need === '*') return true;
+  if (TAB_CHECK[route]) return TAB_CHECK[route]();
   var v = Views[route];
   return can(need || (v && v.mod) || route.split('/')[0], 'consulter');
 }
@@ -2618,33 +2926,34 @@ var App = {
      Entrée dans l'espace d'une entreprise                              */
   enter: function (tid, code) {
     Screens.show('scr-boot');
-    var bm = $('#boot-msg'); if (bm) bm.textContent = 'Ouverture de votre espace…';
+    var bm = $('#boot-msg'); if (bm) bm.textContent = 'Ouverture de votre atelier…';
     var uid = FB.auth.currentUser && FB.auth.currentUser.uid;
     if (!uid) { Landing.render(); return Promise.resolve(); }
-    S.tid = tid; S.code = code; S.user = FB.auth.currentUser; S.support = false;
+    S.tid = tid; S.code = code; S.user = FB.auth.currentUser; S.support = false; S.bloc = 'A'; S.mode = 'bloc';
     return Promise.all([FB.get('tenants/' + tid, 20000), FB.get('t/' + tid + '/members/' + uid, 20000)]).then(function (r) {
       var tenant = r[0], member = r[1];
       if (!tenant || !member) {
         Device.clearSession(); FB.auth.signOut();
-        throw new Error("Ce compte n'appartient pas à cette entreprise.");
+        throw new Error("Ce compte n'appartient pas à cet atelier.");
       }
-      if (!member.actif) { Device.clearSession(); FB.auth.signOut(); throw new Error('Ce compte est désactivé. Contactez l\'administrateur de votre entreprise.'); }
+      if (!member.actif) { Device.clearSession(); FB.auth.signOut(); throw new Error('Ce compte est désactivé. Contactez le propriétaire de votre atelier.'); }
       tenant.id = tid; S.tenant = tenant; S.member = member; S.member.uid = uid;
-      Device.setSession({ tid: tid, code: code || tenant.code, uid: uid });
+      var prev = Device.session() || {};
+      Device.setSession({ tid: tid, code: code || tenant.code, uid: uid, bloc: prev.uid === uid ? prev.bloc : null, mode: prev.uid === uid ? prev.mode : null });
       S.code = code || tenant.code;
       var known = Device.list().filter(function (x) { return x.code === S.code; })[0] || {};
       Device.remember({ code: S.code, tid: tid, nom: tenant.nom, ville: tenant.ville, logo: known.logo || '', ident: member.ident });
       App.watchTenant();
       var etat = App.tenantEtat();
       if (etat !== 'ok') { Blocked.render(tenant, etat); return; }
-      return App.loadBase().then(function () { App.boot(); });
+      return App.loadBase().then(function () { App.start(); });
     }).catch(function (e) {
       console.error(e);
       var msg = FB.errMsg(e);
       if (e && /PERMISSION_DENIED/i.test(String(e.code || '') + ' ' + String(e.message || ''))) {
         /* session d'un compte qui n'a plus accès (remplacé ou retiré) : on la ferme */
         Device.clearSession(); try { FB.auth.signOut(); } catch (x) {}
-        msg = "Ce compte n'a plus accès à cette entreprise. Reconnectez-vous ; si un nouveau mot de passe vous a été remis, utilisez-le.";
+        msg = "Ce compte n'a plus accès à cet atelier. Reconnectez-vous ; si un nouveau mot de passe vous a été remis, utilisez-le.";
         var c = code || S.code;
         if (c) {
           Landing.lookup(c).then(function (pub) { Login.render(pub); var er2 = $('#lg-err'); if (er2) er2.textContent = msg; })
@@ -2671,27 +2980,69 @@ var App = {
       var t = s.val(); if (!t) return;
       t.id = S.tid; S.tenant = t;
       var etat = App.tenantEtat();
-      if (etat !== 'ok' && document.body.dataset.screen === 'scr-app') { Data.stopAll(); UI.closeAll(); Blocked.render(t, etat); }
-      else if (etat === 'ok' && document.body.dataset.screen === 'scr-blocked') { App.loadBase().then(function () { App.boot(); }); }
+      if (etat !== 'ok' && /scr-app|scr-portail/.test(document.body.dataset.screen)) { Data.stopAll(); UI.closeAll(); Blocked.render(t, etat); }
+      else if (etat === 'ok' && document.body.dataset.screen === 'scr-blocked') { App.loadBase().then(function () { App.start(); }); }
       else App.banners();
     });
     /* contrôle de l'échéance pendant que l'application reste ouverte */
     clearInterval(App.clock);
     App.clock = setInterval(function () {
-      if (document.body.dataset.screen === 'scr-app' && App.tenantEtat() !== 'ok') { Data.stopAll(); UI.closeAll(); Blocked.render(S.tenant, App.tenantEtat()); }
+      if (/scr-app|scr-portail/.test(document.body.dataset.screen) && App.tenantEtat() !== 'ok') { Data.stopAll(); UI.closeAll(); Blocked.render(S.tenant, App.tenantEtat()); }
     }, 60000);
   },
 
   loadBase: function () {
-    return Data.need(['info', 'params', 'roles', 'members']).then(function () {
+    return Data.need(['info', 'params', 'roles', 'members', 'blocsInfo']).then(function () {
       S.info = S.d.info || {};
       S.params = S.d.params || {};
       S.roles = S.d.roles || {};
       S.members = S.d.members || {};
+      S.blocs = S.d.blocsInfo || {};
       var me = S.members[S.user.uid];
       if (me) { S.member = me; S.member.uid = S.user.uid; }
-      S.role = isOwnerRole() ? null : (S.roles[S.member.role] || { p: {} });
+      App.setRole();
     });
+  },
+  /* droits réunis de tous les rôles cochés pour la personne */
+  setRole: function () { S.role = isOwnerRole() ? null : mergeRoles(memberRoleIds(S.member), S.roles); },
+
+  /* Après la connexion : le portail pour le propriétaire et pour qui gère
+     plusieurs blocs ou l'administration ; sinon directement son bloc. */
+  start: function () {
+    var blocs = memberBlocs(S.member);
+    if (!blocs.length) {
+      UI.toast("Aucun bloc ne vous est affecté. Demandez au propriétaire de l'atelier de vous en attribuer un.", 'err', 9000);
+      App.logout(); return;
+    }
+    var sess = Device.session() || {};
+    if (sess.mode === 'bloc' && sess.bloc && blocs.indexOf(sess.bloc) >= 0) { App.openBloc(sess.bloc, true); return; }
+    if (sess.mode === 'admin' && Portail.canAdmin()) { App.openAdmin(true); return; }
+    if (Portail.canUse()) { Portail.render(); return; }
+    App.openBloc(blocs[0], true);
+  },
+  remember: function () { var x = Device.session() || {}; x.bloc = S.bloc; x.mode = S.mode; Device.setSession(x); },
+  /* ouvrir un bloc : ses données remplacent celles du bloc précédent */
+  openBloc: function (b, keepBase) {
+    if (memberBlocs(S.member).indexOf(b) < 0) { UI.toast("Ce bloc ne vous est pas affecté.", 'err'); return; }
+    var go = function (clear) { S.bloc = b; S.mode = 'bloc'; App.remember(); if (clear) history.replaceState(null, '', location.pathname + location.search); App.boot(); };
+    if (keepBase && S.bloc === b) { go(false); return; }
+    App.reset().then(function () { go(!keepBase); });
+  },
+  openAdmin: function (keepBase) {
+    if (!Portail.canAdmin()) { UI.toast("Vous n'avez pas accès à l'Administration.", 'err'); return; }
+    var go = function (clear) { S.mode = 'admin'; App.remember(); if (clear) history.replaceState(null, '', location.pathname + location.search); App.boot(); };
+    if (keepBase && S.bloc === 'A') { go(false); return; }
+    App.reset().then(function () { go(!keepBase); });
+  },
+  toPortail: function () {
+    if (!Portail.canUse()) return;
+    App.reset().then(function () { S.mode = 'portail'; App.remember(); Portail.render(); });
+  },
+  /* coupe les écoutes du bloc ouvert et recharge le socle commun (bloc A par défaut) */
+  reset: function () {
+    App.ready = false;
+    UI.closeAll(); Data.stopAll(); S.bloc = 'A';
+    return App.loadBase();
   },
 
   boot: function () {
@@ -2705,15 +3056,26 @@ var App = {
   },
 
   home: function () {
+    if (S.mode === 'admin') { var fa = null; NAV_ADMIN.forEach(function (g) { g.items.forEach(function (it) { if (!fa && itemAllowed(it)) fa = it.tabs.filter(function (t) { return tabAllowed(t[0]); })[0][0]; }); }); return fa || 'compte'; }
     if (can('tableau')) return 'tableau';
     var first = null;
-    NAV.forEach(function (g) { g.items.forEach(function (it) { if (!first && itemAllowed(it)) first = it.tabs ? it.tabs.filter(function (t) { return tabAllowed(t[0]); })[0][0] : it.r; }); });
+    if (S.mode !== 'admin' && can('ventes', 'livrer') && !can('ventes', 'creer')) return 'ventes/livraisons';
+    navList().forEach(function (g) { g.items.forEach(function (it) { if (!first && itemAllowed(it)) first = it.tabs ? it.tabs.filter(function (t) { return tabAllowed(t[0]); })[0][0] : it.r; }); });
     return first || 'compte';
   },
 
-  /* Premier passage du propriétaire : comptes de trésorerie par défaut. */
+  /* Premier passage du propriétaire : comptes de trésorerie par défaut du bloc
+     ouvert, et ajout des rôles AGAT qui manquent (aucun rôle existant modifié). */
   ownerInit: function () {
     if (!isOwnerRole()) return;
+    var manque = ROLES_AGAT_ORDRE.filter(function (k) { return !S.roles[k]; });
+    if (manque.length && !(S.params.rolesAgat)) {
+      var modeles = rolesAgat(), u = {};
+      manque.forEach(function (k) { u['t/' + S.tid + '/roles/' + k] = modeles[k]; });
+      u['t/' + S.tid + '/params/rolesAgat'] = true;
+      FB.ref().update(u).catch(function (e) { console.warn('[AGAT] rôles', e); });
+    }
+    if (S.mode === 'admin') return;
     Data.need(['finances/comptes']).then(function () {
       if (Object.keys(col('finances/comptes')).length) return;
       var tx = new Tx('comptes de trésorerie');
@@ -2732,7 +3094,7 @@ var App = {
   },
 
   logout: function () {
-    Data.stopAll(); UI.closeAll();
+    Data.stopAll(); UI.closeAll(); S.bloc = 'A'; S.mode = 'bloc';
     if (App.tenantRef) App.tenantRef.off();
     clearInterval(App.clock);
     Device.clearSession();
@@ -2751,9 +3113,11 @@ var App = {
     el.innerHTML =
       '<aside class="side" id="side" aria-label="Menu principal">' +
         '<div class="side-co">' + (info.logo ? '<img src="' + attr(info.logo) + '" alt="">' : Brand.mark(36)) +
-          '<div><strong>' + esc(info.raisonSociale || S.tenant.nom) + '</strong><span>NEINDI ERP</span></div></div>' +
+          '<div><strong>' + esc(info.raisonSociale || S.tenant.nom) + '</strong><span>' + esc(APP.nom) + '</span></div></div>' +
+        (Portail.canUse() ? '<button type="button" class="side-portail" id="side-portail">' + icon('back') + '<span>Portail</span></button>' : '') +
+        '<div class="side-bloc">' + (S.mode === 'admin' ? '<b>Administration</b><small>Commune à tous les blocs</small>' : '<b>BLOC ' + esc(S.bloc) + '</b><small>' + esc(blocName(S.bloc)) + '</small>') + '</div>' +
         '<nav class="side-nav">' + App.navHtml() + '</nav>' +
-        '<div class="side-foot"><button type="button" class="side-me" id="me-btn"><span class="av">' + esc(initials(S.member.nom)) + '</span><span><strong>' + esc(S.member.nom) + '</strong><small>' + esc(App.roleName(S.member.role)) + '</small></span></button></div>' +
+        '<div class="side-foot"><button type="button" class="side-me" id="me-btn"><span class="av">' + esc(initials(S.member.nom)) + '</span><span><strong>' + esc(S.member.nom) + '</strong><small>' + esc(App.rolesLabel(S.member)) + '</small></span></button></div>' +
       '</aside>' +
       '<div class="side-scrim" id="side-scrim"></div>' +
       '<div class="maincol">' +
@@ -2765,6 +3129,7 @@ var App = {
         '<main class="main" id="main" tabindex="-1"></main>' +
       '</div>';
     $('#burger').addEventListener('click', function () { document.body.classList.toggle('drawer'); });
+    if ($('#side-portail')) $('#side-portail').addEventListener('click', function () { App.toPortail(); });
     $('#side-scrim').addEventListener('click', function () { document.body.classList.remove('drawer'); });
     $('#me-btn').addEventListener('click', Account.menu);
     $('#tb-me').addEventListener('click', Account.menu);
@@ -2775,7 +3140,7 @@ var App = {
   },
 
   navHtml: function () {
-    return NAV.map(function (g) {
+    return navList().map(function (g) {
       var items = g.items.filter(function (it) { return moduleOn(it.mod) && itemAllowed(it); });
       if (!items.length) return '';
       return '<div class="ng"><span class="ng-t">' + esc(g.g) + '</span>' + items.map(function (it) {
@@ -2785,6 +3150,7 @@ var App = {
     }).join('');
   },
   roleName: function (rid) { if (rid === 'proprietaire') return 'Propriétaire'; var r = S.roles[rid]; return r ? r.nom : rid; },
+  rolesLabel: function (m) { return memberRoleIds(m).map(App.roleName).join(', ') || '—'; },
 
   banners: function () {
     var b = $('#banners'); if (!b) return;
@@ -2822,7 +3188,8 @@ var App = {
     App.route = route; App.arg = arg;
     var v = Views[route];
     document.body.classList.remove('drawer');
-    $$('.ni').forEach(function (a) { a.classList.toggle('on', a.dataset.nav === route.split('/')[0]); });
+    var cur = navItemFor(route);
+    $$('.ni').forEach(function (a) { a.classList.toggle('on', !!cur && a.dataset.nav === cur.r); });
     var main = $('#main');
     if (!v || !(v.always || tabAllowed(route))) {
       main.innerHTML = UI.empty('Accès non autorisé', "Votre rôle ne donne pas accès à cette page. Demandez à l'administrateur de votre entreprise si vous en avez besoin.");
@@ -2830,6 +3197,7 @@ var App = {
       return;
     }
     main.innerHTML = '<div class="loading"><span class="spin"></span> Chargement…</div>';
+    App.ready = false;
     var need = typeof v.need === 'function' ? v.need(arg) : (v.need || []);
     Data.need(need).then(function () {
       if (App.route !== route) return;
@@ -2857,7 +3225,7 @@ var App = {
     var it = navItemFor(App.route);
     var title = v.title ? (typeof v.title === 'function' ? v.title(App.arg) : v.title) : (it ? it.t : '');
     $('#tb-title').textContent = title;
-    document.title = title + ' — NEINDI ERP';
+    document.title = title + ' — ' + APP.nom;
     var tabs = '';
     if (it && it.tabs && !v.noTabs) {
       tabs = '<nav class="tabs" aria-label="Sections">' + it.tabs.filter(function (t) { return tabAllowed(t[0]); }).map(function (t) {
@@ -2871,6 +3239,7 @@ var App = {
     main.innerHTML = '<div class="page">' + tabs + body + '</div>';
     if (!force) window.scrollTo(0, y);
     if (v.after) try { v.after(App.arg, main); } catch (e) { console.error(e); }
+    if (force) App.ready = true;
     App.counters();
     App.netState();
   },
@@ -2908,8 +3277,29 @@ var Acts = {
 Bus.on('data', function (p) {
   if (p === 'params') S.params = S.d.params || {};
   if (p === 'info') S.info = S.d.info || {};
-  if (p === 'members') { S.members = S.d.members || {}; var me = S.user && S.members[S.user.uid]; if (!me && S.member && S.user) { App.accessLost(); return; } if (me && S.member) { var role = S.member.role; S.member = me; S.member.uid = S.user.uid; if (!me.actif) { UI.toast('Votre compte a été désactivé.', 'err'); App.logout(); return; } if (me.role !== role) { S.role = isOwnerRole() ? null : (S.roles[me.role] || { p: {} }); App.shell(); App.show(App.route); return; } } }
-  if (p === 'roles') { S.roles = S.d.roles || {}; if (S.member && !isOwnerRole()) { S.role = S.roles[S.member.role] || { p: {} }; var nav = $('.side-nav'); if (nav) nav.innerHTML = App.navHtml(); } }
+  if (p === 'members') {
+    S.members = S.d.members || {};
+    var me = S.user && S.members[S.user.uid];
+    if (!me && S.member && S.user) { App.accessLost(); return; }
+    if (me && S.member) {
+      var avant = JSON.stringify([memberRoleIds(S.member), memberBlocs(S.member)]);
+      S.member = me; S.member.uid = S.user.uid;
+      if (!me.actif) { UI.toast('Votre compte a été désactivé.', 'err'); App.logout(); return; }
+      if (JSON.stringify([memberRoleIds(me), memberBlocs(me)]) !== avant) {
+        App.setRole();
+        if (S.mode === 'bloc' && memberBlocs(me).indexOf(S.bloc) < 0 && document.body.dataset.screen === 'scr-app') {
+          UI.toast("Ce bloc ne vous est plus affecté.", 'err', 7000);
+          if (Portail.canUse()) App.toPortail(); else App.openBloc(memberBlocs(me)[0]);
+          return;
+        }
+        if (document.body.dataset.screen === 'scr-app') { App.shell(); App.show(App.route); }
+        if (document.body.dataset.screen === 'scr-portail') Portail.render();
+        return;
+      }
+    }
+  }
+  if (p === 'roles') { S.roles = S.d.roles || {}; if (S.member && !isOwnerRole()) { App.setRole(); var nav = $('.side-nav'); if (nav) nav.innerHTML = App.navHtml(); } }
+  if (p === 'blocsInfo') { S.blocs = S.d.blocsInfo || {}; if (document.body.dataset.screen === 'scr-portail') Portail.render(); }
   App.scheduleRender();
 });
 Bus.on('online', function () { App.banners(); App.netState(); });
@@ -2927,11 +3317,13 @@ var Account = {
   menu: function () {
     var m = UI.modal({
       title: S.member.nom, size: 's',
-      body: UI.kv([['Entreprise', esc(S.tenant.nom)], ['Code', '<span class="code">' + esc(S.tenant.code) + '</span>'], ['Identifiant', esc(S.member.ident)], ['Rôle', esc(App.roleName(S.member.role))], ['Version', esc(NERP.version + ' (' + NERP.build + ')')]]) +
-        '<div class="stack mt"><button type="button" class="btn ghost" data-mact="pwd">' + icon('key') + ' Changer mon mot de passe</button>' +
+      body: UI.kv([['Atelier', esc(S.tenant.nom)], ['Code', '<span class="code">' + esc(S.tenant.code) + '</span>'], ['Bloc ouvert', S.mode === 'admin' ? 'Administration' : esc(blocLabel(S.bloc))], ['Identifiant', esc(S.member.ident)], ['Rôles', esc(App.rolesLabel(S.member))], ['Version', esc(NERP.version + ' (' + NERP.build + ')')]]) +
+        '<div class="stack mt">' + (Portail.canUse() && document.body.dataset.screen === 'scr-app' ? '<button type="button" class="btn ghost" data-mact="portail">' + icon('back') + ' Retour au portail</button>' : '') +
+        '<button type="button" class="btn ghost" data-mact="pwd">' + icon('key') + ' Changer mon mot de passe</button>' +
         (Install.can() ? '<button type="button" class="btn ghost" data-mact="install">' + icon('install') + " Installer l'application</button>" : '') +
         '<button type="button" class="btn danger" data-mact="out">' + icon('logout') + ' Se déconnecter</button></div>',
       onAct: function (a) {
+        if (a === 'portail') { m.close(); App.toPortail(); }
         if (a === 'pwd') { m.close(); Account.changePassword(FB.auth.currentUser, false); }
         if (a === 'install') { m.close(); Install.prompt(); }
         if (a === 'out') { m.close(); App.logout(); }
@@ -2961,7 +3353,7 @@ var Account = {
 var Install = {
   evt: null,
   init: function () {
-    window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); Install.evt = e; $$('[data-install]').forEach(function (b) { b.hidden = false; }); var b = $('#lnd-install'); if (b) b.hidden = false; });
+    window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); Install.evt = e; $$('[data-install]').forEach(function (b) { b.hidden = false; }); var b = $('#pb-install'); if (b) b.hidden = false; });
     window.addEventListener('appinstalled', function () { Install.evt = null; LS.set('nerp_installee', '1'); UI.toast('Application installée.', 'ok'); });
     if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       window.addEventListener('load', function () {
@@ -2990,9 +3382,9 @@ var Install = {
   offerAfterLogin: function () {
     if (Install.standalone() || LS.get('nerp_installee') || LS.get('nerp_install_refus')) return;
     setTimeout(function () {
-      if (!Install.can() || document.body.dataset.screen !== 'scr-app' || UI.stack.length) return;
+      if (!Install.can() || !/scr-app|scr-portail/.test(document.body.dataset.screen) || UI.stack.length) return;
       var m = UI.modal({
-        title: "Installer NEINDI ERP", size: 's',
+        title: 'Installer ' + APP.nom, size: 's',
         body: "<p>Ajoutez l'application à l'écran d'accueil de cet appareil : elle s'ouvrira directement sur votre espace, comme une application.</p>",
         actions: [{ t: 'Plus tard', act: 'no', cls: 'ghost' }, { t: 'Installer', act: 'yes', cls: 'primary' }],
         onAct: function (a) { m.close(); if (a === 'yes') Install.prompt(); else LS.set('nerp_install_refus', String(Date.now())); }
@@ -3359,6 +3751,250 @@ function tiles(arr) {
 }
 
 
+/* ===== 08-portail.js ===== */
+/* =====================================================================
+   Portail de l'atelier (même disposition que le portail de l'App AGV) :
+   une barre sombre (atelier, personne connectée, déconnexion), puis une
+   grille de tuiles — Administration, Direction, et une tuile par bloc
+   avec son nom et ses gérants. En dessous, la vue d'ensemble des blocs.
+   Le portail ne fait que lire : rien n'y est modifié.
+   ===================================================================== */
+
+var Portail = {
+  canAdmin: function () { return isOwnerRole() || can('utilisateurs') || can('parametres'); },
+  canDirection: function () { return isOwnerRole() || !!(S.role && S.role.f && S.role.conf); },
+  canUse: function () {
+    if (!S.member) return false;
+    return isOwnerRole() || memberBlocs(S.member).length > 1 || Portail.canAdmin() || Portail.canDirection();
+  },
+
+  gerants: function (b) {
+    return vals(S.members).filter(function (m) { return m.actif && m.role !== 'proprietaire' && memberBlocs(m).indexOf(b) >= 0; });
+  },
+
+  bar: function () {
+    var info = S.info || {};
+    return '<header class="portail-bar">' +
+      '<div class="pb-g">' + (info.logo ? '<img src="' + attr(info.logo) + '" alt="">' : Brand.mark(34)) +
+        '<div class="pb-t"><strong>' + esc(info.raisonSociale || S.tenant.nom) + '</strong><span>' + esc(APP.nom) + ' — portail de l\'atelier</span></div></div>' +
+      '<div class="pb-g"><span class="pb-qui">' + icon('users') + esc(S.member.nom) + '</span>' +
+        '<button type="button" class="pb-out" id="pt-out">' + icon('logout') + ' Déconnexion</button></div>' +
+      '</header>';
+  },
+
+  tile: function (o) {
+    return '<button type="button" class="tuile' + (o.cls ? ' ' + o.cls : '') + '" data-pt="' + attr(o.act) + '"' + (o.id ? ' data-id="' + attr(o.id) + '"' : '') + '>' +
+      (o.tag ? '<span class="tuile-tag">' + esc(o.tag) + '</span>' : '') +
+      (o.img ? '<img class="tuile-logo" src="' + attr(o.img) + '" alt="">' : '<span class="tuile-rond">' + icon(o.icon) + '</span>') +
+      '<span class="tuile-t">' + esc(o.t) + '</span>' +
+      (o.s ? '<span class="tuile-s">' + esc(o.s) + '</span>' : '') +
+      (o.g ? '<span class="tuile-g">' + esc(o.g) + '</span>' : '') +
+      '</button>';
+  },
+
+  tiles: function () {
+    var info = S.info || {}, t = [];
+    var lieu = [info.ville || S.tenant.ville, info.adresse].filter(Boolean).join(' — ');
+    var blocs = memberBlocs(S.member);
+    if (Portail.canAdmin()) t.push(Portail.tile({ act: 'admin', icon: 'gear', t: 'Administration', s: 'Blocs, gérants, rôles et paramètres', g: lieu }));
+    if (Portail.canDirection()) t.push(Portail.tile({ act: 'direction', icon: 'direction', img: info.logo || '', t: 'Direction', s: 'Dettes, créances, caisses et stock de ' + plural(blocs.length, 'bloc') }));
+    blocs.forEach(function (b) {
+      var x = S.blocs[b] || {}, gs = Portail.gerants(b);
+      t.push(Portail.tile({
+        act: 'bloc', id: b, icon: 'loom', tag: 'BLOC ' + b, t: blocName(b), s: x.ville || (b === 'A' ? lieu : '') || 'Atelier de tissage',
+        g: gs.length ? gs.slice(0, 2).map(function (m) { return m.nom; }).join(', ') + (gs.length > 2 ? ' +' + (gs.length - 2) : '') : 'Aucun gérant affecté'
+      }));
+    });
+    if (isOwnerRole() && blocIdsAll().length < maxBlocs()) t.push(Portail.tile({ act: 'nouveau', icon: 'plus', cls: 'neuve', t: 'Nouveau bloc', s: 'Un atelier complet, vide au départ', g: blocIdsAll().length + ' sur ' + maxBlocs() + ' compris' }));
+    return '<section class="portail"><div class="portail-in">' + t.join('') + '</div></section>';
+  },
+
+  render: function () {
+    S.mode = 'portail';
+    var el = $('#scr-portail');
+    el.innerHTML = '<div class="portail-page">' + Portail.bar() + Portail.tiles() +
+      '<section class="portail-corps" id="pt-corps">' +
+        (Portail.canDirection() ? '<div class="loading"><span class="spin"></span> Lecture des blocs…</div>' : '<p class="muted center">Choisissez un bloc pour commencer.</p>') +
+      '</section></div>';
+    Screens.show('scr-portail');
+    document.title = 'Portail — ' + APP.nom;
+    Portail.bind(el);
+    Install.offerAfterLogin();
+    if (Portail.canDirection()) Portail.overview();
+  },
+
+  bind: function (el) {
+    $('#pt-out').addEventListener('click', function () { App.logout(); });
+    $$('[data-pt]', el).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var a = b.dataset.pt;
+        if (a === 'admin') App.openAdmin();
+        else if (a === 'direction') Portail.direction();
+        else if (a === 'bloc') App.openBloc(b.dataset.id);
+        else if (a === 'nouveau') Blocs.create().then(function (id) { if (id) Portail.render(); });
+      });
+    });
+  },
+
+  /* ---------- chiffres d'un bloc, lus directement (sans l'ouvrir) ---------- */
+  base: function (b) { return 't/' + S.tid + (b === 'A' ? '/d/' : '/blocs/' + b + '/d/'); },
+  read: function (b, path) {
+    return FB.withTimeout(FB.ref(Portail.base(b) + path).once('value'), 20000, 'lecture').then(function (s) { return s.val() || {}; }, function () { return null; });
+  },
+  figures: function (b) {
+    var paths = ['achats/facturesF', 'ventes/factures', 'finances/comptes', 'finances/soldes', 'stock/soldes', 'finances/depenses'];
+    return Promise.all(paths.map(function (p) { return Portail.read(b, p); })).then(function (r) {
+      var ff = r[0], fv = r[1], comptes = r[2], soldes = r[3], stock = r[4], dep = r[5];
+      var m0 = startOfMonth(today()), t = today();
+      var o = { bloc: b };
+      o.dettes = ff === null ? null : sum(vals(ff).filter(function (f) { return f.statut !== 'annulee'; }), ffReste);
+      var fvv = fv === null ? null : vals(fv).filter(function (f) { return f.statut === 'validee'; });
+      o.creances = fvv === null ? null : sum(fvv, function (f) { return Math.max(0, facReste(f)); });
+      o.ca = fvv === null ? null : sum(fvv.filter(function (f) { return f.date >= m0 && f.date <= t; }), facDu);
+      var parType = function (type) {
+        if (comptes === null || soldes === null) return null;
+        return sum(Object.keys(comptes).filter(function (k) { return (comptes[k] || {}).type === type; }), function (k) { return Number(soldes[k]) || 0; });
+      };
+      o.caisse = parType('caisse'); o.mobile = parType('mobile'); o.banque = parType('banque');
+      o.stock = stock === null ? null : (function () {
+        var v = 0;
+        Object.keys(stock).forEach(function (a) { Object.keys(stock[a] || {}).forEach(function (l) { Object.keys(stock[a][l] || {}).forEach(function (e) { v += Number((stock[a][l][e] || {}).v) || 0; }); }); });
+        return v;
+      })();
+      o.depenses = dep === null ? null : sum(vals(dep).filter(function (d) { return d.statut !== 'annulee' && d.date >= m0; }), function (d) { return d.montant || 0; });
+      return o;
+    });
+  },
+  allFigures: function () { return Promise.all(memberBlocs(S.member).map(Portail.figures)); },
+  v: function (n) { return n === null || n === undefined ? '—' : fmtGNF(n); },
+  tot: function (rows, k) { var ok = rows.filter(function (r) { return r[k] !== null; }); return ok.length ? sum(ok, function (r) { return r[k]; }) : null; },
+
+  overview: function () {
+    Portail.allFigures().then(function (rows) {
+      var z = $('#pt-corps'); if (!z) return;
+      var cols = [['ca', "Chiffre d'affaires du mois"], ['depenses', 'Dépenses du mois'], ['creances', 'Créances clients'], ['dettes', 'Dettes fournisseurs'], ['tresor', 'Trésorerie'], ['stock', 'Valeur du stock']];
+      rows.forEach(function (r) { r.tresor = r.caisse === null ? null : (r.caisse || 0) + (r.mobile || 0) + (r.banque || 0); });
+      z.innerHTML = '<div class="pc-in"><div class="row between wrap"><h2>Vue d\'ensemble des blocs</h2><span class="muted small">' + fmtMois(monthOf(today())) + ' — montants en GNF</span></div>' +
+        '<div class="tscroll"><table class="grid pc-table"><thead><tr><th>Bloc</th>' + cols.map(function (c) { return '<th class="num">' + esc(c[1]) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        rows.map(function (r) { return '<tr><td><strong>BLOC ' + esc(r.bloc) + '</strong><br><small class="muted">' + esc(blocName(r.bloc)) + '</small></td>' + cols.map(function (c) { return '<td class="num">' + (r[c[0]] === null ? '—' : fmtMoney(r[c[0]])) + '</td>'; }).join('') + '</tr>'; }).join('') +
+        '</tbody>' + (rows.length > 1 ? '<tfoot><tr><th>Total</th>' + cols.map(function (c) { var x = Portail.tot(rows, c[0]); return '<th class="num">' + (x === null ? '—' : fmtMoney(x)) + '</th>'; }).join('') + '</tr></tfoot>' : '') + '</table></div>' +
+        (rows.some(function (r) { return cols.some(function (c) { return r[c[0]] === null; }); }) ? '<p class="small muted">« — » : ces chiffres ne sont pas accessibles avec vos rôles.</p>' : '') +
+        (Portail.canDirection() ? '<p class="small muted">La tuile Direction détaille les dettes, créances, caisses et stocks de chaque bloc.</p>' : '') + '</div>';
+    });
+  },
+
+  /* ---------- Direction : un bandeau par poste, total de tous les blocs à droite ---------- */
+  direction: function () {
+    var z = $('#pt-corps'); if (!z) return;
+    z.innerHTML = '<div class="loading"><span class="spin"></span> Calcul des totaux de tous les blocs…</div>';
+    try { z.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+    Portail.allFigures().then(function (rows) {
+      var band = function (cls, titre, k, totLabel) {
+        var tot = Portail.tot(rows, k);
+        return '<div class="band ' + cls + '"><div class="band-l"><strong>' + esc(titre) + '</strong><div class="band-blocs">' +
+          rows.map(function (r) { return '<span><small>BLOC ' + esc(r.bloc) + '</small>' + Portail.v(r[k]) + '</span>'; }).join('') + '</div></div>' +
+          '<div class="band-r"><small>' + esc(totLabel) + '</small><b>' + Portail.v(tot) + '</b></div></div>';
+      };
+      var stockTot = Portail.tot(rows, 'stock');
+      z.innerHTML = '<div class="pc-in"><div class="row between wrap"><h2>Direction</h2><button type="button" class="btn ghost sm" id="pt-retour">' + icon('back') + ' Retour à la vue d\'ensemble</button></div>' +
+        '<p class="muted">Situation à ce jour de ' + plural(rows.length, 'bloc') + '. Chaque bandeau donne le chiffre de chaque bloc et, à droite, le total.</p>' +
+        band('dettes', 'Dettes fournisseurs', 'dettes', 'Total des dettes') +
+        band('creances', 'Créances clients', 'creances', 'Total des créances') +
+        band('caisse', 'Caisse (espèces)', 'caisse', 'Total en caisse') +
+        band('mobile', 'Mobile money', 'mobile', 'Total mobile money') +
+        band('banque', 'Banque', 'banque', 'Total en banque') +
+        '<h3>Valeur du stock</h3><div class="stock-boxes">' + rows.map(function (r) { return '<div class="sbox"><small>BLOC ' + esc(r.bloc) + ' — ' + esc(blocName(r.bloc)) + '</small><b>' + Portail.v(r.stock) + '</b></div>'; }).join('') +
+        '<div class="sbox tot"><small>Stock total</small><b>' + Portail.v(stockTot) + '</b></div></div>' +
+        '<p class="small muted">Dettes : factures fournisseurs non soldées. Créances : factures clients validées restant à encaisser. Caisse, mobile money et banque : soldes des comptes de chaque type. Stock : valeur au coût de revient.</p></div>';
+      $('#pt-retour').addEventListener('click', function () { z.innerHTML = '<div class="loading"><span class="spin"></span></div>'; Portail.overview(); });
+    });
+  }
+};
+
+/* =====================================================================
+   Administration → Blocs : chaque bloc est un atelier complet (stock,
+   achats, teinture, production, ventes, caisse, formation), vide au
+   départ. Le BLOC A garde toutes les données déjà saisies.
+   ===================================================================== */
+var BLOC_FIELDS = [
+  { k: 'nom', t: 'Nom du bloc', req: true, ph: 'Atelier de Labé', max: 60, span: 2 },
+  { k: 'ville', t: 'Ville ou quartier' }, { k: 'tel', t: 'Téléphone', type: 'tel' },
+  { k: 'adresse', t: 'Adresse', span: 2 }
+];
+var Blocs = {
+  nextId: function () {
+    var pris = blocIdsAll();
+    return BLOC_IDS.filter(function (b) { return pris.indexOf(b) < 0 && Object.keys(S.blocs || {}).indexOf(b) < 0; })[0] || null;
+  },
+  create: function () {
+    if (!isOwnerRole()) { UI.toast('Seul le propriétaire crée des blocs.', 'err'); return Promise.resolve(null); }
+    var id = Blocs.nextId();
+    if (!id || blocIdsAll().length >= maxBlocs()) {
+      UI.toast('Votre formule compte ' + maxBlocs() + ' blocs. Pour en ouvrir davantage, contactez le concepteur.', 'err', 8000);
+      return Promise.resolve(null);
+    }
+    return UI.formModal({
+      title: 'Nouveau bloc — BLOC ' + id, size: 'm',
+      intro: "Le bloc est un atelier complet et séparé : son stock, ses achats, sa production, ses ventes et sa caisse lui sont propres. Il est créé vide. Vous y affecterez ensuite des gérants depuis Gérants et rôles.",
+      fields: BLOC_FIELDS, ok: 'Créer le bloc',
+      save: function (v) {
+        var rec = { nom: v.nom, ville: v.ville || '', tel: v.tel || '', adresse: v.adresse || '', creeLe: FB.TS(), par: S.user.uid, ordre: BLOC_IDS.indexOf(id) + 1 };
+        var T = 't/' + S.tid + '/';
+        var u1 = {}; u1[T + 'blocsInfo/' + id] = rec;
+        u1[T + 'audit/' + FB.newId()] = { ts: FB.TS(), uid: S.user.uid, nom: S.member.nom, action: 'Création du BLOC ' + id + ' — ' + v.nom, objet: 'parametres', ref: id };
+        return FB.withTimeout(FB.ref().update(u1), 20000, 'création du bloc').then(function () {
+          /* comptes de trésorerie du bloc (caisse, Orange Money, Mobile Money, banque) */
+          var u2 = {};
+          COMPTES_DEFAUT.forEach(function (c) { u2[T + 'blocs/' + id + '/d/finances/comptes/' + c.id] = { nom: c.nom, type: c.type, ordre: c.ordre, actif: true }; });
+          return FB.withTimeout(FB.ref().update(u2), 20000, 'comptes du bloc').catch(function (e) { console.warn('[AGAT] comptes du bloc', e); });
+        }).then(function () { return id; });
+      },
+      okMsg: 'BLOC ' + id + ' créé.'
+    }).then(function (v) { return v ? id : null; });
+  },
+  edit: function (b) {
+    var cur = Object.assign({ nom: blocName(b) }, S.blocs[b] || {});
+    UI.formModal({
+      title: 'BLOC ' + b + ' — informations', values: cur, fields: BLOC_FIELDS,
+      save: function (v) {
+        var T = 't/' + S.tid + '/', u = {};
+        u[T + 'blocsInfo/' + b] = Object.assign({}, strip(S.blocs[b] || {}), { nom: v.nom, ville: v.ville || '', tel: v.tel || '', adresse: v.adresse || '' }, (S.blocs[b] || {}).creeLe ? {} : { creeLe: FB.TS(), ordre: BLOC_IDS.indexOf(b) + 1 });
+        u[T + 'audit/' + FB.newId()] = { ts: FB.TS(), uid: S.user.uid, nom: S.member.nom, action: 'Modification du BLOC ' + b, objet: 'parametres', ref: b, avant: { nom: blocName(b) }, apres: { nom: v.nom } };
+        return FB.withTimeout(FB.ref().update(u), 20000, 'enregistrement');
+      },
+      okMsg: 'Bloc enregistré.'
+    });
+  }
+};
+
+view('parametres/blocs', {
+  mod: 'parametres', title: 'Blocs',
+  render: function () {
+    var ids = blocIdsAll();
+    var rows = ids.map(function (b) {
+      var x = S.blocs[b] || {};
+      return { id: b, nom: blocName(b), ville: x.ville || '', gerants: Portail.gerants(b).map(function (m) { return m.nom; }).join(', '), creeLe: x.creeLe || null };
+    });
+    var reste = maxBlocs() - ids.length;
+    return pageHead('Blocs', 'Chaque bloc est un atelier complet et séparé, avec son stock, sa production, ses ventes et sa caisse. Le BLOC A contient les données d\'origine. Les gérants voient seulement les blocs qui leur sont affectés.',
+      isOwnerRole() && reste > 0 ? UI.btn(icon('plus') + ' Créer un bloc', 'new', 'primary', ' data-needs-net') : '') +
+      '<p class="muted">' + plural(ids.length, 'bloc') + ' sur ' + maxBlocs() + ' compris dans votre formule.' + (reste <= 0 ? ' Pour en ouvrir davantage, contactez le concepteur.' : '') + '</p>' +
+      UI.table({
+        id: 'blocs', rows: rows, sort: 'id', search: false,
+        cols: [{ k: 'id', t: 'Bloc', f: function (r) { return '<strong>BLOC ' + esc(r.id) + '</strong>'; } }, { k: 'nom', t: 'Nom' }, { k: 'ville', t: 'Ville' },
+          { k: 'gerants', t: 'Gérants affectés', f: function (r) { return r.gerants ? esc(r.gerants) : '<span class="muted">Aucun</span>'; } },
+          { k: 'creeLe', t: 'Créé le', f: function (r) { return r.creeLe ? fmtDate(isoDate(new Date(r.creeLe))) : (r.id === 'A' ? 'à la création de l\'atelier' : '—'); } }],
+        actions: function (r) { return (isOwnerRole() ? UI.ibtn('edit', 'edit', r.id, 'Modifier') : '') + UI.btn('Ouvrir', 'open', 'ghost sm', ' data-id="' + attr(r.id) + '"'); }
+      });
+  },
+  acts: {
+    new: function () { Blocs.create().then(function () { App.render(true); }); },
+    edit: function (id) { Blocs.edit(id); },
+    open: function (id) { App.openBloc(id); }
+  }
+});
+
+
 /* ===== 10-dashboard.js ===== */
 /* =====================================================================
    Tableau de bord : indicateurs calculés depuis la base, selon les
@@ -3402,7 +4038,7 @@ view('tableau', {
   },
   render: function () {
     var t = today(), m0 = startOfMonth(t), y0 = startOfYear(t), mm = canMoney();
-    var h = '<div class="dash-head"><div><h1>Bonjour ' + esc(String(S.member.nom).split(' ')[0]) + '</h1><p class="muted">' + esc(S.info.raisonSociale || '') + ' — ' + fmtDate(t) + '</p></div>' +
+    var h = '<div class="dash-head"><div><h1>Bonjour ' + esc(String(S.member.nom).split(' ')[0]) + '</h1><p class="muted">' + esc(S.info.raisonSociale || '') + ' — ' + esc(blocLabel(S.bloc)) + ' — ' + fmtDate(t) + '</p></div>' +
       '<div class="row wrap">' + (can('ventes', 'creer') ? UI.btn(icon('tag') + ' Nouvelle vente', 'go', 'primary', ' data-id="ventes/caisse"') : '') + (can('production', 'creer') ? UI.btn(icon('loom') + ' Suivi du jour', 'go', 'ghost', ' data-id="production/suivi"') : '') + '</div></div>';
 
     /* --- alertes --- */
@@ -3724,19 +4360,20 @@ var Perso = {
 
 /* ---------- Utilisateurs ---------- */
 view('parametres/utilisateurs', {
-  mod: 'utilisateurs', title: 'Utilisateurs', need: ['parametres/personnel'],
+  mod: 'utilisateurs', title: 'Gérants et utilisateurs', need: ['parametres/personnel'],
   render: function () {
     var rows = vals(S.members);
     var actifs = rows.filter(function (m) { return m.actif; }).length;
     var max = S.tenant.maxUsers;
-    return pageHead('Utilisateurs', 'Chaque personne a son propre identifiant. Code de l\'entreprise à communiquer : <span class="code">' + esc(S.tenant.code) + '</span>',
-      canBtn('utilisateurs', 'creer', icon('plus') + ' Créer un compte', 'new', 'primary', ' data-needs-net')) +
+    return pageHead('Gérants et utilisateurs', 'Chaque personne a son propre identifiant. Cochez ses rôles (elle peut en cumuler plusieurs) et les blocs où elle travaille. Code de l\'atelier à communiquer : <span class="code">' + esc(S.tenant.code) + '</span>',
+      canBtn('utilisateurs', 'creer', icon('plus') + ' Créer un gérant', 'new', 'primary', ' data-needs-net')) +
       (max ? '<p class="muted">' + actifs + ' compte(s) actif(s) sur ' + max + ' autorisés par votre formule.</p>' : '') +
       UI.table({
         id: 'users', rows: rows, sort: 'nom',
         cols: [{ k: 'nom', t: 'Nom', f: function (m) { return '<strong>' + esc(m.nom) + '</strong>' + (m.poste ? '<br><small class="muted">' + esc(m.poste) + '</small>' : ''); } },
           { k: 'ident', t: 'Identifiant', f: function (m) { return '<span class="code">' + esc(m.ident) + '</span>'; } },
-          { k: 'role', t: 'Rôle', f: function (m) { return esc(App.roleName(m.role)); } },
+          { k: 'role', t: 'Rôles', f: function (m) { return esc(App.rolesLabel(m)); }, sv: function (m) { return App.rolesLabel(m); } },
+          { k: 'blocs', t: 'Blocs', nosort: true, f: function (m) { return m.role === 'proprietaire' ? 'Tous' : esc(memberBlocs(m).join(', ') || '—'); } },
           { k: 'tel', t: 'Téléphone' },
           { k: 'actif', t: 'État', f: function (m) { return m.actif ? UI.badge('Actif', 'ok') : UI.badge('Désactivé', 'err'); } }],
         actions: function (m) {
@@ -3753,10 +4390,37 @@ view('parametres/utilisateurs', {
   }
 });
 var Users = {
+  /* rôles proposés : les sept rôles AGAT d'abord, puis les rôles créés par l'atelier */
   roleOpts: function () {
-    var o = Object.keys(S.roles).filter(function (k) { return k !== 'proprietaire'; }).map(function (k) { return [k, S.roles[k].nom]; }).sort(function (a, b) { return a[1].localeCompare(b[1]); });
-    if (isOwnerRole()) o.unshift(['proprietaire', 'Propriétaire (tous les droits)']);
-    return o;
+    var ids = Object.keys(S.roles).filter(function (k) { return k !== 'proprietaire'; });
+    ids.sort(function (a, b) {
+      var ia = ROLES_AGAT_ORDRE.indexOf(a), ib = ROLES_AGAT_ORDRE.indexOf(b);
+      if (ia >= 0 || ib >= 0) return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+      return String(S.roles[a].nom).localeCompare(String(S.roles[b].nom));
+    });
+    return ids.map(function (k) { return [k, S.roles[k].nom, S.roles[k].desc || '']; });
+  },
+  blocOpts: function () { return blocIdsAll().map(function (b) { return [b, 'BLOC ' + b + ' — ' + blocName(b)]; }); },
+  /* champs communs : rôles cochés, blocs cochés, et pour le propriétaire la possibilité
+     de donner tous les droits (co-propriétaire) */
+  accesFields: function (isOwnerRec) {
+    var f = [];
+    if (isOwnerRole()) f.push({ k: 'coproprio', t: 'Propriétaire : tous les droits sur tous les blocs', type: 'checkbox', span: 2, readonly: isOwnerRec, help: 'À réserver aux associés. Les rôles et les blocs ci-dessous sont alors ignorés.' });
+    f.push({ k: 'roles', t: 'Rôles', type: 'checks', opts: Users.roleOpts, help: 'Cochez un ou plusieurs rôles : la personne cumule leurs autorisations.' });
+    f.push({ k: 'blocs', t: 'Blocs où elle travaille', type: 'checks', opts: Users.blocOpts });
+    return f;
+  },
+  /* enregistrement des accès : rôle principal (le premier coché), rôles, blocs et droits recopiés */
+  acces: function (v) {
+    if (v.coproprio) return { role: 'proprietaire', roles: null, blocs: null, acl: null };
+    var ids = Users.roleOpts().map(function (o) { return o[0]; }).filter(function (k) { return v.roles && v.roles[k]; });
+    return { role: ids[0], roles: v.roles, blocs: v.blocs, acl: aclFor(ids, S.roles) };
+  },
+  checkAcces: function (v) {
+    if (v.coproprio) return null;
+    if (!v.roles) return 'Cochez au moins un rôle.';
+    if (!v.blocs) return 'Cochez au moins un bloc.';
+    return null;
   },
   countActive: function (extra) { return vals(S.members).filter(function (m) { return m.actif; }).length + (extra || 0); },
   create: function () {
@@ -3764,26 +4428,26 @@ var Users = {
     if (max && Users.countActive() >= max) { UI.toast('Votre formule autorise ' + max + ' comptes actifs. Désactivez un compte ou changez de formule.', 'err', 8000); return; }
     var fields = [
       { k: 'nom', t: 'Nom complet', req: true },
-      { k: 'ident', t: 'Identifiant de connexion', req: true, help: 'Lettres, chiffres, point ou tiret.', valid: function (v) { return normIdent(v).length < 3 ? '3 caractères au minimum.' : null; } },
+      { k: 'ident', t: 'Identifiant de connexion', req: true, help: 'Lettres, chiffres, point ou tiret, sans espace.', valid: function (v) { return normIdent(v).length < 3 ? '3 caractères au minimum.' : null; } },
       { k: 'pwd', t: 'Mot de passe provisoire', type: 'password', req: true, help: '6 caractères au minimum. La personne pourra le changer.', valid: function (v) { return v && v.length < 6 ? '6 caractères au minimum.' : null; } },
-      { k: 'role', t: 'Rôle', type: 'select', req: true, opts: Users.roleOpts },
-      { k: 'poste', t: 'Poste' }, { k: 'tel', t: 'Téléphone', type: 'tel' },
-      { k: 'perso', t: 'Fiche personnel liée', type: 'select', opts: function () { return Opt.personnel(); } }
-    ];
+      { k: 'poste', t: 'Poste' }, { k: 'tel', t: 'Téléphone', type: 'tel' }
+    ].concat(Users.accesFields(false));
+    var dflt = { blocs: {} }; dflt.blocs[S.mode === 'bloc' ? S.bloc : 'A'] = true;
     UI.formModal({
-      title: 'Créer un compte', fields: fields, ok: 'Créer le compte',
+      title: 'Créer un gérant', size: 'l', fields: fields, values: dflt, ok: 'Créer le compte', check: Users.checkAcces,
       save: function (v) {
         v.ident = normIdent(v.ident);
+        var ac = Users.acces(v);
         return FB.get('t/' + S.tid + '/loginIndex/' + v.ident).then(function (ex) {
           if (ex) throw new Error('Cet identifiant est déjà utilisé dans votre entreprise.');
           var sa = FB.secondaryAuth(), email = authEmail(S.code, v.ident);
           return FB.withTimeout(sa.createUserWithEmailAndPassword(email, v.pwd), 20000, 'création du compte').then(function (c) {
             var uid = c.user.uid; try { sa.signOut(); } catch (x) {}
             var u = {};
-            u['t/' + S.tid + '/members/' + uid] = { ident: v.ident, nom: v.nom, role: v.role, actif: true, tel: v.tel || '', poste: v.poste || '', persoId: v.perso || null, creeLe: FB.TS(), creePar: S.user.uid };
+            u['t/' + S.tid + '/members/' + uid] = { ident: v.ident, nom: v.nom, role: ac.role, roles: ac.roles, blocs: ac.blocs, acl: ac.acl, actif: true, tel: v.tel || '', poste: v.poste || '', creeLe: FB.TS(), creePar: S.user.uid };
             u['t/' + S.tid + '/loginIndex/' + v.ident] = { e: email, uid: uid };
             u['tenants/' + S.tid + '/nbUsers'] = Users.countActive(1);
-            u['t/' + S.tid + '/audit/' + FB.newId()] = { ts: FB.TS(), uid: S.user.uid, nom: S.member.nom, action: 'Création du compte ' + v.ident + ' (' + App.roleName(v.role) + ')', objet: 'utilisateurs', ref: uid };
+            u['t/' + S.tid + '/audit/' + FB.newId()] = { ts: FB.TS(), uid: S.user.uid, nom: S.member.nom, action: 'Création du compte ' + v.ident + ' (' + App.rolesLabel(ac) + (ac.blocs ? ' — blocs ' + Object.keys(ac.blocs).join(', ') : '') + ')', objet: 'utilisateurs', ref: uid };
             return FB.withTimeout(FB.ref().update(u), 20000, 'enregistrement').then(function () { Users.credentials(v.nom, v.ident, v.pwd); });
           });
         });
@@ -3791,10 +4455,10 @@ var Users = {
     });
   },
   credentials: function (nom, ident, pwd) {
-    var txt = 'NEINDI ERP — ' + S.tenant.nom + '\nCode entreprise : ' + S.tenant.code + '\nIdentifiant : ' + ident + '\nMot de passe provisoire : ' + pwd + '\nLien : ' + location.origin + location.pathname + '?e=' + S.tenant.code;
+    var txt = APP.nom + ' — ' + S.tenant.nom + '\nCode de l\'atelier : ' + S.tenant.code + '\nIdentifiant : ' + ident + '\nMot de passe provisoire : ' + pwd + '\nLien : ' + location.origin + location.pathname + '?e=' + S.tenant.code;
     UI.modal({
       title: 'Compte prêt pour ' + nom, size: 's',
-      body: '<p>Transmettez ces informations à la personne. Le mot de passe ne sera plus affiché.</p>' + UI.kv([['Code entreprise', '<span class="code">' + esc(S.tenant.code) + '</span>'], ['Identifiant', '<span class="code">' + esc(ident) + '</span>'], ['Mot de passe', '<span class="code">' + esc(pwd) + '</span>']]) +
+      body: '<p>Transmettez ces informations à la personne. Le mot de passe ne sera plus affiché.</p>' + UI.kv([['Code de l\'atelier', '<span class="code">' + esc(S.tenant.code) + '</span>'], ['Identifiant', '<span class="code">' + esc(ident) + '</span>'], ['Mot de passe', '<span class="code">' + esc(pwd) + '</span>']]) +
         '<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(txt) + '">' + icon('whatsapp') + ' Envoyer par WhatsApp</a>',
       actions: [{ t: 'Terminé', act: 'x', cls: 'primary' }], onAct: function (a, b, m) { m.close(); }
     });
@@ -3802,22 +4466,29 @@ var Users = {
   edit: function (uid) {
     var m = S.members[uid]; if (!m) return;
     var isOwner = uid === S.tenant.owner;
+    var vals0 = Object.assign({}, m, { coproprio: m.role === 'proprietaire' });
+    if (!m.roles && m.role && m.role !== 'proprietaire') { vals0.roles = {}; vals0.roles[m.role] = true; }
+    if (!m.blocs && m.role !== 'proprietaire') vals0.blocs = { A: true };
     UI.formModal({
-      title: 'Modifier — ' + m.nom, values: m,
-      fields: [{ k: 'nom', t: 'Nom complet', req: true }, { k: 'role', t: 'Rôle', type: 'select', req: true, opts: Users.roleOpts, readonly: isOwner },
-        { k: 'poste', t: 'Poste' }, { k: 'tel', t: 'Téléphone', type: 'tel' },
-        { k: 'persoId', t: 'Fiche personnel liée', type: 'select', opts: function () { return Opt.personnel(); } },
-        { k: 'actif', t: 'Compte actif', type: 'checkbox', help: 'Un compte désactivé ne peut plus se connecter ; son historique est conservé.' }],
+      title: 'Modifier — ' + m.nom, size: 'l', values: vals0,
+      fields: [{ k: 'nom', t: 'Nom complet', req: true }, { k: 'poste', t: 'Poste' }, { k: 'tel', t: 'Téléphone', type: 'tel' },
+        { k: 'actif', t: 'Compte actif', type: 'checkbox', readonly: isOwner, help: 'Un compte désactivé ne peut plus se connecter ; son historique est conservé.' }].concat(isOwner ? [] : Users.accesFields(false)),
       check: function (v) {
-        if (isOwner && (v.role !== 'proprietaire' || !v.actif)) return 'Le propriétaire de l\'espace garde toujours son rôle et son accès.';
+        if (isOwner && !v.actif) return 'Le propriétaire de l\'atelier garde toujours son accès.';
+        if (!isOwner) { var c = Users.checkAcces(v); if (c) return c; }
+        if (!isOwner && m.role === 'proprietaire' && !isOwnerRole()) return 'Seul le propriétaire modifie un autre propriétaire.';
         var max = S.tenant.maxUsers; if (v.actif && !m.actif && max && Users.countActive() >= max) return 'Nombre maximal de comptes actifs atteint.';
       },
       save: function (v) {
-        var u = {};
-        ['nom', 'role', 'poste', 'tel', 'persoId', 'actif'].forEach(function (k) { u['t/' + S.tid + '/members/' + uid + '/' + k] = v[k] === undefined ? null : v[k]; });
-        var n = vals(S.members).filter(function (x) { return x.id === uid ? v.actif : x.actif; }).length;
+        var u = {}, P = 't/' + S.tid + '/members/' + uid + '/';
+        ['nom', 'poste', 'tel'].forEach(function (k) { u[P + k] = v[k] === undefined ? null : v[k]; });
+        u[P + 'actif'] = isOwner ? true : !!v.actif;
+        var ac = null;
+        if (!isOwner) { ac = Users.acces(v); u[P + 'role'] = ac.role; u[P + 'roles'] = ac.roles; u[P + 'blocs'] = ac.blocs; u[P + 'acl'] = ac.acl; }
+        var n = vals(S.members).filter(function (x) { return x.id === uid ? (isOwner || v.actif) : x.actif; }).length;
         u['tenants/' + S.tid + '/nbUsers'] = n;
-        u['t/' + S.tid + '/audit/' + FB.newId()] = { ts: FB.TS(), uid: S.user.uid, nom: S.member.nom, action: 'Modification du compte ' + m.ident, objet: 'utilisateurs', ref: uid, avant: { role: m.role, actif: !!m.actif }, apres: { role: v.role, actif: !!v.actif } };
+        u['t/' + S.tid + '/audit/' + FB.newId()] = { ts: FB.TS(), uid: S.user.uid, nom: S.member.nom, action: 'Modification du compte ' + m.ident, objet: 'utilisateurs', ref: uid,
+          avant: { roles: App.rolesLabel(m), blocs: memberBlocs(m).join(', '), actif: !!m.actif }, apres: ac ? { roles: App.rolesLabel(ac), blocs: ac.blocs ? Object.keys(ac.blocs).join(', ') : 'tous', actif: !!v.actif } : { actif: true } };
         return FB.withTimeout(FB.ref().update(u), 20000, 'enregistrement');
       }, okMsg: 'Compte modifié.'
     });
@@ -3851,12 +4522,12 @@ var Users = {
 view('parametres/roles', {
   mod: 'utilisateurs', title: 'Rôles et droits',
   render: function () {
-    var rows = Object.keys(S.roles).map(function (k) { var r = S.roles[k]; r.id = k; r.n = vals(S.members).filter(function (m) { return m.role === k && m.actif; }).length; return r; });
-    return pageHead('Rôles et droits', 'Le propriétaire a toujours tous les droits. Chaque rôle se règle module par module, action par action. Les droits sont aussi contrôlés par le serveur.',
+    var rows = Object.keys(S.roles).map(function (k) { var r = S.roles[k]; r.id = k; r.n = vals(S.members).filter(function (m) { return m.actif && memberRoleIds(m).indexOf(k) >= 0; }).length; r._o = ROLES_AGAT_ORDRE.indexOf(k) < 0 ? 99 : ROLES_AGAT_ORDRE.indexOf(k); return r; });
+    return pageHead('Rôles et droits', 'Le propriétaire a toujours tous les droits. Chaque rôle se règle module par module, action par action ; un gérant peut cumuler plusieurs rôles. Les droits sont aussi contrôlés par le serveur.',
       canBtn('utilisateurs', 'creer', icon('plus') + ' Nouveau rôle', 'new')) +
       UI.table({
-        id: 'roles', rows: rows, sort: 'nom',
-        cols: [{ k: 'nom', t: 'Rôle', f: function (r) { return '<strong>' + esc(r.nom) + '</strong>'; } },
+        id: 'roles', rows: rows, sort: '_o',
+        cols: [{ k: '_o', t: 'Rôle', f: function (r) { return '<strong>' + esc(r.nom) + '</strong>' + (r.desc ? '<br><small class="muted">' + esc(r.desc) + '</small>' : ''); } },
           { k: 'mods', t: 'Modules accessibles', nosort: true, f: function (r) { return MODULES.filter(function (m) { return r.r && r.r[m.k]; }).map(function (m) { return esc(m.n) + (r.w && r.w[m.k] ? '' : ' (lecture)'); }).join(', '); } },
           { k: 'f', t: 'Montants financiers', f: function (r) { return r.f ? 'Oui' : 'Non'; } },
           { k: 'n', t: 'Comptes', num: true }],
@@ -3884,6 +4555,7 @@ var Roles = {
     var grid = '<div class="tscroll"><table class="grid matrix"><thead><tr><th>Module</th>' + ACTIONS.map(function (a) { return '<th class="c">' + esc(a.n) + '</th>'; }).join('') + '</tr></thead><tbody>' +
       mods.map(function (m) {
         return '<tr><th scope="row">' + esc(m.n) + ' <button type="button" class="linkbtn small" data-rowall="' + m.k + '">tout</button></th>' + ACTIONS.map(function (a) {
+          if (!actionFor(m.k, a)) return '<td class="c muted">—</td>';
           return '<td class="c"><input type="checkbox" aria-label="' + attr(m.n + ' — ' + a.n) + '" data-pm="' + m.k + '" data-pa="' + a.k + '"' + (r.p[m.k] && r.p[m.k][a.k] ? ' checked' : '') + '></td>';
         }).join('') + '</tr>';
       }).join('') + '</tbody></table></div>';
@@ -3910,7 +4582,19 @@ var Roles = {
         Object.keys(p).forEach(function (mod) { if (p[mod].consulter) rr[mod] = true; if (WRITE_ACTIONS.some(function (a) { return p[mod][a]; })) ww[mod] = true; });
         var rid = id || normIdent(head.nom).replace(/\./g, '_').slice(0, 20) + '_' + randomCode(3).toLowerCase();
         var rec = { nom: head.nom, desc: head.desc || '', f: !!head.f, conf: !!head.conf, p: p, r: rr, w: ww, modele: r.modele || null };
-        runOp(btn, function () { var tx = new Tx('rôle'); tx.set('roles/' + rid, rec); tx.audit((id ? 'Modification' : 'Création') + ' du rôle ' + head.nom, 'utilisateurs', rid, { avant: id ? { r: S.roles[id].r || {}, w: S.roles[id].w || {} } : undefined, apres: { r: rr, w: ww } }); return tx.commit(); }, 'Rôle enregistré.')
+        if (id && S.members[S.user.uid] && memberRoleIds(S.member).indexOf(id) >= 0 && !isOwnerRole()) { UI.toast('Vous ne pouvez pas modifier un rôle que vous détenez.', 'err'); return; }
+        runOp(btn, function () {
+          var tx = new Tx('rôle'); tx.set('roles/' + rid, rec);
+          /* les droits recopiés sur la fiche de chaque personne qui a ce rôle sont recalculés */
+          var roles2 = Object.assign({}, S.roles); roles2[rid] = rec;
+          vals(S.members).forEach(function (m) {
+            var ids = memberRoleIds(m);
+            if (m.role === 'proprietaire' || ids.indexOf(rid) < 0) return;
+            tx.set('members/' + m.id + '/acl', aclFor(ids, roles2));
+          });
+          tx.audit((id ? 'Modification' : 'Création') + ' du rôle ' + head.nom, 'utilisateurs', rid, { avant: id ? { r: S.roles[id].r || {}, w: S.roles[id].w || {} } : undefined, apres: { r: rr, w: ww } });
+          return tx.commit();
+        }, 'Rôle enregistré.')
           .then(function (ok) { if (ok) m.close(); });
       }
     });
@@ -3925,12 +4609,12 @@ view('parametres/abonnement', {
     var j = t.finAcces ? Math.ceil((t.finAcces - now) / 86400000) : 0;
     var sup = (S.d.support && S.d.support.plateforme) || null;
     var supActif = sup && sup.fin > now;
-    var html = pageHead('Abonnement', 'État de votre accès à NEINDI ERP.') +
+    var html = pageHead('Abonnement', 'État de votre accès à ' + APP.nom + '.') +
       '<section class="card pad"><div class="two">' + UI.kv([['Formule', esc(t.offreNom || '—')], ['État', t.etat === 'essai' ? UI.badge("Période d'essai", 'info') : UI.badge('Actif', 'ok')],
         ['Accès jusqu\'au', fmtDate(isoDate(new Date(t.finAcces))) + ' — ' + plural(Math.max(0, j), 'jour') + ' restant' + (j > 1 ? 's' : '')],
         ['Comptes utilisateurs', (t.nbUsers || 0) + (t.maxUsers ? ' sur ' + t.maxUsers : '')], ['Module formation', t.off && t.off.formation ? 'Non inclus' : 'Inclus']]) +
       '<div>' + (isOwnerRole() ? '<p>Pour prolonger, payez la formule choisie puis déclarez votre paiement.</p><div class="row wrap">' + UI.btn('Déclarer un paiement', 'declarer', 'primary') : '<div class="row wrap">') +
-      '<a class="btn wa" target="_blank" rel="noopener" href="' + attr(Platform.waLink('Bonjour, je souhaite renouveler l\'abonnement NEINDI ERP de ' + t.nom + ' (' + t.code + ').')) + '">' + icon('whatsapp') + ' Contacter le support</a></div></div></div>' +
+      '<a class="btn wa" target="_blank" rel="noopener" href="' + attr(Platform.waLink('Bonjour, je souhaite renouveler l\'abonnement AGAT de ' + t.nom + ' (' + t.code + ').')) + '">' + icon('whatsapp') + ' Contacter le support</a></div></div></div>' +
       '<div id="ab-offres"></div></section>';
     if (isOwnerRole()) {
       html += '<section class="card pad"><h2>Accès de support</h2><p class="muted">Par défaut, l\'équipe de la plateforme ne voit aucune de vos données. Vous pouvez l\'autoriser à consulter votre espace en lecture seule, pour une durée limitée, afin de vous aider. Chaque consultation est enregistrée.</p>' +
@@ -5979,6 +6663,34 @@ view('ventes/factures', {
   }
 });
 
+/* ---------- Livraisons : le livreur voit ce qui est à livrer et confirme chaque remise ---------- */
+view('ventes/livraisons', {
+  mod: 'ventes', title: 'Livraisons',
+  need: ['stock/articles', 'stock/lots', 'ventes/clients', 'ventes/factures', 'ventes/livraisons'],
+  render: function () {
+    var liv = col('ventes/livraisons');
+    var rows = list('ventes/factures', function (f) { return f.statut === 'validee'; }).map(function (f) {
+      var l = liv[f.id] || null;
+      f._liv = l && l.statut === 'livree' ? 'livree' : 'a_livrer'; f._l = l; return f;
+    });
+    var aLivrer = rows.filter(function (f) { return f._liv === 'a_livrer'; });
+    return pageHead('Livraisons', 'Les ventes validées à remettre aux clients. Le livreur confirme chaque livraison : date, personne qui a reçu, lieu.') +
+      tiles([{ t: 'À livrer', v: aLivrer.length, tone: aLivrer.length ? 'warn' : '' }, { t: "Livrées aujourd'hui", v: rows.filter(function (f) { return f._l && f._l.date === today(); }).length }]) +
+      UI.table({
+        id: 'livs', rows: rows, sort: 'num', dir: -1,
+        filters: [{ k: '_liv', t: 'Livraison', opts: [['a_livrer', 'À livrer'], ['livree', 'Livrée']] }],
+        text: function (f) { return [f.num, clientName(f.client, f), (f.lignes || []).map(function (l) { return artName(l.art); }).join(' ')].join(' '); },
+        cols: [{ k: 'num', t: 'Facture', f: function (f) { return '<span class="code">' + esc(f.num) + '</span>'; } }, { k: 'date', t: 'Vendue le', f: function (f) { return fmtDate(f.date); } },
+          { k: 'client', t: 'Client', sv: function (f) { return clientName(f.client, f); }, f: function (f) { var c = clientOf(f.client); return esc(clientName(f.client, f)) + (c && c.tel ? '<br><small class="muted">' + esc(c.tel) + '</small>' : ''); } },
+          { k: 'art', t: 'À remettre', nosort: true, f: function (f) { return (f.lignes || []).map(function (l) { return esc(artName(l.art)) + ' : ' + fmtQ((l.q || 0) - (l.retourne || 0), artUnit(l.art)); }).join('<br>'); } },
+          { k: '_liv', t: 'État', f: function (f) { return statutBadge(f._liv) + (f._l ? '<br><small class="muted">' + fmtDate(f._l.date) + (f._l.recuPar ? ' — reçu par ' + esc(f._l.recuPar) : '') + (f._l.parNom ? ' — ' + esc(f._l.parNom) : '') + '</small>' : ''); } }],
+        actions: function (f) { return can('ventes', 'livrer') ? UI.btn(f._liv === 'livree' ? 'Modifier' : 'Marquer livrée', 'livrer', f._liv === 'livree' ? 'ghost sm' : 'primary sm', ' data-id="' + attr(f.id) + '" data-needs-net') : ''; },
+        empty: 'Aucune vente validée.'
+      });
+  },
+  acts: { livrer: function (id) { Ventes.livrer(id); } }
+});
+
 view('ventes/creances', {
   mod: 'ventes', title: 'Créances clients',
   need: ['ventes/clients', 'ventes/factures', 'finances/comptes'],
@@ -6031,6 +6743,26 @@ view('ventes/devis', {
    Opérations de vente
    ===================================================================== */
 var Ventes = {
+  livrer: function (id) {
+    var f = get('ventes/factures', id); if (!f) return;
+    var cur = get('ventes/livraisons', id) || {};
+    var c = clientOf(f.client) || {};
+    UI.formModal({
+      title: 'Livraison — ' + f.num, size: 's', values: Object.assign({ date: today(), lieu: c.adresse || '' }, cur),
+      intro: esc(clientName(f.client, f)) + ' — ' + (f.lignes || []).map(function (l) { return esc(artName(l.art)) + ' ' + fmtQ((l.q || 0) - (l.retourne || 0), artUnit(l.art)); }).join(', '),
+      fields: [{ k: 'date', t: 'Date de livraison', type: 'date', req: true }, { k: 'recuPar', t: 'Reçu par', req: true, ph: 'Nom de la personne qui a reçu' },
+        { k: 'lieu', t: 'Lieu de livraison' }, { k: 'obs', t: 'Observation', type: 'textarea', rows: 2 }],
+      ok: 'Confirmer la livraison',
+      save: function (v) {
+        var tx = new Tx('livraison');
+        tx.doc('ventes/livraisons', id, { statut: 'livree', facture: f.num, date: v.date, recuPar: v.recuPar, lieu: v.lieu || '', obs: v.obs || '', par: S.user.uid, parNom: S.member.nom, ts: FB.TS() });
+        tx.audit((cur.statut ? 'Modification de la livraison ' : 'Livraison de la facture ') + f.num, 'ventes', id, { avant: cur.statut ? { date: cur.date, recuPar: cur.recuPar } : undefined, apres: { date: v.date, recuPar: v.recuPar } });
+        return tx.commit();
+      },
+      okMsg: 'Livraison enregistrée.'
+    });
+  },
+
   editClient: function (id) {
     var cur = id ? strip(clientOf(id)) : {};
     return UI.formModal({
@@ -7719,7 +8451,7 @@ view('admin/audit', {
       UI.table({
         id: 'audit', rows: rows, sort: 'ts', dir: -1, pageSize: 50,
         filters: [{ k: 'objet', t: 'Module', opts: MODULES.map(function (m) { return [m.k, m.n]; }) }],
-        cols: [{ k: 'ts', t: 'Date et heure', f: function (a) { return fmtDateTime(a.ts); }, sv: function (a) { return a.ts || 0; } }, { k: 'nom', t: 'Utilisateur' }, { k: 'action', t: 'Action' },
+        cols: [{ k: 'ts', t: 'Date et heure', f: function (a) { return fmtDateTime(a.ts); }, sv: function (a) { return a.ts || 0; } }, { k: 'nom', t: 'Utilisateur' }, { k: 'bloc', t: 'Bloc', f: function (a) { return a.objet === 'plateforme' ? '—' : esc(a.bloc || 'A'); } }, { k: 'action', t: 'Action' },
           { k: 'detail', t: 'Avant → après', nosort: true, f: function (a) { return a.avant !== undefined || a.apres !== undefined ? '<small class="code">' + esc(JSON.stringify(a.avant === undefined ? null : a.avant)).slice(0, 160) + ' → ' + esc(JSON.stringify(a.apres === undefined ? null : a.apres)).slice(0, 160) + '</small>' : ''; } },
           { k: 'motif', t: 'Motif' }],
         empty: 'Aucune action enregistrée sur cette période.'
@@ -7733,20 +8465,28 @@ view('admin/audit', {
 view('admin/sauvegarde', {
   mod: 'admin', title: 'Sauvegarde',
   render: function () {
-    return pageHead('Sauvegarde', 'Téléchargez une copie complète des données de votre entreprise.') +
-      '<section class="card pad"><p>La sauvegarde contient toutes vos données (paramètres, stocks, mouvements, ventes, formations, finances, journal d\'audit) dans un fichier que vous conservez hors de la plateforme. Faites-en une au moins chaque semaine et gardez-la sur un autre appareil.</p>' +
-      (isOwnerRole() ? UI.btn(icon('download') + ' Télécharger la sauvegarde complète', 'backup', 'primary', ' data-needs-net') : '<p class="muted">Réservé au propriétaire de l\'espace.</p>') +
+    return pageHead('Sauvegarde', 'Téléchargez une copie complète des données de votre atelier, tous blocs compris.') +
+      '<section class="card pad"><p>La sauvegarde contient toutes vos données (paramètres, gérants, stocks, mouvements, ventes, formations, finances, journal d\'audit) de chacun des ' + plural(blocIdsAll().length, 'bloc') + ', dans un fichier que vous conservez hors de la plateforme. Faites-en une au moins chaque semaine et gardez-la sur un autre appareil.</p>' +
+      (isOwnerRole() ? UI.btn(icon('download') + ' Télécharger la sauvegarde complète', 'backup', 'primary', ' data-needs-net') : '<p class="muted">Réservé au propriétaire de l\'atelier.</p>') +
       (LS.get('nerp_derniere_sauvegarde_' + S.tid) ? '<p class="small muted">Dernière sauvegarde depuis cet appareil : ' + fmtDateTime(Number(LS.get('nerp_derniere_sauvegarde_' + S.tid))) + '</p>' : '') + '</section>';
   },
   acts: {
     backup: function (id, b) {
       runOp(b, function () {
         /* la base n'autorise la lecture que nœud par nœud : on les rassemble */
-        var nodes = ['info', 'params', 'roles', 'members', 'compteurs', 'audit', 'fichiers', 'support', 'd/parametres', 'd/stock', 'd/achats', 'd/teinture', 'd/production', 'd/qualite', 'd/ventes', 'd/formation', 'd/finances', 'd/admin'];
-        return Promise.all(nodes.map(function (n) { return FB.withTimeout(FB.tref(n).once('value'), 120000, 'sauvegarde').then(function (s) { return s.val(); }, function () { return null; }); })).then(function (vals) {
+        /* nœuds communs, puis les données de chaque bloc (BLOC A sous d, les autres sous blocs/X/d) */
+        var T = 't/' + S.tid + '/';
+        var mods = ['parametres', 'stock', 'achats', 'teinture', 'production', 'qualite', 'ventes', 'formation', 'finances', 'admin'];
+        var nodes = ['info', 'params', 'roles', 'members', 'compteurs', 'audit', 'fichiers', 'support', 'blocsInfo'].map(function (n) { return { p: T + n, put: function (d, v) { d[n] = v; } }; });
+        blocIdsAll().forEach(function (b) {
+          mods.forEach(function (m) {
+            nodes.push({ p: T + (b === 'A' ? 'd/' : 'blocs/' + b + '/d/') + m, put: function (d, v) { if (b === 'A') { d.d = d.d || {}; d.d[m] = v; } else { d.blocs = d.blocs || {}; d.blocs[b] = d.blocs[b] || { d: {} }; d.blocs[b].d[m] = v; } } });
+          });
+        });
+        return Promise.all(nodes.map(function (n) { return FB.withTimeout(FB.ref(n.p).once('value'), 120000, 'sauvegarde').then(function (s) { return s.val(); }, function () { return null; }); })).then(function (vals) {
           var data = { d: {} };
-          nodes.forEach(function (n, i) { if (vals[i] === null || vals[i] === undefined) return; if (n.indexOf('d/') === 0) data.d[n.slice(2)] = vals[i]; else data[n] = vals[i]; });
-          var out = { format: 'neindi-erp-sauvegarde', version: 1, entreprise: S.tenant.nom, code: S.tenant.code, date: new Date().toISOString(), donnees: data };
+          nodes.forEach(function (n, i) { if (vals[i] !== null && vals[i] !== undefined) n.put(data, vals[i]); });
+          var out = { format: 'agat-sauvegarde', version: 2, atelier: S.tenant.nom, code: S.tenant.code, blocs: blocIdsAll(), date: new Date().toISOString(), donnees: data };
           UI.download('sauvegarde-' + normIdent(S.tenant.nom).replace(/\./g, '-') + '-' + today() + '.json', 'application/json', JSON.stringify(out));
           LS.set('nerp_derniere_sauvegarde_' + S.tid, String(Date.now()));
           var tx = new Tx('audit'); tx.audit('Sauvegarde complète téléchargée', 'admin'); return tx.commit();
@@ -7760,7 +8500,7 @@ view('admin/sauvegarde', {
 view('compte', {
   mod: 'tableau', title: 'Mon espace', always: true,
   render: function () {
-    return UI.empty('Bienvenue ' + S.member.nom, "Votre rôle ne donne encore accès à aucun module. Demandez à l'administrateur de votre entreprise de vous attribuer les droits nécessaires.", UI.btn('Mon compte', 'moi', 'primary'));
+    return UI.empty('Bienvenue ' + S.member.nom, "Vos rôles ne donnent encore accès à aucun module de ce bloc. Demandez au propriétaire de l'atelier de vous attribuer les rôles nécessaires.", UI.btn('Mon compte', 'moi', 'primary'));
   },
   acts: { moi: function () { Account.menu(); } }
 });
@@ -7817,7 +8557,7 @@ view('compte', {
       return;
     }
     try { FB.init(); } catch (e) { console.error(e); sdkError(); return; }
-    Platform.load().then(function () { if (document.body.dataset.screen === 'scr-landing') Landing.render(($('#lnd-err') || {}).textContent); });
+    Platform.load().then(function () { if (document.body.dataset.screen === 'scr-landing') Landing.render(($('.home-msg') || {}).textContent); });
     FB.auth.onAuthStateChanged(function (user) {
       if (!booted) { booted = true; route(user); return; }
       if (!user && /scr-app|scr-concepteur|scr-blocked/.test(document.body.dataset.screen || '')) {

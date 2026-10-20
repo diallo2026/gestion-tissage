@@ -1,7 +1,7 @@
 {
-  "name": "NEINDI ERP — Production textile, commerce et formation",
-  "short_name": "NEINDI ERP",
-  "description": "Gestion intégrée : achats, teinture, tissage, ventes, formation et finances.",
+  "name": "AGAT — Gestion des ateliers de tissage",
+  "short_name": "AGAT",
+  "description": "Application de gestion des ateliers de tissage : achats, teinture, métiers, stock, ventes, caisse et formation.",
   "lang": "fr",
   "start_url": "./index.html",
   "scope": "./",

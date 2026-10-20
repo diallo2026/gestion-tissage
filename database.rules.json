@@ -1,0 +1,655 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "codes": {
+      "$code": {
+        ".read": true,
+        ".write": "(auth != null && !data.exists() && newData.isString() && (newData.parent().parent().child('tenants/'+newData.val()+'/owner').val() === auth.uid || (auth != null && root.child('platform/admins/'+auth.uid).exists())) && newData.parent().parent().child('tenants/'+newData.val()+'/code').val() === $code)"
+      }
+    },
+    "tenantsPub": {
+      "$tid": {
+        ".read": true,
+        ".write": "((auth != null && root.child('platform/admins/'+auth.uid).exists()) || (auth != null && !root.child('tenants/'+$tid).exists() && (newData.parent().parent().child('tenants/'+$tid+'/owner').val() === auth.uid || (auth != null && root.child('platform/admins/'+auth.uid).exists())) && newData.parent().parent().child('tenants/'+$tid+'/owner').exists()) || ((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true)))",
+        ".validate": "(newData.hasChildren(['nom','code']) && newData.child('etat').val() === newData.parent().parent().child('tenants/'+$tid+'/etat').val() && newData.child('finAcces').val() === newData.parent().parent().child('tenants/'+$tid+'/finAcces').val())"
+      }
+    },
+    "tenants": {
+      ".read": "(auth != null && root.child('platform/admins/'+auth.uid).exists())",
+      ".indexOn": [
+        "etat",
+        "code",
+        "fin"
+      ],
+      "$tid": {
+        ".read": "((auth != null && root.child('platform/admins/'+auth.uid).exists()) || (auth != null && root.child('t/'+$tid+'/members/'+auth.uid).exists()))",
+        ".write": "((auth != null && root.child('platform/admins/'+auth.uid).exists()) || (auth != null && !data.exists() && newData.child('owner').val() === auth.uid && newData.child('etat').val() === 'essai' && newData.child('fin').val() <= now + 7862400000 && newData.child('finAcces').val() === newData.child('fin').val() && newData.child('creeLe').val() === now && newData.child('maxUsers').isNumber() && newData.child('maxUsers').val() <= 10 && newData.parent().parent().child('codes/'+newData.child('code').val()).val() === $tid))",
+        "nbUsers": {
+          ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'utilisateurs').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'utilisateurs').val() === true))",
+          ".validate": "(newData.isNumber() && newData.val() >= 0 && (!root.child('tenants/'+$tid+'/maxUsers').exists() || newData.val() <= root.child('tenants/'+$tid+'/maxUsers').val()))"
+        },
+        "nom": {
+          ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true)) && newData.isString())"
+        },
+        "tel": {
+          ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true)))"
+        },
+        "email": {
+          ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true)))"
+        },
+        "ville": {
+          ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true)))"
+        }
+      }
+    },
+    "platform": {
+      "public": {
+        ".read": true,
+        ".write": "(auth != null && root.child('platform/admins/'+auth.uid).exists())"
+      },
+      "offres": {
+        ".read": true,
+        ".write": "(auth != null && root.child('platform/admins/'+auth.uid).exists())"
+      },
+      "admins": {
+        ".read": "(auth != null && root.child('platform/admins/'+auth.uid).exists())",
+        "$uid": {
+          ".read": "(auth != null && auth.uid === $uid)",
+          ".write": "(((auth != null && root.child('platform/admins/'+auth.uid).exists()) && (newData.exists() || $uid !== auth.uid)) || (auth != null && $uid === auth.uid && !root.child('platform/admins').exists() && newData.child('cle').val() === 'NERP-R82BV-93QT1-I7B8S'))",
+          ".validate": "newData.hasChildren(['email','depuis'])"
+        }
+      },
+      "paiements": {
+        ".read": "(auth != null && root.child('platform/admins/'+auth.uid).exists())",
+        ".write": "(auth != null && root.child('platform/admins/'+auth.uid).exists())",
+        ".indexOn": [
+          "tid",
+          "date"
+        ]
+      },
+      "declarations": {
+        ".read": "(auth != null && root.child('platform/admins/'+auth.uid).exists())",
+        ".indexOn": [
+          "tid",
+          "statut"
+        ],
+        "$id": {
+          ".read": "(auth != null && data.child('par').val() === auth.uid)",
+          ".write": "((auth != null && root.child('platform/admins/'+auth.uid).exists()) || (auth != null && !data.exists() && newData.child('par').val() === auth.uid && root.child('t/'+newData.child('tid').val()+'/members/'+auth.uid+'/actif').val() === true && newData.child('statut').val() === 'attente'))"
+        }
+      },
+      "journal": {
+        ".read": "(auth != null && root.child('platform/admins/'+auth.uid).exists())",
+        "$id": {
+          ".write": "((auth != null && root.child('platform/admins/'+auth.uid).exists()) && !data.exists())"
+        }
+      },
+      "compteurs": {
+        ".read": "(auth != null && root.child('platform/admins/'+auth.uid).exists())",
+        ".write": "(auth != null && root.child('platform/admins/'+auth.uid).exists())"
+      }
+    },
+    "t": {
+      "$tid": {
+        "members": {
+          ".read": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid).exists()) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+          "$uid": {
+            ".write": "(((auth != null && !root.child('tenants/'+$tid).exists() && (newData.parent().parent().parent().parent().child('tenants/'+$tid+'/owner').val() === auth.uid || (auth != null && root.child('platform/admins/'+auth.uid).exists())) && newData.parent().parent().parent().parent().child('tenants/'+$tid+'/owner').exists()) && ($uid === auth.uid || (auth != null && root.child('platform/admins/'+auth.uid).exists())) && newData.child('role').val() === 'proprietaire') || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('tenants/'+$tid).exists() && ($uid === newData.parent().parent().parent().parent().child('tenants/'+$tid+'/owner').val() || data.child('role').val() === 'proprietaire')) || ((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'utilisateurs').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'utilisateurs').val() === true) && ($uid !== auth.uid || (auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid)) && (newData.child('role').val() !== 'proprietaire' || (auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid)) && (data.child('role').val() !== 'proprietaire' || (auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid)) && (newData.exists() || $uid !== root.child('tenants/'+$tid+'/owner').val())))",
+            ".validate": "(newData.hasChildren(['ident','nom','role','actif']) && ($uid !== newData.parent().parent().parent().parent().child('tenants/'+$tid+'/owner').val() || newData.child('role').val() === 'proprietaire' && newData.child('actif').val() === true))"
+          }
+        },
+        "loginIndex": {
+          "$ident": {
+            ".read": true,
+            ".write": "((auth != null && !root.child('tenants/'+$tid).exists() && (newData.parent().parent().parent().parent().child('tenants/'+$tid+'/owner').val() === auth.uid || (auth != null && root.child('platform/admins/'+auth.uid).exists())) && newData.parent().parent().parent().parent().child('tenants/'+$tid+'/owner').exists()) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('tenants/'+$tid).exists() && newData.child('uid').val() === newData.parent().parent().parent().parent().child('tenants/'+$tid+'/owner').val()) || ((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'utilisateurs').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'utilisateurs').val() === true) && (data.child('uid').val() !== root.child('tenants/'+$tid+'/owner').val() || (auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid))))",
+            ".validate": "newData.hasChildren(['e','uid'])"
+          }
+        },
+        "roles": {
+          ".read": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid).exists()) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+          "$rid": {
+            ".write": "((auth != null && !root.child('tenants/'+$tid).exists() && (newData.parent().parent().parent().parent().child('tenants/'+$tid+'/owner').val() === auth.uid || (auth != null && root.child('platform/admins/'+auth.uid).exists())) && newData.parent().parent().parent().parent().child('tenants/'+$tid+'/owner').exists()) || ((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'utilisateurs').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'utilisateurs').val() === true) && $rid !== 'proprietaire'))"
+          }
+        },
+        "info": {
+          ".read": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid).exists()) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+          ".write": "((auth != null && !root.child('tenants/'+$tid).exists() && (newData.parent().parent().parent().child('tenants/'+$tid+'/owner').val() === auth.uid || (auth != null && root.child('platform/admins/'+auth.uid).exists())) && newData.parent().parent().parent().child('tenants/'+$tid+'/owner').exists()) || ((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true)))"
+        },
+        "params": {
+          ".read": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid).exists()) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+          ".write": "((auth != null && !root.child('tenants/'+$tid).exists() && (newData.parent().parent().parent().child('tenants/'+$tid+'/owner').val() === auth.uid || (auth != null && root.child('platform/admins/'+auth.uid).exists())) && newData.parent().parent().parent().child('tenants/'+$tid+'/owner').exists()) || ((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true)))"
+        },
+        "compteurs": {
+          ".read": "(auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true)",
+          "$k": {
+            ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now))",
+            ".validate": "(newData.isNumber() && (!data.exists() && newData.val() >= 1 || data.exists() && newData.val() === data.val() + 1))"
+          }
+        },
+        "audit": {
+          ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'admin').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'admin').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+          ".indexOn": [
+            "ts",
+            "uid",
+            "objet"
+          ],
+          "$id": {
+            ".write": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && !data.exists() && newData.child('uid').val() === auth.uid) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && !data.exists() && newData.child('uid').val() === auth.uid && newData.child('objet').val() === 'plateforme'))",
+            ".validate": "newData.hasChildren(['ts','uid','action']) && newData.child('ts').val() === now"
+          }
+        },
+        "support": {
+          ".read": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid).exists()) || (auth != null && root.child('platform/admins/'+auth.uid).exists()))",
+          "plateforme": {
+            ".write": "(auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid)"
+          }
+        },
+        "supportLog": {
+          ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'admin').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'admin').val() === true)) || (auth != null && root.child('platform/admins/'+auth.uid).exists()))",
+          "$id": {
+            ".write": "(((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now) && !data.exists())"
+          }
+        },
+        "fichiers": {
+          ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+          "$id": {
+            ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (!data.exists() || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true) || data.child('par').val() === auth.uid))",
+            ".validate": "newData.hasChildren(['data','par']) && newData.child('data').isString() && newData.child('data').val().length < 700000"
+          }
+        },
+        "d": {
+          "$mod": {
+            ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+$mod).val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+$mod).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+$mod).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+            "$col": {
+              ".indexOn": [
+                "date",
+                "statut",
+                "num"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+$mod).val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+$mod).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+$mod).val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+              }
+            }
+          },
+          "parametres": {
+            ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'parametres').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'parametres').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+            "personnel": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true) && newData.exists())"
+              }
+            },
+            "$col": {
+              ".indexOn": [
+                "date",
+                "statut",
+                "num"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'parametres').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+              }
+            }
+          },
+          "stock": {
+            ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'stock').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'stock').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+            "articles": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              ".indexOn": [
+                "code",
+                "nature"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && newData.exists() && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true)) && (newData.child('negOk').val() !== true || data.child('negOk').val() === true || (auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid)))"
+              }
+            },
+            "lots": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              ".indexOn": [
+                "art",
+                "statutQ",
+                "num"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && newData.exists() && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'qualite').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'qualite').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+newData.child('src').val()).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+newData.child('src').val()).val() === true)))"
+              }
+            },
+            "soldes": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              "$a": {
+                "$l": {
+                  "$e": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'teinture').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'teinture').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'qualite').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'qualite').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'ventes').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'formation').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'formation').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true)))",
+                    ".validate": "(newData.child('q').isNumber() && (newData.child('q').val() >= 0 || root.child('t/'+$tid+'/d/'+'stock/articles/'+$a+'/negOk').val() === true))"
+                  }
+                }
+              }
+            },
+            "mvts": {
+              ".indexOn": [
+                "art",
+                "date",
+                "lot",
+                "ts"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && !data.exists() && newData.child('par').val() === auth.uid && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+newData.child('src').val()).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+newData.child('src').val()).val() === true)))",
+                ".validate": "(newData.hasChildren(['art','q','type','date','src','ts','par']) && newData.child('q').isNumber() && newData.child('q').val() > 0 && newData.child('ts').val() === now)"
+              }
+            },
+            "$col": {
+              ".indexOn": [
+                "date",
+                "statut",
+                "num"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'stock').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+              }
+            }
+          },
+          "achats": {
+            ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'achats').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'achats').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+            "fournisseurs": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) && newData.exists())"
+              }
+            },
+            "$col": {
+              ".indexOn": [
+                "date",
+                "statut",
+                "num"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'achats').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+              }
+            }
+          },
+          "production": {
+            ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'production').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'production').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+            "modeles": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) && newData.exists())"
+              }
+            },
+            "metiers": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) && newData.exists())"
+              }
+            },
+            "$col": {
+              ".indexOn": [
+                "date",
+                "statut",
+                "num"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'production').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+              }
+            }
+          },
+          "ventes": {
+            ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'ventes').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'ventes').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+            "clients": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'ventes').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'formation').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'formation').val() === true)) && newData.exists())"
+              }
+            },
+            "$col": {
+              ".indexOn": [
+                "date",
+                "statut",
+                "num"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'ventes').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'ventes').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+              }
+            }
+          },
+          "finances": {
+            ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'finances').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'finances').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+            "comptes": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true) && newData.exists())"
+              }
+            },
+            "soldes": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'finances').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'finances').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              "$c": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'teinture').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'teinture').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'qualite').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'qualite').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'ventes').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'formation').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'formation').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true)))",
+                ".validate": "newData.isNumber()"
+              }
+            },
+            "ops": {
+              ".indexOn": [
+                "date",
+                "compte",
+                "mois",
+                "src",
+                "ts"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && !data.exists() && newData.child('par').val() === auth.uid && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+newData.child('src').val()).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+newData.child('src').val()).val() === true)))",
+                ".validate": "(newData.hasChildren(['compte','sens','montant','date','mois','src','ts','par']) && newData.child('montant').isNumber() && newData.child('montant').val() > 0 && (newData.child('sens').val() === 'e' || newData.child('sens').val() === 's') && newData.child('ts').val() === now && !root.child('t/'+$tid+'/d/'+'finances/clotures/'+newData.child('mois').val()).exists())"
+              }
+            },
+            "depenses": {
+              ".indexOn": [
+                "date",
+                "statut",
+                "num",
+                "imput"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && newData.exists() && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+newData.child('src').val()).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+newData.child('src').val()).val() === true)))"
+              }
+            },
+            "clotures": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              "$m": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true) && (!data.exists() || (auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid)))"
+              }
+            },
+            "imputations": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              "$x": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'teinture').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'teinture').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'qualite').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'qualite').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'ventes').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'formation').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'formation').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true)))"
+              }
+            },
+            "$col": {
+              ".indexOn": [
+                "date",
+                "statut",
+                "num"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'finances').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+              }
+            }
+          },
+          "admin": {
+            ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'admin').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'admin').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'admin').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+            "validations": {
+              ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists())) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+              ".indexOn": [
+                "statut",
+                "date",
+                "par"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && ((!data.exists() && newData.child('par').val() === auth.uid && newData.child('statut').val() === 'attente') || (!data.exists() && newData.child('par').val() === auth.uid && newData.child('statut').val() === 'approuvee' && root.child('t/'+$tid+'/params/regles/validateurUnique').val() === true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/p/'+newData.child('module').val()+'/valider').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('v/'+newData.child('module').val()).val() === true)) || (data.exists() && newData.exists() && data.child('par').val() === auth.uid && newData.child('statut').val() === 'annulee' && data.child('statut').val() === 'attente') || (data.exists() && newData.exists() && data.child('statut').val() === 'attente' && (data.child('par').val() !== auth.uid || root.child('t/'+$tid+'/params/regles/validateurUnique').val() === true) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/p/'+data.child('module').val()+'/valider').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('v/'+data.child('module').val()).val() === true))))"
+              }
+            },
+            "$col": {
+              ".indexOn": [
+                "date",
+                "statut",
+                "num"
+              ],
+              "$id": {
+                ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child('A').val() === true || !root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').exists()) && root.child('tenants/'+$tid+'/off/'+'admin').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'admin').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'admin').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+              }
+            }
+          }
+        },
+        "blocsInfo": {
+          ".read": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid).exists()) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+          "$bloc": {
+            ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && ((auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid) || root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire') && newData.exists())",
+            ".validate": "(newData.hasChildren(['nom']) && newData.child('nom').isString() && ($bloc === 'A' || ($bloc === 'B' && (!root.child('tenants/'+$tid+'/maxBlocs').exists() || root.child('tenants/'+$tid+'/maxBlocs').val() >= 2)) || ($bloc === 'C' && (!root.child('tenants/'+$tid+'/maxBlocs').exists() || root.child('tenants/'+$tid+'/maxBlocs').val() >= 3)) || ($bloc === 'D' && root.child('tenants/'+$tid+'/maxBlocs').val() >= 4) || ($bloc === 'E' && root.child('tenants/'+$tid+'/maxBlocs').val() >= 5) || ($bloc === 'F' && root.child('tenants/'+$tid+'/maxBlocs').val() >= 6) || ($bloc === 'G' && root.child('tenants/'+$tid+'/maxBlocs').val() >= 7) || ($bloc === 'H' && root.child('tenants/'+$tid+'/maxBlocs').val() >= 8) || ($bloc === 'I' && root.child('tenants/'+$tid+'/maxBlocs').val() >= 9) || ($bloc === 'J' && root.child('tenants/'+$tid+'/maxBlocs').val() >= 10)))"
+          }
+        },
+        "blocs": {
+          "$bloc": {
+            "d": {
+              "$mod": {
+                ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && root.child('tenants/'+$tid+'/off/'+$mod).val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+$mod).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+$mod).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                "$col": {
+                  ".indexOn": [
+                    "date",
+                    "statut",
+                    "num"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && root.child('tenants/'+$tid+'/off/'+$mod).val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+$mod).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+$mod).val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+                  }
+                }
+              },
+              "parametres": {
+                ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && root.child('tenants/'+$tid+'/off/'+'parametres').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'parametres').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                "personnel": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true) && newData.exists())"
+                  }
+                },
+                "$col": {
+                  ".indexOn": [
+                    "date",
+                    "statut",
+                    "num"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && root.child('tenants/'+$tid+'/off/'+'parametres').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'parametres').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'parametres').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+                  }
+                }
+              },
+              "stock": {
+                ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && root.child('tenants/'+$tid+'/off/'+'stock').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'stock').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                "articles": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  ".indexOn": [
+                    "code",
+                    "nature"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && newData.exists() && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true)) && (newData.child('negOk').val() !== true || data.child('negOk').val() === true || (auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid)))"
+                  }
+                },
+                "lots": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  ".indexOn": [
+                    "art",
+                    "statutQ",
+                    "num"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && newData.exists() && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'qualite').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'qualite').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+newData.child('src').val()).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+newData.child('src').val()).val() === true)))"
+                  }
+                },
+                "soldes": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  "$a": {
+                    "$l": {
+                      "$e": {
+                        ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'teinture').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'teinture').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'qualite').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'qualite').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'ventes').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'formation').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'formation').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true)))",
+                        ".validate": "(newData.child('q').isNumber() && (newData.child('q').val() >= 0 || root.child('t/'+$tid+'/blocs/'+$bloc+'/d/'+'stock/articles/'+$a+'/negOk').val() === true))"
+                      }
+                    }
+                  }
+                },
+                "mvts": {
+                  ".indexOn": [
+                    "art",
+                    "date",
+                    "lot",
+                    "ts"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && !data.exists() && newData.child('par').val() === auth.uid && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+newData.child('src').val()).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+newData.child('src').val()).val() === true)))",
+                    ".validate": "(newData.hasChildren(['art','q','type','date','src','ts','par']) && newData.child('q').isNumber() && newData.child('q').val() > 0 && newData.child('ts').val() === now)"
+                  }
+                },
+                "$col": {
+                  ".indexOn": [
+                    "date",
+                    "statut",
+                    "num"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && root.child('tenants/'+$tid+'/off/'+'stock').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+                  }
+                }
+              },
+              "achats": {
+                ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && root.child('tenants/'+$tid+'/off/'+'achats').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'achats').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                "fournisseurs": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) && newData.exists())"
+                  }
+                },
+                "$col": {
+                  ".indexOn": [
+                    "date",
+                    "statut",
+                    "num"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && root.child('tenants/'+$tid+'/off/'+'achats').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+                  }
+                }
+              },
+              "production": {
+                ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && root.child('tenants/'+$tid+'/off/'+'production').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'production').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                "modeles": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) && newData.exists())"
+                  }
+                },
+                "metiers": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) && newData.exists())"
+                  }
+                },
+                "$col": {
+                  ".indexOn": [
+                    "date",
+                    "statut",
+                    "num"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && root.child('tenants/'+$tid+'/off/'+'production').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+                  }
+                }
+              },
+              "ventes": {
+                ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && root.child('tenants/'+$tid+'/off/'+'ventes').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'ventes').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                "clients": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'ventes').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'formation').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'formation').val() === true)) && newData.exists())"
+                  }
+                },
+                "$col": {
+                  ".indexOn": [
+                    "date",
+                    "statut",
+                    "num"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && root.child('tenants/'+$tid+'/off/'+'ventes').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'ventes').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+                  }
+                }
+              },
+              "finances": {
+                ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && root.child('tenants/'+$tid+'/off/'+'finances').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'finances').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                "comptes": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true) && newData.exists())"
+                  }
+                },
+                "soldes": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && root.child('tenants/'+$tid+'/off/'+'finances').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'finances').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  "$c": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'teinture').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'teinture').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'qualite').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'qualite').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'ventes').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'formation').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'formation').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true)))",
+                    ".validate": "newData.isNumber()"
+                  }
+                },
+                "ops": {
+                  ".indexOn": [
+                    "date",
+                    "compte",
+                    "mois",
+                    "src",
+                    "ts"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && !data.exists() && newData.child('par').val() === auth.uid && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+newData.child('src').val()).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+newData.child('src').val()).val() === true)))",
+                    ".validate": "(newData.hasChildren(['compte','sens','montant','date','mois','src','ts','par']) && newData.child('montant').isNumber() && newData.child('montant').val() > 0 && (newData.child('sens').val() === 'e' || newData.child('sens').val() === 's') && newData.child('ts').val() === now && !root.child('t/'+$tid+'/blocs/'+$bloc+'/d/'+'finances/clotures/'+newData.child('mois').val()).exists())"
+                  }
+                },
+                "depenses": {
+                  ".indexOn": [
+                    "date",
+                    "statut",
+                    "num",
+                    "imput"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && newData.exists() && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+newData.child('src').val()).val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+newData.child('src').val()).val() === true)))"
+                  }
+                },
+                "clotures": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  "$m": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true) && (!data.exists() || (auth != null && root.child('tenants/'+$tid+'/owner').val() === auth.uid)))"
+                  }
+                },
+                "imputations": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  "$x": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && ((root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'stock').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'stock').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'achats').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'achats').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'teinture').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'teinture').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'production').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'production').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'qualite').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'qualite').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'ventes').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'ventes').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'formation').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'formation').val() === true) || (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true)))"
+                  }
+                },
+                "$col": {
+                  ".indexOn": [
+                    "date",
+                    "statut",
+                    "num"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && root.child('tenants/'+$tid+'/off/'+'finances').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'finances').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'finances').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+                  }
+                }
+              },
+              "admin": {
+                ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && root.child('tenants/'+$tid+'/off/'+'admin').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/r/'+'admin').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('r/'+'admin').val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                "validations": {
+                  ".read": "(((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true)) || ((auth != null && root.child('platform/admins/'+auth.uid).exists()) && root.child('t/'+$tid+'/support/plateforme/fin').val() > now))",
+                  ".indexOn": [
+                    "statut",
+                    "date",
+                    "par"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && ((!data.exists() && newData.child('par').val() === auth.uid && newData.child('statut').val() === 'attente') || (!data.exists() && newData.child('par').val() === auth.uid && newData.child('statut').val() === 'approuvee' && root.child('t/'+$tid+'/params/regles/validateurUnique').val() === true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/p/'+newData.child('module').val()+'/valider').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('v/'+newData.child('module').val()).val() === true)) || (data.exists() && newData.exists() && data.child('par').val() === auth.uid && newData.child('statut').val() === 'annulee' && data.child('statut').val() === 'attente') || (data.exists() && newData.exists() && data.child('statut').val() === 'attente' && (data.child('par').val() !== auth.uid || root.child('t/'+$tid+'/params/regles/validateurUnique').val() === true) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/p/'+data.child('module').val()+'/valider').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('v/'+data.child('module').val()).val() === true))))"
+                  }
+                },
+                "$col": {
+                  ".indexOn": [
+                    "date",
+                    "statut",
+                    "num"
+                  ],
+                  "$id": {
+                    ".write": "((auth != null && root.child('t/'+$tid+'/members/'+auth.uid+'/actif').val() === true) && ((root.child('tenants/'+$tid+'/etat').val() === 'essai' || root.child('tenants/'+$tid+'/etat').val() === 'actif') && root.child('tenants/'+$tid+'/finAcces').val() > now) && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/members/'+auth.uid+'/blocs').child($bloc).val() === true) && ($bloc !== 'A' && root.child('t/'+$tid+'/blocsInfo/'+$bloc).exists()) && root.child('tenants/'+$tid+'/off/'+'admin').val() !== true && (root.child('t/'+$tid+'/members/'+auth.uid+'/role').val() === 'proprietaire' || root.child('t/'+$tid+'/roles/'+root.child('t/'+$tid+'/members/'+auth.uid+'/role').val()+'/w/'+'admin').val() === true || root.child('t/'+$tid+'/members/'+auth.uid+'/acl').child('w/'+'admin').val() === true) && (newData.exists() || data.child('statut').val() === 'brouillon'))"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
