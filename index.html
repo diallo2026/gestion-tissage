@@ -730,6 +730,83 @@ button.cat-card { cursor: pointer; } button.cat-card:hover { border-color: var(-
   .cc-main { padding: 14px 12px; }
   h1 { font-size: 1.35rem; }
 }
+/* ---------- barre de recherche du produit : suggestions ---------- */
+.ac { position: relative; }
+.ac-list { position: absolute; left: 0; right: 0; top: 100%; margin-top: 4px; z-index: 40; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-l); box-shadow: 0 14px 34px rgba(16, 22, 58, .18); max-height: min(360px, 55vh); overflow-y: auto; padding: 4px; }
+.ac-i { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; width: 100%; text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: var(--r); font: inherit; color: var(--ink); cursor: pointer; }
+.ac-i small { color: var(--ink-3); font-size: 12.5px; }
+.ac-i.on, .ac-i:hover { background: var(--vat-50); }
+.ac-i:disabled { opacity: .5; cursor: default; background: none; }
+.ac-g { padding: 8px 10px 4px; font-size: 11.5px; font-weight: 650; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; border-top: 1px solid var(--line-2); margin-top: 4px; }
+.ac-e { padding: 10px 12px; color: var(--ink-3); font-size: 13.5px; }
+
+/* ---------- catalogue : calcul de modèle, plan de teinture, retouche des photos ---------- */
+.mc-modal .modal.xl { max-width: 1260px; }
+.mc { display: grid; grid-template-columns: minmax(300px, 410px) minmax(0, 1fr); gap: 18px; align-items: start; }
+.mc-g { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.mc-cv { position: relative; background: var(--line-2); border-radius: var(--r-l); min-height: 170px; display: grid; place-items: center; overflow: hidden; }
+.mc-img { display: block; width: 100%; height: auto; }
+.mc-vide { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--ink-3); padding: 26px 18px; text-align: center; font-size: 14px; }
+.mc-vide svg.ic { width: 34px; height: 34px; }
+.mc-barre { display: block; width: 100%; height: 28px; margin-top: 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); }
+.mc-src { margin-top: 8px; }
+.mc-src .cat-th.on { outline: 2px solid var(--vat); outline-offset: 1px; }
+.mc-src select { width: auto; min-height: 34px; padding: 5px 9px; font-size: 13.5px; }
+.mc-info { margin: 6px 0 0; font-size: 13px; }
+.mc-par { align-content: start; gap: 10px 12px; }
+.mc-par .fld small { font-size: 12px; }
+.mc-r { min-width: 0; }
+.mc-r .tiles { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.mc-s h3 { display: flex; gap: 8px; align-items: center; margin: 0 0 8px; font-size: 1.02rem; }
+.mc-s p { margin: 0 0 8px; }
+.mc-s .tscroll { margin: 4px 0 8px; }
+.mc-ol { margin: 0 0 10px; padding-left: 22px; display: grid; gap: 6px; }
+.mc-bt td { vertical-align: middle; }
+.mc-bt select { width: auto; max-width: 160px; min-height: 32px; padding: 4px 6px; font-size: 13.5px; }
+.mc-n { width: 72px; min-height: 32px; padding: 4px 6px; text-align: right; }
+.mc-lis td { background: #fbf6ea; }
+.mc-bb { margin-top: 8px; }
+.mc-seg { display: inline-flex; flex-direction: column; width: 14px; height: 14px; border-radius: 3px; overflow: hidden; border: 1px solid rgba(0, 0, 0, .18); vertical-align: -2px; }
+.mc-seg i { display: block; min-height: 1px; }
+.sw.big { width: 18px; height: 18px; vertical-align: -4px; }
+.mc-ap { display: block; width: 100%; height: auto; border-radius: var(--r); border: 1px solid var(--line); image-rendering: pixelated; }
+.mc-al { cursor: default; background: var(--vat-50); border-color: #c9d3f0; color: var(--ink); margin: 0 0 14px; }
+.mc-tp { align-items: end; margin-bottom: 12px; }
+.mc-li { margin-bottom: 6px; } .mc-li select { flex: 2; } .mc-li input { flex: 1; }
+.tp-c .row .fld { flex: 1 1 220px; }
+.tp-g { border-top: 1px solid var(--line-2); padding-top: 10px; margin-top: 10px; }
+.tp-g h4 { margin: 0 0 4px; font-size: .95rem; }
+.tp-zones { display: flex; height: 18px; border-radius: 4px; overflow: hidden; border: 1px solid var(--line); margin: 6px 0; }
+.tp-zones i { display: block; }
+.sp-l { display: block; text-align: left; font-size: 14px; line-height: 1.55; }
+.btn.del { color: var(--err); }
+.btn.del:hover { background: var(--err-50); border-color: #e7c2c2; }
+.rt { display: grid; grid-template-columns: minmax(0, 1fr) 350px; gap: 18px; align-items: start; }
+.rt-v { min-width: 0; }
+.rt-stage { position: relative; display: grid; place-items: center; min-height: 280px; padding: 12px; border-radius: var(--r-l); background: repeating-conic-gradient(#e9ebf2 0 25%, #f6f7fb 0 50%) 0 0 / 20px 20px; }
+.rt-stage canvas { max-width: 100%; height: auto; box-shadow: 0 6px 22px rgba(20, 27, 61, .2); touch-action: none; cursor: grab; }
+.rt-stage canvas:active { cursor: grabbing; }
+.rt-stage .mc-vide { position: absolute; inset: 0; justify-content: center; }
+.rt-hint { margin: 6px 0 0; }
+.rt-p { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.rt-d { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--surface); }
+.rt-d summary { padding: 10px 14px; font-weight: 650; cursor: pointer; }
+.rt-db { padding: 0 14px 14px; display: flex; flex-direction: column; gap: 10px; }
+.rt-sl { display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: var(--ink-2); }
+.rt-sl span { display: flex; justify-content: space-between; gap: 8px; }
+.rt-sl output { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; }
+.rt-sl input[type=range] { min-height: 0; padding: 0; border: 0; background: none; accent-color: var(--vat); }
+.rt-seg { display: flex; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.rt-seg button { flex: 1; padding: 8px 6px; border: 0; background: var(--surface); font: 500 13.5px var(--font); color: var(--ink); cursor: pointer; }
+.rt-seg button.on { background: var(--vat); color: #fff; }
+.rt-f { display: flex; flex-wrap: wrap; gap: 6px; }
+.rt-f button { padding: 6px 12px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 500 13px var(--font); cursor: pointer; }
+.rt-f button.on { background: var(--vat); border-color: var(--vat); color: #fff; }
+@media (max-width: 900px) {
+  .mc, .rt { grid-template-columns: minmax(0, 1fr); }
+  .rt-stage { min-height: 220px; }
+}
+
 @media print {
   .side, .topbar, .banner, .tabs, .ttools, .pager, .btn, .ibtn, #toasts { display: none !important; }
   .maincol { margin: 0; } .main { padding: 0; }
@@ -763,7 +840,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261026-1900';
+NERP.build = '20261026-2330';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -5078,10 +5155,10 @@ function ptArrivees(p) {
 /* depuis quand le produit attend une vente : sa dernière vente, sinon son arrivée */
 function ptAttente(a, last, arr) { return last[a.id] || arr[a.id] || ''; }
 function ptEstDormant(a, last, arr, t, dj) { var d = ptAttente(a, last, arr); return !d || daysBetween(d, t) > dj; }
-/* les produits d'une partie : ses natures, ce qui y est en stock, ce qui y a un seuil */
+/* les produits d'une partie : ses natures, ceux créés dans la partie, ce qui y est en stock, ce qui y a un seuil */
 function ptProduits(p) {
   var P = partieOf(p) || {}, nat = P.natures || [], seuils = col(p + '/seuils');
-  return list('stock/articles', function (a) { return !a.archive && (nat.indexOf(a.nature) >= 0 || !!seuils[a.id] || ptStock(p, a.id).q > 0); });
+  return list('stock/articles', function (a) { return !a.archive && (nat.indexOf(a.nature) >= 0 || a.partie === p || !!seuils[a.id] || ptStock(p, a.id).q > 0); });
 }
 function ptPrixVente(art) { return prixTarif(art, 'detail', 'm') || 0; }
 function ptPrixAchat(art) { var a = articleOf(art) || {}; return a.prixRef || Math.round(cump(art)) || 0; }
@@ -5897,7 +5974,6 @@ var Pt = {
     if (!modes.length) return UI.empty('Saisie impossible', "Vos rôles ne permettent ni de vendre ni de faire entrer du stock dans ce bloc.");
     if (!R.mode || !modes.some(function (x) { return x[0] === R.mode; })) R.mode = modes[0][0];
     var vente = R.mode === 'vente', a = f.art ? articleOf(f.art) : null, s = a ? ptStock(p, a.id) : null;
-    var prods = ptProduits(p).filter(function (x) { return vente ? ptStock(p, x.id).q > 0 : true; }).sort(byKey('nom'));
     var lots = a && vente ? Pt.lotsVente(p, a.id) : [];
     if (vente && a && lots.length && !lots.some(function (l) { return l.v === f.lot; })) f.lot = lots[0].v;
     var pu = f.pu !== undefined && f.pu !== null ? f.pu : a ? (vente ? ptPrixVente(a.id) : ptPrixAchat(a.id)) : null;
@@ -5915,7 +5991,7 @@ var Pt = {
       '<section class="card pad rapide ' + (vente ? 'r-vente' : 'r-entree') + '">' +
       (modes.length > 1 ? '<div class="r-modes" role="group" aria-label="Type de mouvement">' + modes.map(function (m) { return '<button type="button" data-act="rmode" data-id="' + m[0] + '" class="r-mode ' + m[0] + (R.mode === m[0] ? ' on' : '') + '" aria-pressed="' + (R.mode === m[0]) + '">' + icon(m[2]) + ' ' + esc(m[1]) + '</button>'; }).join('') + '</div>' : '') +
       '<div class="fgrid r-grid">' +
-        '<label class="fld span2"><span>Produit *</span><input list="dl-' + p + '" data-rf="prod" value="' + attr(a ? ptLabel(a) : (f.prod || '')) + '" placeholder="Tapez le nom ou la référence…" autocomplete="off" aria-label="Produit"><datalist id="dl-' + p + '">' + prods.map(function (x) { return '<option value="' + attr(ptLabel(x)) + '">'; }).join('') + '</datalist></label>' +
+        '<div class="fld span2 ac"><span>Produit *</span><input type="text" data-rf="prod" value="' + attr(a ? ptLabel(a) : (f.prod || '')) + '" placeholder="Tapez le nom ou la référence…" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ac-' + p + '" aria-label="Produit"><div class="ac-list" id="ac-' + p + '" role="listbox" hidden></div></div>' +
         (a ? '<div class="r-info span2">' + icon('box') + ' Stock ' + esc(P.de) + ' : <strong>' + fmtQ(s.q, a.unite) + '</strong>' + (vente ? '' : ' → après l\'entrée : <strong>' + fmtQ(s.q + (q || 0), a.unite) + '</strong>') + (ptPrixVente(a.id) ? ' — prix de vente <strong>' + fmtMoney(ptPrixVente(a.id)) + '</strong>' : '') + (mm && ptPrixAchat(a.id) ? ' — prix d\'achat ' + fmtMoney(ptPrixAchat(a.id)) : '') + '</div>' : '') +
         (vente && lots.length > 1 ? '<label class="fld span2"><span>Pièce ou lot</span><select data-rf="lot">' + lots.map(function (l) { return '<option value="' + attr(l.v) + '"' + (l.v === f.lot ? ' selected' : '') + '>' + esc(l.t) + '</option>'; }).join('') + '</select></label>' : '') +
         (!vente && partieEmpsActifs(p).length > 1 ? '<label class="fld"><span>Entre dans</span><select data-rf="emp">' + partieEmpsActifs(p).map(function (e) { return '<option value="' + attr(e) + '"' + ((f.emp || partiePrincipal(p)) === e ? ' selected' : '') + '>' + esc(empName(e)) + '</option>'; }).join('') + '</select></label>' : '') +
@@ -5963,8 +6039,7 @@ var Pt = {
         if (!document.body.contains(inp)) return;
         var k = lire(inp);
         if (k === 'prod') {
-          var v = norm(inp.value), a = ptProduits(p).filter(function (x) { return norm(ptLabel(x)) === v || norm(x.code) === v || norm(x.nom) === v; })[0];
-          if (!a && v) a = ptProduits(p).filter(function (x) { return norm(ptLabel(x)).indexOf(v) >= 0; })[0];
+          var a = Pt.acTrouve(p, R.mode === 'vente', inp.value);
           if ((a ? a.id : null) === (R.f.art || null) && R.f.prod === inp.value) return;
           R.f.art = a ? a.id : null; R.f.prod = inp.value; R.f.pu = null; R.f.lot = null; R.f.paye = null;
           Pt.rerender(function () { var qi = $('#main [data-rf="q"]'); if (qi && R.f.art) qi.focus(); }); return;
@@ -5972,7 +6047,79 @@ var Pt = {
         if (['client', 'paiement', 'four', 'lot'].indexOf(k) >= 0) { if (k === 'client') R.f.paye = null; Pt.rerender(); }
       });
     });
-    var pr = $('[data-rf="prod"]', el); if (pr && !R.f.art) setTimeout(function () { try { pr.focus(); } catch (e) {} }, 30);
+    var pr = $('[data-rf="prod"]', el); if (pr) Pt.acBind(p, pr, $('.ac-list', el));
+    if (pr && !R.f.art) setTimeout(function () { try { pr.focus(); } catch (e) {} }, 30);
+  },
+  /* ---------- suggestions de la barre de recherche du produit ----------
+     vente : les produits du bloc, ceux en stock d'abord (les autres grisés) ;
+     entrée : les produits du bloc, puis les autres articles de l'atelier. */
+  candidats: function (p, vente) {
+    var bloc = ptProduits(p), ids = {};
+    bloc.forEach(function (a) { ids[a.id] = true; });
+    return { bloc: bloc, autres: vente ? [] : list('stock/articles', function (a) { return !a.archive && !ids[a.id]; }) };
+  },
+  acTexte: function (a) { return norm([a.nom, a.code, pname('categories', a.categorie, CATEGORIES_DEFAUT), a.couleur ? couleurName(a.couleur) : '', (NATURES.filter(function (n) { return n.k === a.nature; })[0] || {}).n || ''].join(' ')); },
+  acCherche: function (arts, q) {
+    var ws = norm(q || '').split(/\s+/).filter(Boolean), nq = norm(q || '').trim();
+    var r = arts.filter(function (a) { var t = Pt.acTexte(a); return ws.every(function (w) { return t.indexOf(w) >= 0; }); });
+    var rang = function (a) { var c = norm(a.code || ''), n = norm(a.nom || ''); return !nq ? 3 : c === nq ? 0 : (n.indexOf(nq) === 0 || c.indexOf(nq) === 0) ? 1 : 2; };
+    return r.sort(function (a, b) { return rang(a) - rang(b) || String(a.nom).localeCompare(String(b.nom), 'fr'); });
+  },
+  /* produit correspondant au texte tapé (nom, référence ou « nom (référence) ») */
+  acTrouve: function (p, vente, txt) {
+    var c = Pt.candidats(p, vente), all = c.bloc.concat(c.autres), v = norm(txt || '').trim(); if (!v) return null;
+    return all.filter(function (x) { return norm(ptLabel(x)) === v || norm(x.code) === v || norm(x.nom) === v; })[0] || Pt.acCherche(c.bloc, txt)[0] || Pt.acCherche(c.autres, txt)[0] || null;
+  },
+  acHtml: function (p, vente, q) {
+    var c = Pt.candidats(p, vente), mm = canMoney(), n = 0, MAX = 60;
+    var item = function (a, off) {
+      var s = ptStock(p, a.id), pv = ptPrixVente(a.id), pa = ptPrixAchat(a.id);
+      var info = [(vente ? 'En stock : ' : 'Stock du bloc : ') + fmtQ(vente ? s.dispo : s.q, a.unite), vente ? (pv ? 'prix ' + fmtMoney(pv) : '') : (mm && pa ? "prix d'achat " + fmtMoney(pa) : '')].filter(Boolean).join(' — ');
+      return '<button type="button" class="ac-i" role="option" data-ac="' + attr(a.id) + '"' + (off ? ' disabled aria-disabled="true"' : '') + '><span><strong>' + esc(a.nom) + '</strong>' + (a.code ? ' <span class="code">' + esc(a.code) + '</span>' : '') + '</span><small>' + esc(info) + (off ? ' — rupture' : '') + '</small></button>';
+    };
+    var bloc = Pt.acCherche(c.bloc, q), html = '';
+    if (vente) {
+      var dispo = bloc.filter(function (a) { return ptStock(p, a.id).dispo > 0 || (articleOf(a.id) || {}).negOk; }), vide = bloc.filter(function (a) { return dispo.indexOf(a) < 0; });
+      html = dispo.slice(0, MAX).map(function (a) { n++; return item(a, false); }).join('');
+      if (vide.length && n < MAX) html += '<div class="ac-g">Sans stock dans ce bloc</div>' + vide.slice(0, MAX - n).map(function (a) { n++; return item(a, true); }).join('');
+      if (!dispo.length && !vide.length) html = '<div class="ac-e">' + (q ? 'Aucun produit de ce bloc ne correspond à « ' + esc(q) + ' ».' : 'Aucun produit dans ce bloc.') + '</div>';
+    } else {
+      html = bloc.slice(0, MAX).map(function (a) { n++; return item(a, false); }).join('');
+      var autres = q ? Pt.acCherche(c.autres, q) : [];
+      if (autres.length && n < MAX) html += '<div class="ac-g">Autres articles de l\'atelier</div>' + autres.slice(0, MAX - n).map(function (a) { n++; return item(a, false); }).join('');
+      if (!n) html = '<div class="ac-e">' + (q ? 'Aucun article ne correspond à « ' + esc(q) + ' ». Créez-le avec « Nouveau produit » (page Produits).' : 'Aucun produit pour ce bloc : créez-en un avec « Nouveau produit » (page Produits).') + '</div>';
+    }
+    return html;
+  },
+  acBind: function (p, inp, box) {
+    if (!inp || !box) return;
+    var R = ptState(p).rapide, vente = R.mode === 'vente', actif = -1, ferme = null;
+    var items = function () { return $$('.ac-i:not([disabled])', box); };
+    var marque = function (i) { var its = items(); actif = its.length ? (i + its.length) % its.length : -1; its.forEach(function (b, k) { b.classList.toggle('on', k === actif); }); if (actif >= 0) its[actif].scrollIntoView({ block: 'nearest' }); };
+    var ouvre = function () {
+      clearTimeout(ferme);
+      var a = R.f.art ? articleOf(R.f.art) : null, q = a && inp.value === ptLabel(a) ? '' : inp.value;
+      box.innerHTML = Pt.acHtml(p, vente, q); box.hidden = false; inp.setAttribute('aria-expanded', 'true'); actif = -1;
+      if (q && items().length) marque(0);
+    };
+    var cache = function () { box.hidden = true; inp.setAttribute('aria-expanded', 'false'); };
+    var choisit = function (id) {
+      var x = articleOf(id); if (!x) return;
+      cache(); inp.value = ptLabel(x);
+      R.f.art = id; R.f.prod = inp.value; R.f.pu = null; R.f.lot = null; R.f.paye = null;
+      Pt.rerender(function () { var qi = $('#main [data-rf="q"]'); if (qi) qi.focus(); });
+    };
+    inp.addEventListener('focus', ouvre);
+    inp.addEventListener('input', ouvre);
+    inp.addEventListener('blur', function () { ferme = setTimeout(cache, 220); });
+    inp.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { if (box.hidden) ouvre(); marque(actif + (e.key === 'ArrowDown' ? 1 : -1)); e.preventDefault(); }
+      else if (e.key === 'Enter') { var its = items(); if (!box.hidden && its.length) { e.preventDefault(); choisit((its[actif >= 0 ? actif : 0]).dataset.ac); } }
+      else if (e.key === 'Escape') cache();
+    });
+    /* le doigt ou la souris sur une suggestion ne fait pas perdre la saisie */
+    box.addEventListener('mousedown', function (e) { e.preventDefault(); });
+    box.addEventListener('click', function (e) { var b = e.target.closest('.ac-i'); if (b && !b.disabled) choisit(b.dataset.ac); });
   },
   rapideActs: function (p) {
     return {
@@ -8498,7 +8645,7 @@ view('teinture/recettes', {
   need: ['stock/articles', 'teinture/recettes'],
   render: function () {
     var rows = list('teinture/recettes', function (r) { return !r.archive; });
-    return pageHead('Recettes de teinture', 'Doses par kilogramme de fil et paramètres visés. Chaque lot garde une copie de la recette utilisée.', canBtn('teinture', 'creer', icon('plus') + ' Nouvelle recette', 'new')) +
+    return pageHead('Recettes de teinture', 'Doses par kilogramme de fil et paramètres visés. Chaque lot garde une copie de la recette utilisée.', UI.btn(icon('drop') + ' Plan de teinture', 'planTei', 'ghost') + canBtn('teinture', 'creer', icon('plus') + ' Nouvelle recette', 'new')) +
       UI.table({
         id: 'recs-tei', rows: rows, sort: 'nom',
         cols: [{ k: 'code', t: 'Code', f: function (r) { return '<span class="code">' + esc(r.code || '') + '</span>'; } },
@@ -8509,7 +8656,7 @@ view('teinture/recettes', {
         empty: 'Aucune recette. Enregistrez vos recettes pour préparer les lots plus vite.'
       });
   },
-  acts: { new: function () { Teinture.editRecette(null); }, edit: function (id) { Teinture.editRecette(id); } }
+  acts: { new: function () { Teinture.editRecette(null); }, edit: function (id) { Teinture.editRecette(id); }, planTei: function () { TeintPlan.choisir(); } }
 });
 
 view('teinture/lots', {
@@ -8522,7 +8669,7 @@ view('teinture/lots', {
     var ctrl = rows.filter(function (l) { return l.statut === 'controle'; }).length;
     var termines = rows.filter(function (l) { return l.poidsEngage && l.poidsObtenu; });
     var rdt = sum(termines, function (l) { return l.poidsObtenu; }) / Math.max(1, sum(termines, function (l) { return l.poidsEngage; }));
-    return pageHead('Lots de teinture', 'Du fil brut au fil teint : quantités engagées, produits consommés, pertes et coût réel.', canBtn('teinture', 'creer', icon('plus') + ' Nouveau lot', 'new')) +
+    return pageHead('Lots de teinture', 'Du fil brut au fil teint : quantités engagées, produits consommés, pertes et coût réel.', UI.btn(icon('drop') + ' Plan de teinture', 'planTei', 'ghost') + canBtn('teinture', 'creer', icon('plus') + ' Nouveau lot', 'new')) +
       tiles([{ t: 'Lots en cours', v: enCours }, { t: 'En attente de contrôle', v: ctrl, tone: ctrl ? 'warn' : '', go: 'qualite/controles' }, termines.length ? { t: 'Rendement moyen', v: fmtPct(rdt) } : null]) +
       UI.table({
         id: 'tei', rows: rows, sort: 'date', dir: -1,
@@ -8539,7 +8686,7 @@ view('teinture/lots', {
         rowAct: 'open', empty: 'Aucun lot de teinture.'
       });
   },
-  acts: { new: function () { Teinture.editLot(null); }, open: function (id) { Teinture.openLot(id); } }
+  acts: { new: function () { Teinture.editLot(null); }, open: function (id) { Teinture.openLot(id); }, planTei: function () { TeintPlan.choisir(); } }
 });
 
 var Teinture = {
@@ -9855,6 +10002,7 @@ var Ventes = {
     if (f.statut === 'validee' && can('ventes', 'creer')) acts.unshift({ t: 'Retour ou annulation', act: 'avoir', cls: 'ghost' });
     if (f.statut === 'validee' && reste < 0 && can('finances', 'creer')) acts.push({ t: 'Rembourser l\'avoir', act: 'remb', cls: 'ghost' });
     if (f.statut !== 'annulee' && Corr.peut('ventes')) acts.unshift({ t: icon('edit') + ' Modifier', act: 'corr', cls: 'ghost' });
+    if (can('ventes', 'supprimer')) acts.push({ t: icon('trash') + ' Supprimer', act: 'suppr', cls: 'ghost del' });
     var corrRc = f.statut === 'validee' && Corr.peut('ventes');
     var m = detailModal('Facture ' + f.num,
       '<div class="two">' + UI.kv([['Client', esc(clientName(f.client, f))], ['Date', fmtDate(f.date)], ['Échéance', fmtDate(f.echeance)], ['État', statutBadge(facEtat(f))], f.cmdNum ? ['Commande', '<span class="code">' + esc(f.cmdNum) + '</span>'] : null, ['Vendeur', esc(f.parNom || '')]]) +
@@ -9865,6 +10013,7 @@ var Ventes = {
       (f.recus && f.recus.length ? '<h3>Encaissements</h3><table class="grid"><thead><tr><th>Reçu</th><th>Date</th><th>Compte</th><th class="num">Montant</th><th></th></tr></thead><tbody>' + f.recus.map(function (r, i) { return '<tr><td class="code">' + esc(r.num) + '</td><td>' + fmtDate(r.date) + '</td><td>' + esc((get('finances/comptes', r.compte) || {}).nom || r.compte) + '</td><td class="num">' + fmtMoney(r.montant) + '</td><td><button type="button" class="linkbtn" data-mact="rc" data-i="' + i + '">Imprimer</button>' + (corrRc ? ' <button type="button" class="linkbtn" data-mact="rcEdit" data-i="' + i + '">Modifier</button>' : '') + '</td></tr>'; }).join('') + '</tbody></table>' : ''),
       acts, function (act, b) {
         if (act === 'corr') { m.close(); Corr.facture(id); }
+        if (act === 'suppr') { m.close(); Suppr.facture(id); }
         if (act === 'rcEdit') { m.close(); Corr.recu('fac', id, Number(b.dataset.i)); }
         if (act === 'print') Ventes.printFacture(f);
         if (act === 'rc') Ventes.printRecu(f, f.recus[Number(b.dataset.i)]);
@@ -12553,6 +12702,7 @@ view('catalogue/modeles', {
     var nonImportes = list('production/modeles', function (m) { return !m.archive && !all.some(function (f) { return f.modele === m.id; }); });
     return pageHead('Catalogue des modèles', 'Les modèles de léppi de l\'atelier, à montrer aux clients : photos, motif, couleurs, dimensions et prix. Touchez un modèle pour voir ses photos, l\'imprimer ou le partager.',
       (ed ? UI.btn(icon('plus') + ' Nouveau modèle', 'new', 'primary') : '') + (ed && nonImportes.length ? UI.btn(icon('download') + ' Reprendre les modèles de tissu (' + nonImportes.length + ')', 'importer', 'ghost') : '') +
+      UI.btn(icon('loom') + ' Calcul de modèle', 'calcul', 'ghost') + UI.btn(icon('image') + ' Retouche des photos', 'retouche', 'ghost') +
       UI.btn(icon('print') + ' Imprimer le catalogue', 'imprimer', 'ghost') + UI.btn(icon('share') + ' Partager la liste', 'partagerTout', 'ghost')) +
       '<div class="ttools"><label class="tsearch">' + icon('search') + '<input type="search" data-chg="cq" value="' + attr(st.cq || '') + '" placeholder="Nom, référence, motif, couleur" aria-label="Rechercher"></label>' +
       '<select data-chg="cc" aria-label="Couleur"><option value="">Couleur : toutes</option>' + Opt.couleurs().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (coul === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></div>' +
@@ -12569,7 +12719,9 @@ view('catalogue/modeles', {
     new: function () { Cat.edit(null); }, fiche: function (id) { Cat.fiche(id); },
     importer: function () { Cat.importer(); },
     imprimer: function () { Cat.imprimer(); },
-    partagerTout: function () { Cat.partagerTout(); }
+    partagerTout: function () { Cat.partagerTout(); },
+    calcul: function () { Calc.ouvrir(null); },
+    retouche: function () { Retouche.ouvrir(null); }
   }
 });
 
@@ -12647,16 +12799,20 @@ var Cat = {
     var art = catArticle(f), sb = art ? ptStock('boutique', art) : null;
     var acts = [{ t: icon('print') + ' Imprimer la fiche (A4)', act: 'print', cls: 'ghost' }, { t: icon('share') + ' Partager', act: 'share', cls: 'ghost' }];
     if (can('catalogue', 'modifier')) acts.push({ t: icon('edit') + ' Modifier', act: 'edit', cls: 'ghost' });
+    acts.push({ t: icon('loom') + ' Calcul du modèle', act: 'calcul', cls: 'ghost' }, { t: icon('image') + ' Retoucher les photos', act: 'retouche', cls: 'ghost' });
     if (art && sb && sb.q > 0 && can('ventes', 'creer')) acts.push({ t: icon('bolt') + ' Vendre', act: 'vendre', cls: 'primary' });
     var m = detailModal(f.nom + (f.ref ? ' — ' + f.ref : ''),
       '<div class="cat-fiche"><div class="cat-gal"><div class="cat-main">' + (f.vignette ? '<img id="cat-big" src="' + attr(f.vignette) + '" alt="' + attr(f.nom) + '">' : '<span class="cat-ph big">' + icon('image') + '</span>') + '</div>' +
         ((f.photos || []).length > 1 ? '<div class="cat-thumbs" id="cat-thumbs">' + f.photos.map(function (pid, i) { return '<button type="button" class="cat-th" data-ph="' + attr(pid) + '" aria-label="Photo ' + (i + 1) + '"><span class="spin"></span></button>'; }).join('') + '</div>' : '') + '</div>' +
-      '<div>' + UI.kv([['Référence', esc(f.ref || '')], ['Motif', esc(f.motif || '')], ['Couleurs', catCouleurs(f).map(function (c) { return '<span class="sw" style="background:' + attr(couleurHex(c)) + '"></span>' + esc(couleurName(c)); }).join(' ')], ['Dimensions', esc(catDims(f))], ['Prix', esc(catPrix(f))], sb ? ['En boutique', sb.q > 0 ? fmtQ(sb.q, 'm') + ' (' + plural(sb.lots, 'pièce') + ')' : 'aucun en ce moment'] : null]) +
+      '<div>' + UI.kv([['Référence', esc(f.ref || '')], ['Motif', esc(f.motif || '')], ['Couleurs', catCouleurs(f).map(function (c) { return '<span class="sw" style="background:' + attr(couleurHex(c)) + '"></span>' + esc(couleurName(c)); }).join(' ')], ['Dimensions', esc(catDims(f))], ['Prix', esc(catPrix(f))], sb ? ['En boutique', sb.q > 0 ? fmtQ(sb.q, 'm') + ' (' + plural(sb.lots, 'pièce') + ')' : 'aucun en ce moment'] : null,
+        f.calcul && f.calcul.fils ? ['Plan de calcul', esc(fmtN(f.calcul.fils) + ' fils, peigne ' + fmtN(f.calcul.peigne, 1) + '/10 cm, ' + f.calcul.fpd + ' par dent — ' + fmtN(f.calcul.largeurFinie, 1) + ' cm') + ' <small class="muted">(' + esc(fmtDate(f.calcul.date)) + ')</small>'] : null]) +
         (f.description ? '<p>' + esc(f.description) + '</p>' : '') + '</div></div>',
       acts, function (a, b, mm) {
         if (a === 'print') Cat.imprimer([f]);
         if (a === 'share') Cat.partager(f);
         if (a === 'edit') { mm.close(); Cat.edit(id); }
+        if (a === 'calcul') { mm.close(); Calc.ouvrir(id); }
+        if (a === 'retouche') { mm.close(); Retouche.ouvrir(id); }
         if (a === 'vendre') { mm.close(); var R = ptState('boutique').rapide; R.mode = 'vente'; R.f = { art: art }; App.openSpace(S.bloc, 'boutique', false, 'boutique/rapide'); }
       }, 'l');
     /* photos en grand, chargées à la demande */
@@ -13682,9 +13838,10 @@ var FormF = {
     if (f.statut !== 'annulee' && !(f.paye > 0) && can('formation', 'annuler')) acts.unshift({ t: 'Annuler', act: 'annul', cls: 'ghost' });
     var corrOk = f.statut !== 'annulee' && Corr.peut('formation');
     if (corrOk) acts.unshift({ t: icon('edit') + ' Modifier', act: 'corr', cls: 'ghost' });
+    if (can('formation', 'supprimer')) acts.push({ t: icon('trash') + ' Supprimer', act: 'suppr', cls: 'ghost del' });
     detailModal('Facture ' + f.num, UI.kv([['Date', fmtDate(f.date)], ['Facturé à', esc(f.client || '')], f.adresse ? ['Adresse', esc(f.adresse)] : null, ['Objet', esc(f.objet || '')], ['Montant', money(f.total)], ['Payé', money(f.paye || 0)], ['Reste', money(ffoReste(f))], f.echeance ? ['Échéance', fmtDate(f.echeance)] : null, ['État', statutBadge(ffoEtat(f))], ['Établie par', esc(f.parNom || '')]]) +
       ((f.versements || []).length ? '<h3>Encaissements</h3><table class="grid"><thead><tr><th>Date</th><th>Reçu</th><th>Caisse</th><th class="num">Montant</th></tr></thead><tbody>' + f.versements.map(function (x, k) { return '<tr><td>' + fmtDate(x.date) + '</td><td class="code">' + esc(x.recu || '') + '</td><td>' + esc(compteName(x.compte)) + '</td><td class="num">' + fmtMoney(x.montant) + (corrOk ? ' <button type="button" class="linkbtn" data-mact="rcEdit" data-i="' + k + '">Modifier</button>' : '') + '</td></tr>'; }).join('') + '</tbody></table>' : ''),
-      acts, function (a, b, m) { if (a === 'print') FormF.imprimer(id); if (a === 'pay') { m.close(); FormF.encaisser(id); } if (a === 'annul') { m.close(); FormF.annuler(id); } if (a === 'corr') { m.close(); Corr.ffo(id); } if (a === 'rcEdit') { m.close(); Corr.recu('ffo', id, Number(b.dataset.i)); } });
+      acts, function (a, b, m) { if (a === 'print') FormF.imprimer(id); if (a === 'pay') { m.close(); FormF.encaisser(id); } if (a === 'annul') { m.close(); FormF.annuler(id); } if (a === 'corr') { m.close(); Corr.ffo(id); } if (a === 'suppr') { m.close(); Suppr.ffo(id); } if (a === 'rcEdit') { m.close(); Corr.recu('ffo', id, Number(b.dataset.i)); } });
   }
 };
 
@@ -13987,11 +14144,11 @@ var Corr = {
   ouvrir: function (doc, p) {
     if (!doc || !doc.id) { UI.toast(doc && doc.n ? 'Le document ' + doc.n + " n'a pas de fiche à ouvrir." : "Pas de document rattaché.", 'info'); return; }
     var t = doc.t, id = doc.id, go = function (paths, fn) { Data.need(paths).then(fn); };
-    if (t === 'FAC' || t === 'AV') return go(['ventes/factures', 'ventes/clients', 'stock/articles', 'stock/lots', 'finances/comptes'], function () { Ventes.openFacture(id); });
+    if (t === 'FAC' || t === 'AV') return go(['ventes/factures', 'ventes/clients', 'stock/articles', 'stock/lots', 'finances/comptes'], function () { if (!get('ventes/factures', id)) { UI.toast('La facture ' + (doc.n || '') + " a été supprimée : le journal d'audit en garde la copie.", 'info', 6000); return; } Ventes.openFacture(id); });
     if (t === 'CMD') return go(['ventes/commandes', 'ventes/clients', 'stock/articles', 'production/ordres', 'finances/comptes'], function () { Ventes.openCommande(id); });
     if (t === 'DEP') return go(['finances/depenses', 'finances/comptes'], function () { Fin.openDepense(id); });
     if (t === 'INS') return go(['formation/inscriptions', 'formation/sessions', 'formation/formations', 'formation/apprenants', 'ventes/clients'], function () { Form.ficheInscription(id); });
-    if (t === 'FFO') return go(['formation/factures', 'formation/registre', 'finances/comptes'], function () { FormF.fiche(id); });
+    if (t === 'FFO') return go(['formation/factures', 'formation/registre', 'finances/comptes'], function () { if (!get('formation/factures', id)) { UI.toast('La facture ' + (doc.n || '') + " a été supprimée : le journal d'audit en garde la copie.", 'info', 6000); return; } FormF.fiche(id); });
     if (t === 'FF') return go(['achats/facturesF', 'achats/fournisseurs', 'achats/receptions', 'achats/commandes'], function () { Achats.openFF(id); });
     if (t === 'REC') return go(['achats/receptions', 'achats/commandes', 'achats/fournisseurs', 'stock/articles', 'stock/lots'], function () { Achats.openRec(id); });
     if (t === 'BT') return go(['transferts', 'stock/articles', 'stock/lots'], function () { Pt.openBon(id); });
@@ -15166,6 +15323,1638 @@ Corr.apply.comptant = function (x, tx, req) {
   };
   Object.keys(T).forEach(function (k) { Valid.register('corr.' + k, T[k][0], Corr.apply[k]); Valid.needs['corr.' + k] = base.concat(T[k][1]); });
 })();
+
+
+/* ===== 29-modeles.js ===== */
+/* =====================================================================
+   Catalogue — calcul de modèle, plan de teinture et retouche des photos.
+
+   Calcul de modèle : à partir d'une photo du tissu, l'application trouve
+   ses couleurs, ses bandes (rayures de chaîne, de trame, carreaux ou fils
+   teints en réserve) et leur rapport. Avec le peigne, le nombre de fils
+   par dent et la largeur voulue (ou le nombre de fils voulu), elle donne
+   le nombre de fils de chaque bande, la composition du tissu, l'ourdissage,
+   le rentrage dans les lames, le piquage au peigne, l'attache des fils,
+   la trame et le poids de fil de chaque couleur.
+   Plan de teinture : poids à teindre par couleur, écheveaux, ligatures
+   des fils teints en réserve, recette de l'atelier ou dosage proposé.
+   Retouche des photos : cadrage, réglages, filtres, texte et logo, puis
+   téléchargement aux formats de Facebook, TikTok et X.
+   Seule écriture : le plan d'un modèle, rangé dans sa fiche du catalogue
+   (champ « calcul »), quand on l'enregistre. Rien d'autre n'est touché.
+   ===================================================================== */
+
+/* ---------- couleurs : sRGB ↔ Lab, écarts ---------- */
+var Coul = {
+  hex2rgb: function (h) { h = String(h || '#999999').replace('#', ''); if (h.length === 3) h = h.split('').map(function (c) { return c + c; }).join(''); var n = parseInt(h, 16); return isNaN(n) ? [153, 153, 153] : [(n >> 16) & 255, (n >> 8) & 255, n & 255]; },
+  rgb2hex: function (c) { return '#' + c.map(function (v) { v = Math.max(0, Math.min(255, Math.round(v))); return (v < 16 ? '0' : '') + v.toString(16); }).join(''); },
+  lin: function (v) { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); },
+  lab: function (r, g, b) {
+    var R = Coul.lin(r), G = Coul.lin(g), B = Coul.lin(b);
+    var x = (R * 0.4124 + G * 0.3576 + B * 0.1805) / 0.95047, y = R * 0.2126 + G * 0.7152 + B * 0.0722, z = (R * 0.0193 + G * 0.1192 + B * 0.9505) / 1.08883;
+    var f = function (t) { return t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116; };
+    var fx = f(x), fy = f(y), fz = f(z);
+    return [116 * fy - 16, 500 * (fx - fy), 200 * (fy - fz)];
+  },
+  labHex: function (h) { var c = Coul.hex2rgb(h); return Coul.lab(c[0], c[1], c[2]); },
+  dE: function (a, b) { var d0 = a[0] - b[0], d1 = a[1] - b[1], d2 = a[2] - b[2]; return Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2); },
+  /* couleurs de l'atelier (Réglages), avec leur Lab */
+  atelier: function () { return plist('couleurs', COULEURS_DEFAUT).map(function (c) { return { id: c.id, nom: c.nom, hex: c.hex || '#999999', lab: Coul.labHex(c.hex || '#999999') }; }); },
+  proche: function (lab, liste) { var best = null, bd = 1e9; (liste || Coul.atelier()).forEach(function (c) { var d = Coul.dE(lab, c.lab); if (d < bd) { bd = d; best = c; } }); return best; },
+  /* profondeur de la teinte : blanc, clair, moyen, foncé, très foncé */
+  nuance: function (lab) { var L = lab[0], C = Math.sqrt(lab[1] * lab[1] + lab[2] * lab[2]); if (L > 88 && C < 12) return 'blanc'; if (L >= 70) return 'clair'; if (L >= 45) return 'moyen'; if (L >= 25) return 'fonce'; return 'tres_fonce'; },
+  /* part de bleu, de rouge (magenta), de jaune et de noir d'une couleur : base d'un mélange en trichromie */
+  cmjn: function (hex) {
+    var c = Coul.hex2rgb(hex).map(function (v) { return v / 255; }), k = 1 - Math.max(c[0], c[1], c[2]);
+    if (k >= 0.999) return { c: 0, m: 0, j: 0, n: 1 };
+    return { c: (1 - c[0] - k) / (1 - k), m: (1 - c[1] - k) / (1 - k), j: (1 - c[2] - k) / (1 - k), n: k };
+  }
+};
+
+/* ---------- analyse d'une photo de tissu ---------- */
+var Analyse = {
+  /* k-moyennes en Lab, départ « k-means++ » à graine fixe : même photo, même résultat */
+  kmeans: function (pts, n, k, iters) {
+    k = Math.max(1, Math.min(k, n));
+    var seed = 12345, rnd = function () { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+    var C = [], d2 = new Float64Array(n), i, j;
+    var first = Math.floor(rnd() * n); C.push([pts[first * 3], pts[first * 3 + 1], pts[first * 3 + 2]]);
+    for (var c = 1; c < k; c++) {
+      var tot = 0;
+      for (i = 0; i < n; i++) { var best = 1e18; for (j = 0; j < C.length; j++) { var a = pts[i * 3] - C[j][0], b = pts[i * 3 + 1] - C[j][1], e = pts[i * 3 + 2] - C[j][2], dd = a * a + b * b + e * e; if (dd < best) best = dd; } d2[i] = best; tot += best; }
+      if (tot <= 0) break;
+      var r = rnd() * tot, acc = 0, pick = n - 1; for (i = 0; i < n; i++) { acc += d2[i]; if (acc >= r) { pick = i; break; } }
+      C.push([pts[pick * 3], pts[pick * 3 + 1], pts[pick * 3 + 2]]);
+    }
+    var lab = new Int32Array(n).fill(-1), cnt = [];
+    for (var it = 0; it < (iters || 12); it++) {
+      var sm = C.map(function () { return [0, 0, 0]; }), moved = 0; cnt = C.map(function () { return 0; });
+      for (i = 0; i < n; i++) {
+        var bj = 0, bd = 1e18;
+        for (j = 0; j < C.length; j++) { var x0 = pts[i * 3] - C[j][0], x1 = pts[i * 3 + 1] - C[j][1], x2 = pts[i * 3 + 2] - C[j][2], q = x0 * x0 + x1 * x1 + x2 * x2; if (q < bd) { bd = q; bj = j; } }
+        if (lab[i] !== bj) moved++; lab[i] = bj; cnt[bj]++; sm[bj][0] += pts[i * 3]; sm[bj][1] += pts[i * 3 + 1]; sm[bj][2] += pts[i * 3 + 2];
+      }
+      for (j = 0; j < C.length; j++) if (cnt[j]) C[j] = [sm[j][0] / cnt[j], sm[j][1] / cnt[j], sm[j][2] / cnt[j]];
+      if (!moved) break;
+    }
+    return C.map(function (c, j) { return { lab: c, n: cnt[j] || 0 }; }).filter(function (c) { return c.n > 0; });
+  },
+  /* fusion des couleurs trop proches (écart ΔE < tol), puis des couleurs trop rares (part < minPart) */
+  fusionne: function (cs, tol, minPart) {
+    cs = cs.map(function (c) { return { lab: c.lab.slice(), n: c.n }; });
+    var tot = cs.reduce(function (t, c) { return t + c.n; }, 0) || 1;
+    var merge = function (i, j) { var a = cs[i], b = cs[j], n = a.n + b.n; a.lab = [0, 1, 2].map(function (q) { return (a.lab[q] * a.n + b.lab[q] * b.n) / n; }); a.n = n; cs.splice(j, 1); };
+    for (var guard = 0; guard < 200 && cs.length > 1; guard++) {
+      var bi = -1, bj = -1, bd = 1e9;
+      for (var i = 0; i < cs.length; i++) for (var j = i + 1; j < cs.length; j++) { var d = Coul.dE(cs[i].lab, cs[j].lab); if (d < bd) { bd = d; bi = i; bj = j; } }
+      if (bd < tol) { merge(bi, bj); continue; }
+      var rare = -1; cs.forEach(function (c, q) { if (c.n / tot < minPart && (rare < 0 || c.n < cs[rare].n)) rare = q; });
+      if (rare < 0) break;
+      var near = -1, nd = 1e9; cs.forEach(function (c, q) { if (q === rare) return; var d2 = Coul.dE(c.lab, cs[rare].lab); if (d2 < nd) { nd = d2; near = q; } });
+      if (near < rare) merge(near, rare); else merge(rare, near);
+    }
+    return cs;
+  },
+  /* les petites couleurs qui ne sont que le mélange de deux grandes (bords flous entre deux bandes,
+     ombre d'un fil) rejoignent la plus proche des deux ; les grands mélanges (carreaux) restent */
+  sansBords: function (cs) {
+    cs = cs.map(function (c) { return { lab: c.lab.slice(), n: c.n }; });
+    var tot = cs.reduce(function (t, c) { return t + c.n; }, 0) || 1;
+    for (var guard = 0; guard < 50 && cs.length > 2; guard++) {
+      var pick = -1, to = -1;
+      for (var i = 0; i < cs.length && pick < 0; i++) {
+        var m = cs[i]; if (m.n / tot >= 0.08) continue;
+        for (var a = 0; a < cs.length && pick < 0; a++) for (var b = a + 1; b < cs.length; b++) {
+          if (a === i || b === i || cs[a].n <= m.n || cs[b].n <= m.n) continue;
+          var A = cs[a].lab, B = cs[b].lab, dab = Coul.dE(A, B); if (dab < 25) continue;
+          /* m est-il sur le segment A–B (à moins de 22 % de sa longueur) ? */
+          var t = 0, d2 = 0; for (var q = 0; q < 3; q++) t += (m.lab[q] - A[q]) * (B[q] - A[q]); t /= dab * dab;
+          if (t < 0.08 || t > 0.92) continue;
+          for (var q2 = 0; q2 < 3; q2++) { var e = A[q2] + t * (B[q2] - A[q2]) - m.lab[q2]; d2 += e * e; }
+          if (Math.sqrt(d2) < Math.max(8, 0.22 * dab)) { pick = i; to = t < 0.5 ? a : b; break; }
+        }
+      }
+      if (pick < 0) break;
+      var T2 = cs[to], P = cs[pick], n = T2.n + P.n;
+      T2.n = n; cs.splice(pick, 1);
+    }
+    return cs;
+  },
+  /* inclinaison des rayures (photo prise de travers) : le cisaillement de la photo qui rend les
+     colonnes (ou les lignes) les plus pures ; angle en degrés, positif quand les rayures penchent à droite en descendant */
+  inclinaison: function (labels, w, h, k) {
+    var essai = function (t, axe) {
+      var L = axe === 'x' ? w : h, M = axe === 'x' ? h : w, cnt = new Int32Array((L + 2) * k), tot = 0, bon = 0;
+      for (var b = 0; b < M; b += 2) {
+        var dec = (b - M / 2) * t;
+        for (var a = 0; a < L; a += 1) {
+          var c = Math.round(a - dec); if (c < 0 || c >= L) continue;
+          cnt[c * k + labels[axe === 'x' ? b * w + a : a * w + b]]++;
+        }
+      }
+      for (var c2 = 0; c2 < L; c2++) { var mx = 0, s = 0; for (var j = 0; j < k; j++) { var v = cnt[c2 * k + j]; s += v; if (v > mx) mx = v; } tot += s; bon += mx; }
+      return tot ? bon / tot : 0;
+    };
+    var best = { x: { a: 0, p: essai(0, 'x') }, y: { a: 0, p: essai(0, 'y') } };
+    ['x', 'y'].forEach(function (axe) {
+      for (var d = -6; d <= 6.001; d += 0.25) { if (!d) continue; var pu = essai(Math.tan(d * Math.PI / 180), axe); if (pu > best[axe].p + 1e-4) best[axe] = { a: d, p: pu }; }
+    });
+    var axe = best.x.p >= best.y.p ? 'x' : 'y', r = best[axe];
+    return { angle: Math.abs(r.a) < 0.3 ? 0 : r.a, axe: axe, purete: r.p };
+  },
+  /* palette de la photo et couleur de chaque pixel ; couleurs rangées de la plus présente à la plus rare */
+  palette: function (data, w, h, opts) {
+    opts = opts || {};
+    var N = w * h, step = Math.max(1, Math.floor(N / 15000)), pts = [], n = 0;
+    for (var p = 0; p < N; p += step) { var o = p * 4; if (data[o + 3] < 128) continue; var L = Coul.lab(data[o], data[o + 1], data[o + 2]); pts.push(L[0], L[1], L[2]); n++; }
+    if (!n) return { couleurs: [{ rgb: [153, 153, 153], hex: '#999999', lab: Coul.labHex('#999999'), part: 1 }], labels: new Uint8Array(N) };
+    var auto = !opts.nb || opts.nb === 'auto', k = auto ? 12 : Math.max(1, Math.min(12, Number(opts.nb) || 4));
+    var cs = Analyse.kmeans(new Float32Array(pts), n, k, 16);
+    cs = auto ? Analyse.sansBords(Analyse.fusionne(cs, Number(opts.tol) || 15, 0.015)) : Analyse.fusionne(cs, 0.0001, 0);
+    var labels = new Uint8Array(N), cache = {}, parts = cs.map(function () { return 0; });
+    for (var i = 0; i < N; i++) {
+      var q = i * 4, key = ((data[q] >> 2) << 12) | ((data[q + 1] >> 2) << 6) | (data[q + 2] >> 2), lb = cache[key];
+      if (lb === undefined) { var lab = Coul.lab(data[q], data[q + 1], data[q + 2]), bj = 0, bd = 1e9; for (var j = 0; j < cs.length; j++) { var d = Coul.dE(lab, cs[j].lab); if (d < bd) { bd = d; bj = j; } } lb = cache[key] = bj; }
+      labels[i] = lb; parts[lb]++;
+    }
+    var acc = cs.map(function () { return [0, 0, 0]; });
+    for (var z = 0; z < N; z++) { var y4 = z * 4, l2 = labels[z]; acc[l2][0] += data[y4]; acc[l2][1] += data[y4 + 1]; acc[l2][2] += data[y4 + 2]; }
+    var out = cs.map(function (c, j) { var kk = parts[j] || 1, rgb = [acc[j][0] / kk, acc[j][1] / kk, acc[j][2] / kk].map(Math.round); return { rgb: rgb, hex: Coul.rgb2hex(rgb), lab: Coul.lab(rgb[0], rgb[1], rgb[2]), part: parts[j] / N }; });
+    var ord = out.map(function (c, j) { return j; }).sort(function (a, b) { return out[b].part - out[a].part; }), inv = [];
+    ord.forEach(function (j, r) { inv[j] = r; });
+    for (var t = 0; t < N; t++) labels[t] = inv[labels[t]];
+    return { couleurs: ord.map(function (j) { return out[j]; }).filter(function (c) { return c.part > 0; }), labels: labels };
+  },
+  /* couleur majoritaire de chaque colonne (axe 'x') ou de chaque ligne (axe 'y'), et sa pureté ;
+     excl : couleurs à ne pas compter pour la majorité (mélanges chaîne × trame) */
+  profil: function (labels, w, h, k, axe, a0, a1, excl) {
+    var len = axe === 'x' ? w : h, maj = new Uint8Array(len), pur = new Float32Array(len), cnt = new Int32Array(k);
+    a0 = a0 || 0; a1 = a1 === undefined || a1 === null ? (axe === 'x' ? h : w) : a1;
+    for (var a = 0; a < len; a++) {
+      cnt.fill(0); var tot = 0;
+      if (axe === 'x') { for (var y = a0; y < a1; y++) { cnt[labels[y * w + a]]++; tot++; } }
+      else { for (var x = a0; x < a1; x++) { cnt[labels[a * w + x]]++; tot++; } }
+      var bj = -1; for (var j = 0; j < k; j++) if (!(excl && excl[j]) && (bj < 0 || cnt[j] > cnt[bj])) bj = j;
+      if (bj < 0 || !cnt[bj]) bj = a ? maj[a - 1] : (bj < 0 ? 0 : bj);
+      maj[a] = bj; pur[a] = tot ? cnt[bj] / tot : 1;
+    }
+    var m = 0; for (var i = 0; i < len; i++) m += pur[i];
+    return { maj: maj, pur: pur, moy: len ? m / len : 1 };
+  },
+  /* couleurs qui ne sont que le mélange de deux autres (croisement d'un fil de chaîne et d'une duite de couleurs différentes) */
+  melanges: function (cs) {
+    var ex = new Uint8Array(cs.length), n = 0;
+    cs.forEach(function (m, i) {
+      for (var a = 0; a < cs.length; a++) for (var b = a + 1; b < cs.length; b++) {
+        if (a === i || b === i) continue;
+        var A = cs[a].lab, B = cs[b].lab, dab = Coul.dE(A, B); if (dab < 30) continue;
+        var mid = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2, (A[2] + B[2]) / 2];
+        if (Coul.dE(mid, m.lab) < Math.max(8, 0.2 * dab)) { ex[i] = 1; n++; return; }
+      }
+    });
+    return n ? ex : null;
+  },
+  /* suite de couleurs → bandes ; une bande plus étroite que minRun rejoint sa voisine de couleur la plus proche */
+  bandes: function (seq, minRun, couleurs) {
+    var runs = [];
+    for (var i = 0; i < seq.length; i++) { if (runs.length && runs[runs.length - 1].c === seq[i]) runs[runs.length - 1].n++; else runs.push({ c: seq[i], n: 1 }); }
+    var colle = function () { for (var j = runs.length - 1; j > 0; j--) if (runs[j].c === runs[j - 1].c) { runs[j - 1].n += runs[j].n; runs.splice(j, 1); } };
+    for (var guard = 0; guard < 5000 && runs.length > 1; guard++) {
+      var si = -1;
+      runs.forEach(function (r, j) { if (r.n < minRun && (si < 0 || r.n < runs[si].n)) si = j; });
+      if (si < 0) break;
+      var L = runs[si - 1], R = runs[si + 1], cur = runs[si], to;
+      if (!L) to = si + 1; else if (!R) to = si - 1;
+      else { var dl = Coul.dE(couleurs[L.c].lab, couleurs[cur.c].lab), dr = Coul.dE(couleurs[R.c].lab, couleurs[cur.c].lab); to = dl <= dr ? si - 1 : si + 1; }
+      runs[to].n += cur.n; runs.splice(si, 1); colle();
+    }
+    return runs;
+  },
+  /* rapport (motif qui se répète) d'une suite de bandes : la plus petite période de couleurs dont
+     les largeurs se correspondent ; les bandes du bord, coupées par la photo, ne comptent que pour leur couleur */
+  rapport: function (runs) {
+    var m = runs.length; if (m < 4) return null;
+    var tot = runs.reduce(function (t, r) { return t + r.n; }, 0);
+    for (var k = 2; k <= Math.floor(m / 2); k++) {
+      var ok = true;
+      for (var i = 0; i + k < m && ok; i++) {
+        if ((runs[i].k || runs[i].c) !== (runs[i + k].k || runs[i + k].c)) ok = false;
+        else if (i > 0 && i + k < m - 1) { var a = runs[i].n, b = runs[i + k].n; if (Math.abs(a - b) > Math.max(2, 0.3 * Math.max(a, b))) ok = false; }
+      }
+      if (!ok) continue;
+      var s = m >= k + 2 ? 1 : 0, unit = [];
+      for (var j = 0; j < k; j++) {
+        var acc = 0, nn = 0;
+        for (var q = s + j; q < m; q += k) if (q > 0 && q < m - 1) { acc += runs[q].n; nn++; }
+        unit.push({ c: runs[s + j].c, n: nn ? acc / nn : runs[s + j].n });
+      }
+      var uw = unit.reduce(function (t, r) { return t + r.n; }, 0);
+      if (tot / uw < 1.7) continue;
+      return { unit: unit, n: uw, fois: tot / uw };
+    }
+    return null;
+  },
+  /* bandes de chaîne d'après la suite des couleurs le long de chaque colonne (sa « signature ») :
+     sépare aussi les fils teints en réserve, dont la couleur change le long du tissu */
+  bandesSig: function (labels, w, h, k, couleurs, minRun) {
+    var B = Math.max(4, Math.min(32, Math.floor(h / 3))), sig = [], cnt = new Int32Array(k), x, y, j;
+    for (x = 0; x < w; x++) {
+      var s = new Uint8Array(B);
+      for (var b = 0; b < B; b++) {
+        cnt.fill(0); var y0 = Math.floor(b * h / B), y1 = Math.floor((b + 1) * h / B), bj = 0;
+        for (y = y0; y < y1; y++) cnt[labels[y * w + x]]++;
+        for (j = 1; j < k; j++) if (cnt[j] > cnt[bj]) bj = j;
+        s[b] = bj;
+      }
+      sig.push(s);
+    }
+    var dist = function (a, c) { var d = 0; for (var i = 0; i < B; i++) if (a[i] !== c[i]) d++; return d; }, t = Math.max(1, Math.round(B * 0.2));
+    var runs = [];
+    for (x = 0; x < w; x++) {
+      var r = runs[runs.length - 1];
+      if (r && (dist(sig[x], r.ref) <= t || (dist(sig[x], sig[x - 1]) <= t && dist(sig[x], r.ref) <= 2 * t))) r.n++;
+      else runs.push({ x: x, n: 1, ref: sig[x] });
+    }
+    var refait = function (r) {
+      var s2 = new Uint8Array(B), c2 = new Int32Array(k);
+      for (var b2 = 0; b2 < B; b2++) { c2.fill(0); for (var xx = r.x; xx < r.x + r.n; xx++) c2[sig[xx][b2]]++; var m = 0; for (var q = 1; q < k; q++) if (c2[q] > c2[m]) m = q; s2[b2] = m; }
+      r.ref = s2;
+    };
+    for (var guard = 0; guard < 5000 && runs.length > 1; guard++) {
+      var si = -1;
+      runs.forEach(function (r2, q) { if (r2.n < minRun && (si < 0 || r2.n < runs[si].n)) si = q; });
+      if (si < 0) break;
+      var L = runs[si - 1], R = runs[si + 1], cur = runs[si];
+      var to = !L ? si + 1 : !R ? si - 1 : dist(L.ref, cur.ref) <= dist(R.ref, cur.ref) ? si - 1 : si + 1;
+      if (to > si) { runs[to].x = cur.x; } runs[to].n += cur.n; runs.splice(si, 1); refait(runs[to > si ? si : to]);
+    }
+    for (var q2 = runs.length - 1; q2 > 0; q2--) if (dist(runs[q2].ref, runs[q2 - 1].ref) <= t) { runs[q2 - 1].n += runs[q2].n; runs.splice(q2, 1); refait(runs[q2 - 1]); }
+    return runs.map(function (r3) {
+      refait(r3);
+      var c3 = new Int32Array(k); for (var yy = 0; yy < h; yy++) for (var x3 = r3.x; x3 < r3.x + r3.n; x3++) c3[labels[yy * w + x3]]++;
+      var m3 = 0; for (var q3 = 1; q3 < k; q3++) if (c3[q3] > c3[m3]) m3 = q3;
+      var seg = Analyse.bandes(Array.prototype.slice.call(r3.ref), 2, couleurs).map(function (sg) { return { c: sg.c, f: sg.n / B }; });
+      return { c: m3, n: r3.n, seg: seg, k: m3 + ':' + seg.map(function (sg) { return sg.c + '-' + Math.round(sg.f * 20); }).join(',') };
+    });
+  },
+  plusFrequente: function (seq, k) { var cnt = new Int32Array(k), b = 0; for (var i = 0; i < seq.length; i++) cnt[seq[i]]++; for (var j = 1; j < k; j++) if (cnt[j] > cnt[b]) b = j; return b; },
+  /* analyse complète. opts = { nb ('auto' ou 1 à 12), finesse (part de la largeur), structure ('auto'|'uni'|'chaine'|'trame'|'carreaux'|'reserve') } */
+  analyser: function (img, opts) {
+    opts = opts || {};
+    var w = img.width, h = img.height, pal = Analyse.palette(img.data, w, h, opts), k = pal.couleurs.length;
+    var col = Analyse.profil(pal.labels, w, h, k, 'x'), row = Analyse.profil(pal.labels, w, h, k, 'y');
+    var fin = Number(opts.finesse) || 0.006, minC = Math.max(1, Math.round(w * fin)), minR = Math.max(1, Math.round(h * fin));
+    var bc = Analyse.bandes(Array.prototype.slice.call(col.maj), minC, pal.couleurs);
+    var br = Analyse.bandes(Array.prototype.slice.call(row.maj), minR, pal.couleurs);
+    /* carreaux : les mélanges chaîne × trame ne comptent pas pour la couleur des bandes */
+    var avecMelanges = function () {
+      var ex = Analyse.melanges(pal.couleurs); if (!ex) return;
+      var c2 = Analyse.profil(pal.labels, w, h, k, 'x', 0, null, ex), r2 = Analyse.profil(pal.labels, w, h, k, 'y', 0, null, ex);
+      bc = Analyse.bandes(Array.prototype.slice.call(c2.maj), minC, pal.couleurs); br = Analyse.bandes(Array.prototype.slice.call(r2.maj), minR, pal.couleurs);
+    };
+    /* chaque case (bande de chaîne × bande de trame) est-elle d'une seule couleur ? */
+    var cases = function () {
+      var x0 = 0, tot = 0, bon = 0;
+      bc.forEach(function (b) {
+        var y0 = 0;
+        br.forEach(function (r) {
+          var cnt = {}, n = 0, mx = 0, mx0 = Math.floor(b.n * 0.15), my0 = Math.floor(r.n * 0.15);
+          for (var y = y0 + my0; y < y0 + r.n - my0; y += 2) for (var x = x0 + mx0; x < x0 + b.n - mx0; x += 2) { var l = pal.labels[y * w + x]; cnt[l] = (cnt[l] || 0) + 1; n++; }
+          Object.keys(cnt).forEach(function (q) { if (cnt[q] > mx) mx = cnt[q]; });
+          tot += n; bon += mx; y0 += r.n;
+        });
+        x0 += b.n;
+      });
+      return tot ? bon / tot : 0;
+    };
+    /* fils teints en réserve : des bandes de chaîne changent de couleur le long du tissu */
+    var sb = null, enReserve = function () {
+      sb = sb || Analyse.bandesSig(pal.labels, w, h, k, pal.couleurs, minC);
+      var larg = 0; sb.forEach(function (b) { if (b.n >= w * 0.03 && b.seg.length >= 2 && b.seg.every(function (sg) { return sg.f >= 0.06; })) larg += b.n; });
+      return larg >= w * 0.08;
+    };
+    var st = opts.structure && opts.structure !== 'auto' ? opts.structure : null, pc = 0;
+    if (!st) {
+      if (k === 1 || (col.moy >= 0.96 && row.moy >= 0.96 && bc.length === 1)) st = 'uni';
+      else if (col.moy >= 0.8 && col.moy >= row.moy + 0.05) st = enReserve() ? 'reserve' : 'chaine';
+      else if (row.moy >= 0.8 && row.moy >= col.moy + 0.05) st = 'trame';
+      else {
+        var bc0 = bc, br0 = br; avecMelanges(); pc = cases();
+        if (pc >= 0.78 && bc.length > 1 && br.length > 1) st = 'carreaux'; else { bc = bc0; br = br0; st = 'reserve'; }
+      }
+    } else if (st === 'carreaux') { avecMelanges(); pc = cases(); }
+    var frac = function (rs, tot) { return rs.map(function (r) { return { c: r.c, f: r.n / tot }; }); };
+    var rc = Analyse.rapport(bc), rr = Analyse.rapport(br);
+    var chaine = frac(bc, w), trame = frac(br, h);
+    /* rayures de trame : la chaîne est d'une seule couleur ; tissu uni : une seule bande */
+    if (st === 'uni') { chaine = [{ c: 0, f: 1 }]; trame = [{ c: 0, f: 1 }]; rc = null; rr = null; }
+    if (st === 'trame') { chaine = [{ c: Analyse.plusFrequente(col.maj, k), f: 1 }]; rc = null; }
+    if (st === 'chaine') { trame = [{ c: Analyse.plusFrequente(row.maj, k), f: 1 }]; rr = null; }
+    /* fils teints en réserve : couleurs de chaque bande de chaîne le long de la photo */
+    var reserve = null;
+    var resF = null;
+    if (st === 'reserve') {
+      sb = sb || Analyse.bandesSig(pal.labels, w, h, k, pal.couleurs, minC);
+      chaine = frac(sb, w); rc = null;
+      /* couleurs de chaque bande ligne par ligne, puis le motif qui se répète le long du tissu */
+      var x0 = 0, minS = Math.max(2, Math.round(h * 0.012));
+      var parLigne = sb.map(function (b) {
+        var pr = Analyse.profil(pal.labels, w, h, k, 'y', x0, x0 + b.n); x0 += b.n;
+        var rs = Analyse.bandes(Array.prototype.slice.call(pr.maj), minS, pal.couleurs), out = new Uint8Array(h), y = 0;
+        rs.forEach(function (r) { for (var i = 0; i < r.n; i++) out[y++] = r.c; });
+        return out;
+      });
+      var cles = []; for (var y = 0; y < h; y++) cles.push(parLigne.map(function (a) { return a[y]; }).join(','));
+      var lr = []; cles.forEach(function (c) { if (lr.length && lr[lr.length - 1].k === c) lr[lr.length - 1].n++; else lr.push({ k: c, c: 0, n: 1 }); });
+      var rp = Analyse.rapport(lr), deb = 0, P = h;
+      if (rp) { P = Math.round(rp.n); deb = lr[0].n; if (deb + P > h) deb = Math.max(0, h - P); resF = P / h; }
+      reserve = parLigne.map(function (a) {
+        var o = []; for (var i = deb; i < deb + P && i < h; i++) { var l = o[o.length - 1]; if (l && l.c === a[i]) l.n++; else o.push({ c: a[i], n: 1 }); }
+        return o.map(function (r) { return { c: r.c, f: r.n / P }; });
+      });
+    }
+    return {
+      w: w, h: h, couleurs: pal.couleurs, structure: st, purete: { chaine: col.moy, trame: row.moy, cases: pc },
+      chaine: chaine, trame: trame,
+      rapportChaine: rc ? { unit: frac(rc.unit, w), f: rc.n / w, fois: rc.fois } : null,
+      rapportTrame: rr ? { unit: frac(rr.unit, h), f: rr.n / h, fois: rr.fois } : null,
+      reserve: reserve, resF: resF, labels: pal.labels
+    };
+  },
+  /* couleur de l'atelier la plus proche de chaque couleur de la photo, après correction
+     du blanc (une photo prise à l'intérieur rend le blanc gris ou jaune) */
+  mapAuto: function (couleurs, liste) {
+    liste = liste || Coul.atelier();
+    var g = [1, 1, 1], cl = couleurs.slice().sort(function (a, b) { return b.lab[0] - a.lab[0]; })[0];
+    if (cl && cl.lab[0] > 58 && Math.sqrt(cl.lab[1] * cl.lab[1] + cl.lab[2] * cl.lab[2]) < 20) g = cl.rgb.map(function (v, i) { return Math.max(1, Math.min(1.6, [244, 244, 242][i] / Math.max(1, v))); });
+    var m = {};
+    couleurs.forEach(function (c, i) { var r = c.rgb.map(function (v, q) { return Math.min(255, v * g[q]); }); var pc = Coul.proche(Coul.lab(r[0], r[1], r[2]), liste); m[i] = pc ? pc.id : null; });
+    return m;
+  },
+  /* l'analyse dont les couleurs sont remplacées par celles de l'atelier (map : n° de couleur → id),
+     les bandes voisines devenues de même couleur réunies */
+  versAtelier: function (a, map) {
+    var cid = function (i) { return map[i] || null; };
+    var joint = function (bs) { var o = []; bs.forEach(function (b) { var c = cid(b.c), l = o[o.length - 1]; if (l && l.c === c) l.f += b.f; else o.push({ c: c, f: b.f }); }); return o; };
+    var parts = {}; a.couleurs.forEach(function (c, i) { var id = cid(i); parts[id] = (parts[id] || 0) + c.part; });
+    var res = null, chaine;
+    if (a.reserve) {
+      chaine = []; res = [];
+      a.chaine.forEach(function (b, i) {
+        var seg = joint(a.reserve[i] || []), c = cid(b.c), l = chaine[chaine.length - 1];
+        if (l && l.c === c && JSON.stringify(res[res.length - 1]) === JSON.stringify(seg)) l.f += b.f; else { chaine.push({ c: c, f: b.f }); res.push(seg); }
+      });
+    } else chaine = joint(a.chaine);
+    var rap = function (r) { return r ? { unit: joint(r.unit), f: r.f, fois: r.fois } : null; };
+    return { w: a.w, h: a.h, resF: a.resF || null, structure: a.structure, couleurs: Object.keys(parts).map(function (k) { return { c: k === 'null' ? null : k, part: parts[k] }; }),
+      chaine: chaine, trame: joint(a.trame), rapportChaine: rap(a.rapportChaine), rapportTrame: rap(a.rapportTrame), reserve: res };
+  }
+};
+
+/* ---------- calculs de tissage ---------- */
+var PEIGNES = [20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 100];
+/* titres de fil : numéro anglais coton (Ne) / nombre de bouts → numéro métrique Nm (mètres par gramme) = 1,693 × Ne / bouts */
+var TITRES = [['ne6-1', 'Coton 6/1', 6, 1], ['ne8-1', 'Coton 8/1', 8, 1], ['ne10-1', 'Coton 10/1', 10, 1], ['ne12-1', 'Coton 12/1', 12, 1], ['ne20-1', 'Coton 20/1', 20, 1],
+  ['ne8-2', 'Coton 8/2', 8, 2], ['ne10-2', 'Coton 10/2', 10, 2], ['ne16-2', 'Coton 16/2', 16, 2], ['ne20-2', 'Coton 20/2', 20, 2], ['ne30-2', 'Coton 30/2', 30, 2], ['ne40-2', 'Coton 40/2', 40, 2],
+  ['ne20-3', 'Coton 20/3', 20, 3], ['autre', 'Autre fil (je donne les mètres par gramme)', 0, 0]];
+function titreNm(k, autre) { var t = TITRES.filter(function (x) { return x[0] === k; })[0]; return t && t[2] ? 1.693 * t[2] / t[3] : (Number(autre) > 0 ? Number(autre) : 16.93); }
+var ARMURES = {
+  toile: { nom: 'Toile (un fil dessus, un fil dessous)', lames: 2, rentrage: [1, 2], marches: [[1], [2]], duitesParPas: 1 },
+  natte: { nom: 'Natté 2/2 (fils et duites par deux)', lames: 2, rentrage: [1, 1, 2, 2], marches: [[1], [2]], duitesParPas: 2 },
+  serge22: { nom: 'Sergé 2/2 (côtes en biais)', lames: 4, rentrage: [1, 2, 3, 4], marches: [[1, 2], [2, 3], [3, 4], [4, 1]], duitesParPas: 1 },
+  serge31: { nom: 'Sergé 3/1 (face chaîne)', lames: 4, rentrage: [1, 2, 3, 4], marches: [[1, 2, 3], [2, 3, 4], [3, 4, 1], [4, 1, 2]], duitesParPas: 1 }
+};
+/* le fil de chaîne i passe-t-il dessus à la duite j ? */
+function armLeve(arm, i, j) {
+  var A = ARMURES[arm] || ARMURES.toile, lame = A.rentrage[i % A.rentrage.length], pas = Math.floor(j / A.duitesParPas) % A.marches.length;
+  return A.marches[pas].indexOf(lame) >= 0;
+}
+
+var Tissage = {
+  /* répartition entière qui garde le total (plus forts restes), au moins `min` par part non nulle */
+  repartit: function (parts, total, min) {
+    min = min || 0;
+    var s = parts.reduce(function (t, x) { return t + x; }, 0) || 1, ex = parts.map(function (x) { return x / s * total; });
+    var base = ex.map(function (x) { return x > 0 ? Math.max(min, Math.floor(x)) : 0; }), reste = total - base.reduce(function (t, x) { return t + x; }, 0);
+    var ord = ex.map(function (x, i) { return { i: i, r: x - Math.floor(x) }; }).filter(function (o) { return ex[o.i] > 0; }).sort(function (a, b) { return b.r - a.r; });
+    for (var q = 0; reste > 0 && ord.length; q = (q + 1) % ord.length) { base[ord[q].i]++; reste--; }
+    while (reste < 0) { var big = base.indexOf(Math.max.apply(null, base)); if (base[big] <= min) break; base[big]--; reste++; }
+    return base;
+  },
+  /* fils de chaque bande (total T) : en dents entières de `fpd` fils, sauf les bandes plus fines qu'une dent */
+  fils: function (cms, T, fpd) {
+    var tot = cms.reduce(function (t, x) { return t + x; }, 0) || 1, ex = cms.map(function (x) { return x / tot * T; });
+    if (fpd <= 1) return Tissage.repartit(cms, T, 1);
+    var fin = ex.map(function (x) { return x > 0 && x < fpd; }), n = ex.map(function (x, i) { return fin[i] ? Math.max(1, Math.round(x)) : 0; });
+    var reste = T - n.reduce(function (t, x) { return t + x; }, 0), larges = ex.map(function (x, i) { return fin[i] ? 0 : x; });
+    if (!larges.some(function (x) { return x > 0; })) return Tissage.repartit(cms, T, 1);
+    var D = Math.floor(reste / fpd), r = reste - D * fpd, d = Tissage.repartit(larges, D, 1);
+    d.forEach(function (x, i) { if (!fin[i]) n[i] = x * fpd; });
+    var big = 0; n.forEach(function (x, i) { if (!fin[i] && x > n[big]) big = i; }); n[big] += r;
+    return n;
+  },
+  sig: function (b) { return String(b.c) + '|' + JSON.stringify(b.seg || null); },
+  colle: function (bs) { var m = []; bs.forEach(function (b) { var last = m[m.length - 1]; if (last && Tissage.sig(last) === Tissage.sig(b)) last.cm += b.cm; else m.push(Object.assign({}, b)); }); return m; },
+  /* une suite de bandes (fractions f) répétée sur `largeur` cm, le motif mesurant `unitCm` cm, centrée */
+  pave: function (unit, unitCm, largeur) {
+    var cm = unit.map(function (b) { return Object.assign({}, b, { cm: b.f * unitCm }); }), res = [];
+    var nb = Math.floor(largeur / unitCm + 1e-6), rest = largeur - nb * unitCm;
+    var morceau = function (cmMax, depuisFin) {
+      var seq = depuisFin ? cm.slice().reverse() : cm, o = [], r = cmMax;
+      for (var j = 0; j < seq.length && r > 1e-6; j++) { var c2 = Math.min(seq[j].cm, r); o.push(Object.assign({}, seq[j], { cm: c2 })); r -= c2; }
+      return depuisFin ? o.reverse() : o;
+    };
+    if (rest > 1e-6) res = res.concat(morceau(rest / 2, true));
+    for (var k = 0; k < nb; k++) res = res.concat(cm.map(function (b) { return Object.assign({}, b); }));
+    if (rest > 1e-6) res = res.concat(morceau(rest / 2, false));
+    return Tissage.colle(res);
+  },
+  /* largeur réelle (cm de tissu fini) que montre toute la largeur de la photo */
+  echelle: function (p, largFinie) {
+    if (p.photo === 'partie' && Number(p.zoneCm) > 0) return Number(p.zoneCm);
+    if (p.photo === 'motif') return largFinie / Math.max(1, Math.round(Number(p.nbMotifs) || 1));
+    return largFinie;
+  },
+  /* bandes de chaîne sur la largeur au peigne (en cm) */
+  bandesChaine: function (p, a, largPeigne, largFinie) {
+    var src = (a.chaine || []).map(function (b, i) { var x = { c: b.c, f: b.f }; if (a.reserve && a.reserve[i] && a.reserve[i].length > 1) x.seg = a.reserve[i]; return x; });
+    if (!src.length) return [];
+    if (p.photo === 'motif') return Tissage.pave(src, largPeigne / Math.max(1, Math.round(Number(p.nbMotifs) || 1)), largPeigne);
+    var zone = Tissage.echelle(p, largFinie) * largPeigne / largFinie;   /* cm au peigne que couvre la photo */
+    if (p.photo === 'partie' && zone < largPeigne - 1e-6) {
+      var rc = a.rapportChaine && !a.reserve ? a.rapportChaine : null;
+      return rc ? Tissage.pave(rc.unit.map(function (u) { return { c: u.c, f: u.f / rc.f }; }), zone * rc.f, largPeigne) : Tissage.pave(src, zone, largPeigne);
+    }
+    return Tissage.colle(src.map(function (b) { return Object.assign({}, b, { cm: b.f * largPeigne }); }));
+  },
+  dominante: function (a) { var cs = (a.couleurs || []).filter(function (c) { return c.c; }); if (!cs.length) return null; var b = cs[0]; cs.forEach(function (c) { if (c.part > b.part) b = c; }); return b.c; },
+  /* plan complet. p = paramètres ; a = analyse aux couleurs de l'atelier (Analyse.versAtelier) ;
+     manuel = bandes saisies à la main [{c, fils, seg}] qui remplacent celles de la photo */
+  plan: function (p, a, manuel) {
+    a = a || { structure: 'uni', chaine: [], trame: [], couleurs: [] };
+    var d10 = p.peigne === 'autre' ? (Number(p.dentsAutre) > 0 && Number(p.cmAutre) > 0 ? Number(p.dentsAutre) / Number(p.cmAutre) * 10 : 40) : Number(p.peigne) || 40;
+    var fpd = Math.max(1, Math.round(Number(p.fpd) || 2)), dens = d10 / 10 * fpd, retrait = Math.min(40, Math.max(0, Number(p.retrait) || 0)) / 100;
+    var T, largPeigne, fils;
+    if (manuel && manuel.length) {
+      fils = manuel.map(function (b) { return { c: b.c || null, fils: Math.max(0, Math.round(Number(b.fils) || 0)), seg: b.seg || null }; }).filter(function (b) { return b.fils > 0; });
+      T = fils.reduce(function (t, b) { return t + b.fils; }, 0) || fpd; largPeigne = T / dens;
+    } else {
+      if (p.mode === 'fils' && Number(p.totalFils) > 0) T = Math.max(fpd, Math.round(Number(p.totalFils) / fpd) * fpd);
+      else T = Math.max(fpd, Math.round((Number(p.largeur) || 20) / (1 - retrait) * dens / fpd) * fpd);
+      largPeigne = T / dens;
+      var bandes = Tissage.bandesChaine(p, a, largPeigne, largPeigne * (1 - retrait));
+      var n = Tissage.fils(bandes.map(function (b) { return b.cm; }), T, p.dentsEntieres === false ? 1 : fpd);
+      fils = bandes.map(function (b, i) { return { c: b.c, fils: n[i], seg: b.seg || null }; }).filter(function (b) { return b.fils > 0; });
+      var f2 = []; fils.forEach(function (b) { var l = f2[f2.length - 1]; if (l && Tissage.sig(l) === Tissage.sig(b)) l.fils += b.fils; else f2.push(b); }); fils = f2;
+    }
+    if (!fils.length) fils = [{ c: Tissage.dominante(a), fils: T, seg: null }];
+    var largeurFinie = largPeigne * (1 - retrait), dents = Math.ceil(T / fpd);
+    /* bandes de base (avant les lisières), avec leur numéro : on les modifie à la main */
+    var base = fils.map(function (b, i) { return { c: b.c, fils: b.fils, seg: b.seg || null }; });
+    fils = fils.map(function (b, i) { return { c: b.c, fils: b.fils, seg: b.seg || null, bi: i }; });
+    /* lisières doublées : les fils des premières et des dernières dents sont doublés (deux par maillon) */
+    var lis = Math.max(0, Math.round(Number(p.lisiere) || 0)), lisF = lis * fpd;
+    if (lis && T > 4 * lisF) {
+      var gauche = [], droite = [], r = lisF, t;
+      while (r > 0 && fils.length) { t = Math.min(fils[0].fils, r); gauche.push(Object.assign({}, fils[0], { fils: t })); fils[0].fils -= t; r -= t; if (!fils[0].fils) fils.shift(); }
+      r = lisF;
+      while (r > 0 && fils.length) { var z = fils[fils.length - 1]; t = Math.min(z.fils, r); droite.unshift(Object.assign({}, z, { fils: t })); z.fils -= t; r -= t; if (!z.fils) fils.pop(); }
+      gauche.concat(droite).forEach(function (b) { b.lisiere = true; b.fils *= 2; });
+      fils = gauche.concat(fils, droite);
+    } else lis = 0;
+    var Ttot = fils.reduce(function (t, b) { return t + b.fils; }, 0);
+    /* positions : fils, maillons, dents et centimètres depuis le bord gauche */
+    var fil = 0, dent = 0, maillon = 0;
+    fils.forEach(function (b) {
+      var nd = b.lisiere ? b.fils / (2 * fpd) : b.fils / fpd, nm = b.lisiere ? b.fils / 2 : b.fils;
+      b.de = fil + 1; b.a = fil + b.fils; b.dentDe = Math.floor(dent + 1e-9) + 1; b.dentA = Math.ceil(dent + nd - 1e-9); b.maillonDe = maillon + 1; b.maillonA = maillon + nm;
+      b.cmDe = dent / (d10 / 10); b.cm = nd / (d10 / 10);
+      fil += b.fils; dent += nd; maillon += nm;
+    });
+    /* longueurs et poids */
+    var L = Math.max(0.1, Number(p.longueur) || 10), emb = Math.max(0, Number(p.embuvage) || 0) / 100, dech = Math.max(0, Number(p.dechet) || 0);
+    var Lourdi = L * (1 + emb) + dech, nmC = titreNm(p.titreC, p.nmC), nmT = titreNm(p.titreT, p.nmT);
+    var dpc = Math.max(1, Number(p.duites) || 12), duitesTot = Math.round(dpc * L * 100), lDuite = largPeigne / 100 * 1.05;
+    var cmPx = Tissage.echelle(p, largeurFinie) / Math.max(1, a.w || 1);   /* centimètres de tissu par pixel de la photo */
+    /* trame : couleurs le long du tissu */
+    var trame, rr = a.rapportTrame;
+    if ((a.structure === 'trame' || a.structure === 'carreaux') && (a.trame || []).length > 1 && !p.trameC) {
+      var hcm = (a.h || 1) * cmPx, unit = rr && rr.fois >= 1.7 ? rr.unit.map(function (u) { return { c: u.c, cm: u.f * hcm }; }) : a.trame.map(function (b) { return { c: b.c, cm: b.f * hcm }; });
+      var u2 = []; unit.forEach(function (b) { var l = u2[u2.length - 1]; if (l && l.c === b.c) l.cm += b.cm; else u2.push({ c: b.c, cm: b.cm }); });
+      var rep = u2.reduce(function (t, b) { return t + b.cm; }, 0) || 1;
+      trame = { repete: rep, bandes: u2.map(function (b) { return { c: b.c, cm: b.cm, duites: Math.max(1, Math.round(b.cm * dpc)) }; }) };
+    } else trame = { repete: null, bandes: [{ c: p.trameC || (a.structure === 'chaine' || a.structure === 'reserve' ? (a.trame && a.trame[0] && a.trame[0].c) : null) || Tissage.dominante(a) || fils[0].c, cm: null, duites: null }] };
+    var uniteDuites = trame.repete ? trame.bandes.reduce(function (t, b) { return t + b.duites; }, 0) : 1;
+    var rapportRes = fils.some(function (b) { return b.seg; }) ? Math.max(0.5, (a.resF || 1) * (a.h || 1) * cmPx) : null;
+    var parC = {};
+    var add = function (c, k, v) { var key = c === null || c === undefined ? '_' : c, x = parC[key] = parC[key] || { c: c === undefined ? null : c, fils: 0, filsRes: 0, chaineM: 0, chaineG: 0, duites: 0, trameM: 0, trameG: 0 }; x[k] += v; };
+    fils.forEach(function (b) {
+      add(b.c, 'fils', b.fils);
+      if (b.seg && b.seg.length > 1) { var vus = {}; b.seg.forEach(function (s) { add(s.c, 'chaineM', b.fils * Lourdi * s.f); add(s.c, 'chaineG', b.fils * Lourdi * s.f / nmC); if (s.c !== b.c && !vus[s.c]) { vus[s.c] = 1; add(s.c, 'filsRes', b.fils); } }); }
+      else { add(b.c, 'chaineM', b.fils * Lourdi); add(b.c, 'chaineG', b.fils * Lourdi / nmC); }
+    });
+    trame.bandes.forEach(function (b) { var part = trame.repete ? b.duites / uniteDuites : 1, du = Math.round(duitesTot * part); add(b.c, 'duites', du); add(b.c, 'trameM', du * lDuite); add(b.c, 'trameG', du * lDuite / nmT); });
+    var compo = Object.keys(parC).map(function (k) { var x = parC[k]; x.totalG = x.chaineG + x.trameG; x.gpm = x.totalG / L; return x; }).sort(function (x, y) { return y.totalG - x.totalG; });
+    var totG = compo.reduce(function (t, x) { return t + x.totalG; }, 0) || 1;
+    compo.forEach(function (x) { x.part = x.totalG / totG; x.partFils = x.fils / (Ttot || 1); });
+    /* attache : mèches d'environ 2,5 cm */
+    var parMeche = Math.max(2 * fpd, Math.round(2.5 * dens / fpd) * fpd), meches = Math.ceil(Ttot / parMeche);
+    /* centrage dans le peigne du métier */
+    var dentsPeigne = Number(p.peigneCm) > 0 ? Math.round(Number(p.peigneCm) * d10 / 10) : 0, depart = dentsPeigne > dents ? Math.floor((dentsPeigne - dents) / 2) + 1 : 0;
+    var arm = ARMURES[p.armure] ? p.armure : 'toile', A = ARMURES[arm], lames = []; for (var li = 0; li < A.lames; li++) lames.push(0);
+    for (var mi = 0; mi < maillon; mi++) lames[A.rentrage[mi % A.rentrage.length] - 1]++;
+    return { d10: d10, fpd: fpd, densite: dens, largPeigne: largPeigne, largeurFinie: largeurFinie, retrait: retrait, dents: dents, fils: fils, base: base, T: Ttot, Tbase: T, lisiere: lis,
+      maillons: maillon, lames: lames, armure: arm, parMeche: parMeche, meches: meches, dentsPeigne: dentsPeigne, depart: depart,
+      L: L, Lourdi: Lourdi, nmC: nmC, nmT: nmT, duitesCm: dpc, duitesTot: duitesTot, lDuite: lDuite, trame: trame, compo: compo, totalG: totG, rapportRes: rapportRes,
+      structure: a.structure || 'uni', manuel: !!(manuel && manuel.length) };
+  },
+  /* suite de bandes regroupée en « N fois : … » pour un ourdissage lisible */
+  groupes: function (fils) {
+    var seq = fils.map(function (b) { return (b.lisiere ? 'L' : '') + Tissage.sig(b) + ':' + b.fils; }), n = seq.length, out = [], i = 0;
+    while (i < n) {
+      var best = null;
+      for (var p = 1; p <= Math.floor((n - i) / 2); p++) {
+        var fois = 1;
+        while (i + (fois + 1) * p <= n) { var ok = true; for (var j = 0; j < p; j++) if (seq[i + fois * p + j] !== seq[i + j]) { ok = false; break; } if (!ok) break; fois++; }
+        if (fois >= 2 && (!best || fois * p > best.fois * best.p)) best = { p: p, fois: fois };
+      }
+      if (best) { out.push({ de: i, p: best.p, fois: best.fois }); i += best.p * best.fois; }
+      else { out.push({ de: i, p: 1, fois: 1 }); i++; }
+    }
+    return out;
+  }
+};
+
+/* ---------- petits affichages ---------- */
+function mcNom(c) { return c ? couleurName(c) : 'Couleur à choisir'; }
+function mcHex(c) { return c ? couleurHex(c) : '#c4c8d4'; }
+function mcSw(c) { return '<span class="sw" style="background:' + attr(mcHex(c)) + '"></span>'; }
+function mcSeg(seg) { return '<span class="mc-seg" aria-hidden="true">' + seg.map(function (s) { return '<i style="background:' + attr(mcHex(s.c)) + ';flex:' + Math.max(0.02, s.f) + '"></i>'; }).join('') + '</span>'; }
+function mcG(g) { g = Number(g) || 0; return g < 1000 ? fmtN(g, 0) + ' g' : fmtN(g / 1000, g < 10000 ? 2 : 1) + ' kg'; }
+function mcCm(x) { return fmtN(x, x < 10 ? 2 : 1) + ' cm'; }
+function mcNum(v, d) { var n = parseNum(v); return isNaN(n) ? (d === undefined ? '' : d) : n; }
+
+/* ---------- calcul de modèle : la fenêtre ---------- */
+var Calc = {
+  STRUCT: {
+    uni: ['Tissu uni', 'Une seule couleur : la chaîne et la trame sont de la même couleur.'],
+    chaine: ['Rayures de chaîne', 'Les rayures suivent la longueur du tissu : ce sont les fils de chaîne qui portent les couleurs.'],
+    trame: ['Rayures de trame', 'Les rayures traversent le tissu : ce sont les duites (la trame) qui portent les couleurs. Si ces rayures sont en réalité des fils de chaîne (photo prise de travers), tournez la photo.'],
+    carreaux: ['Carreaux', 'La chaîne et la trame sont rayées toutes les deux ; leurs croisements dessinent les carreaux.'],
+    reserve: ['Fils teints en réserve', 'Certains fils de chaîne changent de couleur le long du tissu : ils sont teints par parties, en ligaturant les zones à garder (voir le plan de teinture).']
+  },
+  metierVals: function (m, f) {
+    var g = m === 'grand';
+    return { peigne: g ? 50 : 40, largeur: f && f.largeur ? f.largeur : (g ? 110 : 20), retrait: g ? 7 : 5, embuvage: g ? 8 : 10, dechet: g ? 0.8 : 1.2, duites: g ? 14 : 12, armure: 'toile', lisiere: 2 };
+  },
+  defauts: function (m, f) {
+    return Object.assign({ metier: m === 'grand' ? 'grand' : 'petit', fpd: 2, mode: 'largeur', totalFils: '', photo: 'toute', zoneCm: '', nbMotifs: 2, peigneCm: '',
+      longueur: f && f.longueur ? f.longueur : 10, titreC: 'ne20-2', nmC: '', titreT: 'ne20-2', nmT: '', trameC: '', bobines: 2,
+      dentsAutre: '', cmAutre: 10, nb: 'auto', finesse: '0.006', structure: 'auto', redresser: 'auto', rot: 0 }, Calc.metierVals(m, f));
+  },
+  ouvrir: function (id) {
+    var f = id ? ficheCat(id) : null, sv = f && f.calcul ? f.calcul : null;
+    var p = Object.assign(Calc.defauts(sv && sv.params ? sv.params.metier : 'petit', f), sv && sv.params ? sv.params : {});
+    /* plan enregistré : calculé sur la photo principale de la fiche, on le refait avec les mêmes réglages ;
+       sinon (photo chargée, bandes modifiées), on reprend ses bandes telles qu'elles ont été enregistrées */
+    var memePhoto = !!(sv && !sv.manuel && sv.photo && f && (f.photos || [])[0] === sv.photo);
+    var st = Calc.st = { id: id || null, f: f, p: p, sv: sv, map: memePhoto && sv.map ? Object.assign({}, sv.map) : null, mapGarde: !!(memePhoto && sv.map), manuel: sv && !memePhoto && sv.base ? clone(sv.base) : null, src: null, a: null, aa: null, plan: null, img: null, cv: null };
+    var acts = [{ t: icon('print') + ' Imprimer la fiche de calcul', act: 'print', cls: 'ghost' }, { t: icon('drop') + ' Plan de teinture', act: 'tei', cls: 'ghost' }];
+    if (can('catalogue', 'modifier') && list('catalogue/fiches', function (x) { return !x.archive; }).length) acts.push({ t: icon('check') + (f ? ' Enregistrer dans la fiche' : ' Enregistrer dans une fiche…'), act: 'save', cls: 'primary' });
+    acts.push({ t: 'Fermer', act: '__close', cls: 'ghost' });
+    var m = st.m = UI.modal({ title: 'Calcul de modèle' + (f ? ' — ' + f.nom + (f.ref ? ' (' + f.ref + ')' : '') : ''), size: 'xl', dismiss: false, body: Calc.corps(st), actions: acts,
+      onAct: function (a, b) { if (a === 'print') Calc.imprimer(st); if (a === 'tei') TeintPlan.depuisCalcul(st); if (a === 'save') Calc.enregistrer(st, b); } });
+    m.el.classList.add('mc-modal');
+    Calc.lier(st);
+    Data.need(['stock/articles', 'stock/soldes', 'stock/lots']).then(function () { if (!m.closed && st.plan) Calc.calcule(st); }).catch(function () {});
+    var ph = f ? (f.photos || []) : [];
+    if (ph.length) Calc.chargeFiche(st, ph[0]); else if (f && f.vignette) Calc.chargeUrl(st, f.vignette); else Calc.calcule(st);
+    return m;
+  },
+  corps: function (st) {
+    var f = st.f, ph = f ? (f.photos || []) : [];
+    return '<div class="mc"><div class="mc-g">' +
+      '<section class="mc-photo"><div class="mc-cv" id="mc-cv"><div class="mc-vide">' + icon('image') + '<span>Choisissez la photo du modèle : bien droite, prise de face, en pleine lumière, sans ombre.</span></div></div>' +
+        '<canvas class="mc-barre" id="mc-barre" height="28" aria-hidden="true"></canvas>' +
+        '<div class="row wrap mc-src">' + ph.map(function (pid, i) { return '<button type="button" class="cat-th" data-ca="ph" data-id="' + attr(pid) + '" aria-label="Photo ' + (i + 1) + ' du modèle"><span class="spin"></span></button>'; }).join('') +
+          '<label class="btn ghost sm">' + icon('upload') + ' Charger une photo<input type="file" accept="image/*" id="mc-file" hidden></label>' +
+          '<button type="button" class="btn ghost sm" data-ca="rot">' + icon('move') + ' Tourner d\'un quart</button></div>' +
+        '<p class="muted mc-info"><span id="mc-red"></span> <span id="mc-info">' + (st.sv ? 'Plan enregistré le ' + esc(fmtDate(st.sv.date)) + (st.sv.par ? ' par ' + esc(st.sv.par) : '') + '.' : '') + '</span></p></section>' +
+      '<section class="mc-par fgrid" id="mc-par">' + Calc.parHtml(st) + '</section></div>' +
+      '<div class="mc-r" id="mc-res"><p class="loading"><span class="spin"></span> Calcul…</p></div></div>';
+  },
+  parHtml: function (st) {
+    var p = st.p, man = !!st.manuel;
+    var o = function (arr, v) { return arr.map(function (x) { return '<option value="' + attr(x[0]) + '"' + (String(x[0]) === String(v) ? ' selected' : '') + '>' + esc(x[1]) + '</option>'; }).join(''); };
+    var sel = function (k, t, arr, help, span) { return '<label class="fld' + (span ? ' span2' : '') + '"><span>' + esc(t) + '</span><select data-cp="' + k + '">' + o(arr, p[k]) + '</select>' + (help ? '<small class="muted">' + help + '</small>' : '') + '</label>'; };
+    var num = function (k, t, help, dis) { return '<label class="fld"><span>' + esc(t) + '</span><input type="text" inputmode="decimal" data-cp="' + k + '" value="' + attr(p[k] === '' || p[k] === null || p[k] === undefined ? '' : String(p[k]).replace('.', ',')) + '"' + (dis ? ' disabled' : '') + '>' + (help ? '<small class="muted">' + help + '</small>' : '') + '</label>'; };
+    var sec = function (t, help) { return '<div class="fsec span2"><h3>' + esc(t) + '</h3>' + (help ? '<p class="muted">' + help + '</p>' : '') + '</div>'; };
+    var nbs = [['auto', 'Automatique']]; for (var i = 1; i <= 10; i++) nbs.push([String(i), plural(i, 'couleur')]);
+    var cs = [['', 'Celle de la photo']].concat(Opt.couleurs());
+    return sec('La photo') +
+      sel('photo', 'La photo montre', [['toute', 'Toute la largeur du tissu'], ['partie', 'Une partie du tissu (le motif se répète)'], ['motif', 'Un seul motif, à répéter sur la largeur']], '', true) +
+      (p.photo === 'partie' ? num('zoneCm', 'Largeur visible sur la photo (cm)', 'Mesurez sur le tissu la largeur que montre la photo.') : '') +
+      (p.photo === 'motif' ? num('nbMotifs', 'Nombre de motifs sur la largeur') : '') +
+      sel('nb', 'Nombre de couleurs', nbs, 'Automatique, ou imposez-le si l\'application en voit trop ou pas assez.') +
+      sel('structure', 'Type de tissu', [['auto', 'Reconnu par l\'application'], ['uni', 'Uni'], ['chaine', 'Rayures de chaîne'], ['trame', 'Rayures de trame'], ['carreaux', 'Carreaux'], ['reserve', 'Fils teints en réserve']]) +
+      sel('finesse', 'Détails', [['0.003', 'Fins (garde les filets étroits)'], ['0.006', 'Normaux'], ['0.012', 'Larges (ignore les petits détails)']]) +
+      sel('redresser', 'Redresser une photo penchée', [['auto', 'Automatiquement'], ['non', 'Non']]) +
+      sec('Métier et peigne', man ? 'Bandes modifiées à la main : la largeur découle du nombre de fils.' : '') +
+      sel('metier', 'Métier', [['petit', 'Petit métier (bandes étroites)'], ['grand', 'Grand métier (tissu large)']], 'Changer de métier remet ses valeurs habituelles.') +
+      sel('peigne', 'Peigne', PEIGNES.map(function (n) { return [String(n), n + ' dents pour 10 cm (' + fmtN(n / 10, 1) + ' par cm)']; }).concat([['autre', 'Autre peigne (je compte les dents)']])) +
+      (p.peigne === 'autre' ? num('dentsAutre', 'Dents comptées', 'Comptez les dents sur une longueur connue du peigne.') + num('cmAutre', 'Sur une longueur de (cm)') : '') +
+      sel('fpd', 'Fils par dent', [['1', '1 fil par dent'], ['2', '2 fils par dent'], ['3', '3 fils par dent'], ['4', '4 fils par dent']]) +
+      sel('mode', 'Calculer d\'après', [['largeur', 'La largeur de tissu voulue'], ['fils', 'Le nombre de fils voulu']]) +
+      (p.mode === 'fils' ? num('totalFils', 'Nombre de fils de chaîne voulu', '', man) : num('largeur', 'Largeur du tissu fini (cm)', '', man)) +
+      num('retrait', 'Retrait en largeur (%)', 'Le tissu se resserre au tissage et au lavage : 4 à 8 %.', man) +
+      sel('lisiere', 'Lisières renforcées', [['0', 'Aucune'], ['1', '1 dent doublée de chaque côté'], ['2', '2 dents doublées de chaque côté'], ['3', '3 dents doublées de chaque côté'], ['4', '4 dents doublées de chaque côté']]) +
+      sel('armure', 'Armure', Object.keys(ARMURES).map(function (k) { return [k, ARMURES[k].nom]; })) +
+      num('peigneCm', 'Largeur totale du peigne du métier (cm)', 'Facultatif : pour centrer la chaîne dans le peigne.') +
+      sec('Longueur et fils') +
+      num('longueur', 'Longueur de tissu à produire (m)') +
+      num('embuvage', 'Embuvage (%)', 'Les fils ondulent autour des duites : 6 à 12 % de longueur en plus.') +
+      num('dechet', 'Longueur perdue à l\'attache (m)', 'Nœuds, attache, bout que l\'on ne peut pas tisser.') +
+      num('duites', 'Duites par cm') +
+      sel('titreC', 'Fil de chaîne', TITRES.map(function (t) { return [t[0], t[1] + (t[2] ? ' — ' + fmtN(1.693 * t[2] / t[3], 1) + ' m/g' : '')]; })) +
+      (p.titreC === 'autre' ? num('nmC', 'Mètres de fil par gramme (chaîne)', 'Pesez 100 m de fil : 100 ÷ poids en grammes.') : '') +
+      sel('titreT', 'Fil de trame', TITRES.map(function (t) { return [t[0], t[1] + (t[2] ? ' — ' + fmtN(1.693 * t[2] / t[3], 1) + ' m/g' : '')]; })) +
+      (p.titreT === 'autre' ? num('nmT', 'Mètres de fil par gramme (trame)') : '') +
+      sel('trameC', 'Couleur de la trame', cs, 'Pour les rayures de chaîne, la trame est souvent de la couleur du fond.') +
+      sel('bobines', 'Bobines à l\'ourdissage', [['1', '1 bobine'], ['2', '2 bobines'], ['4', '4 bobines'], ['6', '6 bobines'], ['8', '8 bobines']]);
+  },
+  lier: function (st) {
+    var m = st.m, tm = null;
+    m.body.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-ca]'); if (!b || !m.body.contains(b)) return;
+      var a = b.dataset.ca;
+      if (a === 'rot') { st.p.rot = ((Number(st.p.rot) || 0) + 1) % 4; st.manuel = null; if (st.img) Calc.analyse(st); }
+      if (a === 'ph') { st.manuel = null; Calc.chargeFiche(st, b.dataset.id); }
+      if (a === 'add') { Calc.versManuel(st); st.manuel.push({ c: (st.manuel[st.manuel.length - 1] || {}).c || 'blanc', fils: 2 * st.plan.fpd }); Calc.calcule(st); }
+      if (a === 'del') { Calc.versManuel(st); st.manuel.splice(Number(b.dataset.id), 1); if (!st.manuel.length) st.manuel = null; Calc.calcule(st); }
+      if (a === 'reset') { st.manuel = null; $('#mc-par', m.el).innerHTML = Calc.parHtml(st); Calc.calcule(st); }
+      if (a === 'tous') { st.tous = !st.tous; Calc.calcule(st); }
+    });
+    m.body.addEventListener('change', function (e) {
+      var t = e.target;
+      if (t.id === 'mc-file') {
+        var file = t.files && t.files[0]; if (!file) return;
+        var rd = new FileReader(); rd.onload = function () { st.manuel = null; st.p.rot = 0; st.src = null; Calc.chargeUrl(st, rd.result); }; rd.readAsDataURL(file); t.value = '';
+        return;
+      }
+      if (t.dataset.cp) { clearTimeout(tm); Calc.param(st, t); return; }
+      if (t.dataset.map !== undefined) { st.map[t.dataset.map] = t.value || null; Calc.calcule(st); return; }
+      if (t.dataset.bc !== undefined) { Calc.versManuel(st); st.manuel[Number(t.dataset.bc)].c = t.value || null; Calc.calcule(st); return; }
+      if (t.dataset.bf !== undefined) {
+        var v = Math.round(mcNum(t.value, NaN)); if (isNaN(v) || v < 0) { t.value = t.dataset.v; return; }
+        Calc.versManuel(st); var bi = Number(t.dataset.bf); st.manuel[bi].fils = Math.max(0, st.manuel[bi].fils + v - Number(t.dataset.v));
+        st.manuel = st.manuel.filter(function (b) { return b.fils > 0; }); if (!st.manuel.length) st.manuel = null;
+        Calc.calcule(st);
+      }
+    });
+    m.body.addEventListener('input', function (e) { var t = e.target; if (t.dataset.cp && t.tagName === 'INPUT') { clearTimeout(tm); tm = setTimeout(function () { if (document.body.contains(t)) Calc.param(st, t); }, 450); } });
+  },
+  param: function (st, el) {
+    var k = el.dataset.cp, v = el.value, nums = ['zoneCm', 'nbMotifs', 'dentsAutre', 'cmAutre', 'totalFils', 'largeur', 'retrait', 'peigneCm', 'longueur', 'embuvage', 'dechet', 'duites', 'nmC', 'nmT'];
+    if (nums.indexOf(k) >= 0) { v = v === '' ? '' : mcNum(v, NaN); if (isNaN(v) || v < 0) { el.closest('.fld').classList.add('bad'); return; } el.closest('.fld').classList.remove('bad'); }
+    if (st.p[k] === v) return;
+    st.p[k] = v;
+    if (k === 'metier') Object.assign(st.p, Calc.metierVals(v, st.f));
+    if (['metier', 'photo', 'peigne', 'mode', 'titreC', 'titreT'].indexOf(k) >= 0) $('#mc-par', st.m.el).innerHTML = Calc.parHtml(st);
+    if (['nb', 'finesse', 'structure', 'redresser'].indexOf(k) >= 0) { st.manuel = null; if (st.img) { Calc.analyse(st); return; } }
+    Calc.calcule(st);
+  },
+  versManuel: function (st) { if (!st.manuel) st.manuel = st.plan.base.map(function (b) { var x = { c: b.c, fils: b.fils }; if (b.seg) x.seg = clone(b.seg); return x; }); $('#mc-par', st.m.el).innerHTML = Calc.parHtml(st); },
+  /* ---------- la photo ---------- */
+  chargeFiche: function (st, pid) {
+    var vu = function () { if (st.f && st.f.vignette) Calc.chargeUrl(st, st.f.vignette); else Calc.calcule(st); };
+    FB.get('t/' + S.tid + '/fichiers/' + pid).then(function (x) {
+      $$('[data-ca="ph"]', st.m.el).forEach(function (b) { b.classList.toggle('on', b.dataset.id === pid); });
+      if (x && x.data) { st.src = pid; Calc.chargeUrl(st, x.data); } else vu();
+      /* vignettes des autres photos */
+      ((st.f && st.f.photos) || []).forEach(function (id2) { var th = $('[data-ca="ph"][data-id="' + id2 + '"]', st.m.el); if (!th || th.dataset.ok) return; th.dataset.ok = '1'; (id2 === pid ? Promise.resolve(x) : FB.get('t/' + S.tid + '/fichiers/' + id2)).then(function (y) { if (y && y.data) th.innerHTML = '<img src="' + attr(y.data) + '" alt="">'; }).catch(function () {}); });
+    }).catch(vu);
+  },
+  chargeUrl: function (st, url) {
+    var img = new Image();
+    img.onload = function () { if (st.m.closed) return; st.img = img; Calc.analyse(st); };
+    img.onerror = function () { UI.toast('Cette photo ne peut pas être lue.', 'err'); Calc.calcule(st); };
+    img.src = url;
+  },
+  analyse: function (st) {
+    var img = st.img, rot = (Number(st.p.rot) || 0) % 4, iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height, r = Math.min(1, 360 / Math.max(iw, ih, 1));
+    var w = Math.max(1, Math.round(iw * r)), h = Math.max(1, Math.round(ih * r)), W = rot % 2 ? h : w, H = rot % 2 ? w : h;
+    /* la photo tournée d'un quart si besoin, puis redressée (et un peu agrandie pour ne pas laisser de coins vides) */
+    var dessine = function (deg, axe) {
+      var c = document.createElement('canvas'); c.width = W; c.height = H;
+      var ctx = c.getContext('2d'); if (!ctx) return null;
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H); ctx.translate(W / 2, H / 2);
+      if (deg) { var b = (axe === 'y' ? -1 : 1) * deg * Math.PI / 180, sc = Math.abs(Math.cos(b)) + Math.max(W / H, H / W) * Math.abs(Math.sin(b)); ctx.rotate(b); ctx.scale(sc, sc); }
+      ctx.rotate(rot * Math.PI / 2); ctx.drawImage(img, -w / 2, -h / 2, w, h);
+      return { c: c, d: ctx.getImageData(0, 0, W, H) };
+    };
+    var x = dessine(0); if (!x) { Calc.calcule(st); return; }
+    st.redresse = 0;
+    try {
+      if (st.p.redresser !== 'non') {
+        var pal = Analyse.palette(x.d.data, W, H, { nb: st.p.nb }), inc = Analyse.inclinaison(pal.labels, W, H, pal.couleurs.length);
+        if (inc.angle) { x = dessine(inc.angle, inc.axe); st.redresse = inc.angle; }
+      }
+      st.a = Analyse.analyser(x.d, { nb: st.p.nb, finesse: st.p.finesse, structure: st.p.structure });
+    } catch (e) { console.error('[NERP]', e); st.a = null; UI.toast('La photo n\'a pas pu être analysée : composez les bandes à la main.', 'err'); }
+    st.cv = x.c;
+    if (!st.mapGarde || !st.map) st.map = null; st.mapGarde = false;
+    var box = $('#mc-cv', st.m.el); if (box) { box.innerHTML = ''; x.c.className = 'mc-img'; box.appendChild(x.c); }
+    var red = $('#mc-red', st.m.el); if (red) red.textContent = st.redresse ? 'Photo redressée de ' + fmtN(Math.abs(st.redresse), 2) + '° pour que les rayures soient droites.' : '';
+    Calc.calcule(st);
+  },
+  /* sans photo : une seule bande, de la première couleur de la fiche */
+  virtuelle: function (st) { var c = st.f && catCouleurs(st.f)[0] || 'blanc'; return { w: 1, h: 1, structure: 'uni', couleurs: [{ c: c, part: 1 }], chaine: [{ c: c, f: 1 }], trame: [{ c: c, f: 1 }], rapportChaine: null, rapportTrame: null, reserve: null }; },
+  calcule: function (st) {
+    if (st.m.closed) return;
+    if (st.a) { if (!st.map) st.map = Analyse.mapAuto(st.a.couleurs); st.aa = Analyse.versAtelier(st.a, st.map); } else st.aa = Calc.virtuelle(st);
+    st.plan = Tissage.plan(st.p, st.aa, st.manuel);
+    var res = $('#mc-res', st.m.el); if (res) res.innerHTML = Calc.resHtml(st, false);
+    Calc.barre(st); Calc.apercu(st, $('#mc-apercu', st.m.el), 720);
+  },
+  barre: function (st) {
+    var c = $('#mc-barre', st.m.el); if (!c || !st.aa) return;
+    var box = $('#mc-cv', st.m.el), W = Math.max(120, Math.round((box && box.clientWidth) || 360)), ctx = c.getContext && c.getContext('2d'); c.width = W; c.height = 28; if (!ctx) return;
+    var x = 0; ctx.clearRect(0, 0, W, 28);
+    (st.a ? st.aa.chaine : []).forEach(function (b, i) {
+      var bw = b.f * W, seg = st.aa.reserve && st.aa.reserve[i];
+      if (seg && seg.length > 1) { var y = 0; seg.forEach(function (s) { ctx.fillStyle = mcHex(s.c); ctx.fillRect(x, y, bw + 0.5, s.f * 28 + 0.5); y += s.f * 28; }); }
+      else { ctx.fillStyle = mcHex(b.c); ctx.fillRect(x, 0, bw + 0.5, 28); }
+      x += bw;
+    });
+  },
+  /* dessin du tissu calculé : armure, couleur de chaque fil et de chaque duite, à l'échelle */
+  apercu: function (st, cv, maxW) {
+    var pl = st.plan; if (!cv || !pl || !cv.getContext) return;
+    var ctx = cv.getContext('2d'); if (!ctx) return;
+    var W = Math.max(200, Math.min(maxW || 720, Math.round(pl.T * 3))), pxCm = W / pl.largPeigne;
+    var hauteurCm = pl.trame.repete ? Math.min(Math.max(pl.trame.repete * 2, pl.largPeigne * 0.35), pl.largPeigne * 1.2) : pl.rapportRes ? Math.min(pl.rapportRes * 2, pl.largPeigne * 1.2) : pl.largPeigne * 0.45;
+    var H = Math.max(90, Math.min(460, Math.round(hauteurCm * pxCm)));
+    cv.width = W; cv.height = H;
+    var cw = []; pl.fils.forEach(function (b) { for (var k = 0; k < b.fils; k++) cw.push(b); });
+    var rgb = {}, col = function (c) { var k = c || '_'; return rgb[k] || (rgb[k] = Coul.hex2rgb(mcHex(c))); };
+    var trameDe = function (j) {
+      if (!pl.trame.repete) return pl.trame.bandes[0].c;
+      var u = pl.trame.bandes.reduce(function (t, b) { return t + b.duites; }, 0), r = j % u;
+      for (var q = 0; q < pl.trame.bandes.length; q++) { if (r < pl.trame.bandes[q].duites) return pl.trame.bandes[q].c; r -= pl.trame.bandes[q].duites; }
+      return pl.trame.bandes[0].c;
+    };
+    var img = ctx.createImageData(W, H), d = img.data, T = cw.length;
+    for (var y = 0; y < H; y++) {
+      var ycm = y / pxCm, j = Math.floor(ycm * pl.duitesCm), tc = col(trameDe(j)), ombreY = (ycm * pl.duitesCm) % 1;
+      for (var x = 0; x < W; x++) {
+        var i = Math.min(T - 1, Math.floor(x / W * T)), b = cw[i], c;
+        if (armLeve(pl.armure, i, j)) {
+          var cc = b.c;
+          if (b.seg && b.seg.length > 1 && pl.rapportRes) { var pos = (ycm % pl.rapportRes) / pl.rapportRes, acc = 0; for (var s = 0; s < b.seg.length; s++) { acc += b.seg[s].f; if (pos <= acc + 1e-9) { cc = b.seg[s].c; break; } } }
+          c = col(cc);
+        } else c = tc;
+        var fx = (x / W * T) % 1, sh = 0.86 + 0.14 * Math.sin(Math.PI * (armLeve(pl.armure, i, j) ? fx : ombreY));
+        var o = (y * W + x) * 4; d[o] = c[0] * sh; d[o + 1] = c[1] * sh; d[o + 2] = c[2] * sh; d[o + 3] = 255;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+  },
+  dispo: function (c) {
+    if (!c) return null;
+    var g = 0; try { g = Prod.dispoCouleur(c) || 0; } catch (e) {}
+    if (c === 'blanc' || c === 'ecru') list('stock/articles', function (a) { return a.nature === 'fil_brut' && !a.archive; }).forEach(function (a) { g += ptStock('tissage', a.id).q + ptStock('teinture', a.id).q; });
+    return g;   /* en grammes (millièmes de kg) */
+  },
+  /* ---------- les résultats (écran ou impression) ---------- */
+  resHtml: function (st, imp) {
+    var pl = st.plan, p = st.p, A = ARMURES[pl.armure], h = '';
+    if (!pl) return '';
+    var lisF = pl.lisiere * pl.fpd;
+    h += tiles([{ t: 'Fils de chaîne', v: fmtN(pl.T), s: pl.lisiere ? 'dont ' + 2 * lisF + ' fils de lisière doublés' : plural(pl.base.length, 'bande') },
+      { t: 'Largeur au peigne', v: mcCm(pl.largPeigne), s: 'tissu fini ≈ ' + mcCm(pl.largeurFinie) },
+      { t: 'Dents du peigne', v: fmtN(pl.dents), s: pl.fpd + ' fils par dent — ' + fmtN(pl.densite, 1) + ' fils par cm' },
+      { t: 'Fil nécessaire', v: mcG(pl.totalG), s: 'pour ' + fmtN(pl.L, 2) + ' m — ' + fmtN(pl.totalG / pl.L, 0) + ' g par mètre' }]);
+    if (pl.manuel && !imp) h += '<div class="alert info mc-al">' + icon('edit') + '<div>Bandes modifiées à la main ou reprises du plan enregistré : la largeur découle du nombre de fils. <button type="button" class="linkbtn" data-ca="reset">Revenir au calcul de la photo</button></div></div>';
+    /* ce que voit l'application */
+    if (st.a) {
+      var S2 = Calc.STRUCT[st.a.structure] || Calc.STRUCT.uni, rc = st.aa.rapportChaine, rr = st.aa.rapportTrame;
+      h += '<section class="card pad mc-s"><h3>' + icon('eye') + ' Ce que montre la photo : ' + esc(S2[0]) + '</h3><p>' + esc(S2[1]) + '</p>' +
+        (rc && rc.fois >= 1.7 && st.a.structure !== 'trame' ? '<p class="muted">Le motif de la chaîne se répète environ ' + fmtN(rc.fois, 1) + ' fois sur la photo.</p>' : '') +
+        (rr && rr.fois >= 1.7 && (st.a.structure === 'trame' || st.a.structure === 'carreaux') ? '<p class="muted">Le motif de la trame se répète environ ' + fmtN(rr.fois, 1) + ' fois sur la photo.</p>' : '') +
+        '<div class="tscroll"><table class="grid"><thead><tr><th>Couleur de la photo</th><th class="num">Part</th><th>Couleur de l\'atelier</th></tr></thead><tbody>' +
+        st.a.couleurs.map(function (c, i) {
+          var v = st.map[i] || '';
+          return '<tr><td><span class="sw big" style="background:' + attr(c.hex) + '"></span> Couleur ' + (i + 1) + ' <small class="muted code">' + esc(c.hex) + '</small></td><td class="num">' + fmtPct(c.part, 0) + '</td><td>' +
+            (imp ? mcSw(v) + ' ' + esc(mcNom(v)) : '<select data-map="' + i + '" aria-label="Couleur de l\'atelier pour la couleur ' + (i + 1) + '"><option value="">Choisir…</option>' + Opt.couleurs().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === v ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>') + '</td></tr>';
+        }).join('') + '</tbody></table></div>' + (imp ? '' : '<p class="muted small">Deux couleurs de la photo peuvent devenir la même couleur de l\'atelier : leurs bandes se réunissent.</p>') + '</section>';
+    }
+    /* composition */
+    var mm = !imp;
+    h += '<section class="card pad mc-s"><h3>' + icon('spool') + ' Composition du tissu</h3><p>Pour <strong>' + fmtN(pl.L, 2) + ' m</strong> de tissu de ' + mcCm(pl.largeurFinie) + ' (fil de chaîne ' + fmtN(pl.nmC, 1) + ' m/g, fil de trame ' + fmtN(pl.nmT, 1) + ' m/g).</p>' +
+      '<div class="tscroll"><table class="grid"><thead><tr><th>Couleur</th><th class="num">Fils de chaîne</th><th class="num">Part des fils</th><th class="num">Chaîne</th><th class="num">Trame</th><th class="num">Total</th><th class="num">Par mètre</th>' + (mm ? '<th class="num">Disponible</th>' : '') + '</tr></thead><tbody>' +
+      pl.compo.map(function (x) {
+        var dq = mm ? Calc.dispo(x.c) : null, manque = dq !== null && dq < x.totalG;
+        return '<tr><td>' + mcSw(x.c) + ' ' + esc(mcNom(x.c)) + '</td><td class="num">' + fmtN(x.fils) + (x.filsRes ? '<br><small class="muted">+ ' + fmtN(x.filsRes) + ' teints en partie</small>' : '') + '</td><td class="num">' + fmtPct(x.partFils, 0) + '</td><td class="num">' + mcG(x.chaineG) + '</td><td class="num">' + mcG(x.trameG) + '</td><td class="num"><strong>' + mcG(x.totalG) + '</strong></td><td class="num">' + fmtN(x.gpm, 0) + ' g</td>' +
+          (mm ? '<td class="num' + (manque ? ' tx-err' : '') + '">' + (dq === null ? '—' : mcG(dq)) + (manque ? '<br><small>à préparer : ' + mcG(x.totalG - dq) + '</small>' : '') + '</td>' : '') + '</tr>';
+      }).join('') + '</tbody><tfoot><tr><td>Total</td><td class="num">' + fmtN(pl.T) + '</td><td></td><td class="num">' + mcG(pl.compo.reduce(function (t, x) { return t + x.chaineG; }, 0)) + '</td><td class="num">' + mcG(pl.compo.reduce(function (t, x) { return t + x.trameG; }, 0)) + '</td><td class="num">' + mcG(pl.totalG) + '</td><td class="num">' + fmtN(pl.totalG / pl.L, 0) + ' g</td>' + (mm ? '<td></td>' : '') + '</tr></tfoot></table></div>' +
+      '<p class="muted small">Poids de fil sec. Le « par mètre » se reporte dans la nomenclature de la fiche technique du modèle (grammes par mètre).</p></section>';
+    /* ourdissage */
+    var bob = Math.max(1, Number(p.bobines) || 1), g = Tissage.groupes(pl.fils);
+    var bandeTxt = function (b) { return (b.lisiere ? 'lisière ' : '') + b.fils + ' ' + mcNom(b.c).toLowerCase() + (b.seg && b.seg.length > 1 ? ' (réserve)' : ''); };
+    var suite = g.map(function (x) { var t = pl.fils.slice(x.de, x.de + x.p).map(bandeTxt).join(' · '); return x.fois > 1 ? '<strong>' + x.fois + ' fois</strong> [ ' + esc(t) + ' ]' : esc(t); }).join(' · ');
+    h += '<section class="card pad mc-s"><h3>' + icon('loom') + ' Ourdissage de la chaîne</h3><ol class="mc-ol">' +
+      '<li>Ourdissez <strong>' + fmtN(pl.T) + ' fils</strong> de <strong>' + fmtN(pl.Lourdi, 2) + ' m</strong> (' + fmtN(pl.L, 2) + ' m de tissu + ' + fmtN(Number(p.embuvage) || 0, 1) + ' % d\'embuvage + ' + fmtN(Number(p.dechet) || 0, 2) + ' m d\'attache).</li>' +
+      '<li>Avec ' + plural(bob, 'bobine') + ', chaque aller (ou retour) pose ' + plural(bob, 'fil') + ' : <strong>' + fmtN(Math.ceil(pl.T / bob)) + ' passages</strong> en tout. Comptez les fils par portées de 20 et liez chaque portée.</li>' +
+      '<li>Faites la croix (encroix) à chaque fil près d\'un bout, et nouez une ficelle de couleur à chaque changement de bande : elle sert de repère au rentrage.</li>' +
+      '<li>Ordre des fils, du bord gauche au bord droit : ' + suite + '.</li></ol>' +
+      Calc.tableBandes(st, imp) + '</section>';
+    /* rentrage */
+    var arm = A.rentrage.join('-');
+    h += '<section class="card pad mc-s"><h3>' + icon('move') + ' Rentrage dans les lames</h3><ol class="mc-ol">' +
+      '<li>Armure : <strong>' + esc(A.nom) + '</strong>, sur ' + plural(A.lames, 'lame') + ' (cadres de lisses).</li>' +
+      '<li>Passez les fils un par un, de gauche à droite, dans les maillons des lames dans l\'ordre <strong>' + arm + '</strong>, puis recommencez' + (pl.armure === 'natte' ? ' (deux fils de suite dans la même lame)' : '') + '.</li>' +
+      (pl.lisiere ? '<li>Lisières : passez <strong>deux fils ensemble</strong> dans chaque maillon des ' + plural(lisF, 'premier maillon', 'premiers maillons') + ' et des ' + lisF + ' derniers.</li>' : '') +
+      '<li>Maillons à préparer : ' + pl.lames.map(function (n, i) { return 'lame ' + (i + 1) + ' : <strong>' + fmtN(n) + '</strong>'; }).join(', ') + ' (' + fmtN(pl.maillons) + ' en tout). Ajoutez quelques maillons libres de chaque côté.</li>' +
+      '<li>Pédales : ' + A.marches.map(function (mk, i) { return 'pas ' + (i + 1) + ' → lever ' + mk.map(function (l) { return 'lame ' + l; }).join(' + '); }).join(' ; ') + (A.duitesParPas > 1 ? ' (deux duites à chaque pas)' : '') + ', puis on recommence.</li>' +
+      (p.metier === 'petit' && A.lames > 2 ? '<li class="tx-err">Le petit métier n\'a souvent que deux lames : choisissez la toile ou le natté, ou montez quatre lames.</li>' : '') + '</ol></section>';
+    /* piquage */
+    h += '<section class="card pad mc-s"><h3>' + icon('box') + ' Piquage au peigne</h3><ol class="mc-ol">' +
+      '<li>Peigne de <strong>' + fmtN(pl.d10, 1) + ' dents pour 10 cm</strong> : passez <strong>' + plural(pl.fpd, 'fil') + ' par dent</strong>' + (pl.lisiere ? ', et ' + 2 * pl.fpd + ' fils dans les ' + pl.lisiere + ' premières et les ' + pl.lisiere + ' dernières dents (lisières)' : '') + '.</li>' +
+      '<li>La chaîne occupe <strong>' + fmtN(pl.dents) + ' dents</strong>, soit ' + mcCm(pl.largPeigne) + ' au peigne. Le tableau d\'ourdissage donne les dents et la position de chaque bande.</li>' +
+      (pl.dentsPeigne ? (pl.dentsPeigne >= pl.dents ? '<li>Le peigne du métier a ' + fmtN(pl.dentsPeigne) + ' dents : commencez à la <strong>dent ' + fmtN(pl.depart) + '</strong> en partant de la gauche ; ' + plural(pl.depart - 1, 'dent reste vide', 'dents restent vides') + ' de chaque côté environ, la chaîne est centrée.</li>' : '<li class="tx-err">Le peigne du métier est trop étroit : il manque ' + fmtN(pl.dents - pl.dentsPeigne) + ' dents. Prenez un peigne plus fin ou mettez plus de fils par dent.</li>') : '') +
+      '<li>Piquez en partant du milieu de la chaîne si le peigne est large : la chaîne reste centrée et droite.</li></ol></section>';
+    /* attache */
+    var att = p.metier === 'grand' ? [
+      'Nouez les fils en <strong>' + fmtN(pl.meches) + ' mèches de ' + pl.parMeche + ' fils</strong> (environ 2,5 cm chacune) devant le peigne.',
+      'Attachez d\'abord la mèche du milieu sur la baguette du tablier (ensouple de devant), puis une mèche à gauche, une à droite, en allant vers les bords.',
+      'Nœud : passez la mèche par-dessus la baguette, partagez-la en deux en dessous, faites un demi-nœud puis une boucle (nœud à rosette) : il se défait pour régler la tension.',
+      'Égalisez la tension : passez la main à plat sur la chaîne, resserrez les mèches molles et relâchez les trop tendues.',
+      'Tissez 3 ou 4 duites d\'un gros fil ou de baguettes pour écarter les fils et fermer les nœuds, puis commencez le tissu.'
+    ] : [
+      'La chaîne s\'ourdit au sol entre des piquets. Avant de l\'enlever, liez la croix avec deux ficelles et faites une chaînette (crochet) pour qu\'elle ne s\'emmêle pas.',
+      'Après le rentrage et le piquage, nouez les fils en <strong>' + fmtN(pl.meches) + ' mèches de ' + pl.parMeche + ' fils</strong> et attachez-les sur la baguette d\'attache, devant le tisserand, en commençant par le milieu.',
+      'Le bout arrière de la chaîne s\'attache au traîneau (la pierre de tension), posé loin devant le métier : il tient la chaîne tendue ; avancez-le au fur et à mesure.',
+      'Même nœud à rosette pour pouvoir régler la tension mèche par mèche, puis tissez 3 ou 4 duites d\'écartement.',
+      'Enroulez la bande tissée sur la baguette de devant au fur et à mesure du tissage.'
+    ];
+    h += '<section class="card pad mc-s"><h3>' + icon('clip') + ' Attache des fils</h3><ol class="mc-ol">' + att.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol></section>';
+    /* trame */
+    var tr = pl.trame;
+    h += '<section class="card pad mc-s"><h3>' + icon('spool') + ' Trame</h3>';
+    if (tr.repete) {
+      var ud = tr.bandes.reduce(function (t, b) { return t + b.duites; }, 0);
+      h += '<p>' + fmtN(pl.duitesCm, 1) + ' duites par cm. Suite des couleurs de trame, à répéter tous les <strong>' + mcCm(tr.repete) + '</strong> (' + plural(ud, 'duite') + '), environ ' + fmtN(pl.L * 100 / tr.repete, 0) + ' fois sur ' + fmtN(pl.L, 2) + ' m :</p>' +
+        '<div class="tscroll"><table class="grid"><thead><tr><th>N°</th><th>Couleur</th><th class="num">Hauteur</th><th class="num">Duites</th></tr></thead><tbody>' +
+        tr.bandes.map(function (b, i) { return '<tr><td>' + (i + 1) + '</td><td>' + mcSw(b.c) + ' ' + esc(mcNom(b.c)) + '</td><td class="num">' + mcCm(b.cm) + '</td><td class="num">' + fmtN(b.duites) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+    } else h += '<p>Trame ' + mcSw(tr.bandes[0].c) + ' <strong>' + esc(mcNom(tr.bandes[0].c)) + '</strong> : ' + fmtN(pl.duitesCm, 1) + ' duites par cm, ' + fmtN(pl.duitesTot) + ' duites en tout.</p>';
+    h += '<p class="muted small">Chaque duite mesure environ ' + fmtN(pl.lDuite * 100, 0) + ' cm (largeur au peigne + 5 % pour l\'ondulation). Gardez une tension égale sur la navette pour ne pas resserrer les bords.</p></section>';
+    if (pl.rapportRes) h += '<section class="card pad mc-s"><h3>' + icon('drop') + ' Fils teints en réserve</h3><p>Les bandes marquées d\'un dégradé changent de couleur le long des fils ; leur motif se répète tous les <strong>' + mcCm(pl.rapportRes) + '</strong>. Le plan de teinture donne les ligatures à faire, bain par bain.</p></section>';
+    /* aperçu */
+    if (!imp) h += '<section class="card pad mc-s"><h3>' + icon('image') + ' Aperçu du tissu calculé</h3><canvas id="mc-apercu" class="mc-ap"></canvas><p class="muted small">Dessin d\'après le calcul (armure, couleur et nombre de chaque fil) : comparez-le à la photo. Largeur montrée : ' + mcCm(pl.largPeigne) + ' au peigne.</p></section>';
+    return h;
+  },
+  tableBandes: function (st, imp) {
+    var pl = st.plan, rows = pl.fils, cs = Opt.couleurs();
+    var long = rows.length > 40 && !st.tous && !imp;
+    var vis = long ? rows.slice(0, 40) : rows;
+    return '<div class="tscroll"><table class="grid mc-bt"><thead><tr><th>N°</th><th>Couleur</th><th class="num">Fils</th><th class="num">Fils n°</th><th class="num">Dents</th><th class="num">Depuis le bord</th>' + (imp ? '' : '<th class="act"></th>') + '</tr></thead><tbody>' +
+      vis.map(function (b, i) {
+        var coul = (b.seg && b.seg.length > 1 ? mcSeg(b.seg) : mcSw(b.c)) + ' ';
+        var cell = b.lisiere || imp ? coul + esc(mcNom(b.c)) + (b.lisiere ? ' <small class="muted">lisière (fils doublés)</small>' : '') :
+          coul + '<select data-bc="' + b.bi + '" aria-label="Couleur de la bande ' + (i + 1) + '">' + cs.map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === b.c ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + (b.c ? '' : '<option value="" selected>Choisir…</option>') + '</select>';
+        var fl = b.lisiere || imp ? fmtN(b.fils) : '<input type="text" inputmode="numeric" class="mc-n" data-bf="' + b.bi + '" data-v="' + b.fils + '" value="' + b.fils + '" aria-label="Fils de la bande ' + (i + 1) + '">';
+        return '<tr' + (b.lisiere ? ' class="mc-lis"' : '') + '><td>' + (i + 1) + '</td><td>' + cell + '</td><td class="num">' + fl + '</td><td class="num">' + b.de + ' à ' + b.a + '</td><td class="num">' + (b.dentDe === b.dentA ? b.dentDe : b.dentDe + ' à ' + b.dentA) + '</td><td class="num">' + mcCm(b.cmDe) + '</td>' +
+          (imp ? '' : '<td class="act">' + (b.lisiere ? '' : '<button type="button" class="ibtn" data-ca="del" data-id="' + b.bi + '" title="Retirer la bande" aria-label="Retirer la bande ' + (i + 1) + '">' + icon('trash') + '</button>') + '</td>') + '</tr>';
+      }).join('') + '</tbody></table></div>' +
+      (imp ? '' : '<div class="row wrap mc-bb">' + (long ? '<button type="button" class="btn ghost sm" data-ca="tous">Voir les ' + rows.length + ' bandes</button>' : rows.length > 40 ? '<button type="button" class="btn ghost sm" data-ca="tous">Réduire</button>' : '') +
+        '<button type="button" class="btn ghost sm" data-ca="add">' + icon('plus') + ' Ajouter une bande</button><small class="muted">Changez une couleur ou un nombre de fils : tout est recalculé.</small></div>');
+  },
+  imprimer: function (st) {
+    if (!st.plan) return;
+    var f = st.f, photo = st.cv && st.cv.toDataURL ? st.cv.toDataURL('image/jpeg', 0.85) : (f && f.vignette) || '';
+    var ap = document.createElement('canvas'); Calc.apercu(st, ap, 900);
+    var apUrl = ap.width && ap.toDataURL ? ap.toDataURL('image/png') : '';
+    var pl = st.plan, p = st.p;
+    UI.print({ title: 'Calcul ' + (f ? f.nom : 'de modèle'), docTitle: 'Fiche de calcul du modèle',
+      docMeta: (f ? '<div>' + esc(f.nom) + (f.ref ? ' — réf. ' + esc(f.ref) : '') + '</div>' : '') + '<div>' + (p.metier === 'grand' ? 'Grand métier' : 'Petit métier') + ' — peigne ' + fmtN(pl.d10, 1) + '/10 cm, ' + pl.fpd + ' fils par dent</div><div>' + fmtDate(today()) + '</div>',
+      body: (photo || apUrl ? '<div class="two">' + (photo ? '<div><h3>Photo du modèle</h3><img class="photo big" src="' + attr(photo) + '" alt=""></div>' : '') + (apUrl ? '<div><h3>Tissu calculé</h3><img class="photo big" src="' + attr(apUrl) + '" alt=""></div>' : '') + '</div>' : '') +
+        Calc.resHtml(st, true).replace(/<svg[^>]*class="ic[^"]*"[^>]*>.*?<\/svg>/g, '') });
+  },
+  propre: function (p) { var o = {}; Object.keys(p).forEach(function (k) { var v = p[k]; if (v === '' || v === null || v === undefined || (typeof v === 'number' && isNaN(v))) return; o[k] = v; }); return o; },
+  enregistrement: function (st) {
+    var pl = st.plan, r2 = function (x, d) { var m = Math.pow(10, d || 2); return Math.round(x * m) / m; };
+    var rec = { date: today(), par: S.member.nom, params: Calc.propre(st.p), manuel: !!st.manuel, photo: st.a && st.src ? st.src : '', structure: pl.structure,
+      base: pl.base.map(function (b) { var x = { c: b.c || '', fils: b.fils }; if (b.seg && b.seg.length > 1) x.seg = b.seg.map(function (s) { return { c: s.c || '', f: r2(s.f, 4) }; }); return x; }),
+      fils: pl.T, dents: pl.dents, peigne: r2(pl.d10, 1), fpd: pl.fpd, largeurPeigne: r2(pl.largPeigne, 1), largeurFinie: r2(pl.largeurFinie, 1), longueur: pl.L,
+      trame: pl.trame.bandes.map(function (b) { var x = { c: b.c || '' }; if (b.cm) { x.cm = r2(b.cm, 2); x.duites = b.duites; } return x; }),
+      compo: pl.compo.map(function (x) { return { c: x.c || '', fils: x.fils, g: Math.round(x.totalG), gpm: r2(x.gpm, 1) }; }) };
+    if (pl.trame.repete) rec.trameRepete = r2(pl.trame.repete, 2);
+    if (pl.rapportRes) rec.rapportReserve = r2(pl.rapportRes, 2);
+    if (st.a && st.map) { var mp = {}; Object.keys(st.map).forEach(function (k) { if (st.map[k]) mp[k] = st.map[k]; }); if (Object.keys(mp).length) rec.map = mp; }
+    return rec;
+  },
+  ecrire: function (st, id, btn) {
+    var f = ficheCat(id); if (!f) return Promise.resolve(false);
+    var rec = Calc.enregistrement(st);
+    return runOp(btn || null, function () {
+      var tx = new Tx('catalogue');
+      tx.field('catalogue/fiches', id, 'calcul', rec);
+      tx.audit('Plan de calcul du modèle ' + (f.ref ? f.ref + ' — ' : '') + f.nom + ' enregistré (' + rec.fils + ' fils, peigne ' + fmtN(rec.peigne, 1) + '/10 cm)', 'catalogue', id);
+      return tx.commit();
+    }, 'Plan de calcul enregistré dans la fiche du modèle.').then(function (ok) {
+      if (ok && !st.m.closed) { st.id = id; st.f = ficheCat(id) || f; st.sv = rec; var inf = $('#mc-info', st.m.el); if (inf) inf.textContent = 'Plan enregistré le ' + fmtDate(rec.date) + ' par ' + rec.par + '.'; }
+      return ok;
+    });
+  },
+  enregistrer: function (st, btn) {
+    if (!st.plan) return;
+    if (!can('catalogue', 'modifier')) { UI.toast('Vos rôles ne permettent pas de modifier le catalogue.', 'err'); return; }
+    if (st.id) {
+      var f = ficheCat(st.id);
+      if (f && f.calcul && f.calcul.date) UI.confirm({ title: 'Remplacer le plan', message: 'Cette fiche a déjà un plan de calcul (du ' + fmtDate(f.calcul.date) + '). Le remplacer par celui-ci ?', ok: 'Remplacer' }).then(function (c) { if (c.ok) Calc.ecrire(st, st.id, btn); });
+      else Calc.ecrire(st, st.id, btn);
+      return;
+    }
+    var fs = list('catalogue/fiches', function (x) { return !x.archive; }).sort(function (a, b) { return String(a.nom).localeCompare(String(b.nom), 'fr'); });
+    var m2 = UI.modal({ title: 'Enregistrer le plan dans une fiche', size: 's',
+      body: '<label class="fld"><span>Modèle du catalogue</span><select id="mc-fi">' + fs.map(function (x) { return '<option value="' + attr(x.id) + '">' + esc(x.nom + (x.ref ? ' (' + x.ref + ')' : '') + (x.calcul ? ' — a déjà un plan' : '')) + '</option>'; }).join('') + '</select></label><p class="muted">Le plan se range dans la fiche ; rien d\'autre n\'y change.</p>',
+      actions: [{ t: 'Annuler', act: '__close', cls: 'ghost' }, { t: 'Enregistrer', act: 'ok', cls: 'primary' }],
+      onAct: function (a, b) { if (a !== 'ok') return; var id = $('#mc-fi', m2.el).value; Calc.ecrire(st, id, b).then(function (ok) { if (ok) m2.close(); }); } });
+  }
+};
+
+/* ---------- plan de teinture : couleurs des fils à préparer et dosage ---------- */
+var TEI_TYPES = { reactif: 'Colorant réactif (coton, fixation à l\'alcali)', direct: 'Colorant direct (coton, au sel, bain chaud)', indigo: 'Indigo en cuve (trempes successives)' };
+var TEI_NUANCES = { clair: 'Clair', moyen: 'Moyen', fonce: 'Foncé', tres_fonce: 'Très foncé' };
+/* doses de départ pour du coton ; elles se confirment toujours par un essai */
+var TEI_DOSES = {
+  reactif: { clair: { pct: 0.8, sel: 40, alcali: 10 }, moyen: { pct: 2, sel: 60, alcali: 15 }, fonce: { pct: 4, sel: 80, alcali: 20 }, tres_fonce: { pct: 6, sel: 90, alcali: 20 } },
+  direct: { clair: { pct: 0.5, sel: 5 }, moyen: { pct: 1.5, sel: 10 }, fonce: { pct: 3, sel: 15 }, tres_fonce: { pct: 4, sel: 20 } },
+  indigo: { clair: { gkg: 15, trempes: 3 }, moyen: { gkg: 35, trempes: 5 }, fonce: { gkg: 60, trempes: 8 }, tres_fonce: { gkg: 80, trempes: 10 } }
+};
+var TeintPlan = {
+  NEED: ['stock/articles', 'stock/soldes', 'stock/lots', 'teinture/recettes', 'teinture/lots'],
+  /* depuis la fenêtre de calcul */
+  depuisCalcul: function (st) {
+    var pl = st.plan; if (!pl) return;
+    TeintPlan.ouvrir({ titre: st.f ? st.f.nom + (st.f.ref ? ' (' + st.f.ref + ')' : '') : 'Modèle calculé', L: pl.L, Lourdi: pl.Lourdi,
+      lignes: pl.compo.filter(function (x) { return x.c; }).map(function (x) { return { c: x.c, g: x.totalG, chaineG: x.chaineG, trameG: x.trameG }; }),
+      reserve: pl.rapportRes ? { rapport: pl.rapportRes, bandes: pl.fils.filter(function (b) { return b.seg && b.seg.length > 1; }).map(function (b) { return { de: b.de, a: b.a, fils: b.fils, seg: b.seg }; }) } : null });
+  },
+  /* depuis le plan enregistré dans une fiche du catalogue */
+  depuisFiche: function (f) {
+    var c = f.calcul || {}, emb = Number((c.params || {}).embuvage) || 0, dech = Number((c.params || {}).dechet) || 0, L = Number(c.longueur) || 10, fil = 0;
+    var bandes = (c.base || []).map(function (b) { var x = { de: fil + 1, a: fil + b.fils, fils: b.fils, seg: b.seg }; fil += b.fils; return x; }).filter(function (b) { return b.seg && b.seg.length > 1; });
+    return { titre: f.nom + (f.ref ? ' (' + f.ref + ')' : ''), L: L, Lourdi: L * (1 + emb / 100) + dech,
+      lignes: (c.compo || []).filter(function (x) { return x.c; }).map(function (x) { return { c: x.c, g: x.g }; }),
+      reserve: bandes.length && c.rapportReserve ? { rapport: c.rapportReserve, bandes: bandes } : null };
+  },
+  /* depuis la Teinture : un modèle du catalogue qui a un plan, ou une saisie libre */
+  choisir: function () {
+    Data.need(['catalogue/fiches']).catch(function () {}).then(function () {
+      var fs = list('catalogue/fiches', function (f) { return !f.archive && f.calcul && (f.calcul.compo || []).length; }).sort(function (a, b) { return String(a.nom).localeCompare(String(b.nom), 'fr'); });
+      var cs = Opt.couleurs(), ligne = function (i) { return '<div class="row mc-li"><select data-tl="c' + i + '" aria-label="Couleur ' + (i + 1) + '"><option value="">Couleur…</option>' + cs.map(function (o) { return '<option value="' + attr(o[0]) + '">' + esc(o[1]) + '</option>'; }).join('') + '</select><input type="text" inputmode="decimal" data-tl="k' + i + '" placeholder="kg de fil" aria-label="Poids de fil à teindre, en kg"></div>'; };
+      var m = UI.modal({ title: 'Plan de teinture', size: 'm',
+        body: (fs.length ? '<label class="fld"><span>Modèle du catalogue (plan de calcul enregistré)</span><select id="tp-f"><option value="">— Saisie libre ci-dessous —</option>' + fs.map(function (f) { return '<option value="' + attr(f.id) + '">' + esc(f.nom + (f.ref ? ' (' + f.ref + ')' : '')) + '</option>'; }).join('') + '</select></label>' : '<p class="muted">Aucun modèle du catalogue n\'a encore de plan de calcul : indiquez les couleurs et les poids de fil à teindre.</p>') +
+          '<div id="tp-libre"><h3>Couleurs à teindre</h3>' + [0, 1, 2, 3, 4, 5].map(ligne).join('') + '</div>',
+        actions: [{ t: 'Annuler', act: '__close', cls: 'ghost' }, { t: 'Préparer le plan', act: 'ok', cls: 'primary' }],
+        onAct: function (a) {
+          if (a !== 'ok') return;
+          var fid = ($('#tp-f', m.el) || {}).value;
+          if (fid) { var f = ficheCat(fid); if (f) { m.close(); TeintPlan.ouvrir(TeintPlan.depuisFiche(f)); } return; }
+          var lignes = [];
+          for (var i = 0; i < 6; i++) { var c = $('[data-tl="c' + i + '"]', m.el).value, k = mcNum($('[data-tl="k' + i + '"]', m.el).value, 0); if (c && k > 0) lignes.push({ c: c, g: k * 1000 }); }
+          if (!lignes.length) { UI.toast('Choisissez au moins une couleur et son poids de fil.', 'err'); return; }
+          m.close(); TeintPlan.ouvrir({ titre: 'Saisie libre', lignes: lignes, reserve: null });
+        } });
+      var sf = $('#tp-f', m.el); if (sf) sf.addEventListener('change', function () { $('#tp-libre', m.el).hidden = !!sf.value; });
+    });
+  },
+  rendement: function () {
+    var ls = list('teinture/lots', function (l) { return l.poidsEngage > 0 && l.poidsObtenu > 0; });
+    var e = sum(ls, function (l) { return l.poidsEngage; }), o = sum(ls, function (l) { return l.poidsObtenu; });
+    return e > 0 ? Math.max(0.85, Math.min(0.99, o / e)) : 0.96;
+  },
+  recette: function (c) { return list('teinture/recettes', function (r) { return !r.archive && r.couleur === c; }).sort(function (a, b) { return (b.version || 1) - (a.version || 1); })[0] || null; },
+  stockArt: function (art) { var s = col('stock/soldes')[art] || {}, q = 0; Object.keys(s).forEach(function (l) { Object.keys(s[l] || {}).forEach(function (e) { q += Number((s[l][e] || {}).q) || 0; }); }); return q; },
+  ouvrir: function (src) {
+    var ts = { src: src, p: { stock: true, echeveau: 250, bain: 10, perte: null, types: {}, nuances: {} } };
+    var m = ts.m = UI.modal({ title: 'Plan de teinture — ' + src.titre, size: 'xl', dismiss: false, body: '<p class="loading"><span class="spin"></span> Préparation…</p>',
+      actions: [{ t: icon('print') + ' Imprimer le plan de teinture', act: 'print', cls: 'ghost' }, { t: 'Fermer', act: '__close', cls: 'ghost' }],
+      onAct: function (a) { if (a === 'print') TeintPlan.imprimer(ts); } });
+    m.el.classList.add('mc-modal');
+    Data.need(TeintPlan.NEED).catch(function () {}).then(function () {
+      if (m.closed) return;
+      ts.p.perte = Math.round((1 - TeintPlan.rendement()) * 1000) / 10;
+      TeintPlan.rendu(ts);
+      m.body.addEventListener('change', function (e) {
+        var t = e.target, k = t.dataset.tp; if (!k) return;
+        if (k === 'stock') ts.p.stock = t.checked;
+        else if (k === 'type') ts.p.types[t.dataset.c] = t.value;
+        else if (k === 'nuance') ts.p.nuances[t.dataset.c] = t.value;
+        else { var v = mcNum(t.value, NaN); if (isNaN(v) || v <= 0) { t.value = ts.p[k]; return; } ts.p[k] = v; }
+        TeintPlan.rendu(ts);
+      });
+      m.body.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-tpa]'); if (!b) return;
+        if (b.dataset.tpa === 'lot') { var r = get('teinture/recettes', b.dataset.id); if (r) { Data.need(['parametres/personnel', 'finances/imputations', 'qualite/controles']).catch(function () {}).then(function () { Teinture.editLot(null, { recette: r.id }); }); } }
+      });
+    });
+  },
+  /* calcul couleur par couleur */
+  calcule: function (ts) {
+    var p = ts.p, perte = Math.min(30, Math.max(0, Number(p.perte) || 0)) / 100;
+    return ts.src.lignes.map(function (l) {
+      var blanc = l.c === 'blanc' || l.c === 'ecru', dq = p.stock ? (Calc.dispo(l.c) || 0) : 0;
+      var aT = blanc ? 0 : Math.max(0, l.g - dq), brut = aT / (1 - perte), kg = brut / 1000;
+      var r = blanc ? null : TeintPlan.recette(l.c), lab = Coul.labHex(couleurHex(l.c));
+      var type = p.types[l.c] || (l.c === 'indigo' ? 'indigo' : 'reactif'), nu = p.nuances[l.c] || (Coul.nuance(lab) === 'blanc' ? 'clair' : Coul.nuance(lab));
+      return { c: l.c, besoin: l.g, chaineG: l.chaineG, trameG: l.trameG, dispo: dq, blanc: blanc, aTeindre: aT, brut: brut, kg: kg, ech: brut > 0 ? Math.ceil(brut / (Number(p.echeveau) || 250)) : 0, recette: r, type: type, nuance: nu };
+    });
+  },
+  /* dosage : la recette de l'atelier, sinon une proposition de départ */
+  dosage: function (x, bainLkg) {
+    var kg = x.kg, L = Math.round(kg * bainLkg * 10) / 10, out = { lignes: [], cond: [], etapes: [], source: '' };
+    if (x.recette) {
+      var r = x.recette, pr = r.params || {}, Lr = pr.bain ? Math.round(kg * mcNum(pr.bain, bainLkg) * 10) / 10 : L;
+      out.source = 'Recette de l\'atelier : ' + (r.code ? r.code + ' — ' : '') + r.nom + ' (version ' + (r.version || 1) + ')';
+      out.lignes = (r.lignes || []).map(function (l) { var u = artUnit(l.art), g = l.dose * kg; return { nom: artName(l.art) + (l.role ? ' (' + l.role + ')' : ''), dose: fmtN(l.dose, 2) + (u === 'kg' ? ' g' : ' ' + u + '/1000') + ' par kg de fil', q: u === 'kg' ? g : null, qTxt: u === 'kg' ? mcG(g) : fmtN(g, 2) + ' ' + u + '/1000', essai: u === 'kg' ? mcG(l.dose * 0.1) : fmtN(l.dose * 0.1, 3), stock: TeintPlan.stockArt(l.art), unite: u, art: l.art }; });
+      out.cond = [['Eau du bain', fmtN(Lr, 1) + ' litres' + (pr.bain ? ' (' + pr.bain + ' l par kg)' : '')]].concat(PARAMS_TEI.filter(function (q) { return q.k !== 'bain' && pr[q.k]; }).map(function (q) { return [q.t, String(pr[q.k])]; }));
+      out.etapes = ['Pesez le fil sec et les produits ; préparez ' + fmtN(Lr, 1) + ' litres d\'eau.', 'Suivez le mode opératoire de la recette' + (r.notes ? ' : ' + r.notes : '.'), 'Faites d\'abord un essai sur 100 g de fil si le fil ou le colorant a changé.', 'Rincez jusqu\'à eau claire, essorez, séchez à l\'ombre. Comparez à l\'échantillon de référence.'];
+      return out;
+    }
+    var d = TEI_DOSES[x.type][x.nuance] || TEI_DOSES[x.type].moyen;
+    out.source = 'Dosage proposé — ' + TEI_TYPES[x.type] + ', teinte ' + TEI_NUANCES[x.nuance].toLowerCase() + ' — à confirmer par un essai sur 100 g';
+    if (x.type === 'indigo') {
+      var Li = Math.round(kg * 20 * 10) / 10, gi = d.gkg * kg;
+      out.lignes = [{ nom: 'Indigo (poudre ou grains)', dose: d.gkg + ' g par kg de fil', q: gi, qTxt: mcG(gi), essai: mcG(d.gkg * 0.1) },
+        { nom: 'Soude caustique (pour la cuve)', dose: 'autant que d\'indigo', q: gi, qTxt: mcG(gi), essai: mcG(d.gkg * 0.1) },
+        { nom: 'Hydrosulfite de sodium (réducteur)', dose: '1,5 fois le poids d\'indigo', q: gi * 1.5, qTxt: mcG(gi * 1.5), essai: mcG(d.gkg * 0.15) }];
+      out.cond = [['Eau de la cuve', fmtN(Li, 1) + ' litres (20 l par kg de fil)'], ['Température', '40 à 50 °C'], ['Trempes', d.trempes + ' trempes de 5 minutes, 10 minutes à l\'air entre deux'], ['Bain prêt', 'jaune-vert avec une « fleurée » cuivrée en surface']];
+      out.etapes = ['Délayez l\'indigo dans un peu d\'eau tiède, ajoutez la soude caustique puis l\'hydrosulfite dans la cuve à 45 °C ; couvrez et laissez réduire 30 à 45 minutes.',
+        'Mouillez et essorez les écheveaux. Plongez-les sans faire de bulles, 5 minutes, en les tournant sous la surface.',
+        'Sortez-les et laissez-les verdir puis bleuir à l\'air 10 minutes (oxydation). Recommencez : ' + d.trempes + ' trempes pour une teinte ' + TEI_NUANCES[x.nuance].toLowerCase() + '.',
+        'Rincez, passez dans une eau légèrement vinaigrée, rincez encore, séchez à l\'ombre.',
+        'Sécurité : gants, lunettes et bonne aération ; la soude caustique brûle la peau.'];
+      return out;
+    }
+    var gc = d.pct * 10 * kg, mx = Coul.cmjn(couleurHex(x.c)), parts = [['Colorant bleu (cyan)', mx.c], ['Colorant rouge (magenta)', mx.m], ['Colorant jaune', mx.j], ['Colorant noir', mx.n]];
+    var tot = parts.reduce(function (t, q) { return t + q[1]; }, 0) || 1;
+    parts = parts.map(function (q) { return [q[0], q[1] / tot]; }).filter(function (q) { return q[1] >= 0.04; });
+    var t2 = parts.reduce(function (t, q) { return t + q[1]; }, 0) || 1;
+    out.lignes = [{ nom: 'Colorant ' + couleurName(x.c).toLowerCase() + ' (si vous l\'avez tout prêt)', dose: fmtN(d.pct, 1) + ' % du poids du fil', q: gc, qTxt: mcG(gc), essai: mcG(d.pct * 10 * 0.1) }];
+    if (parts.length > 1) out.lignes = out.lignes.concat(parts.map(function (q) { var g = gc * q[1] / t2; return { nom: '— ou mélange : ' + q[0], dose: fmtPct(q[1] / t2, 0) + ' du colorant', q: g, qTxt: mcG(g), essai: mcG(d.pct * 10 * 0.1 * q[1] / t2) }; }));
+    out.lignes.push({ nom: 'Sel (chlorure de sodium)', dose: d.sel + ' g par litre', q: d.sel * L, qTxt: mcG(d.sel * L), essai: mcG(d.sel * bainLkg * 0.1) });
+    if (x.type === 'reactif') out.lignes.push({ nom: 'Carbonate de sodium (alcali, fixation)', dose: d.alcali + ' g par litre', q: d.alcali * L, qTxt: mcG(d.alcali * L), essai: mcG(d.alcali * bainLkg * 0.1) });
+    out.lignes.push({ nom: 'Savon ou détergent (savonnage final)', dose: '2 g par litre', q: 2 * L, qTxt: mcG(2 * L), essai: mcG(2 * bainLkg * 0.1) });
+    out.cond = [['Eau du bain', fmtN(L, 1) + ' litres (' + fmtN(bainLkg, 0) + ' l par kg de fil)'], ['Température', x.type === 'reactif' ? '60 °C (40 °C pour les colorants « à froid »)' : '90 à 95 °C'], ['Durée', x.type === 'reactif' ? '30 min au sel, puis 45 à 60 min après l\'alcali' : '45 à 60 min'], ['pH', x.type === 'reactif' ? '10,5 à 11 après l\'alcali' : 'neutre']];
+    out.etapes = x.type === 'reactif' ? ['Remplissez le bain à 40 °C, dissolvez le colorant à part dans un peu d\'eau chaude et versez-le en filtrant.', 'Entrez les écheveaux mouillés, tournez-les 10 minutes.', 'Ajoutez le sel en trois fois, à 10 minutes d\'écart, en montant à 60 °C.', 'Ajoutez le carbonate dissous en deux fois : la couleur se fixe. Maintenez 45 à 60 minutes en tournant souvent.', 'Rincez à froid, savonnez 10 minutes à 90 °C, rincez jusqu\'à eau claire, séchez à l\'ombre.']
+      : ['Dissolvez le colorant dans un peu d\'eau chaude, versez-le dans le bain à 40 °C et entrez les écheveaux mouillés.', 'Montez à 90 °C en 30 minutes ; ajoutez le sel en deux fois.', 'Maintenez 45 minutes en tournant, laissez refroidir dans le bain jusqu\'à 60 °C.', 'Rincez, passez un fixateur si vous en avez, séchez à l\'ombre. Teinture moins solide au lavage que le réactif.'];
+    return out;
+  },
+  /* ligatures des fils teints en réserve, bain par bain (de la couleur la plus claire à la plus foncée) */
+  ligatures: function (ts) {
+    var R = ts.src.reserve; if (!R || !R.bandes.length) return null;
+    var groupes = {};
+    R.bandes.forEach(function (b, i) { var k = JSON.stringify(b.seg.map(function (s) { return [s.c, Math.round(s.f * 100)]; })); (groupes[k] = groupes[k] || { seg: b.seg, bandes: [] }).bandes.push(b); });
+    return Object.keys(groupes).map(function (k) {
+      var g = groupes[k], cm = 0, zones = g.seg.map(function (s) { var z = { c: s.c, de: cm, a: cm + s.f * R.rapport }; cm = z.a; return z; });
+      var cs = []; zones.forEach(function (z) { if (cs.indexOf(z.c) < 0) cs.push(z.c); });
+      cs.sort(function (a, b) { return Coul.labHex(couleurHex(b)).slice(0, 1)[0] - Coul.labHex(couleurHex(a)).slice(0, 1)[0]; });
+      var base = cs[0], baseBlanc = base === 'blanc' || base === 'ecru';
+      var bains = cs.filter(function (c) { return !(c === base && baseBlanc); }).map(function (c) { return { c: c, garder: zones.filter(function (z) { return z.c !== c; }), libres: zones.filter(function (z) { return z.c === c; }) }; });
+      return { bandes: g.bandes, fils: g.bandes.reduce(function (t, b) { return t + b.fils; }, 0), zones: zones, base: base, baseBlanc: baseBlanc, bains: bains };
+    });
+  },
+  rendu: function (ts) { ts.m.body.innerHTML = TeintPlan.html(ts, false); },
+  html: function (ts, imp) {
+    var rows = TeintPlan.calcule(ts), p = ts.p, h = '', bain = Number(p.bain) || 10;
+    var totBrut = rows.reduce(function (t, x) { return t + x.brut; }, 0), totBesoin = rows.reduce(function (t, x) { return t + x.besoin; }, 0);
+    var brutDispo = 0; list('stock/articles', function (a) { return a.nature === 'fil_brut' && !a.archive; }).forEach(function (a) { brutDispo += ptStock('tissage', a.id).q + ptStock('teinture', a.id).q; });
+    if (!imp) h += '<div class="fgrid cols4 mc-tp">' +
+      '<label class="chk"><input type="checkbox" data-tp="stock"' + (p.stock ? ' checked' : '') + '><span>Déduire le fil teint déjà en stock</span></label>' +
+      '<label class="fld"><span>Perte à la teinture (%)</span><input type="text" inputmode="decimal" data-tp="perte" value="' + attr(String(p.perte).replace('.', ',')) + '"><small class="muted">D\'après le rendement de vos lots.</small></label>' +
+      '<label class="fld"><span>Poids d\'un écheveau (g)</span><input type="text" inputmode="numeric" data-tp="echeveau" value="' + attr(p.echeveau) + '"></label>' +
+      '<label class="fld"><span>Rapport de bain (litres par kg)</span><input type="text" inputmode="decimal" data-tp="bain" value="' + attr(String(bain).replace('.', ',')) + '"></label></div>';
+    var sortie = totBrut + rows.filter(function (x) { return x.blanc; }).reduce(function (t, x) { return t + x.besoin; }, 0);
+    h += tiles([{ t: 'Fil nécessaire au tissage', v: mcG(totBesoin), s: plural(rows.length, 'couleur') }, { t: 'Fil brut à teindre', v: mcG(totBrut), s: 'perte de ' + fmtN(p.perte, 1) + ' % comprise' },
+      { t: 'Fil brut en stock', v: mcG(brutDispo), s: brutDispo < sortie ? '<span class="tx-err">il manque ' + mcG(sortie - brutDispo) + ' (fil blanc compris)</span>' : 'suffisant : ' + mcG(sortie) + ' à sortir, fil blanc compris', tone: brutDispo < sortie ? 'warn' : '' },
+      { t: 'Écheveaux', v: fmtN(rows.reduce(function (t, x) { return t + x.ech; }, 0)), s: 'de ' + fmtN(p.echeveau) + ' g' }]);
+    h += '<section class="card pad mc-s"><h3>Couleurs à préparer</h3><div class="tscroll"><table class="grid"><thead><tr><th>Couleur</th><th class="num">Besoin</th><th class="num">Fil teint en stock</th><th class="num">À obtenir</th><th class="num">Fil brut à engager</th><th class="num">Écheveaux</th><th>Dosage</th></tr></thead><tbody>' +
+      rows.map(function (x) { return '<tr><td>' + mcSw(x.c) + ' ' + esc(couleurName(x.c)) + '</td><td class="num">' + mcG(x.besoin) + '</td><td class="num">' + (x.blanc ? '—' : mcG(x.dispo)) + '</td><td class="num">' + (x.blanc ? 'pas de teinture' : mcG(x.aTeindre)) + '</td><td class="num"><strong>' + (x.blanc ? mcG(x.besoin) + ' (blanc)' : mcG(x.brut)) + '</strong></td><td class="num">' + (x.ech || '—') + '</td><td>' + (x.blanc ? 'fil brut ou blanchi' : x.recette ? 'recette de l\'atelier' : 'proposé') + '</td></tr>'; }).join('') + '</tbody></table></div></section>';
+    h += '<section class="card pad mc-s"><h3>Préparation des écheveaux</h3><ol class="mc-ol">' +
+      '<li>Dévidez le fil brut en écheveaux d\'environ ' + fmtN(p.echeveau) + ' g sur le dévidoir ; pesez-les secs et notez le poids de chaque couleur.</li>' +
+      '<li>Liez chaque écheveau en 3 ou 4 endroits avec un fil de coton passé en « 8 », sans serrer : la teinture passe partout et l\'écheveau ne s\'emmêle pas.</li>' +
+      '<li>Débouillissez : 20 à 30 minutes dans une eau chaude avec 2 g de savon ou de carbonate par litre, puis rincez. Le fil propre prend la couleur de façon égale.</li>' +
+      '<li>Gardez les écheveaux mouillés et essorés jusqu\'au bain. Teignez d\'abord les couleurs claires, puis les foncées.</li></ol></section>';
+    rows.filter(function (x) { return !x.blanc && x.aTeindre > 0; }).forEach(function (x) {
+      var d = TeintPlan.dosage(x, bain);
+      h += '<section class="card pad mc-s tp-c"><h3>' + mcSw(x.c) + ' ' + esc(couleurName(x.c)) + ' — ' + mcG(x.brut) + ' de fil à teindre (' + plural(x.ech, 'écheveau') + ')</h3><p class="muted">' + esc(d.source) + '</p>' +
+        (!imp && !x.recette ? '<div class="row wrap"><label class="fld"><span>Type de colorant</span><select data-tp="type" data-c="' + attr(x.c) + '">' + Object.keys(TEI_TYPES).map(function (k) { return '<option value="' + k + '"' + (k === x.type ? ' selected' : '') + '>' + esc(TEI_TYPES[k]) + '</option>'; }).join('') + '</select></label>' +
+          '<label class="fld"><span>Teinte</span><select data-tp="nuance" data-c="' + attr(x.c) + '">' + Object.keys(TEI_NUANCES).map(function (k) { return '<option value="' + k + '"' + (k === x.nuance ? ' selected' : '') + '>' + esc(TEI_NUANCES[k]) + '</option>'; }).join('') + '</select></label></div>' : '') +
+        '<div class="tscroll"><table class="grid"><thead><tr><th>Produit</th><th>Dose</th><th class="num">Pour ' + mcG(x.brut) + '</th><th class="num">Essai sur 100 g</th>' + (x.recette ? '<th class="num">En stock</th>' : '') + '</tr></thead><tbody>' +
+        d.lignes.map(function (l) { var manque = x.recette && l.unite === 'kg' && l.stock < l.q; return '<tr><td>' + esc(l.nom) + '</td><td>' + esc(l.dose) + '</td><td class="num"><strong>' + esc(l.qTxt) + '</strong></td><td class="num">' + esc(l.essai) + '</td>' + (x.recette ? '<td class="num' + (manque ? ' tx-err' : '') + '">' + (l.unite === 'kg' ? mcG(l.stock) : fmtQ(l.stock, l.unite)) + '</td>' : '') + '</tr>'; }).join('') + '</tbody></table></div>' +
+        UI.kv(d.cond.map(function (c) { return [c[0], esc(c[1])]; })) +
+        '<ol class="mc-ol">' + d.etapes.map(function (e) { return '<li>' + esc(e) + '</li>'; }).join('') + '</ol>' +
+        (!imp && x.recette && can('teinture', 'creer') ? '<div class="row end"><button type="button" class="btn ghost sm" data-tpa="lot" data-id="' + attr(x.recette.id) + '">' + icon('plus') + ' Préparer le lot de teinture</button></div>' : '') + '</section>';
+    });
+    if (rows.every(function (x) { return x.blanc || x.aTeindre <= 0; })) h += '<div class="alert">' + icon('check') + '<div>Rien à teindre : ' + (rows.some(function (x) { return !x.blanc; }) ? 'le fil teint en stock suffit pour ce modèle.' : 'ce modèle n\'utilise que du fil blanc ou écru.') + '</div></div>';
+    var lg = TeintPlan.ligatures(ts);
+    if (lg) {
+      var R = ts.src.reserve, nb = ts.src.Lourdi ? Math.ceil(ts.src.Lourdi * 100 / R.rapport) : null;
+      h += '<section class="card pad mc-s"><h3>' + icon('drop') + ' Motifs teints en réserve : ligatures</h3><ol class="mc-ol">' +
+        '<li>Préparez à part les fils des bandes à motif : ourdissez-les sur la longueur de la chaîne' + (ts.src.Lourdi ? ' (' + fmtN(ts.src.Lourdi, 2) + ' m)' : '') + ', bien tendus entre deux piquets ou sur un cadre, par paquets de la largeur d\'une bande.</li>' +
+        '<li>Marquez un repère (craie, fil de couleur) tous les <strong>' + mcCm(R.rapport) + '</strong> : c\'est la longueur d\'un motif' + (nb ? ', soit ' + fmtN(nb) + ' motifs sur la chaîne' : '') + '.</li>' +
+        '<li>Pour chaque bain, ligaturez serré (raphia, ruban plastique ou ficelle cirée, plusieurs tours) toutes les zones qui ne doivent pas prendre cette couleur, teignez, rincez, laissez sécher, puis retirez les ligatures.</li>' +
+        '<li>Allez de la couleur la plus claire à la plus foncée. Pour gagner du temps, une couleur foncée peut se teindre par-dessus une claire si le mélange donne la teinte voulue.</li></ol>' +
+        lg.map(function (g, gi) {
+          var nums = g.bandes.map(function (b) { return 'fils ' + b.de + ' à ' + b.a; }).join(', ');
+          return '<div class="tp-g"><h4>Motif ' + (gi + 1) + ' — ' + plural(g.bandes.length, 'bande') + ', ' + fmtN(g.fils) + ' fils (' + esc(nums) + ')</h4>' +
+            '<div class="tp-zones" aria-hidden="true">' + g.zones.map(function (z) { return '<i style="background:' + attr(mcHex(z.c)) + ';flex:' + Math.max(0.01, z.a - z.de) + '"></i>'; }).join('') + '</div>' +
+            '<p>Dans chaque motif de ' + mcCm(R.rapport) + ' : ' + g.zones.map(function (z) { return esc(couleurName(z.c)) + ' de ' + fmtN(z.de, 1) + ' à ' + fmtN(z.a, 1) + ' cm'; }).join(' ; ') + '.</p>' +
+            (g.baseBlanc ? '<p class="muted">Fil de départ : ' + esc(couleurName(g.base)) + ' (non teint).</p>' : '') +
+            '<ol class="mc-ol">' + g.bains.map(function (b, bi) { return '<li><strong>Bain ' + (bi + 1) + ' — ' + esc(couleurName(b.c)) + '</strong> : ' + (b.garder.length ? 'ligaturez de ' + b.garder.map(function (z) { return fmtN(z.de, 1) + ' à ' + fmtN(z.a, 1) + ' cm'; }).join(', ') + ' dans chaque motif' : 'aucune ligature (tout le paquet prend la couleur)') + ' ; restent libres : ' + b.libres.map(function (z) { return fmtN(z.de, 1) + ' à ' + fmtN(z.a, 1) + ' cm'; }).join(', ') + '.</li>'; }).join('') + '</ol></div>';
+        }).join('') + '</section>';
+    }
+    h += '<p class="muted small">Les doses proposées sont des points de départ pour du coton : confirmez-les toujours par un essai sur 100 g, comparé à l\'échantillon, avant de teindre tout le lot. Les recettes de l\'atelier passent avant la proposition.</p>';
+    return h;
+  },
+  imprimer: function (ts) {
+    UI.print({ title: 'Plan de teinture', docTitle: 'Plan de teinture', docMeta: '<div>' + esc(ts.src.titre) + '</div><div>' + fmtDate(today()) + '</div>',
+      body: TeintPlan.html(ts, true).replace(/<svg[^>]*class="ic[^"]*"[^>]*>.*?<\/svg>/g, '') });
+  }
+};
+
+/* ---------- retouche des photos et formats des réseaux sociaux ---------- */
+var FORMATS_RS = [
+  { k: 'fb_carre', g: 'Facebook', n: 'Publication carrée', w: 1080, h: 1080 },
+  { k: 'fb_portrait', g: 'Facebook', n: 'Publication portrait (4:5)', w: 1080, h: 1350 },
+  { k: 'fb_paysage', g: 'Facebook', n: 'Publication paysage, lien', w: 1200, h: 630 },
+  { k: 'fb_story', g: 'Facebook', n: 'Story', w: 1080, h: 1920 },
+  { k: 'fb_couv', g: 'Facebook', n: 'Photo de couverture de la page', w: 1640, h: 624 },
+  { k: 'tt_plein', g: 'TikTok', n: 'Photo plein écran (9:16)', w: 1080, h: 1920 },
+  { k: 'tt_34', g: 'TikTok', n: 'Photo verticale (3:4)', w: 1080, h: 1440 },
+  { k: 'x_169', g: 'X', n: 'Publication (16:9)', w: 1600, h: 900 },
+  { k: 'x_carre', g: 'X', n: 'Publication carrée', w: 1080, h: 1080 },
+  { k: 'x_45', g: 'X', n: 'Publication portrait (4:5)', w: 1080, h: 1350 },
+  { k: 'x_banniere', g: 'X', n: 'Bannière du profil', w: 1500, h: 500 },
+  { k: 'orig', g: 'Autre', n: 'Photo entière retouchée', w: 0, h: 0 }
+];
+var RT_FILTRES = [
+  ['aucun', 'Aucun', {}], ['eclatant', 'Éclatant', { sat: 35, contraste: 15, lum: 4 }], ['chaud', 'Chaud', { chaleur: 28, sat: 8 }], ['froid', 'Froid', { chaleur: -24, sat: 4 }],
+  ['doux', 'Doux', { contraste: -16, lum: 8, sat: -8 }], ['indigo', 'Indigo', { chaleur: -18, sat: 18, contraste: 10, ombres: -10 }], ['vif', 'Tissu vif', { sat: 22, contraste: 20, nettete: 35 }],
+  ['vintage', 'Ancien', { sat: -22, chaleur: 16, contraste: -10, vignette: 40 }], ['nb', 'Noir et blanc', { sat: -100, contraste: 14 }], ['sepia', 'Sépia', { sepia: 1, contraste: 6 }]
+];
+var RT_REGLAGES = [['expo', 'Exposition'], ['lum', 'Luminosité'], ['contraste', 'Contraste'], ['ombres', 'Ombres'], ['hl', 'Hautes lumières'], ['sat', 'Saturation'], ['chaleur', 'Température (froid ↔ chaud)'], ['teinte', 'Teinte (vert ↔ magenta)'], ['nettete', 'Netteté', 0, 100], ['vignette', 'Vignettage', 0, 100]];
+
+/* archive .zip (sans compression : les photos JPEG le sont déjà) */
+var Zip = {
+  table: null,
+  crc: function (u8) {
+    var t = Zip.table || (Zip.table = (function () { var tb = new Uint32Array(256); for (var n = 0; n < 256; n++) { var c = n; for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; tb[n] = c >>> 0; } return tb; })());
+    var c = 0xFFFFFFFF; for (var i = 0; i < u8.length; i++) c = t[(c ^ u8[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0;
+  },
+  blob: function (files) {
+    var parts = [], cd = [], off = 0, enc = new TextEncoder(), d = new Date();
+    var dt = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1), dd = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+    files.forEach(function (f) {
+      var nm = enc.encode(f.nom), crc = Zip.crc(f.data), n = f.data.length, h = new DataView(new ArrayBuffer(30)), c = new DataView(new ArrayBuffer(46));
+      [[0, 0x04034b50, 4], [4, 20, 2], [6, 0x0800, 2], [8, 0, 2], [10, dt, 2], [12, dd, 2], [14, crc, 4], [18, n, 4], [22, n, 4], [26, nm.length, 2], [28, 0, 2]].forEach(function (x) { if (x[2] === 4) h.setUint32(x[0], x[1], true); else h.setUint16(x[0], x[1], true); });
+      [[0, 0x02014b50, 4], [4, 20, 2], [6, 20, 2], [8, 0x0800, 2], [10, 0, 2], [12, dt, 2], [14, dd, 2], [16, crc, 4], [20, n, 4], [24, n, 4], [28, nm.length, 2], [30, 0, 2], [32, 0, 2], [34, 0, 2], [36, 0, 2], [38, 0, 4], [42, off, 4]].forEach(function (x) { if (x[2] === 4) c.setUint32(x[0], x[1], true); else c.setUint16(x[0], x[1], true); });
+      parts.push(h.buffer, nm, f.data); cd.push(c.buffer, nm); off += 30 + nm.length + n;
+    });
+    var cdLen = cd.reduce(function (t, x) { return t + x.byteLength; }, 0), e = new DataView(new ArrayBuffer(22));
+    e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true); e.setUint32(12, cdLen, true); e.setUint32(16, off, true);
+    return new Blob(parts.concat(cd, [e.buffer]), { type: 'application/zip' });
+  }
+};
+function rtTelecharge(blob, nom) {
+  var u = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = u; a.download = nom; a.rel = 'noopener'; document.body.appendChild(a); a.click();
+  setTimeout(function () { URL.revokeObjectURL(u); a.remove(); }, 4000);
+}
+function rtNomFichier(s) { return norm(s || 'photo').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'photo'; }
+
+var Retouche = {
+  defauts: function () { var a = {}; RT_REGLAGES.forEach(function (r) { a[r[0]] = 0; }); a.noir = 0; a.blanc = 255; return a; },
+  ouvrir: function (id) {
+    var f = id ? ficheCat(id) : null, info = S.info || {};
+    var rt = Retouche.st = { id: id || null, f: f, fmt: 'fb_carre', cadre: {}, rot90: 0, flip: false, angle: 0, adj: Retouche.defauts(), filtre: 'aucun',
+      texte: { on: false, titre: f ? f.nom : '', prix: f ? catPrix(f) : '', contact: Cat.signature(), lTitre: true, lPrix: !!(f && catPrix(f)), lContact: true, pos: 'bas', style: 'bandeau', couleur: '#ffffff' },
+      logo: { on: false, pos: 'hd' }, fond: 'flou', full: null, prev: null, cacheP: null, cacheF: null, nom: f ? (f.ref || f.nom) : 'photo' };
+    var m = rt.m = UI.modal({ title: 'Retouche des photos' + (f ? ' — ' + f.nom : ''), size: 'xl', dismiss: false, body: Retouche.corps(rt),
+      actions: [{ t: icon('download') + ' Télécharger ce format', act: 'dl', cls: 'primary' }, { t: icon('download') + ' Tous les formats (.zip)', act: 'zip', cls: 'ghost' }, { t: icon('share') + ' Partager', act: 'share', cls: 'ghost' }, { t: 'Fermer', act: '__close', cls: 'ghost' }],
+      onAct: function (a, b) { if (!rt.full) { UI.toast('Choisissez d\'abord une photo.', 'err'); return; } if (a === 'dl') Retouche.telecharger(rt, b); if (a === 'zip') Retouche.zip(rt, b); if (a === 'share') Retouche.partager(rt, b); } });
+    m.el.classList.add('mc-modal');
+    if (info.logo) { var lg = new Image(); lg.onload = function () { rt.logoImg = lg; Retouche.dessine(rt); }; lg.src = info.logo; }
+    Retouche.lier(rt);
+    var ph = f ? (f.photos || []) : [];
+    if (ph.length) Retouche.chargeFiche(rt, ph[0]); else if (f && f.vignette) Retouche.charge(rt, f.vignette);
+    return m;
+  },
+  corps: function (rt) {
+    var f = rt.f, ph = f ? (f.photos || []) : [], fiches = f ? [] : list('catalogue/fiches', function (x) { return !x.archive && ((x.photos || []).length || x.vignette); }).sort(function (a, b) { return String(a.nom).localeCompare(String(b.nom), 'fr'); });
+    var grp = {}; FORMATS_RS.forEach(function (x) { (grp[x.g] = grp[x.g] || []).push(x); });
+    var rg = function (k, t, min, max, v) { return '<label class="rt-sl"><span>' + esc(t) + ' <output data-o="' + k + '">' + v + '</output></span><input type="range" min="' + min + '" max="' + max + '" step="1" value="' + v + '" data-rt="' + k + '"></label>'; };
+    var det = function (t, html, open) { return '<details class="rt-d"' + (open ? ' open' : '') + '><summary>' + esc(t) + '</summary><div class="rt-db">' + html + '</div></details>'; };
+    return '<div class="rt"><div class="rt-v">' +
+      '<div class="rt-stage" id="rt-stage"><canvas id="rt-cv" aria-label="Aperçu de la photo retouchée"></canvas><div class="mc-vide" id="rt-vide">' + icon('image') + '<span>Choisissez une photo du modèle ou chargez-en une depuis le téléphone.</span></div></div>' +
+      '<p class="muted small rt-hint" id="rt-dim"></p>' +
+      '<div class="row wrap mc-src">' + ph.map(function (pid, i) { return '<button type="button" class="cat-th" data-rta="ph" data-id="' + attr(pid) + '" aria-label="Photo ' + (i + 1) + '"><span class="spin"></span></button>'; }).join('') +
+        (fiches.length ? '<select id="rt-fiche" aria-label="Photo d\'un modèle du catalogue"><option value="">Photo d\'un modèle…</option>' + fiches.map(function (x) { return '<option value="' + attr(x.id) + '">' + esc(x.nom + (x.ref ? ' (' + x.ref + ')' : '')) + '</option>'; }).join('') + '</select>' : '') +
+        '<label class="btn ghost sm">' + icon('upload') + ' Charger une photo<input type="file" accept="image/*" id="rt-file" hidden></label></div></div>' +
+      '<div class="rt-p">' +
+        det('Format', '<label class="fld"><span>Réseau et format</span><select data-rt="fmt">' + Object.keys(grp).map(function (g) { return '<optgroup label="' + attr(g) + '">' + grp[g].map(function (x) { return '<option value="' + x.k + '"' + (x.k === rt.fmt ? ' selected' : '') + '>' + esc(x.n + (x.w ? ' — ' + x.w + ' × ' + x.h : '')) + '</option>'; }).join('') + '</optgroup>'; }).join('') + '</select></label>' +
+          '<div class="rt-seg" role="group" aria-label="Cadrage"><button type="button" data-rta="mode" data-id="remplir" class="on">Remplir le cadre</button><button type="button" data-rta="mode" data-id="ajuster">Photo entière</button></div>' +
+          '<label class="fld" id="rt-fondw" hidden><span>Fond autour de la photo</span><select data-rt="fond"><option value="flou">Photo floutée</option><option value="#ffffff">Blanc</option><option value="#111111">Noir</option><option value="#22306b">Indigo</option><option value="#c9932e">Or</option></select></label>', true) +
+        det('Cadrage', rg('zoom', 'Zoom', 100, 300, 100) + rg('angle', 'Redresser (degrés)', -15, 15, 0) +
+          '<div class="row wrap"><button type="button" class="btn ghost sm" data-rta="rot">' + icon('move') + ' Tourner d\'un quart</button><button type="button" class="btn ghost sm" data-rta="flip">Miroir</button><button type="button" class="btn ghost sm" data-rta="centre">Recentrer</button></div><p class="muted small">Faites glisser la photo dans l\'aperçu pour choisir ce qui reste dans le cadre.</p>') +
+        det('Réglages', '<div class="row wrap"><button type="button" class="btn ghost sm" data-rta="auto">' + icon('bolt') + ' Correction automatique</button><button type="button" class="btn ghost sm" data-rta="zero">Tout remettre à zéro</button></div>' +
+          RT_REGLAGES.map(function (r) { return rg('adj.' + r[0], r[1], r[2] === undefined ? -100 : r[2], r[3] === undefined ? 100 : r[3], 0); }).join(''), true) +
+        det('Filtres', '<div class="rt-f">' + RT_FILTRES.map(function (x) { return '<button type="button" data-rta="filtre" data-id="' + x[0] + '"' + (x[0] === rt.filtre ? ' class="on"' : '') + '>' + esc(x[1]) + '</button>'; }).join('') + '</div>') +
+        det('Texte et logo', '<label class="chk"><input type="checkbox" data-rt="texte.on"><span>Ajouter un texte sur la photo</span></label>' +
+          '<label class="fld"><span>Titre</span><input data-rt="texte.titre" value="' + attr(rt.texte.titre) + '" maxlength="60"></label>' +
+          '<label class="fld"><span>Prix</span><input data-rt="texte.prix" value="' + attr(rt.texte.prix) + '" maxlength="60"></label>' +
+          '<label class="fld"><span>Contact</span><input data-rt="texte.contact" value="' + attr(rt.texte.contact) + '" maxlength="80"></label>' +
+          '<div class="fgrid"><label class="fld"><span>Place</span><select data-rt="texte.pos"><option value="bas">En bas</option><option value="haut">En haut</option></select></label>' +
+          '<label class="fld"><span>Style</span><select data-rt="texte.style"><option value="bandeau">Bandeau sombre</option><option value="clair">Bandeau clair</option><option value="ombre">Texte seul (ombré)</option></select></label></div>' +
+          (S.info && S.info.logo ? '<label class="chk"><input type="checkbox" data-rt="logo.on"><span>Ajouter le logo de l\'atelier</span></label><label class="fld"><span>Place du logo</span><select data-rt="logo.pos"><option value="hd">En haut à droite</option><option value="hg">En haut à gauche</option><option value="bd">En bas à droite</option><option value="bg">En bas à gauche</option></select></label>' : '<p class="muted small">Ajoutez le logo de l\'atelier dans Paramètres → Entreprise pour pouvoir le poser sur les photos.</p>')) +
+      '</div></div>';
+  },
+  lier: function (rt) {
+    var m = rt.m, raf = null;
+    var plan = function (adj) { if (adj) rt.cacheP = null; if (raf) return; raf = (window.requestAnimationFrame || setTimeout)(function () { raf = null; Retouche.dessine(rt); }); };
+    rt.plan = plan;
+    m.body.addEventListener('input', function (e) {
+      var t = e.target, k = t.dataset.rt; if (!k) return;
+      var v = t.type === 'checkbox' ? t.checked : t.type === 'range' ? Number(t.value) : t.value;
+      var o = $('[data-o="' + k + '"]', m.el); if (o) o.textContent = v;
+      if (k === 'fmt') { rt.fmt = v; Retouche.majMode(rt); plan(); return; }
+      if (k === 'fond') { rt.fond = v; plan(); return; }
+      if (k === 'zoom') { Retouche.cad(rt).zoom = v / 100; plan(); return; }
+      if (k === 'angle') { rt.angle = v; plan(); return; }
+      var p = k.split('.');
+      if (p[0] === 'adj') { rt.adj[p[1]] = v; plan(true); return; }
+      if (p[0] === 'texte' || p[0] === 'logo') { rt[p[0]][p[1]] = v; if (p[0] === 'texte' && p[1] !== 'on' && p[1] !== 'pos' && p[1] !== 'style') { rt.texte.on = true; var cb = $('[data-rt="texte.on"]', m.el); if (cb) cb.checked = true; } plan(); }
+    });
+    m.body.addEventListener('change', function (e) {
+      var t = e.target;
+      if (t.dataset.rt) t.dispatchEvent(new Event('input', { bubbles: true }));
+      if (t.id === 'rt-file') { var file = t.files && t.files[0]; if (!file) return; var rd = new FileReader(); rd.onload = function () { rt.nom = file.name.replace(/\.[a-z0-9]+$/i, '') || rt.nom; Retouche.charge(rt, rd.result); }; rd.readAsDataURL(file); t.value = ''; }
+      if (t.id === 'rt-fiche' && t.value) { var x = ficheCat(t.value); if (x) { rt.nom = x.ref || x.nom; if (!rt.texte.titre) { rt.texte.titre = x.nom; var ti = $('[data-rt="texte.titre"]', m.el); if (ti) ti.value = x.nom; } if ((x.photos || []).length) Retouche.chargeFiche(rt, x.photos[0]); else Retouche.charge(rt, x.vignette); } }
+    });
+    m.body.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-rta]'); if (!b || !m.body.contains(b)) return;
+      var a = b.dataset.rta, c = Retouche.cad(rt);
+      if (a === 'ph') Retouche.chargeFiche(rt, b.dataset.id);
+      if (a === 'mode') { c.mode = b.dataset.id; c.dx = 0; c.dy = 0; Retouche.majMode(rt); plan(); }
+      if (a === 'rot') { rt.rot90 = (rt.rot90 + 1) % 4; Object.keys(rt.cadre).forEach(function (k) { rt.cadre[k].dx = 0; rt.cadre[k].dy = 0; }); plan(); }
+      if (a === 'flip') { rt.flip = !rt.flip; plan(); }
+      if (a === 'centre') { c.dx = 0; c.dy = 0; c.zoom = 1; rt.angle = 0; Retouche.majCurseurs(rt); plan(); }
+      if (a === 'filtre') { rt.filtre = b.dataset.id; $$('[data-rta="filtre"]', m.el).forEach(function (x) { x.classList.toggle('on', x === b); }); plan(true); }
+      if (a === 'auto') { Retouche.auto(rt); Retouche.majCurseurs(rt); plan(true); }
+      if (a === 'zero') { rt.adj = Retouche.defauts(); rt.filtre = 'aucun'; $$('[data-rta="filtre"]', m.el).forEach(function (x) { x.classList.toggle('on', x.dataset.id === 'aucun'); }); Retouche.majCurseurs(rt); plan(true); }
+    });
+    /* glisser pour placer la photo dans le cadre */
+    var cv = $('#rt-cv', m.el), drag = null;
+    cv.addEventListener('pointerdown', function (e) { if (!rt.full) return; drag = { x: e.clientX, y: e.clientY, c: Object.assign({}, Retouche.cad(rt)) }; try { cv.setPointerCapture(e.pointerId); } catch (er) {} e.preventDefault(); });
+    cv.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var r = cv.getBoundingClientRect(), c = Retouche.cad(rt);
+      c.dx = drag.c.dx + (e.clientX - drag.x) / Math.max(1, r.width); c.dy = drag.c.dy + (e.clientY - drag.y) / Math.max(1, r.height);
+      Retouche.borne(rt); plan();
+    });
+    var fin = function () { drag = null; };
+    cv.addEventListener('pointerup', fin); cv.addEventListener('pointercancel', fin);
+  },
+  fmtOf: function (rt, k) { return FORMATS_RS.filter(function (x) { return x.k === (k || rt.fmt); })[0] || FORMATS_RS[0]; },
+  cad: function (rt, k) { k = k || rt.fmt; return rt.cadre[k] || (rt.cadre[k] = { zoom: 1, dx: 0, dy: 0, mode: 'remplir' }); },
+  majMode: function (rt) {
+    var c = Retouche.cad(rt), m = rt.m;
+    $$('[data-rta="mode"]', m.el).forEach(function (b) { b.classList.toggle('on', b.dataset.id === c.mode); });
+    var fw = $('#rt-fondw', m.el); if (fw) fw.hidden = c.mode !== 'ajuster';
+    Retouche.majCurseurs(rt);
+  },
+  majCurseurs: function (rt) {
+    var m = rt.m, c = Retouche.cad(rt), set = function (k, v) { var i = $('[data-rt="' + k + '"]', m.el), o = $('[data-o="' + k + '"]', m.el); if (i) i.value = v; if (o) o.textContent = v; };
+    set('zoom', Math.round(c.zoom * 100)); set('angle', rt.angle);
+    RT_REGLAGES.forEach(function (r) { set('adj.' + r[0], rt.adj[r[0]]); });
+  },
+  /* dimensions de la photo tournée */
+  dims: function (rt, src) { return rt.rot90 % 2 ? { w: src.height, h: src.width } : { w: src.width, h: src.height }; },
+  taille: function (rt, k) { var f = Retouche.fmtOf(rt, k); if (f.w) return { w: f.w, h: f.h }; var d = Retouche.dims(rt, rt.full), r = Math.min(1, 2400 / Math.max(d.w, d.h)); return { w: Math.round(d.w * r), h: Math.round(d.h * r) }; },
+  /* la photo ne sort pas du cadre en mode « remplir » */
+  borne: function (rt) {
+    var c = Retouche.cad(rt), t = Retouche.taille(rt), d = Retouche.dims(rt, rt.prev), s = Retouche.echelle(rt, t.w, t.h, d.w, d.h, c);
+    var lx = c.mode === 'ajuster' ? 0.5 : Math.max(0, (d.w * s - t.w) / 2 / t.w), ly = c.mode === 'ajuster' ? 0.5 : Math.max(0, (d.h * s - t.h) / 2 / t.h);
+    c.dx = Math.max(-lx, Math.min(lx, c.dx)); c.dy = Math.max(-ly, Math.min(ly, c.dy));
+  },
+  echelle: function (rt, W, H, iw, ih, c) {
+    var th = rt.angle * Math.PI / 180, cs = Math.abs(Math.cos(th)), sn = Math.abs(Math.sin(th));
+    return (c.mode === 'ajuster' ? Math.min(W / iw, H / ih) : Math.max((W * cs + H * sn) / iw, (W * sn + H * cs) / ih)) * c.zoom;
+  },
+  /* ---------- chargement ---------- */
+  chargeFiche: function (rt, pid) {
+    $$('[data-rta="ph"]', rt.m.el).forEach(function (b) { b.classList.toggle('on', b.dataset.id === pid); });
+    FB.get('t/' + S.tid + '/fichiers/' + pid).then(function (x) {
+      if (x && x.data) Retouche.charge(rt, x.data); else if (rt.f && rt.f.vignette) Retouche.charge(rt, rt.f.vignette);
+      ((rt.f && rt.f.photos) || []).forEach(function (id2) { var th = $('[data-rta="ph"][data-id="' + id2 + '"]', rt.m.el); if (!th || th.dataset.ok) return; th.dataset.ok = '1'; (id2 === pid ? Promise.resolve(x) : FB.get('t/' + S.tid + '/fichiers/' + id2)).then(function (y) { if (y && y.data) th.innerHTML = '<img src="' + attr(y.data) + '" alt="">'; }).catch(function () {}); });
+    }).catch(function () { UI.toast('La photo n\'a pas pu être chargée.', 'err'); });
+  },
+  reduit: function (img, max) { var r = Math.min(1, max / Math.max(img.naturalWidth || img.width, img.naturalHeight || img.height, 1)), c = document.createElement('canvas'); c.width = Math.max(1, Math.round((img.naturalWidth || img.width) * r)); c.height = Math.max(1, Math.round((img.naturalHeight || img.height) * r)); var x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(img, 0, 0, c.width, c.height); return c; },
+  charge: function (rt, url) {
+    var img = new Image();
+    img.onload = function () {
+      if (rt.m.closed) return;
+      rt.full = Retouche.reduit(img, 2400); rt.prev = Retouche.reduit(img, 1100); rt.cacheP = null; rt.cacheF = null; rt.cadre = {}; rt.rot90 = 0; rt.angle = 0;
+      var v = $('#rt-vide', rt.m.el); if (v) v.hidden = true;
+      Retouche.majMode(rt); Retouche.dessine(rt);
+    };
+    img.onerror = function () { UI.toast('Cette photo ne peut pas être lue.', 'err'); };
+    img.src = url;
+  },
+  /* ---------- réglages : une passe sur les pixels ---------- */
+  effectif: function (rt) {
+    var a = Object.assign({}, rt.adj), f = (RT_FILTRES.filter(function (x) { return x[0] === rt.filtre; })[0] || RT_FILTRES[0])[2];
+    Object.keys(f).forEach(function (k) { a[k] = (a[k] || 0) + f[k]; });
+    ['expo', 'lum', 'contraste', 'ombres', 'hl', 'sat', 'chaleur', 'teinte'].forEach(function (k) { a[k] = Math.max(-100, Math.min(100, a[k] || 0)); });
+    a.nettete = Math.max(0, Math.min(100, a.nettete || 0)); a.vignette = Math.max(0, Math.min(100, a.vignette || 0));
+    return a;
+  },
+  applique: function (src, a) {
+    var c = document.createElement('canvas'); c.width = src.width; c.height = src.height;
+    var x = c.getContext('2d'); x.drawImage(src, 0, 0);
+    var neutre = !a.expo && !a.lum && !a.contraste && !a.ombres && !a.hl && !a.sat && !a.chaleur && !a.teinte && !a.sepia && !a.nettete && a.noir === 0 && a.blanc === 255;
+    if (neutre) return c;
+    var im = x.getImageData(0, 0, c.width, c.height), d = im.data, n = d.length;
+    var ex = Math.pow(2, a.expo / 100), cc = a.contraste / 100, cf = (1 + cc) / Math.max(0.05, 1 - cc * 0.95), lo = a.noir || 0, hi = a.blanc || 255, lv = 255 / Math.max(1, hi - lo);
+    var lut = new Uint8ClampedArray(256);
+    for (var i = 0; i < 256; i++) { var v = (i - lo) * lv; v = v * ex + a.lum * 0.6; v = (v - 128) * cf + 128; lut[i] = v; }
+    var sat = 1 + a.sat / 100, ch = a.chaleur * 0.35, te = a.teinte * 0.3, om = a.ombres / 100 * 70, hl = a.hl / 100 * 70;
+    for (var p = 0; p < n; p += 4) {
+      var r = lut[d[p]], g = lut[d[p + 1]], b = lut[d[p + 2]];
+      if (om || hl) { var L = (0.299 * r + 0.587 * g + 0.114 * b) / 255, t = om * (1 - L) * (1 - L) + hl * L * L; r += t; g += t; b += t; }
+      r += ch; b -= ch; g -= te;
+      if (sat !== 1) { var gr = 0.299 * r + 0.587 * g + 0.114 * b; r = gr + (r - gr) * sat; g = gr + (g - gr) * sat; b = gr + (b - gr) * sat; }
+      if (a.sepia) { var r2 = r * 0.393 + g * 0.769 + b * 0.189, g2 = r * 0.349 + g * 0.686 + b * 0.168, b2 = r * 0.272 + g * 0.534 + b * 0.131; r = r2; g = g2; b = b2; }
+      d[p] = r; d[p + 1] = g; d[p + 2] = b;
+    }
+    if (a.nettete > 0) Retouche.nettete(im, a.nettete / 100 * 1.3);
+    x.putImageData(im, 0, 0);
+    return c;
+  },
+  /* masque flou : image + k × (image − flou 3 × 3) */
+  nettete: function (im, k) {
+    var w = im.width, h = im.height, d = im.data, s = new Uint8ClampedArray(d);
+    for (var y = 1; y < h - 1; y++) for (var x = 1; x < w - 1; x++) {
+      var o = (y * w + x) * 4;
+      for (var q = 0; q < 3; q++) {
+        var m = (s[o - 4 * w - 4 + q] + s[o - 4 * w + q] + s[o - 4 * w + 4 + q] + s[o - 4 + q] + s[o + q] + s[o + 4 + q] + s[o + 4 * w - 4 + q] + s[o + 4 * w + q] + s[o + 4 * w + 4 + q]) / 9;
+        d[o + q] = s[o + q] + k * (s[o + q] - m);
+      }
+    }
+  },
+  /* correction automatique : niveaux (0,5 % – 99,5 %), balance des blancs sur les parties blanches
+     ou grises de la photo (jamais sur la couleur dominante du tissu), un peu de couleur et de netteté */
+  auto: function (rt) {
+    var src = rt.prev, c = document.createElement('canvas'), r = Math.min(1, 300 / Math.max(src.width, src.height)); c.width = Math.max(1, Math.round(src.width * r)); c.height = Math.max(1, Math.round(src.height * r));
+    var x = c.getContext('2d'); x.drawImage(src, 0, 0, c.width, c.height);
+    var d = x.getImageData(0, 0, c.width, c.height).data, hist = new Uint32Array(256), n = 0, sm = 0;
+    for (var p = 0; p < d.length; p += 4) { var L = Math.round(0.299 * d[p] + 0.587 * d[p + 1] + 0.114 * d[p + 2]); hist[L]++; sm += L; n++; }
+    var pc = function (q) { var acc = 0; for (var i = 0; i < 256; i++) { acc += hist[i]; if (acc >= q * n) return i; } return 255; };
+    var lo = pc(0.005), hi = pc(0.995), seuil = pc(0.9); if (hi - lo < 40) { lo = 0; hi = 255; }
+    /* pixels clairs et presque neutres : la référence du blanc */
+    var wr = 0, wg = 0, wb = 0, wn = 0;
+    for (var q = 0; q < d.length; q += 4) {
+      var L2 = 0.299 * d[q] + 0.587 * d[q + 1] + 0.114 * d[q + 2]; if (L2 < Math.max(seuil, 120)) continue;
+      if (Math.max(d[q], d[q + 1], d[q + 2]) - Math.min(d[q], d[q + 1], d[q + 2]) > 60) continue;
+      wr += d[q]; wg += d[q + 1]; wb += d[q + 2]; wn++;
+    }
+    var a = Retouche.defauts();
+    a.noir = Math.min(60, lo); a.blanc = Math.max(190, hi);
+    if (wn > n * 0.005) {
+      wr /= wn; wg /= wn; wb /= wn;
+      if (Math.max(wr, wg, wb) - Math.min(wr, wg, wb) < 45) {
+        a.chaleur = Math.round(Math.max(-35, Math.min(35, (wb - wr) / 0.7 * 0.8)));
+        a.teinte = Math.round(Math.max(-25, Math.min(25, (wg - (wr + wb) / 2) / 0.3 * 0.8)));
+      }
+    }
+    var mid = sm / Math.max(1, n); a.lum = Math.round(Math.max(-15, Math.min(25, (115 - mid) * 0.2)));
+    a.sat = 10; a.contraste = 6; a.nettete = 22;
+    rt.adj = a;
+  },
+  /* ---------- composition d'un format ---------- */
+  compose: function (rt, k, W, H, src) {
+    var c = document.createElement('canvas'); c.width = W; c.height = H;
+    var x = c.getContext('2d'); x.imageSmoothingQuality = 'high';
+    var cad = Retouche.cad(rt, k), d = Retouche.dims(rt, src), s = Retouche.echelle(rt, W, H, d.w, d.h, cad), a = Retouche.effectif(rt);
+    if (cad.mode === 'ajuster') {
+      if (rt.fond === 'flou') {
+        var sm = document.createElement('canvas'); sm.width = Math.max(8, Math.round(W / 28)); sm.height = Math.max(8, Math.round(H / 28));
+        var sx = sm.getContext('2d'), sc = Math.max(sm.width / d.w, sm.height / d.h);
+        sx.translate(sm.width / 2, sm.height / 2); sx.rotate(rt.rot90 * Math.PI / 2); sx.scale(sc, sc); sx.drawImage(src, -src.width / 2, -src.height / 2);
+        x.drawImage(sm, 0, 0, W, H); x.fillStyle = 'rgba(0,0,0,.18)'; x.fillRect(0, 0, W, H);
+      } else { x.fillStyle = rt.fond; x.fillRect(0, 0, W, H); }
+    }
+    x.save(); x.translate(W / 2 + cad.dx * W, H / 2 + cad.dy * H); x.rotate(rt.rot90 * Math.PI / 2 + rt.angle * Math.PI / 180); x.scale(rt.flip ? -s : s, s);
+    x.drawImage(src, -src.width / 2, -src.height / 2); x.restore();
+    if (a.vignette > 0) { var g = x.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.35, W / 2, H / 2, Math.sqrt(W * W + H * H) / 2); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,' + (a.vignette / 100 * 0.75) + ')'); x.fillStyle = g; x.fillRect(0, 0, W, H); }
+    var bandeau = Retouche.texte(rt, x, W, H);
+    if (rt.logo.on && rt.logoImg) {
+      var L = Math.round(Math.min(W, H) * 0.15), pad = Math.round(Math.min(W, H) * 0.03), lw = L, lh = Math.round(L * (rt.logoImg.height / Math.max(1, rt.logoImg.width))) || L;
+      if (lh > L) { lw = Math.round(lw * L / lh); lh = L; }
+      var px = rt.logo.pos.charAt(1) === 'd' ? W - lw - pad * 2 : pad, py = rt.logo.pos.charAt(0) === 'b' ? H - lh - pad * 2 - (bandeau && rt.texte.pos === 'bas' ? bandeau : 0) : pad + (bandeau && rt.texte.pos === 'haut' ? bandeau : 0);
+      x.fillStyle = 'rgba(255,255,255,.88)'; if (x.roundRect) { x.beginPath(); x.roundRect(px - pad * 0.5, py - pad * 0.5, lw + pad, lh + pad, pad * 0.6); x.fill(); } else x.fillRect(px - pad * 0.5, py - pad * 0.5, lw + pad, lh + pad);
+      x.drawImage(rt.logoImg, px, py, lw, lh);
+    }
+    return c;
+  },
+  texte: function (rt, x, W, H) {
+    var t = rt.texte; if (!t.on) return 0;
+    var lignes = [[t.titre, 700, 0.062], [t.prix, 650, 0.048], [t.contact, 400, 0.034]].filter(function (l) { return l[0] && String(l[0]).trim(); });
+    if (!lignes.length) return 0;
+    var base = Math.min(W, H) * (W / H > 2 ? 1.5 : 1), pad = Math.round(base * 0.04), fam = '"IBM Plex Sans", Arial, sans-serif';
+    var mes = lignes.map(function (l) { var fs = Math.round(base * l[2]); x.font = l[1] + ' ' + fs + 'px ' + fam; while (fs > 10 && x.measureText(l[0]).width > W - pad * 2) { fs--; x.font = l[1] + ' ' + fs + 'px ' + fam; } return { t: String(l[0]), w: l[1], fs: fs }; });
+    var hb = pad * 2 + mes.reduce(function (s, l) { return s + l.fs * 1.25; }, 0), y0 = t.pos === 'haut' ? 0 : H - hb;
+    if (t.style === 'bandeau') { x.fillStyle = 'rgba(16,22,58,.68)'; x.fillRect(0, y0, W, hb); }
+    if (t.style === 'clair') { x.fillStyle = 'rgba(255,255,255,.82)'; x.fillRect(0, y0, W, hb); }
+    var y = y0 + pad;
+    mes.forEach(function (l, i) {
+      x.font = l.w + ' ' + l.fs + 'px ' + fam; x.textBaseline = 'top'; x.textAlign = 'left';
+      if (t.style === 'ombre') { x.shadowColor = 'rgba(0,0,0,.65)'; x.shadowBlur = Math.round(l.fs * 0.25); x.shadowOffsetY = Math.round(l.fs * 0.06); } else { x.shadowColor = 'transparent'; x.shadowBlur = 0; x.shadowOffsetY = 0; }
+      x.fillStyle = t.style === 'clair' ? (i === 1 ? '#9a6512' : '#141b3d') : (i === 1 ? '#e9c43b' : '#ffffff');
+      x.fillText(l.t, pad, y); y += l.fs * 1.25;
+    });
+    x.shadowColor = 'transparent'; x.shadowBlur = 0; x.shadowOffsetY = 0;
+    return hb;
+  },
+  /* aperçu : la photo réduite, retouchée une fois, puis cadrée à chaque mouvement */
+  dessine: function (rt) {
+    if (!rt.prev || rt.m.closed) return;
+    var cv = $('#rt-cv', rt.m.el), stage = $('#rt-stage', rt.m.el); if (!cv) return;
+    if (!rt.cacheP) rt.cacheP = Retouche.applique(rt.prev, Object.assign({ noir: 0, blanc: 255 }, Retouche.effectif(rt)));
+    var t = Retouche.taille(rt), bw = Math.max(200, (stage && stage.clientWidth) || 480), bh = Math.max(240, Math.min(560, window.innerHeight * 0.62)), k = Math.min(bw / t.w, bh / t.h, 1);
+    var W = Math.max(1, Math.round(t.w * k)), H = Math.max(1, Math.round(t.h * k));
+    var c = Retouche.compose(rt, rt.fmt, W, H, rt.cacheP), x = cv.getContext('2d');
+    cv.width = W; cv.height = H; x.drawImage(c, 0, 0);
+    var f = Retouche.fmtOf(rt), dim = $('#rt-dim', rt.m.el); if (dim) dim.textContent = (f.w ? f.g + ' — ' + f.n + ' : ' : 'Photo entière : ') + t.w + ' × ' + t.h + ' pixels. Faites glisser la photo pour la placer.';
+  },
+  /* image finale d'un format, en pleine résolution */
+  rendu: function (rt, k) {
+    if (!rt.cacheF || rt.cacheFKey !== JSON.stringify([rt.adj, rt.filtre])) { rt.cacheF = Retouche.applique(rt.full, Object.assign({ noir: 0, blanc: 255 }, Retouche.effectif(rt))); rt.cacheFKey = JSON.stringify([rt.adj, rt.filtre]); }
+    var t = Retouche.taille(rt, k);
+    return Retouche.compose(rt, k, t.w, t.h, rt.cacheF);
+  },
+  blob: function (c) { return new Promise(function (res, rej) { if (c.toBlob) c.toBlob(function (b) { if (b) res(b); else rej(new Error('Image impossible à créer')); }, 'image/jpeg', 0.92); else rej(new Error('Image impossible à créer')); }); },
+  nomFormat: function (rt, k) { var f = Retouche.fmtOf(rt, k), t = Retouche.taille(rt, k); return rtNomFichier(rt.nom) + '-' + (f.k === 'orig' ? 'retouchee' : rtNomFichier(f.g + '-' + f.n)) + '-' + t.w + 'x' + t.h + '.jpg'; },
+  occupe: function (b, on, txt) { if (!b) return; if (on) { b.dataset.l = b.innerHTML; b.disabled = true; b.innerHTML = '<span class="spin"></span> ' + (txt || 'Préparation…'); } else { b.disabled = false; if (b.dataset.l) b.innerHTML = b.dataset.l; } },
+  telecharger: function (rt, b) {
+    Retouche.occupe(b, true);
+    setTimeout(function () {
+      Retouche.blob(Retouche.rendu(rt, rt.fmt)).then(function (bl) { rtTelecharge(bl, Retouche.nomFormat(rt, rt.fmt)); UI.toast('Photo téléchargée : ' + Retouche.nomFormat(rt, rt.fmt), 'ok'); })
+        .catch(function (e) { UI.toast(e.message || 'Téléchargement impossible.', 'err'); }).then(function () { Retouche.occupe(b, false); });
+    }, 30);
+  },
+  zip: function (rt, b) {
+    Retouche.occupe(b, true, 'Préparation des formats…');
+    var ks = FORMATS_RS.map(function (f) { return f.k; }), files = [], i = 0;
+    var suivant = function () {
+      if (i >= ks.length) {
+        var z = Zip.blob(files); rtTelecharge(z, rtNomFichier(rt.nom) + '-reseaux-sociaux.zip');
+        UI.toast(plural(files.length, 'photo') + ' dans l\'archive : Facebook, TikTok et X.', 'ok'); Retouche.occupe(b, false); return;
+      }
+      var k = ks[i++];
+      Retouche.blob(Retouche.rendu(rt, k)).then(function (bl) { return bl.arrayBuffer(); }).then(function (ab) { files.push({ nom: Retouche.nomFormat(rt, k), data: new Uint8Array(ab) }); setTimeout(suivant, 0); })
+        .catch(function (e) { Retouche.occupe(b, false); UI.toast(e.message || 'Archive impossible.', 'err'); });
+    };
+    setTimeout(suivant, 30);
+  },
+  partager: function (rt, b) {
+    Retouche.occupe(b, true);
+    setTimeout(function () {
+      Retouche.blob(Retouche.rendu(rt, rt.fmt)).then(function (bl) {
+        var file = new File([bl], Retouche.nomFormat(rt, rt.fmt), { type: 'image/jpeg' });
+        var txt = rt.f ? Cat.texte(rt.f) + '\n\n' + Cat.signature() : Cat.signature();
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) return navigator.share({ files: [file], title: rt.f ? rt.f.nom : 'Photo', text: txt }).catch(function (e) { if (!e || e.name !== 'AbortError') throw e; });
+        rtTelecharge(bl, file.name); UI.toast('Ce téléphone ne partage pas les photos depuis le navigateur : la photo est téléchargée, publiez-la depuis la galerie.', 'info', 7000);
+      }).catch(function (e) { UI.toast(e.message || 'Partage impossible.', 'err'); }).then(function () { Retouche.occupe(b, false); });
+    }, 30);
+  }
+};
+
+
+/* ===== 30-suppression-factures.js ===== */
+/* =====================================================================
+   Suppression des factures (ventes de la boutique et des blocs, factures
+   de formation), en plus de l'annulation.
+   Une facture supprimée disparaît des listes. Ce qu'elle avait fait bouger
+   est remis comme avant par des mouvements et des opérations « Suppression
+   de la facture … » datés comme l'original : les articles reviennent au
+   stock au coût de la vente, les encaissements ressortent de la caisse.
+   Le journal de caisse et les mouvements de stock ne sont jamais effacés ;
+   le journal d'audit garde une copie complète de la facture supprimée.
+   La suppression suit la règle des validations (appliquée aussitôt par un
+   validateur unique) et demande le droit « Supprimer » du module.
+   ===================================================================== */
+var Suppr = {
+  attente: function (id, sauf) {
+    return list('admin/validations', function (v) { return v.statut === 'attente' && v.id !== sauf && v.payload && (v.payload.facture === id || v.payload.id === id); });
+  },
+  closMsg: function (d) { return 'Le mois de ' + fmtMois(monthOf(d)) + ' est clôturé : un responsable doit le rouvrir (Finances, Clôtures) avant de supprimer cette facture.'; },
+  /* ---------- facture de vente ---------- */
+  etatFac: function (f, sauf) {
+    if ((f.avoirs || 0) > 0 || (f.lignes || []).some(function (l) { return (l.retourne || 0) > 0; })) return 'Cette facture a un retour ou un avoir : elle ne peut plus être supprimée.';
+    if ((f.rembourse || 0) > 0) return 'Un remboursement a été fait sur cette facture : elle ne peut plus être supprimée.';
+    if (Suppr.attente(f.id, sauf).some(function (v) { return v.type !== 'ventes.facture'; })) return 'Une demande sur cette facture (correction, retour ou suppression) attend une validation : traitez-la d\'abord (Administration, Validations).';
+    if (f.statut === 'validee') {
+      var ds = [f.date].concat((f.recus || []).map(function (r) { return r.date; }));
+      for (var i = 0; i < ds.length; i++) if (Corr.clos(ds[i])) return Suppr.closMsg(ds[i]);
+    }
+    return null;
+  },
+  facture: function (id) {
+    return Corr.need(['ventes/factures', 'ventes/clients', 'ventes/commandes', 'ventes/livraisons', 'stock/articles', 'stock/lots', 'stock/soldes']).then(function () {
+      var f = get('ventes/factures', id); if (!f) return;
+      if (!can('ventes', 'supprimer')) return Corr.refus('Votre rôle ne permet pas de supprimer une facture (droit « Supprimer » des ventes).');
+      var msg = Suppr.etatFac(f); if (msg) return Corr.refus(msg);
+      var valide = f.statut === 'validee', enc = sum(f.recus || [], function (r) { return r.montant || 0; }), cmd = f.cmd ? get('ventes/commandes', f.cmd) : null;
+      var pts = ['La facture <strong>' + esc(f.num) + '</strong> (' + fmtGNF(f.net || 0) + ', ' + esc(clientName(f.client, f)) + ') disparaît des ventes ; son numéro ne sera pas réutilisé.'];
+      if (valide && (f.lignes || []).length) pts.push('Les articles reviennent dans le stock, au coût de la vente : ' + esc((f.lignes || []).map(function (l) { return artName(l.art) + ' ' + fmtQ(l.q, artUnit(l.art)); }).join(', ')) + '.');
+      if (valide && enc > 0) pts.push('Les encaissements ressortent de la caisse : ' + esc((f.recus || []).map(function (r) { return (r.num ? r.num + ' — ' : '') + fmtGNF(r.montant) + ' (' + compteName(r.compte) + ')'; }).join(', ')) + '.');
+      if (cmd) pts.push('La commande ' + esc(cmd.num || '') + ' redevient « en cours » ; son acompte reste sur la commande.');
+      if (f.statut === 'attente') pts.push('La facture attend encore sa validation : rien n\'a bougé ; la demande de validation est close.');
+      pts.push('Le journal de caisse et les mouvements de stock gardent la trace (« Suppression de la facture… ») et le journal d\'audit garde une copie de la facture.');
+      return UI.confirm({ title: 'Supprimer la facture ' + f.num, danger: true, motif: true, motifLabel: 'Motif de la suppression (obligatoire)', ok: 'Supprimer la facture',
+        html: '<span class="sp-l">' + pts.map(function (x) { return '• ' + x; }).join('<br>') + '</span>' }).then(function (c) {
+        if (!c.ok) return;
+        return runOp(null, function () {
+          return Valid.request({ type: 'suppr.fac', module: 'ventes', label: 'Suppression de la facture ' + f.num + ' (' + fmtGNF(f.net || 0) + ', ' + clientName(f.client, f) + ')', payload: { id: id, sig: Corr.sig(f), num: f.num }, motif: c.motif });
+        }, function (r) { return r && r.done ? 'Facture ' + f.num + ' supprimée.' : "Suppression envoyée pour validation : elle s'appliquera après l'accord d'un responsable."; });
+      });
+    });
+  },
+  /* ---------- facture de formation ---------- */
+  etatFfo: function (f, sauf) {
+    if (Suppr.attente(f.id, sauf).length) return 'Une demande sur cette facture (correction ou suppression) attend une validation : traitez-la d\'abord (Administration, Validations).';
+    var ds = (f.versements || []).map(function (r) { return r.date; });
+    for (var i = 0; i < ds.length; i++) if (Corr.clos(ds[i])) return Suppr.closMsg(ds[i]);
+    return null;
+  },
+  ffo: function (id) {
+    return Corr.need(['formation/factures', 'formation/registre']).then(function () {
+      var f = get('formation/factures', id); if (!f) return;
+      if (!can('formation', 'supprimer')) return Corr.refus('Votre rôle ne permet pas de supprimer une facture (droit « Supprimer » de la formation).');
+      var msg = Suppr.etatFfo(f); if (msg) return Corr.refus(msg);
+      var vs = f.versements || [], pts = ['La facture <strong>' + esc(f.num) + '</strong> (' + fmtGNF(f.total || 0) + ', ' + esc(f.client || '') + ') disparaît des factures de formation ; son numéro ne sera pas réutilisé.'];
+      if (vs.length) pts.push('Les encaissements ressortent de la caisse : ' + esc(vs.map(function (r) { return (r.recu ? r.recu + ' — ' : '') + fmtGNF(r.montant) + ' (' + compteName(r.compte) + ')'; }).join(', ')) + '.');
+      pts.push('La formation reste enregistrée : une nouvelle facture pourra être faite pour elle.');
+      pts.push('Le journal de caisse garde la trace et le journal d\'audit garde une copie de la facture.');
+      return UI.confirm({ title: 'Supprimer la facture ' + f.num, danger: true, motif: true, motifLabel: 'Motif de la suppression (obligatoire)', ok: 'Supprimer la facture',
+        html: '<span class="sp-l">' + pts.map(function (x) { return '• ' + x; }).join('<br>') + '</span>' }).then(function (c) {
+        if (!c.ok) return;
+        return runOp(null, function () {
+          return Valid.request({ type: 'suppr.ffo', module: 'formation', label: 'Suppression de la facture de formation ' + f.num + ' (' + fmtGNF(f.total || 0) + ', ' + (f.client || '') + ')', payload: { id: id, sig: Corr.sig(f), num: f.num }, motif: c.motif });
+        }, function (r) { return r && r.done ? 'Facture ' + f.num + ' supprimée.' : "Suppression envoyée pour validation : elle s'appliquera après l'accord d'un responsable."; });
+      });
+    });
+  },
+  /* encaissements remis comme avant : une sortie par reçu, à la date du reçu */
+  sortiesCaisse: function (tx, recus, meta, doc, num, motif) {
+    (recus || []).forEach(function (r) {
+      if (!(r.montant > 0) || !r.compte) return;
+      tx.op({ compte: r.compte, sens: 's', montant: r.montant, date: r.date, cat: meta.cat || null, centre: meta.centre || null, src: meta.src, doc: doc,
+        libelle: 'Suppression de la facture ' + num + (r.num || r.recu ? ' — reçu ' + (r.num || r.recu) : '') + (motif ? ' — ' + String(motif).slice(0, 100) : ''), tiers: meta.tiers || null, recu: r.num || r.recu || null });
+    });
+  }
+};
+
+Valid.register('suppr.fac', 'Suppression de facture de vente', function (p, tx, req) {
+  var f = get('ventes/factures', p.id); Corr.verif(f, p.sig);
+  var msg = Suppr.etatFac(f, req && req.id); if (msg) throw new Error(msg);
+  var doc = { t: 'FAC', id: p.id, n: f.num }, motif = 'Suppression de la facture ' + f.num + (req && req.motif ? ' — ' + String(req.motif).slice(0, 120) : '');
+  if (f.statut === 'validee') {
+    Corr.sortieDelta(tx, (f.lignes || []).map(function (l) { return { art: l.art, lot: l.lot || '_', emp: l.emp, q: l.q, cout: l.cout || 0 }; }), [],
+      { sortie: 'vente', retour: 'retour_client', src: 'ventes', date: f.date, doc: doc, motif: motif });
+    Suppr.sortiesCaisse(tx, f.recus, Corr.kind('fac').meta(f), doc, f.num, req && req.motif);
+  }
+  if (f.cmd) { var c = get('ventes/commandes', f.cmd); if (c && c.statut === 'livree' && (!c.facture || c.facture === f.num)) { tx.field('ventes/commandes', f.cmd, 'statut', 'en_cours'); tx.field('ventes/commandes', f.cmd, 'facture', null); } }
+  if (get('ventes/livraisons', p.id)) tx.doc('ventes/livraisons', p.id, null);
+  Suppr.attente(p.id, req && req.id).filter(function (v) { return v.type === 'ventes.facture'; }).forEach(function (v) {
+    tx.field('admin/validations', v.id, 'statut', 'annulee'); tx.field('admin/validations', v.id, 'motifRejet', 'Facture supprimée'); tx.field('admin/validations', v.id, 'decideNom', S.member.nom); tx.field('admin/validations', v.id, 'decideTs', FB.TS());
+  });
+  tx.doc('ventes/factures', p.id, null);
+  tx.audit('Suppression de la facture ' + f.num + ' (' + fmtGNF(f.net || 0) + ', ' + clientName(f.client, f) + ')', 'ventes', p.id, { avant: Corr.clean(strip(f)), motif: (req && req.motif) || undefined });
+});
+Valid.needs['suppr.fac'] = ['ventes/factures', 'ventes/commandes', 'ventes/livraisons', 'ventes/clients', 'stock/articles', 'stock/lots', 'stock/soldes', 'finances/comptes', 'finances/soldes', 'finances/clotures', 'admin/validations'];
+
+Valid.register('suppr.ffo', 'Suppression de facture de formation', function (p, tx, req) {
+  var f = get('formation/factures', p.id); Corr.verif(f, p.sig);
+  var msg = Suppr.etatFfo(f, req && req.id); if (msg) throw new Error(msg);
+  Suppr.sortiesCaisse(tx, f.versements, Corr.kind('ffo').meta(f), { t: 'FFO', id: p.id, n: f.num }, f.num, req && req.motif);
+  tx.doc('formation/factures', p.id, null);
+  tx.audit('Suppression de la facture de formation ' + f.num + ' (' + fmtGNF(f.total || 0) + ', ' + (f.client || '') + ')', 'formation', p.id, { avant: Corr.clean(strip(f)), motif: (req && req.motif) || undefined });
+});
+Valid.needs['suppr.ffo'] = ['formation/factures', 'formation/registre', 'finances/comptes', 'finances/soldes', 'finances/clotures', 'admin/validations'];
 
 
 /* ===== 99-boot.js ===== */
