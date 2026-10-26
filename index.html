@@ -763,7 +763,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261026-1600';
+NERP.build = '20261026-1900';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -2175,9 +2175,22 @@ var UI = {
 
   /* ------------------------------------------------------------------
      Impression : en-tête aux couleurs de l'entreprise, logo en filigrane. */
+  /* Coordonnées bancaires de l'entreprise (Paramètres, Entreprise) : elles figurent
+     sur les factures et les documents imprimés dès qu'un numéro de RIB ou un IBAN est saisi. */
+  rib: function (info) {
+    info = info || S.info || {};
+    if (!info.ribNumero && !info.ribIban) return null;
+    var banque = [info.ribBanque, info.ribAgence ? 'agence ' + info.ribAgence : ''].filter(Boolean).join(', ');
+    return {
+      principal: (info.ribNumero ? 'RIB : <b>' + esc(info.ribNumero) + '</b>' : 'IBAN : <b>' + esc(info.ribIban) + '</b>') + (banque ? ' — ' + esc(banque) : ''),
+      detail: [info.ribNumero && info.ribIban ? 'IBAN ' + esc(info.ribIban) : '', info.ribSwift ? 'SWIFT ' + esc(info.ribSwift) : '', info.ribTitulaire ? 'Titulaire : ' + esc(info.ribTitulaire) : ''].filter(Boolean).join(' — ')
+    };
+  },
+
   print: function (o) {
     var info = S.info || {};
     var col = info.couleur || '#22306b';
+    var rib = UI.rib(info);
     var logo = info.logo ? '<img class="plogo" src="' + attr(info.logo) + '" alt="">' : '';
     var coords = [info.adresse, info.ville, info.tel ? 'Tél. ' + info.tel : '', info.email].filter(Boolean).map(esc).join('<br>');
     var legal = [info.rccm ? 'RCCM ' + info.rccm : '', info.nif ? 'NIF ' + info.nif : ''].filter(Boolean).map(esc).join(' — ');
@@ -2209,8 +2222,10 @@ var UI = {
       '.cards,.cat-grid,.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.mcard,.cat-card,.prod-card{border:1px solid #d9dce6;border-radius:6px;overflow:hidden;break-inside:avoid;font-size:11.5px}.mcard img,.cat-card img,.prod-card img{width:100%;height:120px;object-fit:cover;display:block}.mcard-b,.cat-b,.prod-b{padding:6px 8px;display:flex;flex-direction:column;gap:2px}' +
       '.sw{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid #c9cedb;vertical-align:-1px;margin-right:3px}.photo{max-width:160px;max-height:160px;border-radius:6px}.photo.big{max-width:100%;max-height:none}' +
       '.ppage-meta{font-size:11px;color:#4a536b;margin:-6px 0 10px}' +
+      '.ph .rib{margin-top:4px;font-size:11px;color:#1b2238}.ph .rib span{color:#4a536b}' +
       '</style></head><body>' + (info.logo ? '<div class="wm"><img src="' + attr(info.logo) + '" alt=""></div>' : '') +
-      '<div class="ph"><div class="who">' + logo + '<div><h1>' + esc(info.raisonSociale || S.tenant && S.tenant.nom || '') + '</h1><div class="co">' + coords + '</div></div></div>' +
+      '<div class="ph"><div class="who">' + logo + '<div><h1>' + esc(info.raisonSociale || S.tenant && S.tenant.nom || '') + '</h1><div class="co">' + coords + '</div>' +
+      (rib ? '<div class="rib">' + rib.principal + (rib.detail ? '<br><span>' + rib.detail + '</span>' : '') + '</div>' : '') + '</div></div>' +
       '<div class="dt"><h2>' + esc(o.docTitle || o.title) + '</h2>' + (o.docMeta || '') + '</div></div>' +
       o.body + '<div class="pf">' + esc(info.piedPage || '') + (legal ? ' — ' + legal : '') + ' — Édité le ' + fmtDateTime(Date.now()) + ' par ' + esc(S.member ? S.member.nom : '') + '</div>' +
       '<script>window.onload=function(){setTimeout(function(){window.print()},350)}<\/script></body></html>';
@@ -2231,7 +2246,7 @@ var UI = {
     var coords = [info.adresse, info.ville].filter(Boolean).map(esc).join(' — ');
     var contacts = [info.tel ? 'Tél. ' + esc(info.tel) : '', info.email ? esc(info.email) : ''].filter(Boolean).join(' — ');
     var legal = [info.rccm ? 'RCCM ' + esc(info.rccm) : '', info.nif ? 'NIF ' + esc(info.nif) : ''].filter(Boolean).join(' — ');
-    var reste = Math.max(0, (o.total || 0) - (o.paye || 0));
+    var reste = Math.max(0, (o.total || 0) - (o.paye || 0)), rib = UI.rib(info);
     var MODES = [['especes', 'Espèces'], ['om', 'Orange Money'], ['momo', 'Mobile Money'], ['banque', 'Virement / chèque']];
     var used = o.modes || [];
     var ck = function (on) { return '<span class="ck' + (on ? ' on' : '') + '">' + (on ? '&#10003;' : '') + '</span>'; };
@@ -2258,6 +2273,7 @@ var UI = {
       '.sig{display:grid;grid-template-columns:1fr 1fr;gap:30mm;margin-top:12mm}.sig div{border-top:1px solid #8b93a8;padding-top:5px;text-align:center;font-size:11.5px;color:#4a536b}' +
       '.nt{margin-top:4mm;font-size:11px;color:#4a536b}.st{display:inline-block;margin-top:4px;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700;background:#fff;color:' + col + '}' +
       '.ann{position:absolute;top:120mm;left:0;right:0;text-align:center;font-size:70px;font-weight:800;color:rgba(178,58,58,.16);transform:rotate(-18deg)}' +
+      '.rb{margin-top:3mm}.rb div{font-size:12px}.rb .sm{font-size:11px;color:#4a536b;margin-top:2px}' +
       '.ft{position:absolute;left:0;right:0;bottom:0;height:24mm;color:#fff}.ft svg{position:absolute;inset:0;width:100%;height:100%}.ft .in{position:relative;padding:11mm 14mm 0;font-size:10.5px;display:flex;justify-content:space-between;gap:10px}' +
       '</style></head><body><div class="pg">' +
       '<div class="band"><svg viewBox="0 0 210 46" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H210V30C160 46 120 22 70 34C40 41 18 40 0 34Z" fill="' + col + '"/><path d="M0 34C18 40 40 41 70 34C120 22 160 46 210 30V33C160 49 120 25 70 37C40 44 18 43 0 37Z" fill="' + or_ + '"/></svg>' +
@@ -2269,6 +2285,7 @@ var UI = {
       '<table class="l"><thead><tr><th style="width:12%">Réf.</th><th>Désignation</th><th class="n" style="width:11%">Qté</th><th class="n" style="width:17%">Prix unitaire</th><th class="n" style="width:17%">Montant</th></tr></thead><tbody>' +
       (o.lignes || []).map(function (l, i) { return '<tr><td>' + esc(l.ref || String(i + 1).padStart(2, '0')) + '</td><td>' + esc(l.designation) + '</td><td class="n">' + fmtN(l.q) + '</td><td class="n">' + fmtMoney(l.pu) + '</td><td class="n">' + fmtMoney(l.total) + '</td></tr>'; }).join('') + '</tbody></table>' +
       '<div class="bas"><div><div class="mr"><h4>Mode de réception</h4><div class="o">' + MODES.map(function (m) { return '<span>' + ck(used.indexOf(m[0]) >= 0) + esc(m[1]) + '</span>'; }).join('') + '</div></div>' +
+      (rib ? '<div class="mr rb"><h4>Coordonnées bancaires</h4><div>' + rib.principal + '</div>' + (rib.detail ? '<div class="sm">' + rib.detail + '</div>' : '') + '</div>' : '') +
       (o.versements && o.versements.length ? '<div class="vs"><table><thead><tr><th>Date</th><th>Reçu</th><th>Moyen</th><th class="n">Montant</th></tr></thead><tbody>' + o.versements.map(function (x) { return '<tr><td>' + fmtDate(x.date) + '</td><td>' + esc(x.recu || '') + '</td><td>' + esc(x.moyen || '') + '</td><td class="n">' + fmtMoney(x.montant) + '</td></tr>'; }).join('') + '</tbody></table></div>' : '') + '</div>' +
       '<table class="tot"><tr class="t"><td>Total à payer</td><td>' + fmtGNF(o.total) + '</td></tr><tr><td>Déjà payé</td><td>' + fmtGNF(o.paye || 0) + '</td></tr><tr class="r"><td>RESTE À PAYER</td><td>' + fmtGNF(reste) + '</td></tr></table></div>' +
       (o.lettres ? '<p class="lt">Arrêtée la présente facture à la somme de : <strong>' + esc(o.lettres) + '</strong> (' + fmtGNF(o.total) + ').</p>' : '') +
@@ -6774,7 +6791,7 @@ var INFO_FIELDS = [
   { k: 'adresse', t: 'Adresse' }, { k: 'ville', t: 'Ville' },
   { k: 'tel', t: 'Téléphone' }, { k: 'email', t: 'Email', type: 'email' },
   { k: 'rccm', t: 'RCCM' }, { k: 'nif', t: 'NIF' },
-  { type: 'section', t: "Relevé d'identité bancaire (RIB)", help: "Les coordonnées du compte bancaire de l'entreprise, telles qu'elles figurent sur le RIB remis par la banque." },
+  { type: 'section', t: "Relevé d'identité bancaire (RIB)", help: "Les coordonnées du compte bancaire de l'entreprise, telles qu'elles figurent sur le RIB remis par la banque. Dès que le numéro du RIB (ou l'IBAN) est saisi, il s'imprime sur les factures, reçus, bons et autres documents de l'atelier." },
   { k: 'ribBanque', t: 'Banque', ph: 'Nom de la banque' }, { k: 'ribAgence', t: 'Agence' },
   { k: 'ribTitulaire', t: 'Titulaire du compte', span: 2, ph: 'Nom exact du titulaire' },
   { k: 'ribNumero', t: 'Numéro du RIB', span: 2, ph: 'Code banque, code guichet, numéro de compte et clé', help: 'Recopiez le numéro tel qu\'il est écrit sur le RIB (espaces permis).',
