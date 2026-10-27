@@ -742,24 +742,52 @@ button.cat-card { cursor: pointer; } button.cat-card:hover { border-color: var(-
 
 /* ---------- catalogue : calcul de modèle, plan de teinture, retouche des photos ---------- */
 .mc-modal .modal.xl { max-width: 1260px; }
-.mc { display: grid; grid-template-columns: minmax(300px, 410px) minmax(0, 1fr); gap: 18px; align-items: start; }
-.mc-g { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-.mc-cv { position: relative; background: var(--line-2); border-radius: var(--r-l); min-height: 170px; display: grid; place-items: center; overflow: hidden; }
-.mc-img { display: block; width: 100%; height: auto; }
-.mc-vide { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--ink-3); padding: 26px 18px; text-align: center; font-size: 14px; }
-.mc-vide svg.ic { width: 34px; height: 34px; }
-.mc-barre { display: block; width: 100%; height: 28px; margin-top: 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); }
-.mc-src { margin-top: 8px; }
-.mc-src .cat-th.on { outline: 2px solid var(--vat); outline-offset: 1px; }
-.mc-src select { width: auto; min-height: 34px; padding: 5px 9px; font-size: 13.5px; }
-.mc-info { margin: 6px 0 0; font-size: 13px; }
-.mc-par { align-content: start; gap: 10px 12px; }
-.mc-par .fld small { font-size: 12px; }
-.mc-r { min-width: 0; }
-.mc-r .tiles { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
-.mc-s h3 { display: flex; gap: 8px; align-items: center; margin: 0 0 8px; font-size: 1.02rem; }
-.mc-s p { margin: 0 0 8px; }
-.mc-s .tscroll { margin: 4px 0 8px; }
+.cx { display: grid; grid-template-columns: minmax(260px, 330px) minmax(0, 1fr); gap: 16px; align-items: start; }
+.cx-top { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.cx-ph .mc-cv { display: block; min-height: 110px; }
+.cx-ph .mc-img { width: 100%; height: 180px; object-fit: cover; }
+.cx-ap { margin-top: 8px; }
+.cx-ap .mc-ap { max-height: 120px; object-fit: cover; }
+.cx-ap small { display: block; font-size: 11.5px; margin-top: 2px; }
+.cx-pg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; }
+.cx-pg .fld > span { font-size: 12.5px; }
+.cx-pg input, .cx-pg select { min-height: 36px; padding: 6px 9px; font-size: 14px; }
+.cx-pg .fld small { font-size: 11.5px; }
+.cx-pe { grid-column: 1 / -1; }
+.cx-pg > .fld:first-child { grid-column: 1 / -1; }
+.cx-pe button { font-weight: 650; }
+.cx-plus { margin-top: 8px; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--surface); }
+.cx-plus summary { padding: 8px 12px; font-weight: 650; font-size: 13.5px; cursor: pointer; }
+.cx-plus .cx-pg { padding: 0 12px 12px; }
+#mc-res { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.cx-vu { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; font-size: 13px; padding: 6px 10px; background: var(--line-2); border-radius: var(--r-l); }
+.cx-cs { display: flex; flex-wrap: wrap; gap: 6px; }
+.cx-c { display: inline-flex; align-items: center; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 2px 4px 2px 3px; }
+.cx-c i { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, .2); display: inline-block; }
+.cx-c select { border: 0; min-height: 24px; padding: 1px 4px; font-size: 12.5px; width: auto; background: transparent; }
+.cx-s { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--surface); padding: 10px 12px; min-width: 0; }
+.cx-s h3 { margin: 0 0 6px; font-size: 1rem; }
+.cx-h { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; margin-bottom: 6px; }
+.cx-h h3 { margin: 0; }
+.cx-h span { font-size: 13px; }
+.cx-mcv { display: block; width: 100%; height: 34px; border-radius: 6px; margin: 2px 0 8px; }
+.cx-t { font-size: 13px; }
+.cx-t th, .cx-t td { padding: 3px 8px; }
+.cx-t td { vertical-align: middle; }
+.cx-t select { width: auto; max-width: 140px; min-height: 0; height: 26px; padding: 1px 6px; font-size: 13px; }
+.cx-t .mc-n { width: 46px; min-height: 0; height: 26px; padding: 1px 5px; font-size: 13px; }
+.cx-t .ibtn { width: 26px; height: 26px; }
+.cx-t .cx-on { background: #f1f4fc; }
+.cx-cmp th[scope=row] { font-weight: 500; color: var(--ink-2); white-space: nowrap; background: none; }
+.cx-cmp tr.cx-fort td, .cx-cmp tr.cx-fort th { border-top: 1px solid var(--line); }
+.cx-bb { margin-top: 6px; }
+.cx-2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 12px; align-items: start; }
+.cx-dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 10px; margin: 0; font-size: 12.8px; line-height: 1.4; }
+.cx-dl dt { font-weight: 700; color: var(--ink-2); }
+.cx-dl dd { margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 1100px) { .cx-2 { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 900px) { .cx { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) { .cx-pg { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .cx-t .mc-n { width: 44px; } }
 .mc-ol { margin: 0 0 10px; padding-left: 22px; display: grid; gap: 6px; }
 .mc-bt td { vertical-align: middle; }
 .mc-bt select { width: auto; max-width: 160px; min-height: 32px; padding: 4px 6px; font-size: 13.5px; }
@@ -787,6 +815,18 @@ button.cat-card { cursor: pointer; } button.cat-card:hover { border-color: var(-
 .rt-stage canvas { max-width: 100%; height: auto; box-shadow: 0 6px 22px rgba(20, 27, 61, .2); touch-action: none; cursor: grab; }
 .rt-stage canvas:active { cursor: grabbing; }
 .rt-stage .mc-vide { position: absolute; inset: 0; justify-content: center; }
+.rt-stage { grid-template-rows: 1fr auto; gap: 10px; }
+.rt-gen { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; position: relative; z-index: 2; }
+.rt-gen .btn { box-shadow: 0 4px 14px rgba(20, 27, 61, .18); }
+.rt-gen .btn.primary { font-size: 15px; padding: 9px 18px; }
+.rt-vid { background: #141b3d; border-color: #141b3d; color: #fff; }
+.rt-vid:hover { background: #22306b; }
+.rt-histo { display: flex; gap: 8px; align-items: center; overflow-x: auto; padding: 8px 2px 4px; scrollbar-width: thin; }
+.rt-histo .small { white-space: nowrap; }
+.rt-hi { flex: 0 0 auto; padding: 0; border: 2px solid transparent; border-radius: 8px; background: none; cursor: pointer; line-height: 0; }
+.rt-hi img { border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, .18); }
+.rt-hi.on { border-color: var(--vat); }
+.rt-video video { display: block; width: 100%; max-height: 70vh; background: #000; border-radius: var(--r-l); }
 .rt-hint { margin: 6px 0 0; }
 .rt-p { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .rt-d { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--surface); }
@@ -840,7 +880,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261026-2330';
+NERP.build = '20261027-0100';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -5274,7 +5314,7 @@ function ptViews(p) {
       var arr = ptArrivees(p), dormants = enStock.filter(function (a) { return ptEstDormant(a, last, arr, t, dj); });
       var h = '<div class="dash-head"><div><h1>Bloc ' + esc(nom) + '</h1><p class="muted">' + esc(blocLabel(S.bloc)) + ' — ' + fmtDate(t) + '</p></div>' +
         '<div class="row wrap">' + (PT_EXTRA[p] && PT_EXTRA[p].boutons ? PT_EXTRA[p].boutons() : '') + (canVendre() || canEntrer() ? UI.btn(icon('bolt') + (p === 'boutique' ? ' Vente rapide' : ' Saisie rapide'), 'go', PT_EXTRA[p] && PT_EXTRA[p].boutons ? 'ghost' : 'primary', ' data-id="' + X('rapide') + '"') : '') +
-        (canTransf() && blocsLiesA(p).length ? UI.btn(icon('move') + ' Transfert', 'transf', 'ghost') : '') + UI.btn(icon('print') + ' Imprimer', 'printPage', 'ghost') + '</div></div>';
+        (canTransf() && blocsLiesA(p).length ? UI.btn(icon('move') + ' Transfert', 'transf', 'ghost') : '') + (p === 'tissage' ? UI.btn(icon('loom') + ' Calcul de tissage', 'calcTiss', 'ghost') : '') + UI.btn(icon('print') + ' Imprimer', 'printPage', 'ghost') + '</div></div>';
       var alertes = PT_EXTRA[p] && PT_EXTRA[p].alertes ? PT_EXTRA[p].alertes() : [];
       if (ruptures.length) alertes.push({ t: plural(ruptures.length, 'produit') + ' en rupture', d: ruptures.slice(0, 4).map(function (a) { return a.nom; }).join(', '), go: X('alertes') });
       if (seuil.length) alertes.push({ t: plural(seuil.length, 'produit') + " sous le seuil d'alerte", d: seuil.slice(0, 4).map(function (a) { return a.nom; }).join(', '), go: X('alertes') });
@@ -5324,7 +5364,7 @@ function ptViews(p) {
         top.map(function (x) { return '<tr><td>' + esc(artName(x.id)) + '</td><td class="num">' + fmtQ(x.q, artUnit(x.id)) + '</td>' + (mm ? '<td class="num">' + fmtMoney(x.ca) + '</td>' : '') + '</tr>'; }).join('') + '</tbody></table></section>';
       return h;
     },
-    acts: { transf: function () { Pt.transfert(p); }, vendre: function () { Ventes.nouvelleVente(null); }, recevoir: function () { Pt.recevoir(p); } }
+    acts: { transf: function () { Pt.transfert(p); }, vendre: function () { Ventes.nouvelleVente(null); }, recevoir: function () { Pt.recevoir(p); }, calcTiss: function () { Calc.ouvrir(null); } }
   });
 
   /* ---------- saisie rapide : vente ou entrée (comme la vente rapide de l'App AGV) ---------- */
@@ -8921,7 +8961,7 @@ view('production/modeles', {
   need: ['production/modeles', 'stock/articles', 'stock/soldes', 'stock/lots'],
   render: function () {
     var rows = list('production/modeles', function (m) { return !m.archive; });
-    return pageHead('Modèles de tissu', 'Motif, dimensions et quantité de fil par mètre : la base des besoins et des coûts prévisionnels.', canBtn('production', 'creer', icon('plus') + ' Nouveau modèle', 'new')) +
+    return pageHead('Modèles de tissu', 'Motif, dimensions et quantité de fil par mètre : la base des besoins et des coûts prévisionnels.', UI.btn(icon('loom') + ' Calcul de tissage', 'calcTiss', 'ghost') + canBtn('production', 'creer', icon('plus') + ' Nouveau modèle', 'new')) +
       '<div class="cards">' + (rows.length ? rows.sort(byKey('nom')).map(function (m) {
         var s = stockArticle(m.article);
         return '<div class="mcard" data-act="edit" data-id="' + attr(m.id) + '" role="button" tabindex="0">' + (m.photo ? '<img src="' + attr(m.photo) + '" alt="">' : '<div class="mcard-ph" aria-hidden="true">' + (m.nomenclature || []).map(function (n) { return '<span style="background:' + attr(couleurHex(n.couleur)) + '"></span>'; }).join('') + '</div>') +
@@ -8931,7 +8971,7 @@ view('production/modeles', {
           '<small>En stock : <strong>' + fmtQ(s.dispo, 'm') + '</strong></small></div></div>';
       }).join('') : UI.empty('Aucun modèle', 'Décrivez vos modèles de léppi : motif, largeur, couleurs et grammes de fil par mètre.')) + '</div>';
   },
-  acts: { new: function () { Prod.editModele(null); }, edit: function (id) { if (can('production', 'modifier')) Prod.editModele(id); } }
+  acts: { new: function () { Prod.editModele(null); }, edit: function (id) { if (can('production', 'modifier')) Prod.editModele(id); }, calcTiss: function () { Calc.ouvrir(null); } }
 });
 
 view('production/ordres', {
@@ -12702,7 +12742,7 @@ view('catalogue/modeles', {
     var nonImportes = list('production/modeles', function (m) { return !m.archive && !all.some(function (f) { return f.modele === m.id; }); });
     return pageHead('Catalogue des modèles', 'Les modèles de léppi de l\'atelier, à montrer aux clients : photos, motif, couleurs, dimensions et prix. Touchez un modèle pour voir ses photos, l\'imprimer ou le partager.',
       (ed ? UI.btn(icon('plus') + ' Nouveau modèle', 'new', 'primary') : '') + (ed && nonImportes.length ? UI.btn(icon('download') + ' Reprendre les modèles de tissu (' + nonImportes.length + ')', 'importer', 'ghost') : '') +
-      UI.btn(icon('loom') + ' Calcul de modèle', 'calcul', 'ghost') + UI.btn(icon('image') + ' Retouche des photos', 'retouche', 'ghost') +
+      UI.btn(icon('loom') + ' Calcul de tissage', 'calcul', 'ghost') + UI.btn(icon('image') + ' Retouche des photos', 'retouche', 'ghost') +
       UI.btn(icon('print') + ' Imprimer le catalogue', 'imprimer', 'ghost') + UI.btn(icon('share') + ' Partager la liste', 'partagerTout', 'ghost')) +
       '<div class="ttools"><label class="tsearch">' + icon('search') + '<input type="search" data-chg="cq" value="' + attr(st.cq || '') + '" placeholder="Nom, référence, motif, couleur" aria-label="Rechercher"></label>' +
       '<select data-chg="cc" aria-label="Couleur"><option value="">Couleur : toutes</option>' + Opt.couleurs().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (coul === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></div>' +
@@ -12799,13 +12839,13 @@ var Cat = {
     var art = catArticle(f), sb = art ? ptStock('boutique', art) : null;
     var acts = [{ t: icon('print') + ' Imprimer la fiche (A4)', act: 'print', cls: 'ghost' }, { t: icon('share') + ' Partager', act: 'share', cls: 'ghost' }];
     if (can('catalogue', 'modifier')) acts.push({ t: icon('edit') + ' Modifier', act: 'edit', cls: 'ghost' });
-    acts.push({ t: icon('loom') + ' Calcul du modèle', act: 'calcul', cls: 'ghost' }, { t: icon('image') + ' Retoucher les photos', act: 'retouche', cls: 'ghost' });
+    acts.push({ t: icon('loom') + ' Calcul de tissage', act: 'calcul', cls: 'ghost' }, { t: icon('image') + ' Retoucher les photos', act: 'retouche', cls: 'ghost' });
     if (art && sb && sb.q > 0 && can('ventes', 'creer')) acts.push({ t: icon('bolt') + ' Vendre', act: 'vendre', cls: 'primary' });
     var m = detailModal(f.nom + (f.ref ? ' — ' + f.ref : ''),
       '<div class="cat-fiche"><div class="cat-gal"><div class="cat-main">' + (f.vignette ? '<img id="cat-big" src="' + attr(f.vignette) + '" alt="' + attr(f.nom) + '">' : '<span class="cat-ph big">' + icon('image') + '</span>') + '</div>' +
         ((f.photos || []).length > 1 ? '<div class="cat-thumbs" id="cat-thumbs">' + f.photos.map(function (pid, i) { return '<button type="button" class="cat-th" data-ph="' + attr(pid) + '" aria-label="Photo ' + (i + 1) + '"><span class="spin"></span></button>'; }).join('') + '</div>' : '') + '</div>' +
       '<div>' + UI.kv([['Référence', esc(f.ref || '')], ['Motif', esc(f.motif || '')], ['Couleurs', catCouleurs(f).map(function (c) { return '<span class="sw" style="background:' + attr(couleurHex(c)) + '"></span>' + esc(couleurName(c)); }).join(' ')], ['Dimensions', esc(catDims(f))], ['Prix', esc(catPrix(f))], sb ? ['En boutique', sb.q > 0 ? fmtQ(sb.q, 'm') + ' (' + plural(sb.lots, 'pièce') + ')' : 'aucun en ce moment'] : null,
-        f.calcul && f.calcul.fils ? ['Plan de calcul', esc(fmtN(f.calcul.fils) + ' fils, peigne ' + fmtN(f.calcul.peigne, 1) + '/10 cm, ' + f.calcul.fpd + ' par dent — ' + fmtN(f.calcul.largeurFinie, 1) + ' cm') + ' <small class="muted">(' + esc(fmtDate(f.calcul.date)) + ')</small>'] : null]) +
+        f.calcul && f.calcul.fils ? ['Plan de tissage', esc(fmtN(f.calcul.fils) + ' fils, peigne ' + fmtN(f.calcul.peigneCm || (f.calcul.peigne || 0) / 10, 1) + ', ' + f.calcul.fpd + ' fils par dent — ' + fmtN(f.calcul.largeurFinie, 1) + ' cm') + ' <small class="muted">(' + esc(fmtDate(f.calcul.date)) + ')</small>'] : null]) +
         (f.description ? '<p>' + esc(f.description) + '</p>' : '') + '</div></div>',
       acts, function (a, b, mm) {
         if (a === 'print') Cat.imprimer([f]);
@@ -15712,17 +15752,18 @@ var Analyse = {
 };
 
 /* ---------- calculs de tissage ---------- */
-var PEIGNES = [20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 100];
+/* peignes de l'atelier : le numéro est le nombre de dents dans un centimètre */
+var PEIGNES = [8, 10];
 /* titres de fil : numéro anglais coton (Ne) / nombre de bouts → numéro métrique Nm (mètres par gramme) = 1,693 × Ne / bouts */
 var TITRES = [['ne6-1', 'Coton 6/1', 6, 1], ['ne8-1', 'Coton 8/1', 8, 1], ['ne10-1', 'Coton 10/1', 10, 1], ['ne12-1', 'Coton 12/1', 12, 1], ['ne20-1', 'Coton 20/1', 20, 1],
   ['ne8-2', 'Coton 8/2', 8, 2], ['ne10-2', 'Coton 10/2', 10, 2], ['ne16-2', 'Coton 16/2', 16, 2], ['ne20-2', 'Coton 20/2', 20, 2], ['ne30-2', 'Coton 30/2', 30, 2], ['ne40-2', 'Coton 40/2', 40, 2],
   ['ne20-3', 'Coton 20/3', 20, 3], ['autre', 'Autre fil (je donne les mètres par gramme)', 0, 0]];
 function titreNm(k, autre) { var t = TITRES.filter(function (x) { return x[0] === k; })[0]; return t && t[2] ? 1.693 * t[2] / t[3] : (Number(autre) > 0 ? Number(autre) : 16.93); }
 var ARMURES = {
-  toile: { nom: 'Toile (un fil dessus, un fil dessous)', lames: 2, rentrage: [1, 2], marches: [[1], [2]], duitesParPas: 1 },
-  natte: { nom: 'Natté 2/2 (fils et duites par deux)', lames: 2, rentrage: [1, 1, 2, 2], marches: [[1], [2]], duitesParPas: 2 },
-  serge22: { nom: 'Sergé 2/2 (côtes en biais)', lames: 4, rentrage: [1, 2, 3, 4], marches: [[1, 2], [2, 3], [3, 4], [4, 1]], duitesParPas: 1 },
-  serge31: { nom: 'Sergé 3/1 (face chaîne)', lames: 4, rentrage: [1, 2, 3, 4], marches: [[1, 2, 3], [2, 3, 4], [3, 4, 1], [4, 1, 2]], duitesParPas: 1 }
+  toile: { nom: 'Toile (un fil dessus, un fil dessous)', court: 'toile', lames: 2, rentrage: [1, 2], marches: [[1], [2]], duitesParPas: 1 },
+  natte: { nom: 'Natté 2/2 (fils et duites par deux)', court: 'natté 2/2', lames: 2, rentrage: [1, 1, 2, 2], marches: [[1], [2]], duitesParPas: 2 },
+  serge22: { nom: 'Sergé 2/2 (côtes en biais)', court: 'sergé 2/2', lames: 4, rentrage: [1, 2, 3, 4], marches: [[1, 2], [2, 3], [3, 4], [4, 1]], duitesParPas: 1 },
+  serge31: { nom: 'Sergé 3/1 (face chaîne)', court: 'sergé 3/1', lames: 4, rentrage: [1, 2, 3, 4], marches: [[1, 2, 3], [2, 3, 4], [3, 4, 1], [4, 1, 2]], duitesParPas: 1 }
 };
 /* le fil de chaîne i passe-t-il dessus à la duite j ? */
 function armLeve(arm, i, j) {
@@ -15730,147 +15771,138 @@ function armLeve(arm, i, j) {
   return A.marches[pas].indexOf(lame) >= 0;
 }
 
+/* Le calcul part du MOTIF : une suite de bandes (couleur, largeur en mm sur le tissu fini).
+   Pour un peigne donné, chaque bande prend un nombre ENTIER de dents (au moins une) :
+   le motif a donc exactement le même nombre de fils à chaque répétition. La chaîne =
+   le motif répété R fois, puis (si demandé) la première bande du motif pour que les deux
+   bords soient pareils, plus les lisières (fils doublés dans les dents du bord). */
 var Tissage = {
-  /* répartition entière qui garde le total (plus forts restes), au moins `min` par part non nulle */
-  repartit: function (parts, total, min) {
-    min = min || 0;
-    var s = parts.reduce(function (t, x) { return t + x; }, 0) || 1, ex = parts.map(function (x) { return x / s * total; });
-    var base = ex.map(function (x) { return x > 0 ? Math.max(min, Math.floor(x)) : 0; }), reste = total - base.reduce(function (t, x) { return t + x; }, 0);
-    var ord = ex.map(function (x, i) { return { i: i, r: x - Math.floor(x) }; }).filter(function (o) { return ex[o.i] > 0; }).sort(function (a, b) { return b.r - a.r; });
-    for (var q = 0; reste > 0 && ord.length; q = (q + 1) % ord.length) { base[ord[q].i]++; reste--; }
-    while (reste < 0) { var big = base.indexOf(Math.max.apply(null, base)); if (base[big] <= min) break; base[big]--; reste++; }
-    return base;
-  },
-  /* fils de chaque bande (total T) : en dents entières de `fpd` fils, sauf les bandes plus fines qu'une dent */
-  fils: function (cms, T, fpd) {
-    var tot = cms.reduce(function (t, x) { return t + x; }, 0) || 1, ex = cms.map(function (x) { return x / tot * T; });
-    if (fpd <= 1) return Tissage.repartit(cms, T, 1);
-    var fin = ex.map(function (x) { return x > 0 && x < fpd; }), n = ex.map(function (x, i) { return fin[i] ? Math.max(1, Math.round(x)) : 0; });
-    var reste = T - n.reduce(function (t, x) { return t + x; }, 0), larges = ex.map(function (x, i) { return fin[i] ? 0 : x; });
-    if (!larges.some(function (x) { return x > 0; })) return Tissage.repartit(cms, T, 1);
-    var D = Math.floor(reste / fpd), r = reste - D * fpd, d = Tissage.repartit(larges, D, 1);
-    d.forEach(function (x, i) { if (!fin[i]) n[i] = x * fpd; });
-    var big = 0; n.forEach(function (x, i) { if (!fin[i] && x > n[big]) big = i; }); n[big] += r;
-    return n;
-  },
   sig: function (b) { return String(b.c) + '|' + JSON.stringify(b.seg || null); },
-  colle: function (bs) { var m = []; bs.forEach(function (b) { var last = m[m.length - 1]; if (last && Tissage.sig(last) === Tissage.sig(b)) last.cm += b.cm; else m.push(Object.assign({}, b)); }); return m; },
-  /* une suite de bandes (fractions f) répétée sur `largeur` cm, le motif mesurant `unitCm` cm, centrée */
-  pave: function (unit, unitCm, largeur) {
-    var cm = unit.map(function (b) { return Object.assign({}, b, { cm: b.f * unitCm }); }), res = [];
-    var nb = Math.floor(largeur / unitCm + 1e-6), rest = largeur - nb * unitCm;
-    var morceau = function (cmMax, depuisFin) {
-      var seq = depuisFin ? cm.slice().reverse() : cm, o = [], r = cmMax;
-      for (var j = 0; j < seq.length && r > 1e-6; j++) { var c2 = Math.min(seq[j].cm, r); o.push(Object.assign({}, seq[j], { cm: c2 })); r -= c2; }
-      return depuisFin ? o.reverse() : o;
-    };
-    if (rest > 1e-6) res = res.concat(morceau(rest / 2, true));
-    for (var k = 0; k < nb; k++) res = res.concat(cm.map(function (b) { return Object.assign({}, b); }));
-    if (rest > 1e-6) res = res.concat(morceau(rest / 2, false));
-    return Tissage.colle(res);
+  /* dents au centimètre du peigne choisi (un ancien réglage « dents pour 10 cm » est converti) */
+  dpc: function (p) {
+    if (p.peigne === 'autre') { var n = Number(p.peigneAutre); return n > 0 ? n : 8; }
+    var v = Number(p.peigne); return v > 0 ? (v > 30 ? v / 10 : v) : 8;
   },
-  /* largeur réelle (cm de tissu fini) que montre toute la largeur de la photo */
-  echelle: function (p, largFinie) {
-    if (p.photo === 'partie' && Number(p.zoneCm) > 0) return Number(p.zoneCm);
-    if (p.photo === 'motif') return largFinie / Math.max(1, Math.round(Number(p.nbMotifs) || 1));
-    return largFinie;
+  retrait: function (p) { return Math.min(40, Math.max(0, Number(p.retrait) || 0)) / 100; },
+  fpd: function (p) { return Math.max(1, Math.round(Number(p.fpd) || 2)); },
+  colle: function (bs) { var o = []; bs.forEach(function (b) { var l = o[o.length - 1]; if (l && Tissage.sig(l) === Tissage.sig(b)) { l.f = (l.f || 0) + (b.f || 0); l.mm = (l.mm || 0) + (b.mm || 0); } else o.push(Object.assign({}, b)); }); return o; },
+  /* le motif commence par sa bande la plus large (le fond) : avec la bande de fin, les deux bords sont le fond */
+  tourne: function (bs) {
+    if (bs.length < 2) return bs;
+    var k = 0; bs.forEach(function (b, i) { if ((b.f || b.mm) > (bs[k].f || bs[k].mm)) k = i; });
+    return bs.slice(k).concat(bs.slice(0, k));
   },
-  /* bandes de chaîne sur la largeur au peigne (en cm) */
-  bandesChaine: function (p, a, largPeigne, largFinie) {
-    var src = (a.chaine || []).map(function (b, i) { var x = { c: b.c, f: b.f }; if (a.reserve && a.reserve[i] && a.reserve[i].length > 1) x.seg = a.reserve[i]; return x; });
-    if (!src.length) return [];
-    if (p.photo === 'motif') return Tissage.pave(src, largPeigne / Math.max(1, Math.round(Number(p.nbMotifs) || 1)), largPeigne);
-    var zone = Tissage.echelle(p, largFinie) * largPeigne / largFinie;   /* cm au peigne que couvre la photo */
-    if (p.photo === 'partie' && zone < largPeigne - 1e-6) {
-      var rc = a.rapportChaine && !a.reserve ? a.rapportChaine : null;
-      return rc ? Tissage.pave(rc.unit.map(function (u) { return { c: u.c, f: u.f / rc.f }; }), zone * rc.f, largPeigne) : Tissage.pave(src, zone, largPeigne);
-    }
-    return Tissage.colle(src.map(function (b) { return Object.assign({}, b, { cm: b.f * largPeigne }); }));
+  /* motif de chaîne tiré de la photo. photoCm = largeur réelle (tissu fini) que montre la photo */
+  motifPhoto: function (p, a) {
+    a = a || {};
+    var rc = a.rapportChaine && !a.reserve && a.rapportChaine.fois >= 1.7 ? a.rapportChaine : null;
+    var src = rc ? rc.unit.map(function (u) { return { c: u.c, f: u.f / rc.f }; })
+      : (a.chaine || []).map(function (b, i) { var x = { c: b.c, f: b.f }; if (a.reserve && a.reserve[i] && a.reserve[i].length > 1) x.seg = a.reserve[i]; return x; });
+    src = Tissage.colle(src);
+    if (rc) { src = Tissage.tourne(src); if (src.length > 1 && Tissage.sig(src[0]) === Tissage.sig(src[src.length - 1])) { src[0].f += src.pop().f; } }
+    var photoCm = Number(p.photoCm) > 0 ? Number(p.photoCm) : (Number(p.largeur) || 20), motifCm = photoCm * (rc ? rc.f : 1);
+    var resCm = a.reserve ? (a.resF || 1) * (a.h || 1) * photoCm / Math.max(1, a.w || 1) : null;
+    return { bandes: src.map(function (b) { var x = { c: b.c, mm: b.f * motifCm * 10 }; if (b.seg) x.seg = b.seg; return x; }), repete: !!rc, fois: rc ? rc.fois : 1, resCm: resCm };
   },
-  dominante: function (a) { var cs = (a.couleurs || []).filter(function (c) { return c.c; }); if (!cs.length) return null; var b = cs[0]; cs.forEach(function (c) { if (c.part > b.part) b = c; }); return b.c; },
-  /* plan complet. p = paramètres ; a = analyse aux couleurs de l'atelier (Analyse.versAtelier) ;
-     manuel = bandes saisies à la main [{c, fils, seg}] qui remplacent celles de la photo */
-  plan: function (p, a, manuel) {
-    a = a || { structure: 'uni', chaine: [], trame: [], couleurs: [] };
-    var d10 = p.peigne === 'autre' ? (Number(p.dentsAutre) > 0 && Number(p.cmAutre) > 0 ? Number(p.dentsAutre) / Number(p.cmAutre) * 10 : 40) : Number(p.peigne) || 40;
-    var fpd = Math.max(1, Math.round(Number(p.fpd) || 2)), dens = d10 / 10 * fpd, retrait = Math.min(40, Math.max(0, Number(p.retrait) || 0)) / 100;
-    var T, largPeigne, fils;
-    if (manuel && manuel.length) {
-      fils = manuel.map(function (b) { return { c: b.c || null, fils: Math.max(0, Math.round(Number(b.fils) || 0)), seg: b.seg || null }; }).filter(function (b) { return b.fils > 0; });
-      T = fils.reduce(function (t, b) { return t + b.fils; }, 0) || fpd; largPeigne = T / dens;
-    } else {
-      if (p.mode === 'fils' && Number(p.totalFils) > 0) T = Math.max(fpd, Math.round(Number(p.totalFils) / fpd) * fpd);
-      else T = Math.max(fpd, Math.round((Number(p.largeur) || 20) / (1 - retrait) * dens / fpd) * fpd);
-      largPeigne = T / dens;
-      var bandes = Tissage.bandesChaine(p, a, largPeigne, largPeigne * (1 - retrait));
-      var n = Tissage.fils(bandes.map(function (b) { return b.cm; }), T, p.dentsEntieres === false ? 1 : fpd);
-      fils = bandes.map(function (b, i) { return { c: b.c, fils: n[i], seg: b.seg || null }; }).filter(function (b) { return b.fils > 0; });
-      var f2 = []; fils.forEach(function (b) { var l = f2[f2.length - 1]; if (l && Tissage.sig(l) === Tissage.sig(b)) l.fils += b.fils; else f2.push(b); }); fils = f2;
-    }
-    if (!fils.length) fils = [{ c: Tissage.dominante(a), fils: T, seg: null }];
-    var largeurFinie = largPeigne * (1 - retrait), dents = Math.ceil(T / fpd);
-    /* bandes de base (avant les lisières), avec leur numéro : on les modifie à la main */
-    var base = fils.map(function (b, i) { return { c: b.c, fils: b.fils, seg: b.seg || null }; });
-    fils = fils.map(function (b, i) { return { c: b.c, fils: b.fils, seg: b.seg || null, bi: i }; });
-    /* lisières doublées : les fils des premières et des dernières dents sont doublés (deux par maillon) */
-    var lis = Math.max(0, Math.round(Number(p.lisiere) || 0)), lisF = lis * fpd;
-    if (lis && T > 4 * lisF) {
-      var gauche = [], droite = [], r = lisF, t;
-      while (r > 0 && fils.length) { t = Math.min(fils[0].fils, r); gauche.push(Object.assign({}, fils[0], { fils: t })); fils[0].fils -= t; r -= t; if (!fils[0].fils) fils.shift(); }
-      r = lisF;
-      while (r > 0 && fils.length) { var z = fils[fils.length - 1]; t = Math.min(z.fils, r); droite.unshift(Object.assign({}, z, { fils: t })); z.fils -= t; r -= t; if (!z.fils) fils.pop(); }
-      gauche.concat(droite).forEach(function (b) { b.lisiere = true; b.fils *= 2; });
-      fils = gauche.concat(fils, droite);
-    } else lis = 0;
-    var Ttot = fils.reduce(function (t, b) { return t + b.fils; }, 0);
-    /* positions : fils, maillons, dents et centimètres depuis le bord gauche */
-    var fil = 0, dent = 0, maillon = 0;
-    fils.forEach(function (b) {
-      var nd = b.lisiere ? b.fils / (2 * fpd) : b.fils / fpd, nm = b.lisiere ? b.fils / 2 : b.fils;
-      b.de = fil + 1; b.a = fil + b.fils; b.dentDe = Math.floor(dent + 1e-9) + 1; b.dentA = Math.ceil(dent + nd - 1e-9); b.maillonDe = maillon + 1; b.maillonA = maillon + nm;
-      b.cmDe = dent / (d10 / 10); b.cm = nd / (d10 / 10);
-      fil += b.fils; dent += nd; maillon += nm;
+  /* motif de trame (rayures de trame, carreaux) tiré de la photo, en mm le long du tissu */
+  tramePhoto: function (p, a) {
+    if (!a || !(a.structure === 'trame' || a.structure === 'carreaux') || (a.trame || []).length < 2) return null;
+    var rr = a.rapportTrame && a.rapportTrame.fois >= 1.7 ? a.rapportTrame : null;
+    var src = Tissage.colle(rr ? rr.unit.map(function (u) { return { c: u.c, f: u.f / rr.f }; }) : a.trame.map(function (b) { return { c: b.c, f: b.f }; }));
+    if (src.length < 2) return null;
+    var photoCm = Number(p.photoCm) > 0 ? Number(p.photoCm) : (Number(p.largeur) || 20), hCm = photoCm * (a.h || 1) / Math.max(1, a.w || 1) * (rr ? rr.f : 1);
+    return { bandes: src.map(function (b) { return { c: b.c, mm: b.f * hCm * 10 }; }) };
+  },
+  /* dents de chaque bande du motif pour un peigne (au moins une dent par bande) */
+  dentsMotif: function (p, bandes, dpc, k) {
+    var ret = Tissage.retrait(p);
+    return bandes.map(function (b) { return Math.max(1, Math.round(b.mm * (k || 1) / 10 / (1 - ret) * dpc)); });
+  },
+  uni: function (design) { return design.bandes.length === 1 && !design.bandes[0].seg; },
+  /* nombre de répétitions du motif : d'après la largeur voulue, le nombre de fils voulu ou donné directement */
+  repetitions: function (p, design, dpc) {
+    if (Tissage.uni(design)) return 1;
+    if (p.mode === 'motifs') return Math.max(1, Math.round(Number(p.nbMotifs) || 1));
+    if (!design.repete && !design.fixe) return 1;   /* motif unique de la photo : il est mis à la largeur (ou au nombre de fils) voulue */
+    var d = Tissage.dentsMotif(p, design.bandes, dpc), motifD = d.reduce(function (t, x) { return t + x; }, 0), eq = p.equilibre !== false ? d[0] : 0, fpd = Tissage.fpd(p);
+    var Dv = p.mode === 'fils' && Number(p.totalFils) > 0 ? (Number(p.totalFils) - 2 * Tissage.lis(p) * fpd) / fpd : (Number(p.largeur) || 20) / (1 - Tissage.retrait(p)) * dpc;
+    return Math.max(1, Math.round((Dv - eq) / motifD));
+  },
+  lis: function (p) { return Math.max(0, Math.min(6, Math.round(Number(p.lisiere) || 0))); },
+  /* les bandes de la largeur, transformées en groupes de fils ; les lisières doublent les fils des premières et dernières dents */
+  versFils: function (seq, fpd, lis, dpc) {
+    var out = [], dent = 0, fil = 0, maillon = 0, totD = seq.reduce(function (t, b) { return t + b.dents; }, 0);
+    lis = Math.min(lis, Math.floor(totD / 2));
+    seq.forEach(function (b) {
+      var d0 = dent, d1 = dent + b.dents, dA = Math.max(0, Math.min(d1, lis) - d0), dB = Math.max(0, d1 - Math.max(d0, totD - lis)), parts = [];
+      if (dA + dB > b.dents) dB = b.dents - dA;
+      if (dA) parts.push({ d: dA, l: true }); if (b.dents - dA - dB > 0) parts.push({ d: b.dents - dA - dB, l: false }); if (dB) parts.push({ d: dB, l: true });
+      parts.forEach(function (q) {
+        var n = q.d * fpd * (q.l ? 2 : 1);
+        out.push({ c: b.c, seg: b.seg || null, fils: n, lisiere: q.l, de: fil + 1, a: fil + n, dentDe: dent + 1, dentA: dent + q.d, maillonDe: maillon + 1, maillonA: maillon + q.d * fpd, cmDe: dent / dpc, bande: b.i, fin: !!b.fin });
+        fil += n; dent += q.d; maillon += q.d * fpd;
+      });
     });
+    return out;
+  },
+  /* calcul complet pour un peigne. design = { bandes:[{c, mm, seg}], repete, fixe, resCm } ;
+     trameD = { bandes:[{c, mm}] } ou null ; R = répétitions (sinon calculées) */
+  peigne: function (p, design, trameD, dpc, R) {
+    var fpd = Tissage.fpd(p), ret = Tissage.retrait(p), B = design.bandes, k = 1;
+    var eq = p.equilibre !== false && B.length > 1, dents, motifD, totD;
+    if (Tissage.uni(design)) {
+      var D = p.mode === 'fils' && Number(p.totalFils) > 0 ? Math.round((Number(p.totalFils) - 2 * Tissage.lis(p) * fpd) / fpd) : Math.round((Number(p.largeur) || 20) / (1 - ret) * dpc);
+      dents = [Math.max(4, D)]; motifD = dents[0]; R = 1; eq = false; totD = motifD;
+    } else {
+      R = Math.max(1, Math.round(R || Tissage.repetitions(p, design, dpc)));
+      /* motif unique tiré de la photo : mis à l'échelle de la largeur ou du nombre de fils voulus */
+      if (!design.repete && !design.fixe && p.mode !== 'motifs') {
+        var tot = B.reduce(function (t, b) { return t + b.mm; }, 0) || 1;
+        var cible = p.mode === 'fils' && Number(p.totalFils) > 0 ? (Number(p.totalFils) - 2 * Tissage.lis(p) * fpd) / fpd / dpc * (1 - ret) * 10 : (Number(p.largeur) || 20) * 10;
+        k = cible / tot; eq = false;
+      }
+      dents = Tissage.dentsMotif(p, B, dpc, k); motifD = dents.reduce(function (t, x) { return t + x; }, 0);
+      totD = R * motifD + (eq ? dents[0] : 0);
+    }
+    var seq = [];
+    for (var r = 0; r < R; r++) B.forEach(function (b, i) { seq.push({ c: b.c, seg: b.seg || null, dents: dents[i], i: i }); });
+    if (eq) seq.push({ c: B[0].c, seg: B[0].seg || null, dents: dents[0], i: 0, fin: true });
+    var lis = Math.min(Tissage.lis(p), Math.floor(totD / 4)), fils = Tissage.versFils(seq, fpd, lis, dpc);
+    var T = fils.reduce(function (t, b) { return t + b.fils; }, 0), larg = totD / dpc, largF = larg * (1 - ret);
     /* longueurs et poids */
     var L = Math.max(0.1, Number(p.longueur) || 10), emb = Math.max(0, Number(p.embuvage) || 0) / 100, dech = Math.max(0, Number(p.dechet) || 0);
     var Lourdi = L * (1 + emb) + dech, nmC = titreNm(p.titreC, p.nmC), nmT = titreNm(p.titreT, p.nmT);
-    var dpc = Math.max(1, Number(p.duites) || 12), duitesTot = Math.round(dpc * L * 100), lDuite = largPeigne / 100 * 1.05;
-    var cmPx = Tissage.echelle(p, largeurFinie) / Math.max(1, a.w || 1);   /* centimètres de tissu par pixel de la photo */
-    /* trame : couleurs le long du tissu */
-    var trame, rr = a.rapportTrame;
-    if ((a.structure === 'trame' || a.structure === 'carreaux') && (a.trame || []).length > 1 && !p.trameC) {
-      var hcm = (a.h || 1) * cmPx, unit = rr && rr.fois >= 1.7 ? rr.unit.map(function (u) { return { c: u.c, cm: u.f * hcm }; }) : a.trame.map(function (b) { return { c: b.c, cm: b.f * hcm }; });
-      var u2 = []; unit.forEach(function (b) { var l = u2[u2.length - 1]; if (l && l.c === b.c) l.cm += b.cm; else u2.push({ c: b.c, cm: b.cm }); });
-      var rep = u2.reduce(function (t, b) { return t + b.cm; }, 0) || 1;
-      trame = { repete: rep, bandes: u2.map(function (b) { return { c: b.c, cm: b.cm, duites: Math.max(1, Math.round(b.cm * dpc)) }; }) };
-    } else trame = { repete: null, bandes: [{ c: p.trameC || (a.structure === 'chaine' || a.structure === 'reserve' ? (a.trame && a.trame[0] && a.trame[0].c) : null) || Tissage.dominante(a) || fils[0].c, cm: null, duites: null }] };
-    var uniteDuites = trame.repete ? trame.bandes.reduce(function (t, b) { return t + b.duites; }, 0) : 1;
-    var rapportRes = fils.some(function (b) { return b.seg; }) ? Math.max(0.5, (a.resF || 1) * (a.h || 1) * cmPx) : null;
-    var parC = {};
-    var add = function (c, k, v) { var key = c === null || c === undefined ? '_' : c, x = parC[key] = parC[key] || { c: c === undefined ? null : c, fils: 0, filsRes: 0, chaineM: 0, chaineG: 0, duites: 0, trameM: 0, trameG: 0 }; x[k] += v; };
+    var dpcT = Math.max(1, Number(p.duites) || 12), duitesTot = Math.round(dpcT * L * 100), lDuite = larg / 100 * 1.05;
+    var trame;
+    if (trameD && trameD.bandes.length > 1 && !p.trameC) {
+      var tb = trameD.bandes.map(function (b) { return { c: b.c, cm: b.mm * k / 10, duites: Math.max(1, Math.round(b.mm * k / 10 * dpcT)) }; });
+      var ud = tb.reduce(function (t, b) { return t + b.duites; }, 0);
+      trame = { repete: ud / dpcT, duites: ud, bandes: tb };
+    } else trame = { repete: null, duites: null, bandes: [{ c: p.trameC || design.trameC || (B.length ? B[0].c : null), cm: null, duites: null }] };
+    var parC = {}, add = function (c, key, v) { var id = c || '_', x = parC[id] = parC[id] || { c: c || null, fils: 0, filsRes: 0, chaineM: 0, chaineG: 0, duites: 0, trameM: 0, trameG: 0 }; x[key] += v; };
     fils.forEach(function (b) {
       add(b.c, 'fils', b.fils);
       if (b.seg && b.seg.length > 1) { var vus = {}; b.seg.forEach(function (s) { add(s.c, 'chaineM', b.fils * Lourdi * s.f); add(s.c, 'chaineG', b.fils * Lourdi * s.f / nmC); if (s.c !== b.c && !vus[s.c]) { vus[s.c] = 1; add(s.c, 'filsRes', b.fils); } }); }
       else { add(b.c, 'chaineM', b.fils * Lourdi); add(b.c, 'chaineG', b.fils * Lourdi / nmC); }
     });
-    trame.bandes.forEach(function (b) { var part = trame.repete ? b.duites / uniteDuites : 1, du = Math.round(duitesTot * part); add(b.c, 'duites', du); add(b.c, 'trameM', du * lDuite); add(b.c, 'trameG', du * lDuite / nmT); });
-    var compo = Object.keys(parC).map(function (k) { var x = parC[k]; x.totalG = x.chaineG + x.trameG; x.gpm = x.totalG / L; return x; }).sort(function (x, y) { return y.totalG - x.totalG; });
+    trame.bandes.forEach(function (b) { var du = trame.repete ? Math.round(duitesTot * b.duites / trame.duites) : duitesTot; add(b.c, 'duites', du); add(b.c, 'trameM', du * lDuite); add(b.c, 'trameG', du * lDuite / nmT); });
+    var compo = Object.keys(parC).map(function (id) { var x = parC[id]; x.totalG = x.chaineG + x.trameG; x.gpm = x.totalG / L; return x; }).sort(function (x, y) { return y.totalG - x.totalG; });
     var totG = compo.reduce(function (t, x) { return t + x.totalG; }, 0) || 1;
-    compo.forEach(function (x) { x.part = x.totalG / totG; x.partFils = x.fils / (Ttot || 1); });
-    /* attache : mèches d'environ 2,5 cm */
-    var parMeche = Math.max(2 * fpd, Math.round(2.5 * dens / fpd) * fpd), meches = Math.ceil(Ttot / parMeche);
-    /* centrage dans le peigne du métier */
-    var dentsPeigne = Number(p.peigneCm) > 0 ? Math.round(Number(p.peigneCm) * d10 / 10) : 0, depart = dentsPeigne > dents ? Math.floor((dentsPeigne - dents) / 2) + 1 : 0;
-    var arm = ARMURES[p.armure] ? p.armure : 'toile', A = ARMURES[arm], lames = []; for (var li = 0; li < A.lames; li++) lames.push(0);
-    for (var mi = 0; mi < maillon; mi++) lames[A.rentrage[mi % A.rentrage.length] - 1]++;
-    return { d10: d10, fpd: fpd, densite: dens, largPeigne: largPeigne, largeurFinie: largeurFinie, retrait: retrait, dents: dents, fils: fils, base: base, T: Ttot, Tbase: T, lisiere: lis,
-      maillons: maillon, lames: lames, armure: arm, parMeche: parMeche, meches: meches, dentsPeigne: dentsPeigne, depart: depart,
-      L: L, Lourdi: Lourdi, nmC: nmC, nmT: nmT, duitesCm: dpc, duitesTot: duitesTot, lDuite: lDuite, trame: trame, compo: compo, totalG: totG, rapportRes: rapportRes,
-      structure: a.structure || 'uni', manuel: !!(manuel && manuel.length) };
+    compo.forEach(function (x) { x.part = x.totalG / totG; x.partFils = x.fils / (T || 1); });
+    var dens = dpc * fpd, parMeche = Math.max(2 * fpd, Math.round(2.5 * dens / fpd) * fpd), meches = Math.ceil(T / parMeche);
+    var dentsPeigne = Number(p.peigneCm) > 0 ? Math.round(Number(p.peigneCm) * dpc) : 0, depart = dentsPeigne > totD ? Math.floor((dentsPeigne - totD) / 2) + 1 : 0;
+    var arm = ARMURES[p.armure] ? p.armure : 'toile', A = ARMURES[arm], maillons = totD * fpd, lames = [];
+    for (var li = 0; li < A.lames; li++) lames.push(0);
+    for (var mi = 0; mi < maillons; mi++) lames[A.rentrage[mi % A.rentrage.length] - 1]++;
+    return { dpc: dpc, d10: dpc * 10, fpd: fpd, densite: dens, bandes: B, dents: dents, motifD: motifD, motifF: motifD * fpd, R: R, eq: eq, finD: eq ? dents[0] : 0, uni: Tissage.uni(design),
+      dentsTot: totD, lisiere: lis, lisF: lis * fpd, T: T, Tbase: totD * fpd, largPeigne: larg, largeurFinie: largF, retrait: ret, seq: seq, fils: fils,
+      maillons: maillons, lames: lames, armure: arm, parMeche: parMeche, meches: meches, dentsPeigne: dentsPeigne, depart: depart,
+      L: L, Lourdi: Lourdi, nmC: nmC, nmT: nmT, duitesCm: dpcT, duitesTot: duitesTot, lDuite: lDuite, trame: trame, compo: compo, totalG: totG,
+      rapportRes: fils.some(function (b) { return b.seg; }) ? Math.max(0.5, (design.resCm || 10) * k) : null, echelle: k };
   },
-  /* suite de bandes regroupée en « N fois : … » pour un ourdissage lisible */
-  groupes: function (fils) {
-    var seq = fils.map(function (b) { return (b.lisiere ? 'L' : '') + Tissage.sig(b) + ':' + b.fils; }), n = seq.length, out = [], i = 0;
+  /* suite de bandes regroupée en « N fois : … » (formule d'ourdissage) */
+  groupes: function (items, cle) {
+    var seq = items.map(cle), n = seq.length, out = [], i = 0;
     while (i < n) {
       var best = null;
       for (var p = 1; p <= Math.floor((n - i) / 2); p++) {
@@ -15878,8 +15910,7 @@ var Tissage = {
         while (i + (fois + 1) * p <= n) { var ok = true; for (var j = 0; j < p; j++) if (seq[i + fois * p + j] !== seq[i + j]) { ok = false; break; } if (!ok) break; fois++; }
         if (fois >= 2 && (!best || fois * p > best.fois * best.p)) best = { p: p, fois: fois };
       }
-      if (best) { out.push({ de: i, p: best.p, fois: best.fois }); i += best.p * best.fois; }
-      else { out.push({ de: i, p: 1, fois: 1 }); i++; }
+      if (best) { out.push({ de: i, p: best.p, fois: best.fois }); i += best.p * best.fois; } else { out.push({ de: i, p: 1, fois: 1 }); i++; }
     }
     return out;
   }
@@ -15893,148 +15924,186 @@ function mcSeg(seg) { return '<span class="mc-seg" aria-hidden="true">' + seg.ma
 function mcG(g) { g = Number(g) || 0; return g < 1000 ? fmtN(g, 0) + ' g' : fmtN(g / 1000, g < 10000 ? 2 : 1) + ' kg'; }
 function mcCm(x) { return fmtN(x, x < 10 ? 2 : 1) + ' cm'; }
 function mcNum(v, d) { var n = parseNum(v); return isNaN(n) ? (d === undefined ? '' : d) : n; }
+function mcPeigne(dpc) { return 'Peigne ' + fmtN(dpc, 1); }
+function mcCoulTxt(c) { return mcNom(c).toLowerCase(); }
 
-/* ---------- calcul de modèle : la fenêtre ---------- */
+/* ---------- calcul de tissage : une seule page ----------
+   En haut : la photo et les réglages principaux (peigne 8 ou 10, fils par dent, largeur ou
+   nombre de motifs ou de fils, longueur, fil). Au milieu : le motif, bande par bande, en dents
+   et en fils pour le peigne 8 et le peigne 10. En bas : les deux peignes côte à côte et la
+   fiche de montage du peigne choisi (ourdissage, rentrage, piquage, attache, trame). */
 var Calc = {
   STRUCT: {
-    uni: ['Tissu uni', 'Une seule couleur : la chaîne et la trame sont de la même couleur.'],
-    chaine: ['Rayures de chaîne', 'Les rayures suivent la longueur du tissu : ce sont les fils de chaîne qui portent les couleurs.'],
-    trame: ['Rayures de trame', 'Les rayures traversent le tissu : ce sont les duites (la trame) qui portent les couleurs. Si ces rayures sont en réalité des fils de chaîne (photo prise de travers), tournez la photo.'],
-    carreaux: ['Carreaux', 'La chaîne et la trame sont rayées toutes les deux ; leurs croisements dessinent les carreaux.'],
-    reserve: ['Fils teints en réserve', 'Certains fils de chaîne changent de couleur le long du tissu : ils sont teints par parties, en ligaturant les zones à garder (voir le plan de teinture).']
+    uni: ['Tissu uni', 'une seule couleur'],
+    chaine: ['Rayures de chaîne', 'les couleurs sont portées par les fils de chaîne'],
+    trame: ['Rayures de trame', 'les couleurs sont portées par la trame — si ce sont des fils de chaîne, tournez la photo'],
+    carreaux: ['Carreaux', 'la chaîne et la trame sont rayées'],
+    reserve: ['Fils teints en réserve', 'des fils de chaîne changent de couleur le long du tissu']
   },
   metierVals: function (m, f) {
     var g = m === 'grand';
-    return { peigne: g ? 50 : 40, largeur: f && f.largeur ? f.largeur : (g ? 110 : 20), retrait: g ? 7 : 5, embuvage: g ? 8 : 10, dechet: g ? 0.8 : 1.2, duites: g ? 14 : 12, armure: 'toile', lisiere: 2 };
+    return { largeur: f && f.largeur ? f.largeur : (g ? 110 : 20), retrait: g ? 7 : 5, embuvage: g ? 8 : 10, dechet: g ? 0.8 : 1.2, duites: g ? 14 : 12 };
   },
   defauts: function (m, f) {
-    return Object.assign({ metier: m === 'grand' ? 'grand' : 'petit', fpd: 2, mode: 'largeur', totalFils: '', photo: 'toute', zoneCm: '', nbMotifs: 2, peigneCm: '',
-      longueur: f && f.longueur ? f.longueur : 10, titreC: 'ne20-2', nmC: '', titreT: 'ne20-2', nmT: '', trameC: '', bobines: 2,
-      dentsAutre: '', cmAutre: 10, nb: 'auto', finesse: '0.006', structure: 'auto', redresser: 'auto', rot: 0 }, Calc.metierVals(m, f));
+    return Object.assign({ metier: m === 'grand' ? 'grand' : 'petit', peigne: 8, peigneAutre: '', fpd: 2, mode: 'largeur', nbMotifs: '', totalFils: '', photoCm: f && f.largeur ? f.largeur : '',
+      lisiere: 2, equilibre: true, armure: 'toile', peigneCm: '', longueur: f && f.longueur ? f.longueur : 10, titreC: 'ne20-2', nmC: '', titreT: 'ne20-2', nmT: '', trameC: '', bobines: 2,
+      nb: 'auto', finesse: '0.006', structure: 'auto', redresser: 'auto', rot: 0 }, Calc.metierVals(m, f));
+  },
+  /* ancien réglage de peigne (dents pour 10 cm) : converti en dents au cm */
+  normalise: function (p) {
+    var v = Number(p.peigne);
+    if (p.peigne !== 'autre' && v > 30) { if (v === 80 || v === 100) p.peigne = v / 10; else { p.peigne = 'autre'; p.peigneAutre = v / 10; } }
+    if (p.peigne !== 'autre') p.peigne = Number(p.peigne) || 8;
+    ['photo', 'zoneCm', 'cmAutre', 'dentsAutre', 'dentsEntieres', 'centrer', 'repeter'].forEach(function (k) { delete p[k]; });
+    return p;
   },
   ouvrir: function (id) {
     var f = id ? ficheCat(id) : null, sv = f && f.calcul ? f.calcul : null;
-    var p = Object.assign(Calc.defauts(sv && sv.params ? sv.params.metier : 'petit', f), sv && sv.params ? sv.params : {});
-    /* plan enregistré : calculé sur la photo principale de la fiche, on le refait avec les mêmes réglages ;
-       sinon (photo chargée, bandes modifiées), on reprend ses bandes telles qu'elles ont été enregistrées */
+    var p = Calc.normalise(Object.assign(Calc.defauts(sv && sv.params ? sv.params.metier : 'petit', f), sv && sv.params ? sv.params : {}));
+    /* plan enregistré : sur la photo principale de la fiche et sans retouche du motif, on le refait ;
+       sinon on reprend son motif tel qu'il a été enregistré */
     var memePhoto = !!(sv && !sv.manuel && sv.photo && f && (f.photos || [])[0] === sv.photo);
-    var st = Calc.st = { id: id || null, f: f, p: p, sv: sv, map: memePhoto && sv.map ? Object.assign({}, sv.map) : null, mapGarde: !!(memePhoto && sv.map), manuel: sv && !memePhoto && sv.base ? clone(sv.base) : null, src: null, a: null, aa: null, plan: null, img: null, cv: null };
-    var acts = [{ t: icon('print') + ' Imprimer la fiche de calcul', act: 'print', cls: 'ghost' }, { t: icon('drop') + ' Plan de teinture', act: 'tei', cls: 'ghost' }];
-    if (can('catalogue', 'modifier') && list('catalogue/fiches', function (x) { return !x.archive; }).length) acts.push({ t: icon('check') + (f ? ' Enregistrer dans la fiche' : ' Enregistrer dans une fiche…'), act: 'save', cls: 'primary' });
+    var design = sv && sv.motif && !memePhoto ? { bandes: clone(sv.motif), repete: sv.repete !== false, fixe: true, resCm: sv.rapportReserve || null } : null;
+    var st = Calc.st = { id: id || null, f: f, p: p, sv: sv, map: memePhoto && sv.map ? Object.assign({}, sv.map) : null, mapGarde: !!(memePhoto && sv.map), design: design, src: null, a: null, aa: null, plan: null, plans: {}, img: null, cv: null, plus: false };
+    var acts = [{ t: icon('print') + ' Imprimer (1 page)', act: 'print', cls: 'ghost' }, { t: icon('drop') + ' Plan de teinture', act: 'tei', cls: 'ghost' }];
+    if (can('catalogue', 'modifier')) acts.push({ t: icon('check') + (f ? ' Enregistrer dans la fiche' : ' Enregistrer dans une fiche…'), act: 'save', cls: 'primary' });
     acts.push({ t: 'Fermer', act: '__close', cls: 'ghost' });
-    var m = st.m = UI.modal({ title: 'Calcul de modèle' + (f ? ' — ' + f.nom + (f.ref ? ' (' + f.ref + ')' : '') : ''), size: 'xl', dismiss: false, body: Calc.corps(st), actions: acts,
+    var m = st.m = UI.modal({ title: 'Calcul de tissage' + (f ? ' — ' + f.nom + (f.ref ? ' (' + f.ref + ')' : '') : ''), size: 'xl', dismiss: false, body: Calc.corps(st), actions: acts,
       onAct: function (a, b) { if (a === 'print') Calc.imprimer(st); if (a === 'tei') TeintPlan.depuisCalcul(st); if (a === 'save') Calc.enregistrer(st, b); } });
     m.el.classList.add('mc-modal');
     Calc.lier(st);
     Data.need(['stock/articles', 'stock/soldes', 'stock/lots']).then(function () { if (!m.closed && st.plan) Calc.calcule(st); }).catch(function () {});
+    if (!f) Data.need(['catalogue/fiches', 'production/modeles']).catch(function () {}).then(function () { if (!m.closed) Calc.modeles(st); });
     var ph = f ? (f.photos || []) : [];
     if (ph.length) Calc.chargeFiche(st, ph[0]); else if (f && f.vignette) Calc.chargeUrl(st, f.vignette); else Calc.calcule(st);
     return m;
   },
+  /* sans fiche : la photo d'un modèle du catalogue ou d'une fiche technique */
+  modeles: function (st) {
+    var z = $('#mc-modeles', st.m.el); if (!z) return;
+    var fs = list('catalogue/fiches', function (x) { return !x.archive && ((x.photos || []).length || x.vignette); }).map(function (x) { return ['f:' + x.id, x.nom + (x.ref ? ' (' + x.ref + ')' : '')]; });
+    var ms = list('production/modeles', function (x) { return !x.archive && x.photo; }).map(function (x) { return ['m:' + x.id, x.nom + (x.code ? ' (' + x.code + ')' : '') + ' — fiche technique']; });
+    var o = fs.concat(ms).sort(function (a, b) { return a[1].localeCompare(b[1], 'fr'); });
+    if (!o.length) return;
+    z.innerHTML = '<select id="mc-mod" aria-label="Photo d\'un modèle"><option value="">Photo d\'un modèle…</option>' + o.map(function (x) { return '<option value="' + attr(x[0]) + '">' + esc(x[1]) + '</option>'; }).join('') + '</select>';
+  },
   corps: function (st) {
     var f = st.f, ph = f ? (f.photos || []) : [];
-    return '<div class="mc"><div class="mc-g">' +
-      '<section class="mc-photo"><div class="mc-cv" id="mc-cv"><div class="mc-vide">' + icon('image') + '<span>Choisissez la photo du modèle : bien droite, prise de face, en pleine lumière, sans ombre.</span></div></div>' +
-        '<canvas class="mc-barre" id="mc-barre" height="28" aria-hidden="true"></canvas>' +
+    return '<div class="cx"><section class="cx-top">' +
+      '<div class="cx-ph"><div class="mc-cv" id="mc-cv"><div class="mc-vide">' + icon('image') + '<span>Photo du modèle : bien droite, de face, en pleine lumière.</span></div></div>' +
+        '<canvas class="mc-barre" id="mc-barre" height="22" aria-hidden="true"></canvas>' +
+        '<div class="cx-ap"><canvas id="mc-apercu" class="mc-ap" aria-label="Aperçu du tissu calculé"></canvas><small class="muted">Tissu calculé, à comparer à la photo</small></div>' +
         '<div class="row wrap mc-src">' + ph.map(function (pid, i) { return '<button type="button" class="cat-th" data-ca="ph" data-id="' + attr(pid) + '" aria-label="Photo ' + (i + 1) + ' du modèle"><span class="spin"></span></button>'; }).join('') +
-          '<label class="btn ghost sm">' + icon('upload') + ' Charger une photo<input type="file" accept="image/*" id="mc-file" hidden></label>' +
-          '<button type="button" class="btn ghost sm" data-ca="rot">' + icon('move') + ' Tourner d\'un quart</button></div>' +
-        '<p class="muted mc-info"><span id="mc-red"></span> <span id="mc-info">' + (st.sv ? 'Plan enregistré le ' + esc(fmtDate(st.sv.date)) + (st.sv.par ? ' par ' + esc(st.sv.par) : '') + '.' : '') + '</span></p></section>' +
-      '<section class="mc-par fgrid" id="mc-par">' + Calc.parHtml(st) + '</section></div>' +
-      '<div class="mc-r" id="mc-res"><p class="loading"><span class="spin"></span> Calcul…</p></div></div>';
+          '<span id="mc-modeles"></span><label class="btn ghost sm">' + icon('upload') + ' Photo<input type="file" accept="image/*" id="mc-file" hidden></label>' +
+          '<button type="button" class="btn ghost sm" data-ca="rot" title="Tourner la photo d\'un quart">' + icon('move') + ' Tourner</button></div>' +
+        '<p class="muted mc-info"><span id="mc-red"></span> <span id="mc-info">' + (st.sv ? 'Plan enregistré le ' + esc(fmtDate(st.sv.date)) + (st.sv.par ? ' par ' + esc(st.sv.par) : '') + '.' : '') + '</span></p></div>' +
+      '<div class="cx-par" id="mc-par">' + Calc.parHtml(st) + '</div></section>' +
+      '<div id="mc-res"><p class="loading"><span class="spin"></span> Calcul…</p></div></div>';
   },
   parHtml: function (st) {
-    var p = st.p, man = !!st.manuel;
+    var p = st.p, dpc = Tissage.dpc(p);
     var o = function (arr, v) { return arr.map(function (x) { return '<option value="' + attr(x[0]) + '"' + (String(x[0]) === String(v) ? ' selected' : '') + '>' + esc(x[1]) + '</option>'; }).join(''); };
-    var sel = function (k, t, arr, help, span) { return '<label class="fld' + (span ? ' span2' : '') + '"><span>' + esc(t) + '</span><select data-cp="' + k + '">' + o(arr, p[k]) + '</select>' + (help ? '<small class="muted">' + help + '</small>' : '') + '</label>'; };
-    var num = function (k, t, help, dis) { return '<label class="fld"><span>' + esc(t) + '</span><input type="text" inputmode="decimal" data-cp="' + k + '" value="' + attr(p[k] === '' || p[k] === null || p[k] === undefined ? '' : String(p[k]).replace('.', ',')) + '"' + (dis ? ' disabled' : '') + '>' + (help ? '<small class="muted">' + help + '</small>' : '') + '</label>'; };
-    var sec = function (t, help) { return '<div class="fsec span2"><h3>' + esc(t) + '</h3>' + (help ? '<p class="muted">' + help + '</p>' : '') + '</div>'; };
+    var sel = function (k, t, arr, help) { return '<label class="fld"><span>' + esc(t) + '</span><select data-cp="' + k + '">' + o(arr, p[k]) + '</select>' + (help ? '<small class="muted">' + help + '</small>' : '') + '</label>'; };
+    var num = function (k, t, help, ph) { return '<label class="fld"><span>' + esc(t) + '</span><input type="text" inputmode="decimal" data-cp="' + k + '" value="' + attr(p[k] === '' || p[k] === null || p[k] === undefined ? '' : String(p[k]).replace('.', ',')) + '"' + (ph ? ' placeholder="' + attr(ph) + '"' : '') + '>' + (help ? '<small class="muted">' + help + '</small>' : '') + '</label>'; };
+    var titres = TITRES.map(function (t) { return [t[0], t[1] + (t[2] ? ' — ' + fmtN(1.693 * t[2] / t[3], 1) + ' m/g' : '')]; });
     var nbs = [['auto', 'Automatique']]; for (var i = 1; i <= 10; i++) nbs.push([String(i), plural(i, 'couleur')]);
-    var cs = [['', 'Celle de la photo']].concat(Opt.couleurs());
-    return sec('La photo') +
-      sel('photo', 'La photo montre', [['toute', 'Toute la largeur du tissu'], ['partie', 'Une partie du tissu (le motif se répète)'], ['motif', 'Un seul motif, à répéter sur la largeur']], '', true) +
-      (p.photo === 'partie' ? num('zoneCm', 'Largeur visible sur la photo (cm)', 'Mesurez sur le tissu la largeur que montre la photo.') : '') +
-      (p.photo === 'motif' ? num('nbMotifs', 'Nombre de motifs sur la largeur') : '') +
-      sel('nb', 'Nombre de couleurs', nbs, 'Automatique, ou imposez-le si l\'application en voit trop ou pas assez.') +
-      sel('structure', 'Type de tissu', [['auto', 'Reconnu par l\'application'], ['uni', 'Uni'], ['chaine', 'Rayures de chaîne'], ['trame', 'Rayures de trame'], ['carreaux', 'Carreaux'], ['reserve', 'Fils teints en réserve']]) +
-      sel('finesse', 'Détails', [['0.003', 'Fins (garde les filets étroits)'], ['0.006', 'Normaux'], ['0.012', 'Larges (ignore les petits détails)']]) +
-      sel('redresser', 'Redresser une photo penchée', [['auto', 'Automatiquement'], ['non', 'Non']]) +
-      sec('Métier et peigne', man ? 'Bandes modifiées à la main : la largeur découle du nombre de fils.' : '') +
-      sel('metier', 'Métier', [['petit', 'Petit métier (bandes étroites)'], ['grand', 'Grand métier (tissu large)']], 'Changer de métier remet ses valeurs habituelles.') +
-      sel('peigne', 'Peigne', PEIGNES.map(function (n) { return [String(n), n + ' dents pour 10 cm (' + fmtN(n / 10, 1) + ' par cm)']; }).concat([['autre', 'Autre peigne (je compte les dents)']])) +
-      (p.peigne === 'autre' ? num('dentsAutre', 'Dents comptées', 'Comptez les dents sur une longueur connue du peigne.') + num('cmAutre', 'Sur une longueur de (cm)') : '') +
-      sel('fpd', 'Fils par dent', [['1', '1 fil par dent'], ['2', '2 fils par dent'], ['3', '3 fils par dent'], ['4', '4 fils par dent']]) +
-      sel('mode', 'Calculer d\'après', [['largeur', 'La largeur de tissu voulue'], ['fils', 'Le nombre de fils voulu']]) +
-      (p.mode === 'fils' ? num('totalFils', 'Nombre de fils de chaîne voulu', '', man) : num('largeur', 'Largeur du tissu fini (cm)', '', man)) +
-      num('retrait', 'Retrait en largeur (%)', 'Le tissu se resserre au tissage et au lavage : 4 à 8 %.', man) +
-      sel('lisiere', 'Lisières renforcées', [['0', 'Aucune'], ['1', '1 dent doublée de chaque côté'], ['2', '2 dents doublées de chaque côté'], ['3', '3 dents doublées de chaque côté'], ['4', '4 dents doublées de chaque côté']]) +
+    var modeChamp = p.mode === 'motifs' ? num('nbMotifs', 'Nombre de motifs', '', String(st.plan ? st.plan.R : '')) : p.mode === 'fils' ? num('totalFils', 'Nombre de fils de chaîne') : num('largeur', 'Largeur du tissu fini (cm)');
+    return '<div class="cx-pg">' +
+      '<div class="fld"><span>Peigne</span><div class="rt-seg cx-pe" role="group" aria-label="Peigne">' + PEIGNES.map(function (n) { return '<button type="button" data-ca="peigne" data-id="' + n + '"' + (p.peigne !== 'autre' && Number(p.peigne) === n ? ' class="on" aria-pressed="true"' : ' aria-pressed="false"') + '>Peigne ' + n + '</button>'; }).join('') +
+        '<button type="button" data-ca="peigne" data-id="autre"' + (p.peigne === 'autre' ? ' class="on" aria-pressed="true"' : ' aria-pressed="false"') + '>Autre</button></div>' +
+        '<small class="muted">' + (p.peigne === 'autre' ? '' : fmtN(dpc, 1) + ' dents dans 1 cm de peigne') + '</small></div>' +
+      (p.peigne === 'autre' ? num('peigneAutre', 'Dents dans 1 cm', 'Comptez les dents sur 10 cm et divisez par 10.') : '') +
+      sel('fpd', 'Fils par dent', [['1', '1 fil'], ['2', '2 fils'], ['3', '3 fils'], ['4', '4 fils']]) +
+      sel('mode', 'Calculer d\'après', [['largeur', 'La largeur voulue'], ['motifs', 'Le nombre de motifs'], ['fils', 'Le nombre de fils']]) + modeChamp +
+      num('longueur', 'Longueur de tissu (m)') +
+      sel('titreC', 'Fil', titres) +
+      '</div><details class="cx-plus"' + (st.plus ? ' open' : '') + '><summary>Plus de réglages</summary><div class="cx-pg">' +
+      sel('metier', 'Métier', [['petit', 'Petit métier (bandes)'], ['grand', 'Grand métier (large)']]) +
+      num('photoCm', 'Largeur réelle de la photo (cm)', 'Ce que mesure, sur le tissu, la largeur de la photo.', String(p.largeur || '')) +
+      sel('nb', 'Couleurs de la photo', nbs) +
+      sel('structure', 'Type de tissu', [['auto', 'Reconnu sur la photo'], ['uni', 'Uni'], ['chaine', 'Rayures de chaîne'], ['trame', 'Rayures de trame'], ['carreaux', 'Carreaux'], ['reserve', 'Fils teints en réserve']]) +
+      sel('finesse', 'Détails de la photo', [['0.003', 'Fins'], ['0.006', 'Normaux'], ['0.012', 'Larges']]) +
+      sel('redresser', 'Redresser la photo', [['auto', 'Automatiquement'], ['non', 'Non']]) +
+      num('retrait', 'Retrait en largeur (%)') + num('embuvage', 'Embuvage (%)') + num('dechet', 'Perte à l\'attache (m)') + num('duites', 'Duites par cm') +
+      sel('titreT', 'Fil de trame', titres) + (p.titreC === 'autre' ? num('nmC', 'Chaîne : mètres par gramme') : '') + (p.titreT === 'autre' ? num('nmT', 'Trame : mètres par gramme') : '') +
+      sel('trameC', 'Couleur de trame', [['', 'Celle de la photo']].concat(Opt.couleurs())) +
+      sel('lisiere', 'Lisières', [['0', 'Sans lisière renforcée'], ['1', '1 dent doublée par bord'], ['2', '2 dents doublées par bord'], ['3', '3 dents doublées par bord']]) +
+      sel('equilibre', 'Fin de la chaîne', [['true', 'Finir par la 1re bande du motif'], ['false', 'Finir sur le motif complet']]) +
       sel('armure', 'Armure', Object.keys(ARMURES).map(function (k) { return [k, ARMURES[k].nom]; })) +
-      num('peigneCm', 'Largeur totale du peigne du métier (cm)', 'Facultatif : pour centrer la chaîne dans le peigne.') +
-      sec('Longueur et fils') +
-      num('longueur', 'Longueur de tissu à produire (m)') +
-      num('embuvage', 'Embuvage (%)', 'Les fils ondulent autour des duites : 6 à 12 % de longueur en plus.') +
-      num('dechet', 'Longueur perdue à l\'attache (m)', 'Nœuds, attache, bout que l\'on ne peut pas tisser.') +
-      num('duites', 'Duites par cm') +
-      sel('titreC', 'Fil de chaîne', TITRES.map(function (t) { return [t[0], t[1] + (t[2] ? ' — ' + fmtN(1.693 * t[2] / t[3], 1) + ' m/g' : '')]; })) +
-      (p.titreC === 'autre' ? num('nmC', 'Mètres de fil par gramme (chaîne)', 'Pesez 100 m de fil : 100 ÷ poids en grammes.') : '') +
-      sel('titreT', 'Fil de trame', TITRES.map(function (t) { return [t[0], t[1] + (t[2] ? ' — ' + fmtN(1.693 * t[2] / t[3], 1) + ' m/g' : '')]; })) +
-      (p.titreT === 'autre' ? num('nmT', 'Mètres de fil par gramme (trame)') : '') +
-      sel('trameC', 'Couleur de la trame', cs, 'Pour les rayures de chaîne, la trame est souvent de la couleur du fond.') +
-      sel('bobines', 'Bobines à l\'ourdissage', [['1', '1 bobine'], ['2', '2 bobines'], ['4', '4 bobines'], ['6', '6 bobines'], ['8', '8 bobines']]);
+      num('peigneCm', 'Largeur du peigne du métier (cm)', 'Pour centrer la chaîne.') +
+      sel('bobines', 'Bobines à l\'ourdissage', [['1', '1'], ['2', '2'], ['4', '4'], ['6', '6'], ['8', '8']]) +
+      '</div></details>';
   },
   lier: function (st) {
     var m = st.m, tm = null;
+    m.body.addEventListener('toggle', function (e) { if (e.target.classList && e.target.classList.contains('cx-plus')) st.plus = e.target.open; }, true);
     m.body.addEventListener('click', function (e) {
       var b = e.target.closest('[data-ca]'); if (!b || !m.body.contains(b)) return;
       var a = b.dataset.ca;
-      if (a === 'rot') { st.p.rot = ((Number(st.p.rot) || 0) + 1) % 4; st.manuel = null; if (st.img) Calc.analyse(st); }
-      if (a === 'ph') { st.manuel = null; Calc.chargeFiche(st, b.dataset.id); }
-      if (a === 'add') { Calc.versManuel(st); st.manuel.push({ c: (st.manuel[st.manuel.length - 1] || {}).c || 'blanc', fils: 2 * st.plan.fpd }); Calc.calcule(st); }
-      if (a === 'del') { Calc.versManuel(st); st.manuel.splice(Number(b.dataset.id), 1); if (!st.manuel.length) st.manuel = null; Calc.calcule(st); }
-      if (a === 'reset') { st.manuel = null; $('#mc-par', m.el).innerHTML = Calc.parHtml(st); Calc.calcule(st); }
-      if (a === 'tous') { st.tous = !st.tous; Calc.calcule(st); }
+      if (a === 'peigne') { var v = b.dataset.id; st.p.peigne = v === 'autre' ? 'autre' : Number(v); Calc.reparam(st); Calc.calcule(st); }
+      if (a === 'rot') { st.p.rot = ((Number(st.p.rot) || 0) + 1) % 4; st.design = null; if (st.img) Calc.analyse(st); }
+      if (a === 'ph') { st.design = null; Calc.chargeFiche(st, b.dataset.id); }
+      if (a === 'add') { Calc.versFixe(st); var B = st.design.bandes, ret = Tissage.retrait(st.p); B.push({ c: (B[B.length - 1] || {}).c === 'blanc' ? 'indigo' : 'blanc', mm: 2 * 10 * (1 - ret) / st.plan.dpc }); Calc.calcule(st); }
+      if (a === 'del') { Calc.versFixe(st); st.design.bandes.splice(Number(b.dataset.id), 1); if (!st.design.bandes.length) st.design = null; Calc.calcule(st); }
+      if (a === 'reset') { st.design = null; Calc.calcule(st); }
     });
     m.body.addEventListener('change', function (e) {
       var t = e.target;
       if (t.id === 'mc-file') {
         var file = t.files && t.files[0]; if (!file) return;
-        var rd = new FileReader(); rd.onload = function () { st.manuel = null; st.p.rot = 0; st.src = null; Calc.chargeUrl(st, rd.result); }; rd.readAsDataURL(file); t.value = '';
+        var rd = new FileReader(); rd.onload = function () { st.design = null; st.p.rot = 0; st.src = null; Calc.chargeUrl(st, rd.result); }; rd.readAsDataURL(file); t.value = '';
+        return;
+      }
+      if (t.id === 'mc-mod' && t.value) {
+        var x = t.value.split(':'), ok = function (u) { st.design = null; st.p.rot = 0; Calc.chargeUrl(st, u); };
+        if (x[0] === 'f') { var fi = ficheCat(x[1]); if (fi) { if (fi.largeur) st.p.photoCm = fi.largeur; if ((fi.photos || []).length) FB.get('t/' + S.tid + '/fichiers/' + fi.photos[0]).then(function (y) { ok(y && y.data ? y.data : fi.vignette); }).catch(function () { ok(fi.vignette); }); else ok(fi.vignette); } }
+        else { var md = modeleOf(x[1]); if (md && md.photo) { if (md.largeur) st.p.photoCm = md.largeur; ok(md.photo); } }
         return;
       }
       if (t.dataset.cp) { clearTimeout(tm); Calc.param(st, t); return; }
       if (t.dataset.map !== undefined) { st.map[t.dataset.map] = t.value || null; Calc.calcule(st); return; }
-      if (t.dataset.bc !== undefined) { Calc.versManuel(st); st.manuel[Number(t.dataset.bc)].c = t.value || null; Calc.calcule(st); return; }
-      if (t.dataset.bf !== undefined) {
-        var v = Math.round(mcNum(t.value, NaN)); if (isNaN(v) || v < 0) { t.value = t.dataset.v; return; }
-        Calc.versManuel(st); var bi = Number(t.dataset.bf); st.manuel[bi].fils = Math.max(0, st.manuel[bi].fils + v - Number(t.dataset.v));
-        st.manuel = st.manuel.filter(function (b) { return b.fils > 0; }); if (!st.manuel.length) st.manuel = null;
+      if (t.dataset.bc !== undefined) { Calc.versFixe(st); st.design.bandes[Number(t.dataset.bc)].c = t.value || null; Calc.calcule(st); return; }
+      if (t.dataset.bd !== undefined) {
+        var v = Math.round(mcNum(t.value, NaN)); if (isNaN(v) || v < 1) { t.value = t.dataset.v; UI.toast('Une bande a au moins une dent.', 'err'); return; }
+        Calc.versFixe(st);
+        var dpc = Number(t.dataset.dpc), ret = Tissage.retrait(st.p);
+        st.design.bandes[Number(t.dataset.bd)].mm = v / dpc * 10 * (1 - ret);
         Calc.calcule(st);
       }
     });
-    m.body.addEventListener('input', function (e) { var t = e.target; if (t.dataset.cp && t.tagName === 'INPUT') { clearTimeout(tm); tm = setTimeout(function () { if (document.body.contains(t)) Calc.param(st, t); }, 450); } });
+    m.body.addEventListener('input', function (e) { var t = e.target; if (t.dataset.cp && t.tagName === 'INPUT') { clearTimeout(tm); tm = setTimeout(function () { if (document.body.contains(t)) Calc.param(st, t); }, 500); } });
   },
+  reparam: function (st) { var z = $('#mc-par', st.m.el); if (z) z.innerHTML = Calc.parHtml(st); },
   param: function (st, el) {
-    var k = el.dataset.cp, v = el.value, nums = ['zoneCm', 'nbMotifs', 'dentsAutre', 'cmAutre', 'totalFils', 'largeur', 'retrait', 'peigneCm', 'longueur', 'embuvage', 'dechet', 'duites', 'nmC', 'nmT'];
-    if (nums.indexOf(k) >= 0) { v = v === '' ? '' : mcNum(v, NaN); if (isNaN(v) || v < 0) { el.closest('.fld').classList.add('bad'); return; } el.closest('.fld').classList.remove('bad'); }
+    var k = el.dataset.cp, v = el.value, nums = ['peigneAutre', 'largeur', 'nbMotifs', 'totalFils', 'longueur', 'photoCm', 'retrait', 'embuvage', 'dechet', 'duites', 'nmC', 'nmT', 'peigneCm'];
+    if (nums.indexOf(k) >= 0) { v = v === '' ? '' : mcNum(v, NaN); var fl = el.closest('.fld'); if (isNaN(v) || v < 0) { if (fl) fl.classList.add('bad'); return; } if (fl) fl.classList.remove('bad'); }
+    if (k === 'equilibre') v = v === 'true';
     if (st.p[k] === v) return;
     st.p[k] = v;
     if (k === 'metier') Object.assign(st.p, Calc.metierVals(v, st.f));
-    if (['metier', 'photo', 'peigne', 'mode', 'titreC', 'titreT'].indexOf(k) >= 0) $('#mc-par', st.m.el).innerHTML = Calc.parHtml(st);
-    if (['nb', 'finesse', 'structure', 'redresser'].indexOf(k) >= 0) { st.manuel = null; if (st.img) { Calc.analyse(st); return; } }
+    if (['metier', 'mode', 'titreC', 'titreT'].indexOf(k) >= 0) Calc.reparam(st);
+    if (['nb', 'finesse', 'structure', 'redresser'].indexOf(k) >= 0) { st.design = null; if (st.img) { Calc.analyse(st); return; } }
+    if (k === 'photoCm' && st.design && !st.design.fixe) st.design = null;
     Calc.calcule(st);
   },
-  versManuel: function (st) { if (!st.manuel) st.manuel = st.plan.base.map(function (b) { var x = { c: b.c, fils: b.fils }; if (b.seg) x.seg = clone(b.seg); return x; }); $('#mc-par', st.m.el).innerHTML = Calc.parHtml(st); },
+  /* le motif modifié à la main : il garde ses largeurs telles qu'elles sont affichées */
+  versFixe: function (st) {
+    if (st.design && st.design.fixe) return;
+    var k = st.plan ? st.plan.echelle || 1 : 1, d = st.design || Calc.designPhoto(st);
+    st.design = { bandes: d.bandes.map(function (b) { var x = { c: b.c, mm: b.mm * k }; if (b.seg) x.seg = clone(b.seg); return x; }), repete: true, fixe: true, resCm: d.resCm ? d.resCm * k : null };
+    if (st.plan && st.plan.uni) st.design.bandes[0].mm = st.plan.largeurFinie * 10;
+  },
   /* ---------- la photo ---------- */
   chargeFiche: function (st, pid) {
     var vu = function () { if (st.f && st.f.vignette) Calc.chargeUrl(st, st.f.vignette); else Calc.calcule(st); };
     FB.get('t/' + S.tid + '/fichiers/' + pid).then(function (x) {
       $$('[data-ca="ph"]', st.m.el).forEach(function (b) { b.classList.toggle('on', b.dataset.id === pid); });
       if (x && x.data) { st.src = pid; Calc.chargeUrl(st, x.data); } else vu();
-      /* vignettes des autres photos */
       ((st.f && st.f.photos) || []).forEach(function (id2) { var th = $('[data-ca="ph"][data-id="' + id2 + '"]', st.m.el); if (!th || th.dataset.ok) return; th.dataset.ok = '1'; (id2 === pid ? Promise.resolve(x) : FB.get('t/' + S.tid + '/fichiers/' + id2)).then(function (y) { if (y && y.data) th.innerHTML = '<img src="' + attr(y.data) + '" alt="">'; }).catch(function () {}); });
     }).catch(vu);
   },
   chargeUrl: function (st, url) {
+    if (!url) { Calc.calcule(st); return; }
     var img = new Image();
     img.onload = function () { if (st.m.closed) return; st.img = img; Calc.analyse(st); };
     img.onerror = function () { UI.toast('Cette photo ne peut pas être lue.', 'err'); Calc.calcule(st); };
@@ -16060,60 +16129,84 @@ var Calc = {
         if (inc.angle) { x = dessine(inc.angle, inc.axe); st.redresse = inc.angle; }
       }
       st.a = Analyse.analyser(x.d, { nb: st.p.nb, finesse: st.p.finesse, structure: st.p.structure });
-    } catch (e) { console.error('[NERP]', e); st.a = null; UI.toast('La photo n\'a pas pu être analysée : composez les bandes à la main.', 'err'); }
+    } catch (e) { console.error('[NERP]', e); st.a = null; UI.toast('La photo n\'a pas pu être analysée : composez le motif à la main.', 'err'); }
     st.cv = x.c;
     if (!st.mapGarde || !st.map) st.map = null; st.mapGarde = false;
     var box = $('#mc-cv', st.m.el); if (box) { box.innerHTML = ''; x.c.className = 'mc-img'; box.appendChild(x.c); }
-    var red = $('#mc-red', st.m.el); if (red) red.textContent = st.redresse ? 'Photo redressée de ' + fmtN(Math.abs(st.redresse), 2) + '° pour que les rayures soient droites.' : '';
+    var red = $('#mc-red', st.m.el); if (red) red.textContent = st.redresse ? 'Photo redressée de ' + fmtN(Math.abs(st.redresse), 2) + '°.' : '';
     Calc.calcule(st);
   },
-  /* sans photo : une seule bande, de la première couleur de la fiche */
-  virtuelle: function (st) { var c = st.f && catCouleurs(st.f)[0] || 'blanc'; return { w: 1, h: 1, structure: 'uni', couleurs: [{ c: c, part: 1 }], chaine: [{ c: c, f: 1 }], trame: [{ c: c, f: 1 }], rapportChaine: null, rapportTrame: null, reserve: null }; },
+  /* sans photo : tissu uni de la première couleur de la fiche */
+  virtuelle: function (st) { var c = st.f && catCouleurs(st.f)[0] || 'indigo'; return { w: 1, h: 1, structure: 'uni', couleurs: [{ c: c, part: 1 }], chaine: [{ c: c, f: 1 }], trame: [{ c: c, f: 1 }], rapportChaine: null, rapportTrame: null, reserve: null }; },
+  designPhoto: function (st) {
+    var d = Tissage.motifPhoto(st.p, st.aa);
+    if (st.aa && (st.aa.structure === 'chaine' || st.aa.structure === 'reserve') && st.aa.trame && st.aa.trame[0]) d.trameC = st.aa.trame[0].c;
+    return d;
+  },
+  peignes: function (p) { var l = PEIGNES.slice(), d = Tissage.dpc(p); if (l.indexOf(d) < 0) l.push(d); return l; },
   calcule: function (st) {
     if (st.m.closed) return;
     if (st.a) { if (!st.map) st.map = Analyse.mapAuto(st.a.couleurs); st.aa = Analyse.versAtelier(st.a, st.map); } else st.aa = Calc.virtuelle(st);
-    st.plan = Tissage.plan(st.p, st.aa, st.manuel);
+    var design = st.design || Calc.designPhoto(st), trameD = Tissage.tramePhoto(st.p, st.aa), dpc = Tissage.dpc(st.p);
+    var R = Tissage.repetitions(st.p, design, dpc);
+    st.plans = {};
+    Calc.peignes(st.p).forEach(function (d) { st.plans[d] = Tissage.peigne(st.p, design, trameD, d, R); });
+    st.plan = st.plans[dpc]; st.designCourant = design;
     var res = $('#mc-res', st.m.el); if (res) res.innerHTML = Calc.resHtml(st, false);
-    Calc.barre(st); Calc.apercu(st, $('#mc-apercu', st.m.el), 720);
+    if (st.p.mode === 'motifs') { var nm = $('[data-cp="nbMotifs"]', st.m.el); if (nm && !nm.value) nm.placeholder = String(st.plan.R); }
+    Calc.barre(st); Calc.dessineMotif(st, $('#mc-motif', st.m.el)); Calc.apercu(st, $('#mc-apercu', st.m.el), 640);
   },
   barre: function (st) {
     var c = $('#mc-barre', st.m.el); if (!c || !st.aa) return;
-    var box = $('#mc-cv', st.m.el), W = Math.max(120, Math.round((box && box.clientWidth) || 360)), ctx = c.getContext && c.getContext('2d'); c.width = W; c.height = 28; if (!ctx) return;
-    var x = 0; ctx.clearRect(0, 0, W, 28);
+    var box = $('#mc-cv', st.m.el), W = Math.max(120, Math.round((box && box.clientWidth) || 300)), ctx = c.getContext && c.getContext('2d'); c.width = W; c.height = 22; if (!ctx) return;
+    var x = 0; ctx.clearRect(0, 0, W, 22);
     (st.a ? st.aa.chaine : []).forEach(function (b, i) {
       var bw = b.f * W, seg = st.aa.reserve && st.aa.reserve[i];
-      if (seg && seg.length > 1) { var y = 0; seg.forEach(function (s) { ctx.fillStyle = mcHex(s.c); ctx.fillRect(x, y, bw + 0.5, s.f * 28 + 0.5); y += s.f * 28; }); }
-      else { ctx.fillStyle = mcHex(b.c); ctx.fillRect(x, 0, bw + 0.5, 28); }
+      if (seg && seg.length > 1) { var y = 0; seg.forEach(function (s) { ctx.fillStyle = mcHex(s.c); ctx.fillRect(x, y, bw + 0.5, s.f * 22 + 0.5); y += s.f * 22; }); }
+      else { ctx.fillStyle = mcHex(b.c); ctx.fillRect(x, 0, bw + 0.5, 22); }
       x += bw;
     });
   },
-  /* dessin du tissu calculé : armure, couleur de chaque fil et de chaque duite, à l'échelle */
+  /* le motif dessiné en grand, proportionnel aux dents du peigne choisi, avec le nombre de fils de chaque bande */
+  dessineMotif: function (st, cv) {
+    var pl = st.plan; if (!cv || !pl || !cv.getContext) return;
+    var W = Math.max(240, Math.round(cv.parentNode && cv.parentNode.clientWidth || 600)), H = 34, ctx = cv.getContext('2d'); if (!ctx) return;
+    cv.width = W; cv.height = H;
+    var x = 0, tot = pl.uni ? 1 : pl.motifD;
+    pl.bandes.forEach(function (b, i) {
+      var bw = (pl.uni ? 1 : pl.dents[i]) / tot * W;
+      if (b.seg && b.seg.length > 1) { var y = 0; b.seg.forEach(function (s) { ctx.fillStyle = mcHex(s.c); ctx.fillRect(x, y, bw + 0.5, s.f * H + 0.5); y += s.f * H; }); }
+      else { ctx.fillStyle = mcHex(b.c); ctx.fillRect(x, 0, bw + 0.5, H); }
+      var n = (pl.uni ? pl.dentsTot : pl.dents[i]) * pl.fpd, t = String(n);
+      ctx.font = '600 12px "IBM Plex Sans", Arial, sans-serif';
+      if (ctx.measureText(t).width + 6 < bw) { var rgb = Coul.hex2rgb(mcHex(b.c)), clair = rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114 > 150; ctx.fillStyle = clair ? '#141b3d' : '#ffffff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, x + bw / 2, H / 2); }
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillRect(x + bw - 0.5, 0, 1, H);
+      x += bw;
+    });
+  },
+  /* dessin du tissu calculé (peigne choisi) : armure, couleur de chaque fil et de chaque duite, à l'échelle */
   apercu: function (st, cv, maxW) {
     var pl = st.plan; if (!cv || !pl || !cv.getContext) return;
     var ctx = cv.getContext('2d'); if (!ctx) return;
-    var W = Math.max(200, Math.min(maxW || 720, Math.round(pl.T * 3))), pxCm = W / pl.largPeigne;
-    var hauteurCm = pl.trame.repete ? Math.min(Math.max(pl.trame.repete * 2, pl.largPeigne * 0.35), pl.largPeigne * 1.2) : pl.rapportRes ? Math.min(pl.rapportRes * 2, pl.largPeigne * 1.2) : pl.largPeigne * 0.45;
-    var H = Math.max(90, Math.min(460, Math.round(hauteurCm * pxCm)));
+    var W = Math.max(200, Math.min(maxW || 640, Math.round(pl.T * 3))), pxCm = W / pl.largPeigne;
+    var hauteurCm = pl.trame.repete ? Math.min(Math.max(pl.trame.repete * 2, pl.largPeigne * 0.3), pl.largPeigne * 0.8) : pl.rapportRes ? Math.min(pl.rapportRes * 2, pl.largPeigne * 0.8) : pl.largPeigne * 0.3;
+    var H = Math.max(70, Math.min(260, Math.round(hauteurCm * pxCm)));
     cv.width = W; cv.height = H;
     var cw = []; pl.fils.forEach(function (b) { for (var k = 0; k < b.fils; k++) cw.push(b); });
     var rgb = {}, col = function (c) { var k = c || '_'; return rgb[k] || (rgb[k] = Coul.hex2rgb(mcHex(c))); };
-    var trameDe = function (j) {
-      if (!pl.trame.repete) return pl.trame.bandes[0].c;
-      var u = pl.trame.bandes.reduce(function (t, b) { return t + b.duites; }, 0), r = j % u;
-      for (var q = 0; q < pl.trame.bandes.length; q++) { if (r < pl.trame.bandes[q].duites) return pl.trame.bandes[q].c; r -= pl.trame.bandes[q].duites; }
-      return pl.trame.bandes[0].c;
-    };
+    var ud = pl.trame.repete ? pl.trame.bandes.reduce(function (t, b) { return t + b.duites; }, 0) : 1;
+    var trameDe = function (j) { if (!pl.trame.repete) return pl.trame.bandes[0].c; var r = j % ud; for (var q = 0; q < pl.trame.bandes.length; q++) { if (r < pl.trame.bandes[q].duites) return pl.trame.bandes[q].c; r -= pl.trame.bandes[q].duites; } return pl.trame.bandes[0].c; };
     var img = ctx.createImageData(W, H), d = img.data, T = cw.length;
     for (var y = 0; y < H; y++) {
       var ycm = y / pxCm, j = Math.floor(ycm * pl.duitesCm), tc = col(trameDe(j)), ombreY = (ycm * pl.duitesCm) % 1;
       for (var x = 0; x < W; x++) {
-        var i = Math.min(T - 1, Math.floor(x / W * T)), b = cw[i], c;
-        if (armLeve(pl.armure, i, j)) {
+        var i = Math.min(T - 1, Math.floor(x / W * T)), b = cw[i], c, leve = armLeve(pl.armure, i, j);
+        if (leve) {
           var cc = b.c;
           if (b.seg && b.seg.length > 1 && pl.rapportRes) { var pos = (ycm % pl.rapportRes) / pl.rapportRes, acc = 0; for (var s = 0; s < b.seg.length; s++) { acc += b.seg[s].f; if (pos <= acc + 1e-9) { cc = b.seg[s].c; break; } } }
           c = col(cc);
         } else c = tc;
-        var fx = (x / W * T) % 1, sh = 0.86 + 0.14 * Math.sin(Math.PI * (armLeve(pl.armure, i, j) ? fx : ombreY));
+        var fx = (x / W * T) % 1, sh = 0.86 + 0.14 * Math.sin(Math.PI * (leve ? fx : ombreY));
         var o = (y * W + x) * 4; d[o] = c[0] * sh; d[o + 1] = c[1] * sh; d[o + 2] = c[2] * sh; d[o + 3] = 255;
       }
     }
@@ -16125,129 +16218,106 @@ var Calc = {
     if (c === 'blanc' || c === 'ecru') list('stock/articles', function (a) { return a.nature === 'fil_brut' && !a.archive; }).forEach(function (a) { g += ptStock('tissage', a.id).q + ptStock('teinture', a.id).q; });
     return g;   /* en grammes (millièmes de kg) */
   },
-  /* ---------- les résultats (écran ou impression) ---------- */
-  resHtml: function (st, imp) {
-    var pl = st.plan, p = st.p, A = ARMURES[pl.armure], h = '';
-    if (!pl) return '';
-    var lisF = pl.lisiere * pl.fpd;
-    h += tiles([{ t: 'Fils de chaîne', v: fmtN(pl.T), s: pl.lisiere ? 'dont ' + 2 * lisF + ' fils de lisière doublés' : plural(pl.base.length, 'bande') },
-      { t: 'Largeur au peigne', v: mcCm(pl.largPeigne), s: 'tissu fini ≈ ' + mcCm(pl.largeurFinie) },
-      { t: 'Dents du peigne', v: fmtN(pl.dents), s: pl.fpd + ' fils par dent — ' + fmtN(pl.densite, 1) + ' fils par cm' },
-      { t: 'Fil nécessaire', v: mcG(pl.totalG), s: 'pour ' + fmtN(pl.L, 2) + ' m — ' + fmtN(pl.totalG / pl.L, 0) + ' g par mètre' }]);
-    if (pl.manuel && !imp) h += '<div class="alert info mc-al">' + icon('edit') + '<div>Bandes modifiées à la main ou reprises du plan enregistré : la largeur découle du nombre de fils. <button type="button" class="linkbtn" data-ca="reset">Revenir au calcul de la photo</button></div></div>';
-    /* ce que voit l'application */
-    if (st.a) {
-      var S2 = Calc.STRUCT[st.a.structure] || Calc.STRUCT.uni, rc = st.aa.rapportChaine, rr = st.aa.rapportTrame;
-      h += '<section class="card pad mc-s"><h3>' + icon('eye') + ' Ce que montre la photo : ' + esc(S2[0]) + '</h3><p>' + esc(S2[1]) + '</p>' +
-        (rc && rc.fois >= 1.7 && st.a.structure !== 'trame' ? '<p class="muted">Le motif de la chaîne se répète environ ' + fmtN(rc.fois, 1) + ' fois sur la photo.</p>' : '') +
-        (rr && rr.fois >= 1.7 && (st.a.structure === 'trame' || st.a.structure === 'carreaux') ? '<p class="muted">Le motif de la trame se répète environ ' + fmtN(rr.fois, 1) + ' fois sur la photo.</p>' : '') +
-        '<div class="tscroll"><table class="grid"><thead><tr><th>Couleur de la photo</th><th class="num">Part</th><th>Couleur de l\'atelier</th></tr></thead><tbody>' +
-        st.a.couleurs.map(function (c, i) {
-          var v = st.map[i] || '';
-          return '<tr><td><span class="sw big" style="background:' + attr(c.hex) + '"></span> Couleur ' + (i + 1) + ' <small class="muted code">' + esc(c.hex) + '</small></td><td class="num">' + fmtPct(c.part, 0) + '</td><td>' +
-            (imp ? mcSw(v) + ' ' + esc(mcNom(v)) : '<select data-map="' + i + '" aria-label="Couleur de l\'atelier pour la couleur ' + (i + 1) + '"><option value="">Choisir…</option>' + Opt.couleurs().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === v ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>') + '</td></tr>';
-        }).join('') + '</tbody></table></div>' + (imp ? '' : '<p class="muted small">Deux couleurs de la photo peuvent devenir la même couleur de l\'atelier : leurs bandes se réunissent.</p>') + '</section>';
-    }
-    /* composition */
-    var mm = !imp;
-    h += '<section class="card pad mc-s"><h3>' + icon('spool') + ' Composition du tissu</h3><p>Pour <strong>' + fmtN(pl.L, 2) + ' m</strong> de tissu de ' + mcCm(pl.largeurFinie) + ' (fil de chaîne ' + fmtN(pl.nmC, 1) + ' m/g, fil de trame ' + fmtN(pl.nmT, 1) + ' m/g).</p>' +
-      '<div class="tscroll"><table class="grid"><thead><tr><th>Couleur</th><th class="num">Fils de chaîne</th><th class="num">Part des fils</th><th class="num">Chaîne</th><th class="num">Trame</th><th class="num">Total</th><th class="num">Par mètre</th>' + (mm ? '<th class="num">Disponible</th>' : '') + '</tr></thead><tbody>' +
-      pl.compo.map(function (x) {
-        var dq = mm ? Calc.dispo(x.c) : null, manque = dq !== null && dq < x.totalG;
-        return '<tr><td>' + mcSw(x.c) + ' ' + esc(mcNom(x.c)) + '</td><td class="num">' + fmtN(x.fils) + (x.filsRes ? '<br><small class="muted">+ ' + fmtN(x.filsRes) + ' teints en partie</small>' : '') + '</td><td class="num">' + fmtPct(x.partFils, 0) + '</td><td class="num">' + mcG(x.chaineG) + '</td><td class="num">' + mcG(x.trameG) + '</td><td class="num"><strong>' + mcG(x.totalG) + '</strong></td><td class="num">' + fmtN(x.gpm, 0) + ' g</td>' +
-          (mm ? '<td class="num' + (manque ? ' tx-err' : '') + '">' + (dq === null ? '—' : mcG(dq)) + (manque ? '<br><small>à préparer : ' + mcG(x.totalG - dq) + '</small>' : '') + '</td>' : '') + '</tr>';
-      }).join('') + '</tbody><tfoot><tr><td>Total</td><td class="num">' + fmtN(pl.T) + '</td><td></td><td class="num">' + mcG(pl.compo.reduce(function (t, x) { return t + x.chaineG; }, 0)) + '</td><td class="num">' + mcG(pl.compo.reduce(function (t, x) { return t + x.trameG; }, 0)) + '</td><td class="num">' + mcG(pl.totalG) + '</td><td class="num">' + fmtN(pl.totalG / pl.L, 0) + ' g</td>' + (mm ? '<td></td>' : '') + '</tr></tfoot></table></div>' +
-      '<p class="muted small">Poids de fil sec. Le « par mètre » se reporte dans la nomenclature de la fiche technique du modèle (grammes par mètre).</p></section>';
-    /* ourdissage */
-    var bob = Math.max(1, Number(p.bobines) || 1), g = Tissage.groupes(pl.fils);
-    var bandeTxt = function (b) { return (b.lisiere ? 'lisière ' : '') + b.fils + ' ' + mcNom(b.c).toLowerCase() + (b.seg && b.seg.length > 1 ? ' (réserve)' : ''); };
-    var suite = g.map(function (x) { var t = pl.fils.slice(x.de, x.de + x.p).map(bandeTxt).join(' · '); return x.fois > 1 ? '<strong>' + x.fois + ' fois</strong> [ ' + esc(t) + ' ]' : esc(t); }).join(' · ');
-    h += '<section class="card pad mc-s"><h3>' + icon('loom') + ' Ourdissage de la chaîne</h3><ol class="mc-ol">' +
-      '<li>Ourdissez <strong>' + fmtN(pl.T) + ' fils</strong> de <strong>' + fmtN(pl.Lourdi, 2) + ' m</strong> (' + fmtN(pl.L, 2) + ' m de tissu + ' + fmtN(Number(p.embuvage) || 0, 1) + ' % d\'embuvage + ' + fmtN(Number(p.dechet) || 0, 2) + ' m d\'attache).</li>' +
-      '<li>Avec ' + plural(bob, 'bobine') + ', chaque aller (ou retour) pose ' + plural(bob, 'fil') + ' : <strong>' + fmtN(Math.ceil(pl.T / bob)) + ' passages</strong> en tout. Comptez les fils par portées de 20 et liez chaque portée.</li>' +
-      '<li>Faites la croix (encroix) à chaque fil près d\'un bout, et nouez une ficelle de couleur à chaque changement de bande : elle sert de repère au rentrage.</li>' +
-      '<li>Ordre des fils, du bord gauche au bord droit : ' + suite + '.</li></ol>' +
-      Calc.tableBandes(st, imp) + '</section>';
-    /* rentrage */
-    var arm = A.rentrage.join('-');
-    h += '<section class="card pad mc-s"><h3>' + icon('move') + ' Rentrage dans les lames</h3><ol class="mc-ol">' +
-      '<li>Armure : <strong>' + esc(A.nom) + '</strong>, sur ' + plural(A.lames, 'lame') + ' (cadres de lisses).</li>' +
-      '<li>Passez les fils un par un, de gauche à droite, dans les maillons des lames dans l\'ordre <strong>' + arm + '</strong>, puis recommencez' + (pl.armure === 'natte' ? ' (deux fils de suite dans la même lame)' : '') + '.</li>' +
-      (pl.lisiere ? '<li>Lisières : passez <strong>deux fils ensemble</strong> dans chaque maillon des ' + plural(lisF, 'premier maillon', 'premiers maillons') + ' et des ' + lisF + ' derniers.</li>' : '') +
-      '<li>Maillons à préparer : ' + pl.lames.map(function (n, i) { return 'lame ' + (i + 1) + ' : <strong>' + fmtN(n) + '</strong>'; }).join(', ') + ' (' + fmtN(pl.maillons) + ' en tout). Ajoutez quelques maillons libres de chaque côté.</li>' +
-      '<li>Pédales : ' + A.marches.map(function (mk, i) { return 'pas ' + (i + 1) + ' → lever ' + mk.map(function (l) { return 'lame ' + l; }).join(' + '); }).join(' ; ') + (A.duitesParPas > 1 ? ' (deux duites à chaque pas)' : '') + ', puis on recommence.</li>' +
-      (p.metier === 'petit' && A.lames > 2 ? '<li class="tx-err">Le petit métier n\'a souvent que deux lames : choisissez la toile ou le natté, ou montez quatre lames.</li>' : '') + '</ol></section>';
-    /* piquage */
-    h += '<section class="card pad mc-s"><h3>' + icon('box') + ' Piquage au peigne</h3><ol class="mc-ol">' +
-      '<li>Peigne de <strong>' + fmtN(pl.d10, 1) + ' dents pour 10 cm</strong> : passez <strong>' + plural(pl.fpd, 'fil') + ' par dent</strong>' + (pl.lisiere ? ', et ' + 2 * pl.fpd + ' fils dans les ' + pl.lisiere + ' premières et les ' + pl.lisiere + ' dernières dents (lisières)' : '') + '.</li>' +
-      '<li>La chaîne occupe <strong>' + fmtN(pl.dents) + ' dents</strong>, soit ' + mcCm(pl.largPeigne) + ' au peigne. Le tableau d\'ourdissage donne les dents et la position de chaque bande.</li>' +
-      (pl.dentsPeigne ? (pl.dentsPeigne >= pl.dents ? '<li>Le peigne du métier a ' + fmtN(pl.dentsPeigne) + ' dents : commencez à la <strong>dent ' + fmtN(pl.depart) + '</strong> en partant de la gauche ; ' + plural(pl.depart - 1, 'dent reste vide', 'dents restent vides') + ' de chaque côté environ, la chaîne est centrée.</li>' : '<li class="tx-err">Le peigne du métier est trop étroit : il manque ' + fmtN(pl.dents - pl.dentsPeigne) + ' dents. Prenez un peigne plus fin ou mettez plus de fils par dent.</li>') : '') +
-      '<li>Piquez en partant du milieu de la chaîne si le peigne est large : la chaîne reste centrée et droite.</li></ol></section>';
-    /* attache */
-    var att = p.metier === 'grand' ? [
-      'Nouez les fils en <strong>' + fmtN(pl.meches) + ' mèches de ' + pl.parMeche + ' fils</strong> (environ 2,5 cm chacune) devant le peigne.',
-      'Attachez d\'abord la mèche du milieu sur la baguette du tablier (ensouple de devant), puis une mèche à gauche, une à droite, en allant vers les bords.',
-      'Nœud : passez la mèche par-dessus la baguette, partagez-la en deux en dessous, faites un demi-nœud puis une boucle (nœud à rosette) : il se défait pour régler la tension.',
-      'Égalisez la tension : passez la main à plat sur la chaîne, resserrez les mèches molles et relâchez les trop tendues.',
-      'Tissez 3 ou 4 duites d\'un gros fil ou de baguettes pour écarter les fils et fermer les nœuds, puis commencez le tissu.'
-    ] : [
-      'La chaîne s\'ourdit au sol entre des piquets. Avant de l\'enlever, liez la croix avec deux ficelles et faites une chaînette (crochet) pour qu\'elle ne s\'emmêle pas.',
-      'Après le rentrage et le piquage, nouez les fils en <strong>' + fmtN(pl.meches) + ' mèches de ' + pl.parMeche + ' fils</strong> et attachez-les sur la baguette d\'attache, devant le tisserand, en commençant par le milieu.',
-      'Le bout arrière de la chaîne s\'attache au traîneau (la pierre de tension), posé loin devant le métier : il tient la chaîne tendue ; avancez-le au fur et à mesure.',
-      'Même nœud à rosette pour pouvoir régler la tension mèche par mèche, puis tissez 3 ou 4 duites d\'écartement.',
-      'Enroulez la bande tissée sur la baguette de devant au fur et à mesure du tissage.'
-    ];
-    h += '<section class="card pad mc-s"><h3>' + icon('clip') + ' Attache des fils</h3><ol class="mc-ol">' + att.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol></section>';
-    /* trame */
-    var tr = pl.trame;
-    h += '<section class="card pad mc-s"><h3>' + icon('spool') + ' Trame</h3>';
-    if (tr.repete) {
-      var ud = tr.bandes.reduce(function (t, b) { return t + b.duites; }, 0);
-      h += '<p>' + fmtN(pl.duitesCm, 1) + ' duites par cm. Suite des couleurs de trame, à répéter tous les <strong>' + mcCm(tr.repete) + '</strong> (' + plural(ud, 'duite') + '), environ ' + fmtN(pl.L * 100 / tr.repete, 0) + ' fois sur ' + fmtN(pl.L, 2) + ' m :</p>' +
-        '<div class="tscroll"><table class="grid"><thead><tr><th>N°</th><th>Couleur</th><th class="num">Hauteur</th><th class="num">Duites</th></tr></thead><tbody>' +
-        tr.bandes.map(function (b, i) { return '<tr><td>' + (i + 1) + '</td><td>' + mcSw(b.c) + ' ' + esc(mcNom(b.c)) + '</td><td class="num">' + mcCm(b.cm) + '</td><td class="num">' + fmtN(b.duites) + '</td></tr>'; }).join('') + '</tbody></table></div>';
-    } else h += '<p>Trame ' + mcSw(tr.bandes[0].c) + ' <strong>' + esc(mcNom(tr.bandes[0].c)) + '</strong> : ' + fmtN(pl.duitesCm, 1) + ' duites par cm, ' + fmtN(pl.duitesTot) + ' duites en tout.</p>';
-    h += '<p class="muted small">Chaque duite mesure environ ' + fmtN(pl.lDuite * 100, 0) + ' cm (largeur au peigne + 5 % pour l\'ondulation). Gardez une tension égale sur la navette pour ne pas resserrer les bords.</p></section>';
-    if (pl.rapportRes) h += '<section class="card pad mc-s"><h3>' + icon('drop') + ' Fils teints en réserve</h3><p>Les bandes marquées d\'un dégradé changent de couleur le long des fils ; leur motif se répète tous les <strong>' + mcCm(pl.rapportRes) + '</strong>. Le plan de teinture donne les ligatures à faire, bain par bain.</p></section>';
-    /* aperçu */
-    if (!imp) h += '<section class="card pad mc-s"><h3>' + icon('image') + ' Aperçu du tissu calculé</h3><canvas id="mc-apercu" class="mc-ap"></canvas><p class="muted small">Dessin d\'après le calcul (armure, couleur et nombre de chaque fil) : comparez-le à la photo. Largeur montrée : ' + mcCm(pl.largPeigne) + ' au peigne.</p></section>';
-    return h;
+  /* ---------- formules lisibles ---------- */
+  motifTxt: function (pl) {
+    if (pl.uni) return fmtN(pl.T - 2 * pl.lisF) + ' ' + mcCoulTxt(pl.bandes[0].c);
+    return pl.bandes.map(function (b, i) { return (pl.dents[i] * pl.fpd) + ' ' + mcCoulTxt(b.c) + (b.seg && b.seg.length > 1 ? ' (réserve)' : ''); }).join(' · ');
   },
-  tableBandes: function (st, imp) {
-    var pl = st.plan, rows = pl.fils, cs = Opt.couleurs();
-    var long = rows.length > 40 && !st.tous && !imp;
-    var vis = long ? rows.slice(0, 40) : rows;
-    return '<div class="tscroll"><table class="grid mc-bt"><thead><tr><th>N°</th><th>Couleur</th><th class="num">Fils</th><th class="num">Fils n°</th><th class="num">Dents</th><th class="num">Depuis le bord</th>' + (imp ? '' : '<th class="act"></th>') + '</tr></thead><tbody>' +
-      vis.map(function (b, i) {
+  ordreTxt: function (pl) {
+    if (pl.uni) return fmtN(pl.Tbase) + ' fils ' + mcCoulTxt(pl.bandes[0].c);
+    return '[ ' + Calc.motifTxt(pl) + ' ] × ' + pl.R + (pl.eq ? ', puis ' + (pl.finD * pl.fpd) + ' ' + mcCoulTxt(pl.bandes[0].c) : '');
+  },
+  lisTxt: function (pl) {
+    if (!pl.lisiere) return '';
+    var g = pl.fils[0], d = pl.fils[pl.fils.length - 1];
+    return 'doublez les fils des ' + plural(pl.lisiere, 'première dent', 'premières dents') + ' et des ' + plural(pl.lisiere, 'dernière', 'dernières') + ' (+' + pl.lisF + ' fils ' + mcCoulTxt(g.c) + (d.c !== g.c ? ' à gauche, +' + pl.lisF + ' ' + mcCoulTxt(d.c) + ' à droite' : ' de chaque côté') + ')';
+  },
+  /* ---------- la page de résultats (écran ou impression) ---------- */
+  resHtml: function (st, imp) {
+    var pl = st.plan; if (!pl) return '';
+    var p = st.p, ps = Calc.peignes(p), plans = ps.map(function (d) { return st.plans[d]; }), dpc = pl.dpc, A = ARMURES[pl.armure], h = '';
+    /* ce que montre la photo */
+    if (!imp) {
+      var S2 = st.a ? Calc.STRUCT[st.a.structure] || Calc.STRUCT.uni : null, rc = st.aa.rapportChaine;
+      h += '<div class="cx-vu">' + (S2 ? '<span title="' + attr(S2[1]) + '"><strong>' + esc(S2[0]) + '</strong>' + (rc && rc.fois >= 1.7 && st.a.structure !== 'trame' ? ' — motif répété ' + fmtN(rc.fois, 1) + ' fois sur la photo' : st.a.structure === 'trame' ? ' — si ce sont des fils de chaîne, tournez la photo' : '') + '</span>' : '<span class="muted">Sans photo : composez le motif ci-dessous (« Ajouter une bande »).</span>') +
+        (st.a ? '<span class="cx-cs">' + st.a.couleurs.map(function (c, i) {
+          var v = st.map[i] || '';
+          return '<label class="cx-c" title="Couleur ' + (i + 1) + ' de la photo (' + fmtPct(c.part, 0) + ')"><i style="background:' + attr(c.hex) + '"></i><select data-map="' + i + '" aria-label="Couleur de l\'atelier pour la couleur ' + (i + 1) + ' de la photo"><option value="">?</option>' + Opt.couleurs().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === v ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>';
+        }).join('') + '</span>' : '') + '</div>';
+    }
+    /* le motif */
+    var man = !!(st.design && st.design.fixe);
+    h += '<section class="cx-s cx-mo"><div class="cx-h"><h3>' + (pl.uni ? 'Tissu uni' : 'Le motif') + '</h3><span class="muted">' + (pl.uni ? 'une couleur sur toute la largeur' : esc(mcPeigne(dpc)) + ' : ' + pl.motifD + ' dents = <strong>' + pl.motifF + ' fils</strong>, répété ' + pl.R + ' fois' + (pl.eq ? ' + la 1re bande pour finir' : '')) + '</span>' +
+      (!imp && man ? '<button type="button" class="linkbtn" data-ca="reset">Revenir au motif de la photo</button>' : '') + '</div>' +
+      (imp ? '' : '<canvas id="mc-motif" class="cx-mcv" height="34" aria-label="Motif"></canvas>') +
+      '<div class="tscroll"><table class="grid cx-t"><thead><tr><th>N°</th><th>Couleur</th><th class="num">Largeur</th>' + ps.map(function (d) { return '<th class="num' + (d === dpc ? ' cx-on' : '') + '">' + esc(mcPeigne(d)) + ' <small class="muted">dents</small></th>'; }).join('') + (imp ? '' : '<th class="act"></th>') + '</tr></thead><tbody>' +
+      pl.bandes.map(function (b, i) {
+        var mm = pl.uni ? pl.largeurFinie * 10 : b.mm * (pl.echelle || 1);
         var coul = (b.seg && b.seg.length > 1 ? mcSeg(b.seg) : mcSw(b.c)) + ' ';
-        var cell = b.lisiere || imp ? coul + esc(mcNom(b.c)) + (b.lisiere ? ' <small class="muted">lisière (fils doublés)</small>' : '') :
-          coul + '<select data-bc="' + b.bi + '" aria-label="Couleur de la bande ' + (i + 1) + '">' + cs.map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === b.c ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + (b.c ? '' : '<option value="" selected>Choisir…</option>') + '</select>';
-        var fl = b.lisiere || imp ? fmtN(b.fils) : '<input type="text" inputmode="numeric" class="mc-n" data-bf="' + b.bi + '" data-v="' + b.fils + '" value="' + b.fils + '" aria-label="Fils de la bande ' + (i + 1) + '">';
-        return '<tr' + (b.lisiere ? ' class="mc-lis"' : '') + '><td>' + (i + 1) + '</td><td>' + cell + '</td><td class="num">' + fl + '</td><td class="num">' + b.de + ' à ' + b.a + '</td><td class="num">' + (b.dentDe === b.dentA ? b.dentDe : b.dentDe + ' à ' + b.dentA) + '</td><td class="num">' + mcCm(b.cmDe) + '</td>' +
-          (imp ? '' : '<td class="act">' + (b.lisiere ? '' : '<button type="button" class="ibtn" data-ca="del" data-id="' + b.bi + '" title="Retirer la bande" aria-label="Retirer la bande ' + (i + 1) + '">' + icon('trash') + '</button>') + '</td>') + '</tr>';
-      }).join('') + '</tbody></table></div>' +
-      (imp ? '' : '<div class="row wrap mc-bb">' + (long ? '<button type="button" class="btn ghost sm" data-ca="tous">Voir les ' + rows.length + ' bandes</button>' : rows.length > 40 ? '<button type="button" class="btn ghost sm" data-ca="tous">Réduire</button>' : '') +
-        '<button type="button" class="btn ghost sm" data-ca="add">' + icon('plus') + ' Ajouter une bande</button><small class="muted">Changez une couleur ou un nombre de fils : tout est recalculé.</small></div>');
+        return '<tr><td>' + (i + 1) + '</td><td>' + (imp ? coul + esc(mcNom(b.c)) : coul + '<select data-bc="' + i + '" aria-label="Couleur de la bande ' + (i + 1) + '">' + (b.c ? '' : '<option value="" selected>Choisir…</option>') + Opt.couleurs().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === b.c ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>') + (b.seg && b.seg.length > 1 ? ' <small class="muted">réserve</small>' : '') + '</td>' +
+          '<td class="num">' + fmtN(mm, mm < 10 ? 1 : 0) + ' mm</td>' +
+          plans.map(function (q) { var dn = q.uni ? q.dentsTot : q.dents[i]; return '<td class="num' + (q.dpc === dpc ? ' cx-on' : '') + '">' + (imp || pl.uni ? '<strong>' + dn + '</strong>' : '<input type="text" inputmode="numeric" class="mc-n" data-bd="' + i + '" data-dpc="' + q.dpc + '" data-v="' + dn + '" value="' + dn + '" aria-label="Dents de la bande ' + (i + 1) + ', ' + esc(mcPeigne(q.dpc)) + '">') + ' <small class="muted">= ' + (dn * q.fpd) + ' fils</small></td>'; }).join('') +
+          (imp ? '' : '<td class="act">' + (pl.bandes.length > 1 ? '<button type="button" class="ibtn" data-ca="del" data-id="' + i + '" title="Retirer la bande" aria-label="Retirer la bande ' + (i + 1) + '">' + icon('trash') + '</button>' : '') + '</td>') + '</tr>';
+      }).join('') + '</tbody>' + (pl.uni ? '' : '<tfoot><tr><td></td><td>Motif</td><td class="num">' + fmtN(pl.bandes.reduce(function (t, b) { return t + b.mm * (pl.echelle || 1); }, 0), 0) + ' mm</td>' + plans.map(function (q) { return '<td class="num' + (q.dpc === dpc ? ' cx-on' : '') + '">' + q.motifD + ' dents = ' + q.motifF + ' fils</td>'; }).join('') + (imp ? '' : '<td></td>') + '</tr></tfoot>') + '</table></div>' +
+      (imp ? '' : '<div class="row wrap cx-bb"><button type="button" class="btn ghost sm" data-ca="add">' + icon('plus') + ' Ajouter une bande</button><small class="muted">Changez les dents d\'une bande pour l\'un ou l\'autre peigne : tout se recalcule.</small></div>') + '</section>';
+    /* les peignes côte à côte */
+    var row = function (t, f, cls) { return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><th scope="row">' + t + '</th>' + plans.map(function (q) { return '<td class="num' + (q.dpc === dpc ? ' cx-on' : '') + '">' + f(q) + '</td>'; }).join('') + '</tr>'; };
+    var couleurs = []; plans.forEach(function (q) { q.compo.forEach(function (x) { if (couleurs.indexOf(x.c) < 0) couleurs.push(x.c); }); });
+    var cmp = '<section class="cx-s"><h3>' + (ps.length === 2 ? 'Peigne 8 ou peigne 10' : 'Les peignes') + '</h3><div class="tscroll"><table class="grid cx-t cx-cmp"><thead><tr><th></th>' +
+      plans.map(function (q) { return '<th class="num' + (q.dpc === dpc ? ' cx-on' : '') + '">' + esc(mcPeigne(q.dpc)) + (imp ? (q.dpc === dpc ? ' (choisi)' : '') : q.dpc === dpc ? ' ' + UI.badge('choisi', 'info') : ' <button type="button" class="linkbtn" data-ca="peigne" data-id="' + q.dpc + '">choisir</button>') + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      row('Fils au cm', function (q) { return fmtN(q.densite, 1); }) +
+      (pl.uni ? '' : row('Motif', function (q) { return q.motifF + ' fils'; }) + row('Répétitions', function (q) { return q.R + (q.eq ? ' + fin' : ''); })) +
+      row('<strong>Fils de chaîne</strong>', function (q) { return '<strong>' + fmtN(q.T) + '</strong>'; }, 'cx-fort') +
+      row('Dents utilisées', function (q) { return fmtN(q.dentsTot) + ' <small class="muted">(' + mcCm(q.largPeigne) + ')</small>'; }) +
+      row('Tissu fini', function (q) { return '≈ ' + mcCm(q.largeurFinie); }) +
+      couleurs.map(function (c) { return row(mcSw(c) + ' ' + esc(mcNom(c)), function (q) { var x = q.compo.filter(function (y) { return y.c === c; })[0]; if (!x) return '—'; var dq = !imp && q.dpc === dpc ? Calc.dispo(c) : null; return (x.fils ? x.fils + ' f · ' : '') + '<span' + (dq !== null && dq < x.totalG ? ' class="tx-err" title="Stock : ' + attr(mcG(dq)) + '"' : '') + '>' + mcG(x.totalG) + '</span>'; }); }).join('') +
+      row('<strong>Fil total</strong>', function (q) { return '<strong>' + mcG(q.totalG) + '</strong> <small class="muted">' + fmtN(q.totalG / q.L, 0) + ' g/m</small>'; }, 'cx-fort') +
+      '</tbody></table></div><p class="muted small">Pour ' + fmtN(pl.L, 2) + ' m de tissu, chaîne ourdie à ' + fmtN(pl.Lourdi, 2) + ' m. Même motif sur chaque peigne : le peigne 10 serre plus les fils, il en faut plus pour la même largeur.</p></section>';
+    /* la fiche de montage du peigne choisi */
+    var bob = Math.max(1, Number(p.bobines) || 1), tr = pl.trame, manq = [];
+    if (!imp) pl.compo.forEach(function (x) { var dq = Calc.dispo(x.c); if (dq !== null && dq < x.totalG) manq.push(mcNom(x.c) + ' (manque ' + mcG(x.totalG - dq) + ')'); });
+    var lignes = [
+      ['Ourdissage', '<strong>' + fmtN(pl.T) + ' fils de ' + fmtN(pl.Lourdi, 2) + ' m</strong>, ' + fmtN(Math.ceil(pl.T / bob)) + ' passages à ' + plural(bob, 'bobine') + '. Ordre : ' + esc(Calc.ordreTxt(pl)) + (pl.lisiere ? ' ; lisières : ' + esc(Calc.lisTxt(pl)) : '') + '. Croix à chaque fil, ficelle de repère à chaque motif.'],
+      ['Rentrage', esc(A.court) + ' : lames ' + A.rentrage.join('-') + ' l\'une après l\'autre — ' + pl.lames.map(function (n, i) { return 'lame ' + (i + 1) + ' : ' + fmtN(n); }).join(', ') + ' maillons' + (pl.lisiere ? ' ; lisières : 2 fils par maillon' : '') + '. Pédales : ' + A.marches.map(function (mk) { return mk.join('+'); }).join(' / ') + '.' + (p.metier === 'petit' && A.lames > 2 ? ' <span class="tx-err">Il faut 4 lames.</span>' : '')],
+      ['Piquage', plural(pl.fpd, 'fil') + ' par dent' + (pl.lisiere ? ' (' + 2 * pl.fpd + ' dans les ' + pl.lisiere + ' dents de chaque bord)' : '') + ' ; la chaîne prend <strong>' + fmtN(pl.dentsTot) + ' dents</strong>, soit ' + mcCm(pl.largPeigne) + ' au peigne' + (pl.dentsPeigne ? (pl.dentsPeigne >= pl.dentsTot ? ' ; commencez à la dent ' + fmtN(pl.depart) + ' pour centrer' : ' ; <span class="tx-err">peigne du métier trop étroit de ' + fmtN(pl.dentsTot - pl.dentsPeigne) + ' dents</span>') : '') + '.'],
+      ['Attache', fmtN(pl.meches) + ' mèches de ' + pl.parMeche + ' fils, du milieu vers les bords, nœud à rosette' + (p.metier === 'grand' ? ' sur la baguette du tablier' : ' sur la baguette d\'attache ; le bout arrière va au traîneau (pierre de tension)') + ' ; 3 ou 4 duites d\'écartement.'],
+      ['Trame', tr.repete ? fmtN(pl.duitesCm, 1) + ' duites/cm : [ ' + esc(tr.bandes.map(function (b) { return b.duites + ' ' + mcCoulTxt(b.c); }).join(' · ')) + ' ] tous les ' + mcCm(tr.repete) + '.' : esc(mcNom(tr.bandes[0].c)) + ', ' + fmtN(pl.duitesCm, 1) + ' duites/cm (' + fmtN(pl.duitesTot) + ' duites).'],
+      pl.rapportRes ? ['Réserve', 'motif de ' + mcCm(pl.rapportRes) + ' le long des fils : ligatures dans le plan de teinture.'] : null,
+      manq.length ? ['Stock', '<span class="tx-err">fil insuffisant : ' + esc(manq.join(', ')) + '.</span>'] : null
+    ].filter(Boolean);
+    var mont = '<section class="cx-s"><h3>Montage — ' + esc(mcPeigne(dpc)) + ', ' + plural(pl.fpd, 'fil') + ' par dent</h3><dl class="cx-dl">' + lignes.map(function (l) { return '<dt>' + l[0] + '</dt><dd>' + l[1] + '</dd>'; }).join('') + '</dl></section>';
+    return h + '<div class="cx-2">' + cmp + mont + '</div>';
   },
   imprimer: function (st) {
     if (!st.plan) return;
-    var f = st.f, photo = st.cv && st.cv.toDataURL ? st.cv.toDataURL('image/jpeg', 0.85) : (f && f.vignette) || '';
-    var ap = document.createElement('canvas'); Calc.apercu(st, ap, 900);
+    var f = st.f, pl = st.plan, p = st.p, photo = st.cv && st.cv.toDataURL ? st.cv.toDataURL('image/jpeg', 0.8) : (f && f.vignette) || '';
+    var ap = document.createElement('canvas'); Calc.apercu(st, ap, 700);
     var apUrl = ap.width && ap.toDataURL ? ap.toDataURL('image/png') : '';
-    var pl = st.plan, p = st.p;
-    UI.print({ title: 'Calcul ' + (f ? f.nom : 'de modèle'), docTitle: 'Fiche de calcul du modèle',
-      docMeta: (f ? '<div>' + esc(f.nom) + (f.ref ? ' — réf. ' + esc(f.ref) : '') + '</div>' : '') + '<div>' + (p.metier === 'grand' ? 'Grand métier' : 'Petit métier') + ' — peigne ' + fmtN(pl.d10, 1) + '/10 cm, ' + pl.fpd + ' fils par dent</div><div>' + fmtDate(today()) + '</div>',
-      body: (photo || apUrl ? '<div class="two">' + (photo ? '<div><h3>Photo du modèle</h3><img class="photo big" src="' + attr(photo) + '" alt=""></div>' : '') + (apUrl ? '<div><h3>Tissu calculé</h3><img class="photo big" src="' + attr(apUrl) + '" alt=""></div>' : '') + '</div>' : '') +
+    var mo = document.createElement('canvas'); mo.style.width = '700px'; Calc.dessineMotif(st, mo);
+    var moUrl = mo.width && mo.toDataURL ? mo.toDataURL('image/png') : '';
+    UI.print({ title: 'Calcul ' + (f ? f.nom : 'de tissage'), docTitle: 'Fiche de calcul de tissage',
+      docMeta: (f ? '<div>' + esc(f.nom) + (f.ref ? ' — réf. ' + esc(f.ref) : '') + '</div>' : '') + '<div>' + esc(mcPeigne(pl.dpc)) + ', ' + plural(pl.fpd, 'fil') + ' par dent — ' + fmtN(pl.T) + ' fils — ' + mcCm(pl.largeurFinie) + '</div><div>' + fmtDate(today()) + '</div>',
+      body: '<style>@page{margin:9mm 10mm}body{font-size:10.5px;line-height:1.35}.ph{margin-bottom:8px;padding-bottom:6px}td,th{padding:3px 6px!important}h3{margin:8px 0 3px!important;font-size:12px!important}' +
+        '.cxp{display:grid;grid-template-columns:auto auto 1fr;gap:10px;align-items:start}.cxp img{height:105px;border-radius:4px;display:block}.cx-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}' +
+        'dl.cx-dl{display:grid;grid-template-columns:max-content 1fr;gap:2px 8px;margin:0}dl.cx-dl dt{font-weight:700;color:#4a536b}dl.cx-dl dd{margin:0}td.cx-on{background:#eef1fa}th.cx-on{background:#141b3d!important}th .muted{color:#c9cedb}' +
+        '.cx-cmp th[scope=row]{background:none!important;color:#1b2238;font-weight:600;border-bottom:1px solid #d9dce6;text-align:left}.muted{color:#6b7390}.small{font-size:9.5px}.sw{width:9px;height:9px}' +
+        '.mcv{width:100%;height:22px;display:block;border-radius:3px;margin:3px 0}.cx-h{display:flex;gap:8px;align-items:baseline}.cx-h h3{margin:0!important}section{break-inside:avoid}</style>' +
+        '<div class="cxp">' + (photo ? '<div><h3>Photo</h3><img src="' + attr(photo) + '" alt=""></div>' : '') + (apUrl ? '<div><h3>Tissu calculé</h3><img src="' + attr(apUrl) + '" alt=""></div>' : '') +
+        '<div><h3>En bref</h3><dl class="cx-dl"><dt>Chaîne</dt><dd><strong>' + fmtN(pl.T) + ' fils</strong> de ' + fmtN(pl.Lourdi, 2) + ' m</dd><dt>Peigne</dt><dd>' + esc(mcPeigne(pl.dpc)) + ' (' + fmtN(pl.dpc, 1) + ' dents/cm), ' + plural(pl.fpd, 'fil') + ' par dent, ' + fmtN(pl.dentsTot) + ' dents</dd><dt>Largeur</dt><dd>' + mcCm(pl.largPeigne) + ' au peigne, ≈ ' + mcCm(pl.largeurFinie) + ' fini</dd><dt>Tissu</dt><dd>' + fmtN(pl.L, 2) + ' m — fil ' + mcG(pl.totalG) + '</dd></dl></div></div>' +
+        (moUrl ? '<img class="mcv" src="' + attr(moUrl) + '" alt="">' : '') +
         Calc.resHtml(st, true).replace(/<svg[^>]*class="ic[^"]*"[^>]*>.*?<\/svg>/g, '') });
   },
   propre: function (p) { var o = {}; Object.keys(p).forEach(function (k) { var v = p[k]; if (v === '' || v === null || v === undefined || (typeof v === 'number' && isNaN(v))) return; o[k] = v; }); return o; },
   enregistrement: function (st) {
-    var pl = st.plan, r2 = function (x, d) { var m = Math.pow(10, d || 2); return Math.round(x * m) / m; };
-    var rec = { date: today(), par: S.member.nom, params: Calc.propre(st.p), manuel: !!st.manuel, photo: st.a && st.src ? st.src : '', structure: pl.structure,
-      base: pl.base.map(function (b) { var x = { c: b.c || '', fils: b.fils }; if (b.seg && b.seg.length > 1) x.seg = b.seg.map(function (s) { return { c: s.c || '', f: r2(s.f, 4) }; }); return x; }),
-      fils: pl.T, dents: pl.dents, peigne: r2(pl.d10, 1), fpd: pl.fpd, largeurPeigne: r2(pl.largPeigne, 1), largeurFinie: r2(pl.largeurFinie, 1), longueur: pl.L,
-      trame: pl.trame.bandes.map(function (b) { var x = { c: b.c || '' }; if (b.cm) { x.cm = r2(b.cm, 2); x.duites = b.duites; } return x; }),
-      compo: pl.compo.map(function (x) { return { c: x.c || '', fils: x.fils, g: Math.round(x.totalG), gpm: r2(x.gpm, 1) }; }) };
+    var pl = st.plan, d = st.designCourant, r2 = function (x, n) { var m = Math.pow(10, n === undefined ? 2 : n); return Math.round(x * m) / m; };
+    var segs = function (seg) { return seg.map(function (s) { return { c: s.c || '', f: r2(s.f, 4) }; }); };
+    var rec = { date: today(), par: S.member.nom, params: Calc.propre(st.p), manuel: !!(st.design && st.design.fixe), photo: st.a && st.src ? st.src : '', structure: st.aa ? st.aa.structure : 'uni',
+      motif: d.bandes.map(function (b) { var x = { c: b.c || '', mm: r2(b.mm * (pl.echelle || 1), 2) }; if (b.seg && b.seg.length > 1) x.seg = segs(b.seg); return x; }), repete: !!(d.repete || d.fixe),
+      peigneCm: pl.dpc, fpd: pl.fpd, repetitions: pl.R, fils: pl.T, dents: pl.dentsTot, largeurPeigne: r2(pl.largPeigne, 1), largeurFinie: r2(pl.largeurFinie, 1), longueur: pl.L,
+      base: pl.fils.map(function (b) { var x = { c: b.c || '', fils: b.fils }; if (b.seg && b.seg.length > 1) x.seg = segs(b.seg); return x; }),
+      compo: pl.compo.map(function (x) { return { c: x.c || '', fils: x.fils, g: Math.round(x.totalG), gpm: r2(x.gpm, 1) }; }),
+      peignes: Calc.peignes(st.p).map(function (dp) { var q = st.plans[dp]; return { dpc: dp, fils: q.T, dents: q.dentsTot, largeurFinie: r2(q.largeurFinie, 1), g: Math.round(q.totalG) }; }),
+      trame: pl.trame.bandes.map(function (b) { var x = { c: b.c || '' }; if (b.cm) { x.cm = r2(b.cm, 2); x.duites = b.duites; } return x; }) };
     if (pl.trame.repete) rec.trameRepete = r2(pl.trame.repete, 2);
     if (pl.rapportRes) rec.rapportReserve = r2(pl.rapportRes, 2);
     if (st.a && st.map) { var mp = {}; Object.keys(st.map).forEach(function (k) { if (st.map[k]) mp[k] = st.map[k]; }); if (Object.keys(mp).length) rec.map = mp; }
@@ -16259,7 +16329,7 @@ var Calc = {
     return runOp(btn || null, function () {
       var tx = new Tx('catalogue');
       tx.field('catalogue/fiches', id, 'calcul', rec);
-      tx.audit('Plan de calcul du modèle ' + (f.ref ? f.ref + ' — ' : '') + f.nom + ' enregistré (' + rec.fils + ' fils, peigne ' + fmtN(rec.peigne, 1) + '/10 cm)', 'catalogue', id);
+      tx.audit('Plan de calcul du modèle ' + (f.ref ? f.ref + ' — ' : '') + f.nom + ' enregistré (' + rec.fils + ' fils, peigne ' + fmtN(rec.peigneCm, 1) + ', ' + rec.fpd + ' fils par dent)', 'catalogue', id);
       return tx.commit();
     }, 'Plan de calcul enregistré dans la fiche du modèle.').then(function (ok) {
       if (ok && !st.m.closed) { st.id = id; st.f = ficheCat(id) || f; st.sv = rec; var inf = $('#mc-info', st.m.el); if (inf) inf.textContent = 'Plan enregistré le ' + fmtDate(rec.date) + ' par ' + rec.par + '.'; }
@@ -16271,15 +16341,18 @@ var Calc = {
     if (!can('catalogue', 'modifier')) { UI.toast('Vos rôles ne permettent pas de modifier le catalogue.', 'err'); return; }
     if (st.id) {
       var f = ficheCat(st.id);
-      if (f && f.calcul && f.calcul.date) UI.confirm({ title: 'Remplacer le plan', message: 'Cette fiche a déjà un plan de calcul (du ' + fmtDate(f.calcul.date) + '). Le remplacer par celui-ci ?', ok: 'Remplacer' }).then(function (c) { if (c.ok) Calc.ecrire(st, st.id, btn); });
+      if (f && f.calcul && f.calcul.date && f.calcul.date !== today()) UI.confirm({ title: 'Remplacer le plan', message: 'Cette fiche a déjà un plan de calcul (du ' + fmtDate(f.calcul.date) + '). Le remplacer par celui-ci ?', ok: 'Remplacer' }).then(function (c) { if (c.ok) Calc.ecrire(st, st.id, btn); });
       else Calc.ecrire(st, st.id, btn);
       return;
     }
-    var fs = list('catalogue/fiches', function (x) { return !x.archive; }).sort(function (a, b) { return String(a.nom).localeCompare(String(b.nom), 'fr'); });
-    var m2 = UI.modal({ title: 'Enregistrer le plan dans une fiche', size: 's',
-      body: '<label class="fld"><span>Modèle du catalogue</span><select id="mc-fi">' + fs.map(function (x) { return '<option value="' + attr(x.id) + '">' + esc(x.nom + (x.ref ? ' (' + x.ref + ')' : '') + (x.calcul ? ' — a déjà un plan' : '')) + '</option>'; }).join('') + '</select></label><p class="muted">Le plan se range dans la fiche ; rien d\'autre n\'y change.</p>',
-      actions: [{ t: 'Annuler', act: '__close', cls: 'ghost' }, { t: 'Enregistrer', act: 'ok', cls: 'primary' }],
-      onAct: function (a, b) { if (a !== 'ok') return; var id = $('#mc-fi', m2.el).value; Calc.ecrire(st, id, b).then(function (ok) { if (ok) m2.close(); }); } });
+    Data.need(['catalogue/fiches']).catch(function () {}).then(function () {
+      var fs = list('catalogue/fiches', function (x) { return !x.archive; }).sort(function (a, b) { return String(a.nom).localeCompare(String(b.nom), 'fr'); });
+      if (!fs.length) { UI.toast('Le catalogue n\'a pas encore de modèle : créez la fiche du modèle, puis enregistrez le plan.', 'info', 6000); return; }
+      var m2 = UI.modal({ title: 'Enregistrer le plan dans une fiche', size: 's',
+        body: '<label class="fld"><span>Modèle du catalogue</span><select id="mc-fi">' + fs.map(function (x) { return '<option value="' + attr(x.id) + '">' + esc(x.nom + (x.ref ? ' (' + x.ref + ')' : '') + (x.calcul ? ' — a déjà un plan' : '')) + '</option>'; }).join('') + '</select></label><p class="muted">Le plan se range dans la fiche ; rien d\'autre n\'y change.</p>',
+        actions: [{ t: 'Annuler', act: '__close', cls: 'ghost' }, { t: 'Enregistrer', act: 'ok', cls: 'primary' }],
+        onAct: function (a, b) { if (a !== 'ok') return; var id = $('#mc-fi', m2.el).value; Calc.ecrire(st, id, b).then(function (ok) { if (ok) m2.close(); }); } });
+    });
   }
 };
 
@@ -16540,13 +16613,14 @@ var Retouche = {
   ouvrir: function (id) {
     var f = id ? ficheCat(id) : null, info = S.info || {};
     var rt = Retouche.st = { id: id || null, f: f, fmt: 'fb_carre', cadre: {}, rot90: 0, flip: false, angle: 0, adj: Retouche.defauts(), filtre: 'aucun',
-      texte: { on: false, titre: f ? f.nom : '', prix: f ? catPrix(f) : '', contact: Cat.signature(), lTitre: true, lPrix: !!(f && catPrix(f)), lContact: true, pos: 'bas', style: 'bandeau', couleur: '#ffffff' },
-      logo: { on: false, pos: 'hd' }, fond: 'flou', full: null, prev: null, cacheP: null, cacheF: null, nom: f ? (f.ref || f.nom) : 'photo' };
+      texte: { on: false, accroche: 'Tissé à la main', titre: f ? f.nom : '', prix: f ? (catPrix(f).split(' — ')[0] || '') : '', contact: Cat.signature(), pos: 'bas', style: 'bandeau', couleur: '#ffffff' },
+      logo: { on: !!info.logo, pos: 'hd' }, fond: 'flou', full: null, prev: null, cacheP: null, cacheF: null, nom: f ? (f.ref || f.nom) : 'photo',
+      design: { tpl: 'photo', seed: 1, mode: 'clair', serif: true }, histo: [], autres: [], pal: null };
     var m = rt.m = UI.modal({ title: 'Retouche des photos' + (f ? ' — ' + f.nom : ''), size: 'xl', dismiss: false, body: Retouche.corps(rt),
       actions: [{ t: icon('download') + ' Télécharger ce format', act: 'dl', cls: 'primary' }, { t: icon('download') + ' Tous les formats (.zip)', act: 'zip', cls: 'ghost' }, { t: icon('share') + ' Partager', act: 'share', cls: 'ghost' }, { t: 'Fermer', act: '__close', cls: 'ghost' }],
       onAct: function (a, b) { if (!rt.full) { UI.toast('Choisissez d\'abord une photo.', 'err'); return; } if (a === 'dl') Retouche.telecharger(rt, b); if (a === 'zip') Retouche.zip(rt, b); if (a === 'share') Retouche.partager(rt, b); } });
     m.el.classList.add('mc-modal');
-    if (info.logo) { var lg = new Image(); lg.onload = function () { rt.logoImg = lg; Retouche.dessine(rt); }; lg.src = info.logo; }
+    if (info.logo) { var lg = new Image(); lg.onload = function () { rt.logoImg = lg; Retouche.dessine(rt); Retouche.miniatures(rt); }; lg.src = info.logo; }
     Retouche.lier(rt);
     var ph = f ? (f.photos || []) : [];
     if (ph.length) Retouche.chargeFiche(rt, ph[0]); else if (f && f.vignette) Retouche.charge(rt, f.vignette);
@@ -16558,7 +16632,9 @@ var Retouche = {
     var rg = function (k, t, min, max, v) { return '<label class="rt-sl"><span>' + esc(t) + ' <output data-o="' + k + '">' + v + '</output></span><input type="range" min="' + min + '" max="' + max + '" step="1" value="' + v + '" data-rt="' + k + '"></label>'; };
     var det = function (t, html, open) { return '<details class="rt-d"' + (open ? ' open' : '') + '><summary>' + esc(t) + '</summary><div class="rt-db">' + html + '</div></details>'; };
     return '<div class="rt"><div class="rt-v">' +
-      '<div class="rt-stage" id="rt-stage"><canvas id="rt-cv" aria-label="Aperçu de la photo retouchée"></canvas><div class="mc-vide" id="rt-vide">' + icon('image') + '<span>Choisissez une photo du modèle ou chargez-en une depuis le téléphone.</span></div></div>' +
+      '<div class="rt-stage" id="rt-stage"><canvas id="rt-cv" aria-label="Aperçu de la photo retouchée"></canvas><div class="mc-vide" id="rt-vide">' + icon('image') + '<span>Choisissez une photo du modèle ou chargez-en une depuis le téléphone.</span></div>' +
+        '<div class="rt-gen"><button type="button" class="btn primary" data-rta="gen">' + icon('magic') + ' Générer une image</button><button type="button" class="btn rt-vid" data-rta="video">' + icon('play') + ' Créer la vidéo</button></div></div>' +
+      '<div class="rt-histo" id="rt-histo" hidden></div>' +
       '<p class="muted small rt-hint" id="rt-dim"></p>' +
       '<div class="row wrap mc-src">' + ph.map(function (pid, i) { return '<button type="button" class="cat-th" data-rta="ph" data-id="' + attr(pid) + '" aria-label="Photo ' + (i + 1) + '"><span class="spin"></span></button>'; }).join('') +
         (fiches.length ? '<select id="rt-fiche" aria-label="Photo d\'un modèle du catalogue"><option value="">Photo d\'un modèle…</option>' + fiches.map(function (x) { return '<option value="' + attr(x.id) + '">' + esc(x.nom + (x.ref ? ' (' + x.ref + ')' : '')) + '</option>'; }).join('') + '</select>' : '') +
@@ -16567,18 +16643,22 @@ var Retouche = {
         det('Format', '<label class="fld"><span>Réseau et format</span><select data-rt="fmt">' + Object.keys(grp).map(function (g) { return '<optgroup label="' + attr(g) + '">' + grp[g].map(function (x) { return '<option value="' + x.k + '"' + (x.k === rt.fmt ? ' selected' : '') + '>' + esc(x.n + (x.w ? ' — ' + x.w + ' × ' + x.h : '')) + '</option>'; }).join('') + '</optgroup>'; }).join('') + '</select></label>' +
           '<div class="rt-seg" role="group" aria-label="Cadrage"><button type="button" data-rta="mode" data-id="remplir" class="on">Remplir le cadre</button><button type="button" data-rta="mode" data-id="ajuster">Photo entière</button></div>' +
           '<label class="fld" id="rt-fondw" hidden><span>Fond autour de la photo</span><select data-rt="fond"><option value="flou">Photo floutée</option><option value="#ffffff">Blanc</option><option value="#111111">Noir</option><option value="#22306b">Indigo</option><option value="#c9932e">Or</option></select></label>', true) +
+        det('Style du visuel', '<div class="rt-f" id="rt-styles">' + STUDIO_STYLES.map(function (x) { return '<button type="button" data-rta="tpl" data-id="' + x[0] + '"' + (x[0] === rt.design.tpl ? ' class="on"' : '') + '>' + esc(x[1]) + '</button>'; }).join('') + '</div>' +
+          '<div class="rt-seg" role="group" aria-label="Couleurs du visuel" id="rt-modes"><button type="button" data-rta="pal" data-id="clair">Claires</button><button type="button" data-rta="pal" data-id="sombre">Sombres</button><button type="button" data-rta="pal" data-id="couleur">Du tissu</button></div>' +
+          '<p class="muted small">« Générer une image » choisit à chaque fois un autre style, d\'autres couleurs tirées du tissu et une autre mise en page. Choisissez ici pour décider vous-même.</p>', true) +
         det('Cadrage', rg('zoom', 'Zoom', 100, 300, 100) + rg('angle', 'Redresser (degrés)', -15, 15, 0) +
           '<div class="row wrap"><button type="button" class="btn ghost sm" data-rta="rot">' + icon('move') + ' Tourner d\'un quart</button><button type="button" class="btn ghost sm" data-rta="flip">Miroir</button><button type="button" class="btn ghost sm" data-rta="centre">Recentrer</button></div><p class="muted small">Faites glisser la photo dans l\'aperçu pour choisir ce qui reste dans le cadre.</p>') +
         det('Réglages', '<div class="row wrap"><button type="button" class="btn ghost sm" data-rta="auto">' + icon('bolt') + ' Correction automatique</button><button type="button" class="btn ghost sm" data-rta="zero">Tout remettre à zéro</button></div>' +
           RT_REGLAGES.map(function (r) { return rg('adj.' + r[0], r[1], r[2] === undefined ? -100 : r[2], r[3] === undefined ? 100 : r[3], 0); }).join(''), true) +
         det('Filtres', '<div class="rt-f">' + RT_FILTRES.map(function (x) { return '<button type="button" data-rta="filtre" data-id="' + x[0] + '"' + (x[0] === rt.filtre ? ' class="on"' : '') + '>' + esc(x[1]) + '</button>'; }).join('') + '</div>') +
-        det('Texte et logo', '<label class="chk"><input type="checkbox" data-rt="texte.on"><span>Ajouter un texte sur la photo</span></label>' +
+        det('Texte et logo', '<label class="fld"><span>Accroche</span><input data-rt="texte.accroche" value="' + attr(rt.texte.accroche) + '" maxlength="40"></label>' +
           '<label class="fld"><span>Titre</span><input data-rt="texte.titre" value="' + attr(rt.texte.titre) + '" maxlength="60"></label>' +
           '<label class="fld"><span>Prix</span><input data-rt="texte.prix" value="' + attr(rt.texte.prix) + '" maxlength="60"></label>' +
           '<label class="fld"><span>Contact</span><input data-rt="texte.contact" value="' + attr(rt.texte.contact) + '" maxlength="80"></label>' +
-          '<div class="fgrid"><label class="fld"><span>Place</span><select data-rt="texte.pos"><option value="bas">En bas</option><option value="haut">En haut</option></select></label>' +
+          '<p class="muted small">Les visuels générés montrent toujours ces textes (laissez un champ vide pour l\'enlever). Pour « Photo seule » :</p>' +
+          '<label class="chk"><input type="checkbox" data-rt="texte.on"><span>Ajouter le texte sur la photo seule</span></label><div class="fgrid"><label class="fld"><span>Place</span><select data-rt="texte.pos"><option value="bas">En bas</option><option value="haut">En haut</option></select></label>' +
           '<label class="fld"><span>Style</span><select data-rt="texte.style"><option value="bandeau">Bandeau sombre</option><option value="clair">Bandeau clair</option><option value="ombre">Texte seul (ombré)</option></select></label></div>' +
-          (S.info && S.info.logo ? '<label class="chk"><input type="checkbox" data-rt="logo.on"><span>Ajouter le logo de l\'atelier</span></label><label class="fld"><span>Place du logo</span><select data-rt="logo.pos"><option value="hd">En haut à droite</option><option value="hg">En haut à gauche</option><option value="bd">En bas à droite</option><option value="bg">En bas à gauche</option></select></label>' : '<p class="muted small">Ajoutez le logo de l\'atelier dans Paramètres → Entreprise pour pouvoir le poser sur les photos.</p>')) +
+          (S.info && S.info.logo ? '<label class="chk"><input type="checkbox" data-rt="logo.on"' + (rt.logo.on ? ' checked' : '') + '><span>Ajouter le logo de l\'atelier</span></label><label class="fld"><span>Place du logo</span><select data-rt="logo.pos"><option value="hd">En haut à droite</option><option value="hg">En haut à gauche</option><option value="bd">En bas à droite</option><option value="bg">En bas à gauche</option></select></label>' : '<p class="muted small">Ajoutez le logo de l\'atelier dans Paramètres → Entreprise pour pouvoir le poser sur les photos.</p>')) +
       '</div></div>';
   },
   lier: function (rt) {
@@ -16595,7 +16675,7 @@ var Retouche = {
       if (k === 'angle') { rt.angle = v; plan(); return; }
       var p = k.split('.');
       if (p[0] === 'adj') { rt.adj[p[1]] = v; plan(true); return; }
-      if (p[0] === 'texte' || p[0] === 'logo') { rt[p[0]][p[1]] = v; if (p[0] === 'texte' && p[1] !== 'on' && p[1] !== 'pos' && p[1] !== 'style') { rt.texte.on = true; var cb = $('[data-rt="texte.on"]', m.el); if (cb) cb.checked = true; } plan(); }
+      if (p[0] === 'texte' || p[0] === 'logo') { rt[p[0]][p[1]] = v; if (p[0] === 'texte' && rt.design.tpl === 'photo' && ['titre', 'prix', 'contact'].indexOf(p[1]) >= 0) { rt.texte.on = true; var cb = $('[data-rt="texte.on"]', m.el); if (cb) cb.checked = true; } plan(); clearTimeout(rt.tmMini); rt.tmMini = setTimeout(function () { Retouche.miniatures(rt); }, 700); }
     });
     m.body.addEventListener('change', function (e) {
       var t = e.target;
@@ -16614,6 +16694,11 @@ var Retouche = {
       if (a === 'filtre') { rt.filtre = b.dataset.id; $$('[data-rta="filtre"]', m.el).forEach(function (x) { x.classList.toggle('on', x === b); }); plan(true); }
       if (a === 'auto') { Retouche.auto(rt); Retouche.majCurseurs(rt); plan(true); }
       if (a === 'zero') { rt.adj = Retouche.defauts(); rt.filtre = 'aucun'; $$('[data-rta="filtre"]', m.el).forEach(function (x) { x.classList.toggle('on', x.dataset.id === 'aucun'); }); Retouche.majCurseurs(rt); plan(true); }
+      if (a === 'gen') Retouche.generer(rt);
+      if (a === 'video') Retouche.video(rt, b);
+      if (a === 'tpl') { if (!rt.full) return; rt.design = Object.assign({}, rt.design, { tpl: b.dataset.id }); if (rt.design.tpl !== 'photo' && rt.design.seed === 1) rt.design.seed = Math.floor(Math.random() * 1e9) + 2; Retouche.ajoute(rt); }
+      if (a === 'pal') { if (!rt.full) return; rt.design = Object.assign({}, rt.design, { mode: b.dataset.id }); if (rt.design.tpl === 'photo') rt.design.tpl = 'vitrine'; Retouche.ajoute(rt); }
+      if (a === 'histo') { var h = rt.histo[Number(b.dataset.id)]; if (h) { rt.design = h.d; Retouche.majStyle(rt); $$('#rt-histo .rt-hi', m.el).forEach(function (x) { x.classList.toggle('on', x === b); }); plan(); } }
     });
     /* glisser pour placer la photo dans le cadre */
     var cv = $('#rt-cv', m.el), drag = null;
@@ -16646,6 +16731,7 @@ var Retouche = {
   /* la photo ne sort pas du cadre en mode « remplir » */
   borne: function (rt) {
     var c = Retouche.cad(rt), t = Retouche.taille(rt), d = Retouche.dims(rt, rt.prev), s = Retouche.echelle(rt, t.w, t.h, d.w, d.h, c);
+    if (rt.design.tpl !== 'photo') { c.dx = Math.max(-0.5, Math.min(0.5, c.dx)); c.dy = Math.max(-0.5, Math.min(0.5, c.dy)); return; }
     var lx = c.mode === 'ajuster' ? 0.5 : Math.max(0, (d.w * s - t.w) / 2 / t.w), ly = c.mode === 'ajuster' ? 0.5 : Math.max(0, (d.h * s - t.h) / 2 / t.h);
     c.dx = Math.max(-lx, Math.min(lx, c.dx)); c.dy = Math.max(-ly, Math.min(ly, c.dy));
   },
@@ -16658,6 +16744,9 @@ var Retouche = {
     $$('[data-rta="ph"]', rt.m.el).forEach(function (b) { b.classList.toggle('on', b.dataset.id === pid); });
     FB.get('t/' + S.tid + '/fichiers/' + pid).then(function (x) {
       if (x && x.data) Retouche.charge(rt, x.data); else if (rt.f && rt.f.vignette) Retouche.charge(rt, rt.f.vignette);
+      /* les autres photos du modèle servent au collage */
+      var autres = ((rt.f && rt.f.photos) || []).filter(function (id2) { return id2 !== pid; }); rt.autres = [];
+      autres.slice(0, 2).forEach(function (id2) { FB.get('t/' + S.tid + '/fichiers/' + id2).then(function (y) { if (!y || !y.data) return; var im = new Image(); im.onload = function () { rt.autres.push(Retouche.reduit(im, 900)); if (rt.design.tpl === 'collage') Retouche.dessine(rt); }; im.src = y.data; }).catch(function () {}); });
       ((rt.f && rt.f.photos) || []).forEach(function (id2) { var th = $('[data-rta="ph"][data-id="' + id2 + '"]', rt.m.el); if (!th || th.dataset.ok) return; th.dataset.ok = '1'; (id2 === pid ? Promise.resolve(x) : FB.get('t/' + S.tid + '/fichiers/' + id2)).then(function (y) { if (y && y.data) th.innerHTML = '<img src="' + attr(y.data) + '" alt="">'; }).catch(function () {}); });
     }).catch(function () { UI.toast('La photo n\'a pas pu être chargée.', 'err'); });
   },
@@ -16667,8 +16756,9 @@ var Retouche = {
     img.onload = function () {
       if (rt.m.closed) return;
       rt.full = Retouche.reduit(img, 2400); rt.prev = Retouche.reduit(img, 1100); rt.cacheP = null; rt.cacheF = null; rt.cadre = {}; rt.rot90 = 0; rt.angle = 0;
+      try { rt.pal = Studio.palette(rt.prev); } catch (e) { rt.pal = null; }
       var v = $('#rt-vide', rt.m.el); if (v) v.hidden = true;
-      Retouche.majMode(rt); Retouche.dessine(rt);
+      Retouche.majMode(rt); Retouche.dessine(rt); Retouche.miniatures(rt);
     };
     img.onerror = function () { UI.toast('Cette photo ne peut pas être lue.', 'err'); };
     img.src = url;
@@ -16744,10 +16834,18 @@ var Retouche = {
     rt.adj = a;
   },
   /* ---------- composition d'un format ---------- */
-  compose: function (rt, k, W, H, src) {
+  compose: function (rt, k, W, H, src, A, D) {
     var c = document.createElement('canvas'); c.width = W; c.height = H;
-    var x = c.getContext('2d'); x.imageSmoothingQuality = 'high';
+    Retouche.peindre(c.getContext('2d'), W, H, rt, k, src, A, D);
+    return c;
+  },
+  /* dessine un format dans un contexte : visuel généré, ou photo seule (cadrée, texte, logo) ;
+     A = état de l'animation { t de 0 à 1, fin } pour les vidéos */
+  peindre: function (x, W, H, rt, k, src, A, D) {
+    D = D || rt.design; x.imageSmoothingQuality = 'high';
+    if (D.tpl !== 'photo') { Studio.k = k; Studio.dessiner(x, W, H, rt, src, D, A); Studio.k = null; return; }
     var cad = Retouche.cad(rt, k), d = Retouche.dims(rt, src), s = Retouche.echelle(rt, W, H, d.w, d.h, cad), a = Retouche.effectif(rt);
+    x.fillStyle = '#ffffff'; x.fillRect(0, 0, W, H);
     if (cad.mode === 'ajuster') {
       if (rt.fond === 'flou') {
         var sm = document.createElement('canvas'); sm.width = Math.max(8, Math.round(W / 28)); sm.height = Math.max(8, Math.round(H / 28));
@@ -16756,18 +16854,109 @@ var Retouche = {
         x.drawImage(sm, 0, 0, W, H); x.fillStyle = 'rgba(0,0,0,.18)'; x.fillRect(0, 0, W, H);
       } else { x.fillStyle = rt.fond; x.fillRect(0, 0, W, H); }
     }
-    x.save(); x.translate(W / 2 + cad.dx * W, H / 2 + cad.dy * H); x.rotate(rt.rot90 * Math.PI / 2 + rt.angle * Math.PI / 180); x.scale(rt.flip ? -s : s, s);
+    var kb = A ? 1 + 0.12 * Studio.ease(A.t) : 1, pan = A ? 0.05 * (A.t - 0.5) : 0;
+    x.save(); x.translate(W / 2 + (cad.dx + pan) * W, H / 2 + cad.dy * H); x.rotate(rt.rot90 * Math.PI / 2 + rt.angle * Math.PI / 180); x.scale((rt.flip ? -s : s) * kb, s * kb);
     x.drawImage(src, -src.width / 2, -src.height / 2); x.restore();
     if (a.vignette > 0) { var g = x.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.35, W / 2, H / 2, Math.sqrt(W * W + H * H) / 2); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,' + (a.vignette / 100 * 0.75) + ')'); x.fillStyle = g; x.fillRect(0, 0, W, H); }
+    x.save(); x.globalAlpha = A ? Studio.ph(A, 0.2, 0.4) : 1;
     var bandeau = Retouche.texte(rt, x, W, H);
+    x.restore();
     if (rt.logo.on && rt.logoImg) {
       var L = Math.round(Math.min(W, H) * 0.15), pad = Math.round(Math.min(W, H) * 0.03), lw = L, lh = Math.round(L * (rt.logoImg.height / Math.max(1, rt.logoImg.width))) || L;
       if (lh > L) { lw = Math.round(lw * L / lh); lh = L; }
       var px = rt.logo.pos.charAt(1) === 'd' ? W - lw - pad * 2 : pad, py = rt.logo.pos.charAt(0) === 'b' ? H - lh - pad * 2 - (bandeau && rt.texte.pos === 'bas' ? bandeau : 0) : pad + (bandeau && rt.texte.pos === 'haut' ? bandeau : 0);
-      x.fillStyle = 'rgba(255,255,255,.88)'; if (x.roundRect) { x.beginPath(); x.roundRect(px - pad * 0.5, py - pad * 0.5, lw + pad, lh + pad, pad * 0.6); x.fill(); } else x.fillRect(px - pad * 0.5, py - pad * 0.5, lw + pad, lh + pad);
+      x.fillStyle = 'rgba(255,255,255,.88)'; Studio.chemin(x, { x: px - pad * 0.5, y: py - pad * 0.5, w: lw + pad, h: lh + pad, r: pad * 0.6 }); x.fill();
       x.drawImage(rt.logoImg, px, py, lw, lh);
     }
-    return c;
+    if (A && A.fin) Studio.fin(x, W, H, rt, Studio.couleurs(rt.pal || Studio.palette(src), 'sombre'), A);
+  },
+  /* ---------- générer : un nouveau visuel à chaque appui ---------- */
+  generer: function (rt) {
+    if (!rt.full) { UI.toast('Choisissez d\'abord une photo.', 'err'); return; }
+    var neutre = RT_REGLAGES.every(function (r) { return !rt.adj[r[0]]; }) && rt.adj.noir === 0 && rt.adj.blanc === 255 && rt.filtre === 'aucun';
+    if (neutre) { Retouche.auto(rt); rt.cacheP = null; rt.cacheF = null; Retouche.majCurseurs(rt); }
+    rt.design = Studio.nouveau(rt);
+    Retouche.ajoute(rt);
+  },
+  ajoute: function (rt) {
+    var d = rt.design;
+    if (!rt.histo.some(function (h) { return h.d === d; })) { rt.histo.push({ d: d, img: '' }); if (rt.histo.length > 12) rt.histo.shift(); }
+    Retouche.majStyle(rt); Retouche.dessine(rt); Retouche.miniatures(rt);
+  },
+  majStyle: function (rt) {
+    var m = rt.m;
+    $$('[data-rta="tpl"]', m.el).forEach(function (b) { b.classList.toggle('on', b.dataset.id === rt.design.tpl); });
+    $$('[data-rta="pal"]', m.el).forEach(function (b) { b.classList.toggle('on', rt.design.tpl !== 'photo' && b.dataset.id === rt.design.mode); });
+  },
+  /* vignettes des visuels générés, pour revenir à l'un d'eux */
+  miniatures: function (rt) {
+    var z = $('#rt-histo', rt.m.el); if (!z || !rt.prev) return;
+    if (!rt.histo.length) { z.hidden = true; return; }
+    if (!rt.cacheP) rt.cacheP = Retouche.applique(rt.prev, Object.assign({ noir: 0, blanc: 255 }, Retouche.effectif(rt)));
+    var t = Retouche.taille(rt), k = 120 / Math.max(t.w, t.h), W = Math.max(1, Math.round(t.w * k)), H = Math.max(1, Math.round(t.h * k));
+    z.hidden = false;
+    z.innerHTML = '<span class="muted small">Visuels générés :</span>' + rt.histo.map(function (h, i) {
+      var c = Retouche.compose(rt, rt.fmt, W * 2, H * 2, rt.cacheP, null, h.d);
+      return '<button type="button" class="rt-hi' + (h.d === rt.design ? ' on' : '') + '" data-rta="histo" data-id="' + i + '" title="' + attr((STUDIO_STYLES.filter(function (s) { return s[0] === h.d.tpl; })[0] || ['', ''])[1]) + '"><img src="' + c.toDataURL('image/jpeg', 0.8) + '" alt="" width="' + W + '" height="' + H + '"></button>';
+    }).join('');
+  },
+  /* ---------- vidéo animée (MP4 si le navigateur le permet, sinon WebM) ---------- */
+  video: function (rt, b) {
+    if (!rt.full) { UI.toast('Choisissez d\'abord une photo.', 'err'); return; }
+    if (rt.videoEnCours) return;
+    if (!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream) { UI.toast('Ce navigateur ne sait pas créer de vidéo : ouvrez l\'application dans Chrome.', 'err', 7000); return; }
+    var types = ['video/mp4;codecs=avc1.42E01E', 'video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
+    var mime = types.filter(function (t) { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } })[0];
+    if (!mime) { UI.toast('Ce navigateur ne sait pas créer de vidéo : ouvrez l\'application dans Chrome.', 'err', 7000); return; }
+    var t0 = Retouche.taille(rt), sc = Math.min(1, 1280 / Math.max(t0.w, t0.h)), W = Math.max(2, Math.round(t0.w * sc / 2) * 2), H = Math.max(2, Math.round(t0.h * sc / 2) * 2);
+    var cv = document.createElement('canvas'); cv.width = W; cv.height = H; cv.style.cssText = 'position:fixed;left:-10000px;top:0;width:2px;height:2px;pointer-events:none';
+    document.body.appendChild(cv);
+    var x = cv.getContext('2d'), src = Retouche.reduit(Retouche.ajustee(rt), 1500), dur = rt.dureeVideo || 8000, A = { t: 0, fin: true }, k = rt.fmt, D = rt.design;
+    var stream = cv.captureStream(30), chunks = [], rec;
+    try { rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 6000000 }); } catch (e) { try { rec = new MediaRecorder(stream); mime = rec.mimeType || 'video/webm'; } catch (e2) { cv.remove(); UI.toast('La vidéo n\'a pas pu être créée.', 'err'); return; } }
+    rt.videoEnCours = true; Retouche.occupe(b, true, 'Vidéo 0 %');
+    rec.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+    rec.onstop = function () {
+      cv.remove(); stream.getTracks().forEach(function (t) { t.stop(); }); rt.videoEnCours = false; Retouche.occupe(b, false);
+      var type = mime.split(';')[0], blob = new Blob(chunks, { type: type });
+      if (!blob.size) { UI.toast('La vidéo est vide : réessayez.', 'err'); return; }
+      Retouche.montreVideo(rt, blob, type, W, H);
+    };
+    var peint = function (t) { A.t = t; Retouche.peindre(x, W, H, rt, k, src, A, D); };
+    peint(0); rec.start(250);
+    var debut = performance.now();
+    var boucle = function () {
+      var t = (performance.now() - debut) / dur;
+      if (t >= 1) { peint(1); setTimeout(function () { try { rec.stop(); } catch (e) {} }, 200); return; }
+      peint(t); if (b) b.innerHTML = '<span class="spin"></span> Vidéo ' + Math.round(t * 100) + ' %';
+      if (window.requestAnimationFrame && !document.hidden) requestAnimationFrame(boucle); else setTimeout(boucle, 33);
+    };
+    boucle();
+  },
+  montreVideo: function (rt, blob, type, W, H) {
+    var url = URL.createObjectURL(blob), f = Retouche.fmtOf(rt), ext = /mp4/.test(type) ? 'mp4' : 'webm';
+    var nom = rtNomFichier(rt.nom) + '-' + (f.k === 'orig' ? 'video' : rtNomFichier(f.g + '-' + f.n)) + '-video.' + ext;
+    rt.derniereVideo = { blob: blob, nom: nom, type: type };
+    var m = UI.modal({ title: 'Vidéo — ' + (f.w ? f.g + ', ' + f.n : 'photo entière'), size: 'm',
+      body: '<div class="rt-video"><video src="' + url + '" controls autoplay loop muted playsinline style="aspect-ratio:' + W + '/' + H + '"></video></div>' +
+        '<p class="muted small">' + W + ' × ' + H + ' pixels, ' + fmtN((rt.dureeVideo || 8000) / 1000, 1) + ' secondes, fichier ' + ext.toUpperCase() + ' (' + fmtN(blob.size / 1048576, 1) + ' Mo).' + (ext === 'webm' ? ' TikTok et Facebook acceptent ce format ; pour X, qui demande du MP4, ouvrez l\'application dans un Chrome récent.' : '') + '</p>',
+      actions: [{ t: icon('download') + ' Télécharger la vidéo', act: 'dl', cls: 'primary' }, { t: icon('share') + ' Partager', act: 'share', cls: 'ghost' }, { t: 'Fermer', act: '__close', cls: 'ghost' }],
+      onClose: function () { setTimeout(function () { URL.revokeObjectURL(url); }, 1000); },
+      onAct: function (a) {
+        if (a === 'dl') { rtTelecharge(blob, nom); UI.toast('Vidéo téléchargée : ' + nom, 'ok'); }
+        if (a === 'share') {
+          var file = new File([blob], nom, { type: type });
+          if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], title: rt.f ? rt.f.nom : 'Vidéo' }).catch(function () {});
+          else { rtTelecharge(blob, nom); UI.toast('Ce téléphone ne partage pas les vidéos depuis le navigateur : la vidéo est téléchargée, publiez-la depuis la galerie.', 'info', 7000); }
+        }
+      } });
+    return m;
+  },
+  /* la photo entière retouchée (pleine résolution) */
+  ajustee: function (rt) {
+    var cle = JSON.stringify([rt.adj, rt.filtre]);
+    if (!rt.cacheF || rt.cacheFKey !== cle) { rt.cacheF = Retouche.applique(rt.full, Object.assign({ noir: 0, blanc: 255 }, Retouche.effectif(rt))); rt.cacheFKey = cle; }
+    return rt.cacheF;
   },
   texte: function (rt, x, W, H) {
     var t = rt.texte; if (!t.on) return 0;
@@ -16801,9 +16990,8 @@ var Retouche = {
   },
   /* image finale d'un format, en pleine résolution */
   rendu: function (rt, k) {
-    if (!rt.cacheF || rt.cacheFKey !== JSON.stringify([rt.adj, rt.filtre])) { rt.cacheF = Retouche.applique(rt.full, Object.assign({ noir: 0, blanc: 255 }, Retouche.effectif(rt))); rt.cacheFKey = JSON.stringify([rt.adj, rt.filtre]); }
     var t = Retouche.taille(rt, k);
-    return Retouche.compose(rt, k, t.w, t.h, rt.cacheF);
+    return Retouche.compose(rt, k, t.w, t.h, Retouche.ajustee(rt));
   },
   blob: function (c) { return new Promise(function (res, rej) { if (c.toBlob) c.toBlob(function (b) { if (b) res(b); else rej(new Error('Image impossible à créer')); }, 'image/jpeg', 0.92); else rej(new Error('Image impossible à créer')); }); },
   nomFormat: function (rt, k) { var f = Retouche.fmtOf(rt, k), t = Retouche.taille(rt, k); return rtNomFichier(rt.nom) + '-' + (f.k === 'orig' ? 'retouchee' : rtNomFichier(f.g + '-' + f.n)) + '-' + t.w + 'x' + t.h + '.jpg'; },
@@ -16839,6 +17027,348 @@ var Retouche = {
         rtTelecharge(bl, file.name); UI.toast('Ce téléphone ne partage pas les photos depuis le navigateur : la photo est téléchargée, publiez-la depuis la galerie.', 'info', 7000);
       }).catch(function (e) { UI.toast(e.message || 'Partage impossible.', 'err'); }).then(function () { Retouche.occupe(b, false); });
     }, 30);
+  }
+};
+
+/* ---------- studio : visuels générés à partir de la photo, et animations ----------
+   Chaque appui sur « Générer » compose un nouveau visuel : un style (vitrine, tissu drapé,
+   affiche, cadre tissé, détails, pagnes pliés, collage), des couleurs tirées du tissu
+   lui-même (claires, sombres ou celles du tissu), une mise en page et une typographie,
+   avec le nom du modèle, son prix, le contact et le logo. Le même visuel s'anime en vidéo
+   (zoom lent, tissu qui ondule, textes qui apparaissent, carte de fin). */
+ICONS.magic = '<path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8 19 13M17.8 6.2 19 5M12.2 6.2 11 5M12.2 11.8 11 13"/><path d="m3 21 9-9"/>';
+ICONS.play = '<path d="M7 4.5v15l12.5-7.5z"/>';
+var STUDIO_STYLES = [['vitrine', 'Vitrine'], ['drape', 'Tissu drapé'], ['affiche', 'Affiche'], ['cadre', 'Cadre tissé'], ['details', 'Détails'], ['plies', 'Pagnes pliés'], ['collage', 'Collage'], ['photo', 'Photo seule']];
+var Studio = {
+  alea: function (seed) { var s = (Number(seed) >>> 0) || 7; return function () { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; }; },
+  ease: function (t) { return t <= 0 ? 0 : t >= 1 ? 1 : 1 - Math.pow(1 - t, 3); },
+  ph: function (A, a, b) { return A ? Studio.ease((A.t - a) / (b - a)) : 1; },
+  mix: function (h1, h2, t) { var a = Coul.hex2rgb(h1), b = Coul.hex2rgb(h2); return Coul.rgb2hex([0, 1, 2].map(function (i) { return a[i] + (b[i] - a[i]) * t; })); },
+  lum: function (h) { var c = Coul.hex2rgb(h); return (0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]) / 255; },
+  sur: function (h) { return Studio.lum(h) > 0.62 ? '#141b3d' : '#ffffff'; },
+  rgba: function (h, a) { var c = Coul.hex2rgb(h); return 'rgba(' + c.join(',') + ',' + a + ')'; },
+  orient: function (W, H) { var r = W / H; return r > 1.25 ? 'large' : r < 0.9 ? 'haut' : 'carre'; },
+  SANS: '"IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif',
+  SERIF: 'Georgia, "Times New Roman", "Noto Serif", serif',
+  /* couleurs du tissu : la plus présente, la plus vive, la plus foncée, la plus claire */
+  palette: function (src) {
+    var c = document.createElement('canvas'), r = Math.min(1, 96 / Math.max(src.width, src.height, 1)); c.width = Math.max(1, Math.round(src.width * r)); c.height = Math.max(1, Math.round(src.height * r));
+    var x = c.getContext('2d'), pal = [];
+    if (x) { x.drawImage(src, 0, 0, c.width, c.height); try { pal = Analyse.palette(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height, {}).couleurs; } catch (e) { pal = []; } }
+    if (!pal.length) pal = [{ hex: '#22306b', lab: Coul.labHex('#22306b'), part: 1 }];
+    var chroma = function (q) { return Math.sqrt(q.lab[1] * q.lab[1] + q.lab[2] * q.lab[2]); };
+    var vif = pal.filter(function (q) { return q.part >= 0.02; }).sort(function (a, b) { return chroma(b) - chroma(a); })[0];
+    return { dom: pal[0].hex, vif: vif && chroma(vif) > 22 ? vif.hex : '#c9932e', fonce: pal.slice().sort(function (a, b) { return a.lab[0] - b.lab[0]; })[0].hex, clair: pal.slice().sort(function (a, b) { return b.lab[0] - a.lab[0]; })[0].hex, toutes: pal.map(function (q) { return q.hex; }) };
+  },
+  /* les couleurs d'un visuel */
+  couleurs: function (pal, mode) {
+    var C;
+    if (mode === 'sombre') C = { bg1: Studio.mix(pal.dom, '#05070f', 0.7), bg2: Studio.mix(pal.fonce, '#0b0f24', 0.6), encre: '#ffffff', doux: 'rgba(255,255,255,.74)', carte: '#10142c', sombre: true };
+    else if (mode === 'couleur') { var e = Studio.sur(pal.dom); C = { bg1: Studio.mix(pal.dom, '#ffffff', 0.1), bg2: Studio.mix(pal.dom, '#000000', 0.3), encre: e, doux: e === '#ffffff' ? 'rgba(255,255,255,.8)' : 'rgba(20,27,61,.72)', carte: e === '#ffffff' ? Studio.mix(pal.dom, '#000000', 0.45) : '#ffffff', sombre: e === '#ffffff' }; }
+    else C = { bg1: Studio.mix(pal.clair, '#ffffff', 0.62), bg2: Studio.mix(pal.dom, '#ffffff', 0.84), encre: '#141b3d', doux: 'rgba(20,27,61,.68)', carte: '#ffffff', sombre: false };
+    C.accent = pal.vif;
+    if (Studio.lum(C.accent) > 0.82 || Studio.lum(C.accent) < 0.12) C.accent = '#c9932e';
+    /* accroche lisible sur le fond */
+    C.accentTxt = C.sombre ? (Studio.lum(C.accent) < 0.45 ? Studio.mix(C.accent, '#ffffff', 0.45) : C.accent) : (Studio.lum(C.accent) > 0.5 ? Studio.mix(C.accent, '#000000', 0.4) : C.accent);
+    C.panneau = mode === 'couleur' ? pal.dom : mode === 'sombre' ? C.bg2 : Studio.mix(pal.fonce, '#0b0f24', 0.45);
+    C.pal = pal;
+    return C;
+  },
+  fond: function (x, W, H, C, r) {
+    var g = r() < 0.5 ? x.createLinearGradient(0, 0, W, H) : x.createRadialGradient(W * 0.5, H * 0.32, 0, W * 0.5, H * 0.5, Math.max(W, H) * 0.78);
+    g.addColorStop(0, C.bg1); g.addColorStop(1, C.bg2); x.fillStyle = g; x.fillRect(0, 0, W, H);
+    /* fine trame tissée, très discrète */
+    var pas = Math.max(3, Math.round(Math.min(W, H) / 150));
+    x.save(); x.globalAlpha = C.sombre ? 0.045 : 0.035; x.fillStyle = C.sombre ? '#ffffff' : '#141b3d';
+    for (var y = 0; y < H; y += pas * 2) x.fillRect(0, y, W, 1);
+    for (var xx = 0; xx < W; xx += pas * 2) x.fillRect(xx, 0, 1, H);
+    x.restore();
+  },
+  chemin: function (x, Z) {
+    x.beginPath();
+    if (Z.cercle) { x.arc(Z.x + Z.w / 2, Z.y + Z.h / 2, Math.min(Z.w, Z.h) / 2, 0, Math.PI * 2); return; }
+    var r = Math.min(Z.r || 0, Z.w / 2, Z.h / 2);
+    if (r > 0) { x.moveTo(Z.x + r, Z.y); x.arcTo(Z.x + Z.w, Z.y, Z.x + Z.w, Z.y + Z.h, r); x.arcTo(Z.x + Z.w, Z.y + Z.h, Z.x, Z.y + Z.h, r); x.arcTo(Z.x, Z.y + Z.h, Z.x, Z.y, r); x.arcTo(Z.x, Z.y, Z.x + Z.w, Z.y, r); x.closePath(); }
+    else x.rect(Z.x, Z.y, Z.w, Z.h);
+  },
+  /* la photo tournée, retournée et redressée une fois pour toutes (agrandie pour ne pas montrer de coins) */
+  source: function (rt, src) {
+    var cle = [src.width, src.height, rt.rot90, rt.flip, rt.angle].join('|');
+    if (src._studio && src._studio.cle === cle) return src._studio.c;
+    var d = Retouche.dims(rt, src), c = document.createElement('canvas'); c.width = d.w; c.height = d.h;
+    var x = c.getContext('2d'), th = rt.angle * Math.PI / 180, k = Math.abs(Math.cos(th)) + Math.max(d.w / d.h, d.h / d.w) * Math.abs(Math.sin(th));
+    x.imageSmoothingQuality = 'high'; x.translate(d.w / 2, d.h / 2); x.rotate(rt.rot90 * Math.PI / 2 + th); x.scale(rt.flip ? -k : k, k); x.drawImage(src, -src.width / 2, -src.height / 2);
+    src._studio = { cle: cle, c: c };
+    return c;
+  },
+  /* coins de la photo les plus riches en détails (pour les loupes) */
+  points: function (O) {
+    if (O._points) return O._points;
+    var n = 8, c = document.createElement('canvas'); c.width = 64; c.height = Math.max(8, Math.round(64 * O.height / O.width));
+    var x = c.getContext('2d'); x.drawImage(O, 0, 0, c.width, c.height);
+    var d = x.getImageData(0, 0, c.width, c.height).data, cw = c.width / n, ch = c.height / n, cells = [];
+    for (var j = 1; j < n - 1; j++) for (var i = 1; i < n - 1; i++) {
+      var s = 0, s2 = 0, k = 0;
+      for (var y = Math.floor(j * ch); y < Math.floor((j + 1) * ch); y++) for (var xx = Math.floor(i * cw); xx < Math.floor((i + 1) * cw); xx++) { var o = (y * c.width + xx) * 4, L = 0.3 * d[o] + 0.59 * d[o + 1] + 0.11 * d[o + 2]; s += L; s2 += L * L; k++; }
+      cells.push({ x: (i + 0.5) / n, y: (j + 0.5) / n, v: k ? s2 / k - (s / k) * (s / k) : 0 });
+    }
+    cells.sort(function (a, b) { return b.v - a.v; });
+    var pts = [cells[0]]; for (var q = 1; q < cells.length && pts.length < 3; q++) if (pts.every(function (p) { return Math.abs(p.x - cells[q].x) + Math.abs(p.y - cells[q].y) > 0.35; })) pts.push(cells[q]);
+    while (pts.length < 3) pts.push({ x: 0.3 + 0.2 * pts.length, y: 0.4 });
+    O._points = pts;
+    return pts;
+  },
+  /* la photo dans une zone : remplie, cadrage de l'utilisateur, zoom lent pendant l'animation */
+  photo: function (x, rt, O, Z, A, o) {
+    o = o || {};
+    var cad = Retouche.cad(rt, Studio.k || rt.fmt), s = Math.max(Z.w / O.width, Z.h / O.height) * (o.zoom || cad.zoom || 1);
+    var kb = A && o.kb !== 0 ? 1 + 0.12 * Studio.ease(A.t) * (o.kb || 1) : 1, pan = A ? (o.pan || 0) * (A.t - 0.5) : 0;
+    var cx = o.point ? (0.5 - o.point.x) * O.width * s : (cad.dx + (o.px || 0) + pan) * Z.w, cy = o.point ? (0.5 - o.point.y) * O.height * s : (cad.dy + (o.py || 0)) * Z.h;
+    x.save(); Studio.chemin(x, Z); x.clip();
+    x.translate(Z.x + Z.w / 2, Z.y + Z.h / 2); x.scale(kb, kb); x.translate(cx, cy);
+    x.drawImage(O, -O.width * s / 2, -O.height * s / 2, O.width * s, O.height * s);
+    x.restore();
+  },
+  ombre: function (x, m, f) { x.save(); x.shadowColor = 'rgba(8,12,36,.34)'; x.shadowBlur = m * 0.045; x.shadowOffsetY = m * 0.022; f(); x.restore(); },
+  coupe: function (x, txt, font, maxW) {
+    x.font = font; var mots = String(txt).split(/\s+/), out = [], cur = '';
+    mots.forEach(function (w) { var t = cur ? cur + ' ' + w : w; if (x.measureText(t).width > maxW && cur) { out.push(cur); cur = w; } else cur = t; });
+    if (cur) out.push(cur); return out;
+  },
+  /* bloc de textes qui tient dans sa zone (taille réduite au besoin), apparition progressive en vidéo */
+  textes: function (x, Z, items, o, A) {
+    items = items.filter(function (it) { return it.t && String(it.t).trim(); }); if (!items.length) return;
+    var k = 1, blocs = [], tot = 0;
+    for (var essai = 0; essai < 14; essai++) {
+      var trop = false; tot = 0;
+      blocs = items.map(function (it) {
+        var sz = Math.max(9, Math.round(o.base * it.taille * k)), font = (it.poids || 400) + ' ' + sz + 'px ' + (it.serif ? Studio.SERIF : Studio.SANS), t = it.maj ? String(it.t).toUpperCase() : String(it.t);
+        var lim = Z.w - (it.badge ? sz * 1.4 : 0), ls = it.coupe === false ? [t] : Studio.coupe(x, t, font, lim);
+        x.font = font; if (ls.length > (it.max || 3) || ls.some(function (l) { return x.measureText(l).width > lim * 1.001; })) trop = true;
+        var h = ls.length * sz * (it.badge ? 1.75 : 1.16) + sz * (it.marge === undefined ? 0.42 : it.marge); tot += h;
+        return { it: it, sz: sz, font: font, ls: ls, h: h };
+      });
+      if (!trop && tot <= Z.h) break;
+      k *= 0.9;
+    }
+    var y = o.valign === 'haut' ? Z.y : o.valign === 'bas' ? Z.y + Z.h - tot : Z.y + (Z.h - tot) / 2, al = o.align || 'left';
+    var X = al === 'center' ? Z.x + Z.w / 2 : al === 'right' ? Z.x + Z.w : Z.x;
+    blocs.forEach(function (b, i) {
+      var t0 = (o.t0 || 0.2) + i * 0.07, ap = Studio.ph(A, t0, t0 + 0.16);
+      if (ap > 0) {
+        x.save(); x.globalAlpha = ap; x.font = b.font; x.textBaseline = 'middle'; x.textAlign = al;
+        var dy = (1 - ap) * b.sz * 0.9, yy = y + dy;
+        b.ls.forEach(function (l) {
+          if (b.it.badge) {
+            var tw = x.measureText(l).width, ph = b.sz * 1.55, pw = tw + b.sz * 1.3, bx = al === 'center' ? X - pw / 2 : al === 'right' ? X - pw : X;
+            var sc = A ? 0.85 + 0.15 * Studio.ph(A, t0, t0 + 0.12) : 1;
+            x.save(); x.translate(bx + pw / 2, yy + ph / 2); x.scale(sc, sc);
+            x.fillStyle = b.it.badge.fond; Studio.chemin(x, { x: -pw / 2, y: -ph / 2, w: pw, h: ph, r: ph / 2 }); x.fill();
+            x.fillStyle = b.it.badge.encre; x.textAlign = 'center'; x.fillText(l, 0, b.sz * 0.04); x.restore();
+            yy += b.sz * 1.75;
+          } else {
+            if (b.it.ombre) { x.shadowColor = 'rgba(0,0,0,.55)'; x.shadowBlur = b.sz * 0.3; x.shadowOffsetY = b.sz * 0.05; }
+            x.fillStyle = b.it.couleur; x.fillText(l, X, yy + b.sz * 0.58); yy += b.sz * 1.16;
+          }
+        });
+        x.restore();
+      }
+      y += b.h;
+    });
+  },
+  /* les textes de la fiche : accroche, nom du modèle, prix, contact */
+  textesStd: function (x, rt, Z, C, D, A, o) {
+    var t = rt.texte, sombre = o.sombre !== undefined ? o.sombre : C.sombre, encre = o.encre || C.encre;
+    Studio.textes(x, Z, [
+      { t: t.accroche, taille: 0.03, poids: 700, couleur: o.accentTxt || C.accentTxt, maj: true, coupe: false, max: 1, marge: 0.55 },
+      { t: t.titre, taille: o.grand ? 0.095 : 0.078, poids: 700, couleur: encre, serif: D.serif, max: 2, ombre: o.ombre },
+      { t: t.prix, taille: 0.042, poids: 700, badge: { fond: C.accent, encre: Studio.sur(C.accent) }, coupe: false, max: 1, marge: 0.5 },
+      { t: t.contact, taille: 0.03, poids: 500, couleur: o.doux || (sombre ? 'rgba(255,255,255,.78)' : C.doux), max: 2 }
+    ], { base: o.base, align: o.align, valign: o.valign, t0: o.t0 }, A);
+  },
+  logo: function (x, rt, W, H, pos, A, fondClair) {
+    if (!rt.logo.on || !rt.logoImg) return;
+    var m = Math.min(W, H), L = Math.round(m * 0.12), pad = Math.round(m * 0.035), lw = L, lh = Math.round(L * (rt.logoImg.height / Math.max(1, rt.logoImg.width))) || L;
+    if (lh > L) { lw = Math.round(lw * L / lh); lh = L; }
+    var px = pos.charAt(1) === 'd' ? W - lw - pad * 1.6 : pad * 1.6, py = pos.charAt(0) === 'b' ? H - lh - pad * 1.6 : pad * 1.6;
+    x.save(); x.globalAlpha = Studio.ph(A, 0.05, 0.2);
+    if (!fondClair) { x.fillStyle = 'rgba(255,255,255,.9)'; Studio.chemin(x, { x: px - pad * 0.5, y: py - pad * 0.5, w: lw + pad, h: lh + pad, r: pad * 0.6 }); x.fill(); }
+    x.drawImage(rt.logoImg, px, py, lw, lh); x.restore();
+  },
+  /* ---------- les styles ---------- */
+  modeles: {
+    vitrine: function (x, W, H, rt, O, D, C, A) {
+      var r = Studio.alea(D.seed), m = Math.min(W, H), o = Studio.orient(W, H), Z, T;
+      Studio.fond(x, W, H, C, r);
+      if (o === 'large') { Z = { x: W * 0.06, y: H * 0.11, w: W * 0.47, h: H * 0.78 }; T = { x: W * 0.59, y: H * 0.12, w: W * 0.36, h: H * 0.76 }; }
+      else if (o === 'haut') { Z = { x: W * 0.1, y: H * 0.1, w: W * 0.8, h: H * 0.55 }; T = { x: W * 0.09, y: H * 0.69, w: W * 0.82, h: H * 0.25 }; }
+      else { Z = { x: W * 0.13, y: H * 0.07, w: W * 0.74, h: H * 0.57 }; T = { x: W * 0.09, y: H * 0.68, w: W * 0.82, h: H * 0.27 }; }
+      var ang = (r() - 0.5) * 7 * Math.PI / 180, carte = r() < 0.65, ap = Studio.ph(A, 0, 0.22), sc = 0.9 + 0.1 * ap, cx = Z.x + Z.w / 2, cy = Z.y + Z.h / 2;
+      x.save(); x.globalAlpha = ap; x.translate(cx, cy); x.rotate(ang); x.scale(sc, sc); x.translate(-cx, -cy);
+      Studio.ombre(x, m, function () { x.fillStyle = carte ? '#ffffff' : C.bg2; Studio.chemin(x, { x: Z.x, y: Z.y, w: Z.w, h: Z.h, r: m * 0.018 }); x.fill(); });
+      var b = carte ? m * 0.02 : 0;
+      Studio.photo(x, rt, O, { x: Z.x + b, y: Z.y + b, w: Z.w - 2 * b, h: Z.h - 2 * b, r: carte ? m * 0.008 : m * 0.018 }, A, { pan: 0.08 });
+      x.restore();
+      if (o !== 'large') { x.save(); x.globalAlpha = 0.5 * Studio.ph(A, 0.2, 0.35); x.fillStyle = C.accent; x.fillRect(W / 2 - m * 0.06, T.y - m * 0.012, m * 0.12, Math.max(2, m * 0.005)); x.restore(); }
+      Studio.textesStd(x, rt, T, C, D, A, { base: m, align: o === 'large' ? 'left' : 'center', valign: 'middle', t0: 0.24 });
+      Studio.logo(x, rt, W, H, o === 'large' ? 'hd' : (r() < 0.5 ? 'hg' : 'hd'), A, !C.sombre);
+    },
+    drape: function (x, W, H, rt, O, D, C, A) {
+      var r = Studio.alea(D.seed), m = Math.min(W, H), o = Studio.orient(W, H), Z, T;
+      Studio.fond(x, W, H, C, r);
+      if (o === 'large') { Z = { x: W * 0.08, y: H * 0.14, w: W * 0.44, h: H * 0.76 }; T = { x: W * 0.58, y: H * 0.14, w: W * 0.37, h: H * 0.72 }; }
+      else { Z = { x: W * 0.15, y: H * 0.1, w: W * 0.7, h: H * (o === 'haut' ? 0.56 : 0.55) }; T = { x: W * 0.08, y: Z.y + Z.h + H * 0.07, w: W * 0.84, h: H * 0.93 - (Z.y + Z.h + H * 0.07) }; }
+      var nF = 4 + Math.floor(r() * 4), ph0 = r() * 6.28, amp = m * 0.02, desc = Studio.ph(A, 0, 0.24), dy = -(1 - desc) * Z.h * 0.3, vent = A ? A.t * Math.PI * 1.4 : 0;
+      var F = document.createElement('canvas'); F.width = Math.max(2, Math.round(Z.w)); F.height = Math.max(2, Math.round(Z.h));
+      Studio.photo(F.getContext('2d'), rt, O, { x: 0, y: 0, w: F.width, h: F.height }, A, { pan: 0.05, kb: 0.5 });
+      x.save(); x.globalAlpha = desc;
+      Studio.ombre(x, m, function () { x.fillStyle = Studio.rgba('#000000', 0.25); x.fillRect(Z.x + m * 0.01, Z.y + dy + m * 0.01, Z.w - m * 0.02, Z.h * 0.96); });
+      var pas = Math.max(2, Math.round(Z.w / 240));
+      for (var sx = 0; sx < F.width; sx += pas) {
+        var phi = sx / F.width * nF * Math.PI * 2 + ph0 + vent, cs = Math.cos(phi), hh = F.height + amp * Math.sin(phi) * (0.4 + 0.6 * sx / F.width + 0.3);
+        x.drawImage(F, sx, 0, Math.min(pas, F.width - sx), F.height, Z.x + sx, Z.y + dy, pas + 0.7, hh);
+        x.fillStyle = cs < 0 ? 'rgba(0,0,0,' + (-cs * 0.3).toFixed(3) + ')' : 'rgba(255,255,255,' + (cs * 0.13).toFixed(3) + ')';
+        x.fillRect(Z.x + sx, Z.y + dy, pas + 0.7, hh);
+      }
+      var gt = x.createLinearGradient(0, Z.y + dy, 0, Z.y + dy + Z.h * 0.12); gt.addColorStop(0, 'rgba(0,0,0,.28)'); gt.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = gt; x.fillRect(Z.x, Z.y + dy, Z.w, Z.h * 0.12);
+      var ty = Z.y + dy - m * 0.008, g = x.createLinearGradient(0, ty - m * 0.016, 0, ty + m * 0.016);
+      g.addColorStop(0, '#5a3b20'); g.addColorStop(0.45, '#d2a874'); g.addColorStop(1, '#3d2714');
+      x.fillStyle = g; Studio.chemin(x, { x: Z.x - m * 0.05, y: ty - m * 0.014, w: Z.w + m * 0.1, h: m * 0.028, r: m * 0.014 }); x.fill();
+      x.restore();
+      Studio.textesStd(x, rt, T, C, D, A, { base: m, align: o === 'large' ? 'left' : 'center', valign: 'middle', t0: 0.26 });
+      Studio.logo(x, rt, W, H, 'hd', A, !C.sombre);
+    },
+    affiche: function (x, W, H, rt, O, D, C, A) {
+      var r = Studio.alea(D.seed), m = Math.min(W, H), o = Studio.orient(W, H), pan = C.panneau, encre = Studio.sur(pan), inc = (r() < 0.5 ? -1 : 1) * (0.05 + r() * 0.05);
+      var large = o === 'large', Z = large ? { x: 0, y: 0, w: W * 0.6, h: H } : { x: 0, y: 0, w: W, h: H * 0.64 };
+      Studio.photo(x, rt, O, Z, A, { pan: 0.1 });
+      var wipe = Studio.ph(A, 0.08, 0.3), pts;
+      if (large) { var x0 = W * 0.55; pts = [[x0 + H * inc, 0], [W, 0], [W, H], [x0 - H * inc, H]]; }
+      else { var y0 = H * 0.6; pts = [[0, y0 + W * inc], [W, y0 - W * inc], [W, H], [0, H]]; }
+      x.save(); x.fillStyle = pan; x.beginPath(); pts.forEach(function (p, i) { if (i) x.lineTo(p[0], p[1]); else x.moveTo(p[0], p[1]); }); x.closePath(); x.fill();
+      /* liseré de couleur le long de la coupe */
+      x.strokeStyle = C.accent; x.lineWidth = Math.max(3, m * 0.012); x.beginPath(); x.moveTo(pts[0][0], pts[0][1]);
+      var e = large ? [pts[0][0] + (pts[3][0] - pts[0][0]) * wipe, pts[0][1] + (pts[3][1] - pts[0][1]) * wipe] : [pts[0][0] + (pts[1][0] - pts[0][0]) * wipe, pts[0][1] + (pts[1][1] - pts[0][1]) * wipe];
+      x.lineTo(e[0], e[1]); x.stroke(); x.restore();
+      var T = large ? { x: W * 0.62, y: H * 0.12, w: W * 0.33, h: H * 0.76 } : { x: W * 0.08, y: H * 0.7, w: W * 0.84, h: H * 0.26 };
+      Studio.textesStd(x, rt, T, C, D, A, { base: m, align: 'left', valign: 'middle', t0: 0.22, encre: encre, sombre: encre === '#ffffff', accentTxt: encre === '#ffffff' ? Studio.mix(C.accent, '#ffffff', 0.3) : Studio.mix(C.accent, '#000000', 0.35), grand: true, doux: encre === '#ffffff' ? 'rgba(255,255,255,.78)' : 'rgba(20,27,61,.7)' });
+      Studio.logo(x, rt, W, H, 'hg', A, false);
+    },
+    cadre: function (x, W, H, rt, O, D, C, A) {
+      var r = Studio.alea(D.seed), m = Math.min(W, H), o = Studio.orient(W, H);
+      /* fond : la photo floutée */
+      var sm = document.createElement('canvas'); sm.width = 24; sm.height = Math.max(8, Math.round(24 * H / W));
+      Studio.photo(sm.getContext('2d'), rt, O, { x: 0, y: 0, w: sm.width, h: sm.height }, null, {});
+      x.drawImage(sm, 0, 0, W, H); x.fillStyle = 'rgba(8,10,28,.38)'; x.fillRect(0, 0, W, H);
+      /* bordure rayée aux couleurs du tissu, comme une lisière tissée */
+      var cols = C.pal.toutes.slice(0, 4).concat(['#ffffff']), larg = [], tot = 0;
+      cols.forEach(function () { var w = 2 + Math.round(r() * 5); larg.push(w); tot += w; });
+      var P = document.createElement('canvas'), u = Math.max(1, Math.round(m / 220)); P.width = tot * u; P.height = 4;
+      var px = P.getContext('2d'), xx = 0; cols.forEach(function (c, i) { px.fillStyle = c; px.fillRect(xx, 0, larg[i] * u, 4); xx += larg[i] * u; });
+      var b = m * 0.06, ins = m * 0.035, off = A ? A.t * P.width * 3 : 0, pat = x.createPattern(P, 'repeat');
+      x.save(); x.beginPath(); x.rect(ins, ins, W - 2 * ins, H - 2 * ins); x.rect(ins + b, ins + b, W - 2 * ins - 2 * b, H - 2 * ins - 2 * b); x.clip('evenodd');
+      x.translate(W / 2, H / 2); x.rotate(Math.PI / 4); x.translate(off, 0); x.fillStyle = pat; x.fillRect(-W * 2, -H * 2, W * 4, H * 4); x.restore();
+      /* carte intérieure */
+      var K = { x: ins + b + m * 0.03, y: ins + b + m * 0.03, w: W - 2 * (ins + b + m * 0.03), h: H - 2 * (ins + b + m * 0.03) };
+      var clair = r() < 0.55, fondK = clair ? '#fbfaf6' : '#121630', ap = Studio.ph(A, 0, 0.2);
+      x.save(); x.globalAlpha = ap;
+      Studio.ombre(x, m, function () { x.fillStyle = fondK; Studio.chemin(x, { x: K.x, y: K.y, w: K.w, h: K.h, r: m * 0.012 }); x.fill(); });
+      var Z, T, p = m * 0.025;
+      if (o === 'large') { Z = { x: K.x + p, y: K.y + p, w: K.w * 0.55, h: K.h - 2 * p, r: m * 0.008 }; T = { x: Z.x + Z.w + p * 1.6, y: K.y + p, w: K.x + K.w - (Z.x + Z.w + p * 2.6), h: K.h - 2 * p }; }
+      else { Z = { x: K.x + p, y: K.y + p, w: K.w - 2 * p, h: K.h * 0.66, r: m * 0.008 }; T = { x: K.x + p * 1.4, y: Z.y + Z.h + p * 0.6, w: K.w - p * 2.8, h: K.y + K.h - (Z.y + Z.h + p * 1.4) }; }
+      Studio.photo(x, rt, O, Z, A, { pan: 0.06 });
+      x.restore();
+      var Ck = Object.assign({}, C, { sombre: !clair, encre: clair ? '#141b3d' : '#ffffff', doux: clair ? 'rgba(20,27,61,.68)' : 'rgba(255,255,255,.76)', accentTxt: clair ? (Studio.lum(C.accent) > 0.5 ? Studio.mix(C.accent, '#000000', 0.4) : C.accent) : Studio.mix(C.accent, '#ffffff', 0.3) });
+      Studio.textesStd(x, rt, T, Ck, D, A, { base: m * 0.9, align: o === 'large' ? 'left' : 'center', valign: 'middle', t0: 0.24 });
+      Studio.logo(x, rt, W, H, 'hd', A, false);
+    },
+    details: function (x, W, H, rt, O, D, C, A) {
+      var r = Studio.alea(D.seed), m = Math.min(W, H), o = Studio.orient(W, H), Z, T;
+      Studio.fond(x, W, H, C, r);
+      if (o === 'large') { Z = { x: W * 0.05, y: H * 0.1, w: W * 0.52, h: H * 0.8, r: m * 0.02 }; T = { x: W * 0.64, y: H * 0.12, w: W * 0.32, h: H * 0.76 }; }
+      else { Z = { x: W * 0.07, y: H * 0.06, w: W * 0.78, h: H * (o === 'haut' ? 0.55 : 0.58), r: m * 0.02 }; T = { x: W * 0.08, y: Z.y + Z.h + H * 0.07, w: W * 0.84, h: H * 0.95 - (Z.y + Z.h + H * 0.07) }; }
+      Studio.ombre(x, m, function () { x.fillStyle = C.bg2; Studio.chemin(x, Z); x.fill(); });
+      Studio.photo(x, rt, O, Z, A, { pan: 0.06 });
+      var pts = Studio.points(O), R = m * (o === 'large' ? 0.15 : 0.13);
+      var pos = o === 'large' ? [[Z.x + Z.w - R * 0.35, Z.y + Z.h * 0.3], [Z.x + Z.w - R * 0.9, Z.y + Z.h * 0.74]] : [[Z.x + Z.w, Z.y + Z.h * 0.3], [Z.x + Z.w * 0.94, Z.y + Z.h * 0.86]];
+      pos.forEach(function (q, i) {
+        var a = Studio.ph(A, 0.3 + i * 0.12, 0.42 + i * 0.12); if (a <= 0) return;
+        var c = { x: q[0] - R, y: q[1] - R, w: 2 * R, h: 2 * R, cercle: true };
+        x.save(); x.globalAlpha = a; x.translate(q[0], q[1]); x.scale(0.6 + 0.4 * a, 0.6 + 0.4 * a); x.translate(-q[0], -q[1]);
+        Studio.ombre(x, m, function () { x.fillStyle = '#ffffff'; x.beginPath(); x.arc(q[0], q[1], R + m * 0.012, 0, Math.PI * 2); x.fill(); });
+        Studio.photo(x, rt, O, c, null, { zoom: (2.4 + 0.4 * i) * Math.max(Z.w / O.width, Z.h / O.height) / Math.max(c.w / O.width, c.h / O.height), point: pts[i] });
+        x.strokeStyle = C.accent; x.lineWidth = Math.max(2, m * 0.006); x.beginPath(); x.arc(q[0], q[1], R + m * 0.012, 0, Math.PI * 2); x.stroke();
+        x.restore();
+      });
+      Studio.textesStd(x, rt, T, C, D, A, { base: m, align: o === 'large' ? 'left' : 'center', valign: 'middle', t0: 0.22 });
+      Studio.logo(x, rt, W, H, o === 'large' ? 'bd' : 'hg', A, !C.sombre);
+    },
+    plies: function (x, W, H, rt, O, D, C, A) {
+      var r = Studio.alea(D.seed), m = Math.min(W, H), o = Studio.orient(W, H), S, T;
+      Studio.fond(x, W, H, C, r);
+      if (o === 'large') { S = { x: W * 0.07, y: H * 0.12, w: W * 0.47, h: H * 0.78 }; T = { x: W * 0.6, y: H * 0.12, w: W * 0.35, h: H * 0.76 }; }
+      else { S = { x: W * 0.12, y: H * 0.08, w: W * 0.76, h: H * (o === 'haut' ? 0.56 : 0.58) }; T = { x: W * 0.08, y: S.y + S.h + H * 0.06, w: W * 0.84, h: H * 0.95 - (S.y + S.h + H * 0.06) }; }
+      var n = 3, ep = S.h / (n + 0.4), face = ep * 0.8, bord = ep * 0.2;
+      for (var i = 0; i < n; i++) {
+        var a = Studio.ph(A, i * 0.08, i * 0.08 + 0.22); if (a <= 0) continue;
+        var w = S.w * (1 - i * 0.05), dx = (i % 2 ? 1 : -1) * S.w * 0.025 * (i ? 1 : 0), X = S.x + (S.w - w) / 2 + dx - (1 - a) * W * 0.5, Y = S.y + S.h - (i + 1) * ep;
+        x.save(); x.globalAlpha = a;
+        Studio.ombre(x, m, function () { x.fillStyle = C.bg2; x.fillRect(X, Y, w, face + bord); });
+        Studio.photo(x, rt, O, { x: X, y: Y, w: w, h: face, r: m * 0.006 }, A, { px: (i - 1) * 0.12, zoom: 1.4, kb: 0.4 });
+        /* le pli : le bord du tissu replié, plus sombre */
+        Studio.photo(x, rt, O, { x: X, y: Y + face, w: w, h: bord }, null, { px: (i - 1) * 0.12, py: 0.2, zoom: 1.8 });
+        var g = x.createLinearGradient(0, Y + face, 0, Y + face + bord); g.addColorStop(0, 'rgba(0,0,0,.18)'); g.addColorStop(1, 'rgba(0,0,0,.45)');
+        x.fillStyle = g; x.fillRect(X, Y + face, w, bord);
+        x.fillStyle = 'rgba(255,255,255,.18)'; x.fillRect(X, Y + face - Math.max(1, m * 0.002), w, Math.max(1, m * 0.003));
+        x.restore();
+      }
+      Studio.textesStd(x, rt, T, C, D, A, { base: m, align: o === 'large' ? 'left' : 'center', valign: 'middle', t0: 0.3 });
+      Studio.logo(x, rt, W, H, 'hd', A, !C.sombre);
+    },
+    collage: function (x, W, H, rt, O, D, C, A) {
+      var r = Studio.alea(D.seed), m = Math.min(W, H), o = Studio.orient(W, H), g = m * 0.018, L, T;
+      x.fillStyle = C.sombre ? C.bg2 : '#ffffff'; x.fillRect(0, 0, W, H);
+      var autres = (rt.autres || []).map(function (c) { return Studio.source(rt, c); }), ims = [O].concat(autres).slice(0, 3);
+      if (o === 'large') { L = [{ x: g, y: g, w: W * 0.4, h: H - 2 * g }, { x: W * 0.4 + 2 * g, y: g, w: W * 0.22, h: (H - 3 * g) / 2 }, { x: W * 0.4 + 2 * g, y: (H + g) / 2, w: W * 0.22, h: (H - 3 * g) / 2 }]; T = { x: W * 0.66, y: H * 0.12, w: W * 0.3, h: H * 0.76 }; }
+      else { var h1 = H * (o === 'haut' ? 0.46 : 0.44), h2 = H * (o === 'haut' ? 0.22 : 0.26); L = [{ x: g, y: g, w: W - 2 * g, h: h1 }, { x: g, y: h1 + 2 * g, w: (W - 3 * g) / 2, h: h2 }, { x: (W + g) / 2, y: h1 + 2 * g, w: (W - 3 * g) / 2, h: h2 }]; T = { x: W * 0.08, y: h1 + h2 + 3 * g + H * 0.03, w: W * 0.84, h: H - (h1 + h2 + 3 * g + H * 0.03) - H * 0.04 }; }
+      L.forEach(function (Z, i) {
+        var a = Studio.ph(A, i * 0.07, i * 0.07 + 0.18); if (a <= 0) return;
+        var im = ims[i] || O, op = ims[i] && i < ims.length && (i === 0 || autres.length >= i) ? {} : { zoom: 1.7 + 0.5 * i, px: (r() - 0.5) * 0.5, py: (r() - 0.5) * 0.5 };
+        x.save(); x.globalAlpha = a; Studio.photo(x, rt, im, Object.assign({ r: m * 0.012 }, Z), A, Object.assign({ pan: i ? -0.06 : 0.06 }, op)); x.restore();
+      });
+      Studio.textesStd(x, rt, T, C, D, A, { base: m, align: o === 'large' ? 'left' : 'center', valign: 'middle', t0: 0.28 });
+      Studio.logo(x, rt, W, H, o === 'large' ? 'bd' : 'hd', A, !C.sombre);
+    }
+  },
+  /* carte de fin des vidéos : logo, nom, contact */
+  fin: function (x, W, H, rt, C, A) {
+    var a = Studio.ph(A, 0.86, 0.95); if (a <= 0) return;
+    var m = Math.min(W, H), fond = C.panneau, encre = Studio.sur(fond);
+    x.save(); x.globalAlpha = a * 0.94; x.fillStyle = fond; x.fillRect(0, 0, W, H); x.restore();
+    x.save(); x.globalAlpha = a;
+    var y = H * 0.3;
+    if (rt.logoImg) { var L = m * 0.22, lw = L, lh = L * rt.logoImg.height / Math.max(1, rt.logoImg.width); if (lh > L) { lw = lw * L / lh; lh = L; } x.fillStyle = 'rgba(255,255,255,.95)'; Studio.chemin(x, { x: W / 2 - lw / 2 - m * 0.02, y: y - m * 0.02, w: lw + m * 0.04, h: lh + m * 0.04, r: m * 0.02 }); x.fill(); x.drawImage(rt.logoImg, W / 2 - lw / 2, y, lw, lh); y += lh + m * 0.06; }
+    Studio.textes(x, { x: W * 0.1, y: y, w: W * 0.8, h: H * 0.88 - y }, [
+      { t: rt.texte.titre, taille: 0.075, poids: 700, couleur: encre, serif: true, max: 2 },
+      { t: rt.texte.prix, taille: 0.042, poids: 700, badge: { fond: C.accent, encre: Studio.sur(C.accent) }, coupe: false, max: 1, marge: 0.6 },
+      { t: rt.texte.contact, taille: 0.036, poids: 600, couleur: encre, max: 2 }
+    ], { base: m, align: 'center', valign: 'haut' }, null);
+    x.restore();
+  },
+  /* un visuel complet */
+  dessiner: function (x, W, H, rt, src, D, A) {
+    var O = Studio.source(rt, src), C = Studio.couleurs(rt.pal || Studio.palette(O), D.mode), f = Studio.modeles[D.tpl] || Studio.modeles.vitrine;
+    x.imageSmoothingQuality = 'high';
+    f(x, W, H, rt, O, D, C, A);
+    if (A && A.fin) Studio.fin(x, W, H, rt, C, A);
+  },
+  /* un nouveau visuel : un autre style, d'autres couleurs, une autre mise en page */
+  nouveau: function (rt) {
+    var vus = rt.histo.map(function (h) { return h.d.tpl; }), styles = STUDIO_STYLES.map(function (s) { return s[0]; }).filter(function (s) { return s !== 'photo'; });
+    var reste = styles.filter(function (s) { return vus.slice(-6).indexOf(s) < 0 && s !== rt.design.tpl; });
+    if (!reste.length) reste = styles.filter(function (s) { return s !== rt.design.tpl; });
+    var r = Math.random, modes = ['clair', 'sombre', 'couleur'];
+    return { tpl: reste[Math.floor(r() * reste.length)], seed: Math.floor(r() * 2147483647) + 1, mode: modes[Math.floor(r() * modes.length)], serif: r() < 0.55 };
   }
 };
 
