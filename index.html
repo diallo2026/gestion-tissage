@@ -875,6 +875,19 @@ button.cat-card { cursor: pointer; } button.cat-card:hover { border-color: var(-
 }
 .rt-iaplus { border: 1px solid var(--warn, #c9932e); background: var(--warn-50, #fdf6e7); border-radius: var(--r-l, 10px); padding: 10px 12px; margin: 10px 0; }
 .rt-iaplus p { margin: 0 0 8px; font-size: 13px; line-height: 1.45; }
+.rt-reels { border: 1px solid var(--line, #e3e6ee); border-radius: var(--r-l, 12px); padding: 8px 12px; margin: 10px 0; }
+.rt-reels summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+.rt-rl { display: grid; gap: 6px; margin-top: 6px; }
+.rt-rli { display: grid; grid-template-columns: 1fr auto auto; gap: 6px; align-items: center; }
+.rt-rli .rt-rlt { font-size: 13px; font-weight: 600; }
+.rt-rli .rt-rln { grid-column: 1; grid-row: 2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rt-rli label.btn { cursor: pointer; }
+.rt-mv { margin: 8px 0; }
+.rt-rli > label.btn, .rt-rli > button { grid-row: 1 / span 2; }
+/* téléphone : les fenêtres longues du générateur (photos, vidéos, publications) gardent leur fond blanc jusqu'en bas */
+@media (max-width: 640px) {
+  .mwrap:has(#rt-stage, .rt-mv, .rt-reels, .pk-l, .pk-g, .pk-j, #ia-k) { align-items: flex-start; }
+}
 
 @media print {
   .side, .topbar, .banner, .tabs, .ttools, .pager, .btn, .ibtn, #toasts { display: none !important; }
@@ -909,7 +922,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261029-1700';
+NERP.build = '20261029-2000';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -16666,7 +16679,7 @@ var Retouche = {
     var det = function (t, html, open) { return '<details class="rt-d"' + (open ? ' open' : '') + '><summary>' + esc(t) + '</summary><div class="rt-db">' + html + '</div></details>'; };
     return '<div class="rt"><div class="rt-v">' +
       '<div class="rt-stage" id="rt-stage"><canvas id="rt-cv" aria-label="Aperçu de la photo retouchée"></canvas><div class="mc-vide" id="rt-vide">' + icon('image') + '<span>Choisissez une photo du modèle ou chargez-en une depuis le téléphone.</span></div>' +
-        '<div class="rt-gen"><button type="button" class="btn primary" data-rta="gen">' + icon('magic') + ' Générer une image</button><button type="button" class="btn rt-ia" data-rta="ia1">' + icon('sparkle') + ' Image IA</button><button type="button" class="btn rt-vid" data-rta="video">' + icon('play') + ' Créer la vidéo</button><button type="button" class="btn rt-fb" data-rta="pack">' + icon('play') + ' 5 vidéos Facebook</button></div></div>' +
+        '<div class="rt-gen"><button type="button" class="btn rt-ia" data-rta="ia1">' + icon('sparkle') + ' Photo réaliste (personnes)</button><button type="button" class="btn primary" data-rta="gen">' + icon('magic') + ' Visuel du tissu</button><button type="button" class="btn rt-vid" data-rta="video">' + icon('play') + ' Créer la vidéo</button><button type="button" class="btn rt-fb" data-rta="pack">' + icon('play') + ' 5 vidéos Facebook</button></div></div>' +
       '<div class="rt-nat" id="rt-nat"><span class="small">Photo de :</span><div class="rt-seg" role="group" aria-label="Type de photo">' + NATURES.map(function (n) { return '<button type="button" data-rta="nat" data-id="' + n[0] + '"' + (rt.nature.type === n[0] ? ' class="on"' : '') + '>' + esc(n[1]) + '</button>'; }).join('') + '</div><small class="muted" id="rt-natx"></small></div>' +
       '<div class="rt-histo" id="rt-histo" hidden></div>' +
       '<p class="muted small rt-hint" id="rt-dim"></p>' +
@@ -16685,7 +16698,7 @@ var Retouche = {
           '<div class="rt-iag" id="rt-iag"></div>' +
           '<div class="row wrap" id="rt-iadl" hidden><button type="button" class="btn ghost sm" data-rta="iazip">' + icon('download') + ' Télécharger les images IA</button></div>' +
           '<p class="small"><strong>Retouche par l\'IA</strong></p><div class="row wrap">' + IA.RETOUCHES.map(function (q) { return '<button type="button" class="btn ghost sm" data-rta="iaret" data-id="' + q[0] + '">' + esc(q[1]) + '</button>'; }).join('') + '<button type="button" class="btn ghost sm" data-rta="iaorig" id="rt-iaorig" hidden>Revenir à la photo d\'origine</button></div>' +
-          '<p class="muted small">Mannequins, tisserand, marché, intérieur, scènes extraordinaires : à chaque demande, d\'autres scènes. Les images sont créées à partir de votre photo ; elles ne sont pas enregistrées dans la base.</p>', true) +
+          '<p class="muted small">Personnes non réelles habillées du tissu, teinture, tissage, couture, maison, sacs : à chaque demande, d\'autres scènes, avec votre tissu reproduit à l\'identique. « Photo nette HD » est contrôlée : si l\'IA modifie le tissu, la photo nette faite dans le téléphone est gardée. Rien n\'est enregistré dans la base.</p>', true) +
         det('Cadrage', rg('zoom', 'Zoom', 100, 300, 100) + rg('angle', 'Redresser (degrés)', -15, 15, 0) +
           '<div class="row wrap"><button type="button" class="btn ghost sm" data-rta="rot">' + icon('move') + ' Tourner d\'un quart</button><button type="button" class="btn ghost sm" data-rta="flip">Miroir</button><button type="button" class="btn ghost sm" data-rta="centre">Recentrer</button></div><p class="muted small">Faites glisser la photo dans l\'aperçu pour choisir ce qui reste dans le cadre.</p>') +
         det('Réglages', '<div class="row wrap"><button type="button" class="btn ghost sm" data-rta="auto">' + icon('bolt') + ' Correction automatique</button><button type="button" class="btn ghost sm" data-rta="zero">Tout remettre à zéro</button></div>' +
@@ -16810,6 +16823,7 @@ var Retouche = {
   },
   majNature: function (rt) {
     var m = rt.m, n = rt.nature || { type: 'fini' }; if (!m || m.closed) return;
+    Retouche.majStyle(rt);
     $$('[data-rta="nat"]', m.el).forEach(function (b) { b.classList.toggle('on', b.dataset.id === n.type); });
     var z = $('#rt-natx', m.el); if (!z) return;
     z.textContent = rt.natureIA ? 'L\'IA regarde la photo…' : n.source === 'choix' ? 'choisi par vous' : n.source === 'memo' ? 'votre choix pour cette photo' : n.source === 'ia' ? 'reconnu par l\'IA' + (n.objet ? ' : ' + n.objet : '') : n.source === 'module' ? 'd\'après le module ouvert — touchez pour corriger' : 'reconnu sur la photo — touchez pour corriger';
@@ -17026,12 +17040,12 @@ var Retouche = {
   iaRetouche: function (rt, b, k) {
     if (rt.iaEnCours || !Retouche.iaPrete(rt, function () { Retouche.iaRetouche(rt, b, k); })) return;
     rt.iaEnCours = true; Retouche.occupe(b, true, 'Retouche IA…');
-    IA.retouche(rt, k).then(function (url) {
-      rt.iaEnCours = false; Retouche.occupe(b, false);
+    IA.retouche(rt, k).then(function (r) {
+      var url = r.url; rt.iaEnCours = false; Retouche.occupe(b, false);
       if (!rt.urlOrigine) { rt.urlOrigine = rt.urlActuelle; rt.adjOrigine = rt.adj; }
       rt.adj = Retouche.defauts(); rt.filtre = 'aucun'; $$('[data-rta="filtre"]', rt.m.el).forEach(function (x) { x.classList.toggle('on', x.dataset.id === 'aucun'); });
       Retouche.majCurseurs(rt); rt.gardeNature = true; Retouche.charge(rt, url); setTimeout(function () { rt.gardeNature = false; }, 3000);
-      UI.toast('Photo retouchée par l\'IA. « Revenir à la photo d\'origine » annule.', 'ok', 6000);
+      UI.toast(r.note ? r.note + ' « Revenir à la photo d\'origine » annule.' : k === 'ameliore' ? 'Photo nette, contrôlée identique à la vôtre. « Revenir à la photo d\'origine » annule.' : 'Photo retouchée par l\'IA. « Revenir à la photo d\'origine » annule.', r.note ? 'info' : 'ok', 8000);
     }).catch(function (e) { rt.iaEnCours = false; Retouche.occupe(b, false); UI.toast(e.message || 'Retouche IA impossible.', 'err', 8000); });
   },
   /* ---------- vidéo : film de 15 s à 1 minute, scènes au choix ---------- */
@@ -17041,6 +17055,7 @@ var Retouche = {
     if (!Film.possible()) { UI.toast('Ce navigateur ne sait pas créer de vidéo : ouvrez l\'application dans Chrome.', 'err', 7000); return; }
     if (opts) { Retouche.tourner(rt, opts); return; }
     var o = rt.optVideo || (rt.optVideo = { duree: 30, choix: {}, musique: true, iaAuto: true, modele: 'hasard' }), iaOk = IA.pret(), nat = Film.natureDe(rt), mds = Film.modeles(nat);
+    var mdChoisi = function (v) { v = v || o.modele; return mds.filter(function (q) { return q.k === v; })[0] || mds[0]; };
     var m = UI.modal({ title: 'Créer la vidéo', size: 'm',
       body: '<p class="muted small">Photo de <strong>' + esc(Nature.nom(nat).toLowerCase()) + '</strong> : le film commence par le métier (' + esc(mds[0].scenes.slice(0, 4).map(function (q) { return Pack.nomScene(q[0]); }).join(', ')) + '…), puis développe un thème. Il est différent à chaque fois. Aucun dessin animé : les personnes et les gestes du métier sont des photos réalistes (IA).</p>' +
         '<label class="fld"><span>Modèle de vidéo</span><select data-vmod><option value="hasard"' + (o.modele === 'hasard' ? ' selected' : '') + '>Un des 5 modèles, au hasard</option>' + mds.map(function (md) { return '<option value="' + md.k + '"' + (o.modele === md.k ? ' selected' : '') + '>' + esc(md.nom) + '</option>'; }).join('') + '<option value="libre"' + (o.modele === 'libre' ? ' selected' : '') + '>Mélange libre (scènes au choix ci-dessous)</option></select></label>' +
@@ -17048,6 +17063,7 @@ var Retouche = {
         '<div class="fld" id="rt-vsc"' + (o.modele === 'libre' ? '' : ' hidden') + '><span>Scènes du mélange libre</span><div class="rt-ch">' + FILM_CHOIX.map(function (c) { var dis = c[0] === 'ia' && !iaOk && !(rt.ia || []).length; return '<label class="chk"><input type="checkbox" data-vc="' + c[0] + '"' + (o.choix[c[0]] !== false && !dis ? ' checked' : '') + (dis ? ' disabled' : '') + '><span>' + esc(c[1]) + (dis ? ' — <a href="#" data-va="reg">ajouter une clé</a>' : c[0] === 'ia' && iaOk && !(rt.ia || []).length ? ' (créées avant le film)' : '') + '</span></label>'; }).join('') + '</div></div>' +
         '<label class="chk rt-chk" id="rt-via"' + (o.modele === 'libre' ? ' hidden' : '') + '><input type="checkbox" data-via' + (o.choix.ia !== false && (iaOk || IA.banque(rt, nat).length) ? ' checked' : '') + (iaOk || IA.banque(rt, nat).length ? '' : ' disabled') + '><span>Personnes et étapes du métier en <strong>photos réalistes</strong> (IA)' + (iaOk || IA.banque(rt, nat).length ? '' : ' — <a href="#" data-va="reg">ajouter la clé IA</a>') + '</span></label>' +
         (iaOk ? '' : '<p class="muted small">Sans clé IA, la vidéo montre votre photo et le tissu en mouvement, sans personnes ni étapes du métier.</p>') +
+        Pack.mouvHtml(rt, [mdChoisi()], nat, o) + Retouche.reelsHtml(rt, nat) +
         '<label class="chk rt-chk"><input type="checkbox" data-vm' + (o.musique ? ' checked' : '') + '><span>Musique d\'ambiance (composée pour chaque film)</span></label>' +
         '<p class="muted small">' + (Film.webcodecs() ? 'La vidéo est fabriquée image par image : gardez l\'application ouverte jusqu\'à la fin.' : 'La vidéo se fabrique en temps réel : comptez la durée choisie, application ouverte et écran allumé.') + '</p>',
       actions: [{ t: icon('play') + ' Créer la vidéo', act: 'go', cls: 'primary' }, { t: 'Fermer', act: '__close', cls: 'ghost' }],
@@ -17056,10 +17072,13 @@ var Retouche = {
         $$('[data-vc]', m.el).forEach(function (c) { o.choix[c.dataset.vc] = c.checked; }); o.musique = $('[data-vm]', m.el).checked; o.modele = $('[data-vmod]', m.el).value;
         var md = o.modele === 'libre' ? null : o.modele === 'hasard' ? mds[Math.floor(Math.random() * mds.length)] : mds.filter(function (q) { return q.k === o.modele; })[0] || mds[0];
         if (md) o.choix.ia = $('[data-via]', m.el) ? $('[data-via]', m.el).checked : o.choix.ia;
+        o.mouv = $('[data-pmv]', m.el) ? $('[data-pmv]', m.el).value : 'non';
         var AC = window.AudioContext || window.webkitAudioContext, actx = null; if (o.musique && AC) { try { actx = new AC(); } catch (e) { actx = null; } }
-        m.close(); Retouche.tourner(rt, { duree: o.duree, choix: Object.assign({}, o.choix), musique: o.musique, actx: actx, max: o.max, modele: md });
+        m.close(); Retouche.tourner(rt, { duree: o.duree, choix: Object.assign({}, o.choix), musique: o.musique, actx: actx, max: o.max, modele: md, mouv: md ? o.mouv : 'non' });
       } });
-    m.el.addEventListener('change', function (e) { if (e.target.matches('[data-vmod]')) { var lib = e.target.value === 'libre'; $('#rt-vsc', m.el).hidden = !lib; $('#rt-via', m.el).hidden = lib; } });
+    var majMv = function () { var z = $('.rt-mv', m.el); if (!z) return; if ($('[data-pmv]', m.el)) o.mouv = $('[data-pmv]', m.el).value; var d = document.createElement('div'); d.innerHTML = Pack.mouvHtml(rt, [mdChoisi($('[data-vmod]', m.el).value)], nat, o); var nz = d.firstChild; nz.hidden = $('[data-vmod]', m.el).value === 'libre'; z.parentNode.replaceChild(nz, z); };
+    Retouche.reelsLier(rt, m, nat, majMv);
+    m.el.addEventListener('change', function (e) { if (e.target.matches('[data-vmod]')) { var lib = e.target.value === 'libre'; $('#rt-vsc', m.el).hidden = !lib; $('#rt-via', m.el).hidden = lib; majMv(); } });
     m.el.addEventListener('click', function (e) {
       var d = e.target.closest('[data-vd]'); if (d) { o.duree = Number(d.dataset.vd); $$('[data-vd]', m.el).forEach(function (x) { x.classList.toggle('on', x === d); }); }
       var r = e.target.closest('[data-va="reg"]'); if (r) { e.preventDefault(); m.close(); IA.reglages(function () { Retouche.iaEtat(rt); Retouche.video(rt, b); }); }
@@ -17081,13 +17100,20 @@ var Retouche = {
     /* les photos réalistes (IA) dont ce film a besoin et qui manquent pour cette photo */
     var nat = Film.natureDe(rt), veutIA = o.choix && o.choix.ia !== false && IA.pret() && navigator.onLine !== false;
     var manque = !veutIA ? [] : o.modele ? IA.pourModeles(rt, [o.modele], nat) : IA.banque(rt, nat).length ? [] : IA.tirage(rt, o.duree >= 45 ? 5 : o.duree >= 30 ? 4 : 3, null, nat);
-    var avant = manque.length ? IA.lot(rt, manque, function (f, tot) { txt('Photos réalistes (IA) : ' + f + ' sur ' + tot + '…'); barre(f / Math.max(1, tot) * 0.3); }, nat).then(function (r) { Retouche.iaEtat(rt); if (r.erreurs.length) UI.toast(r.images.length ? 'Certaines images IA n\'ont pas pu être créées (' + r.erreurs[0] + ') : le film se fait avec les autres.' : 'Images IA : ' + r.erreurs[0] + ' Le film se fait sans elles.', 'info', 9000); }, function (e) { UI.toast(e.message || 'Images IA impossibles.', 'info', 8000); }) : Promise.resolve();
+    var avant = manque.length ? IA.lot(rt, manque, function (f, tot) { txt('Photos réalistes (IA) : ' + f + ' sur ' + tot + '…'); barre(f / Math.max(1, tot) * 0.2); }, nat).then(function (r) { Retouche.iaEtat(rt); if (r.erreurs.length) UI.toast(r.images.length ? 'Certaines images IA n\'ont pas pu être créées (' + r.erreurs[0] + ') : le film se fait avec les autres.' : 'Images IA : ' + r.erreurs[0] + ' Le film se fait sans elles.', 'info', 9000); }, function (e) { UI.toast(e.message || 'Images IA impossibles.', 'info', 8000); }) : Promise.resolve();
+    /* personnes en mouvement : les photos réalistes de ce film deviennent de vrais plans vidéo */
+    var veutMv = veutIA && o.modele && o.mouv && o.mouv !== 'non' && IA.videoPossible();
+    if (veutMv) avant = avant.then(function () {
+      if (annule) return;
+      var aa = IA.aAnimer(rt, [o.modele], nat, o.mouv); if (!aa.length) return;
+      return IA.clips(rt, aa, function (f, tot) { txt('Personnes en mouvement (vidéo IA) : ' + f + ' sur ' + tot + '… (environ une minute par plan)'); barre(0.2 + f / Math.max(1, tot) * 0.3); }).then(function (r) { if (r.erreurs.length) UI.toast((r.clips.length ? 'Certains plans vidéo n\'ont pas pu être créés (' : 'Vidéo IA : ') + r.erreurs[0] + (r.clips.length ? ') : leurs photos réalistes sont utilisées.' : ' Les photos réalistes sont utilisées.'), 'info', 9000); });
+    });
     avant.then(function () {
       if (annule) { fin(); return; }
       txt('Montage du film…');
       return Film.enregistrer(rt, { duree: o.duree, choix: o.choix, musique: o.musique, seed: o.seed, cv: cv, actx: o.actx, max: o.max, modele: o.modele,
         annule: function () { return annule; },
-        suivi: function (t, d) { var p0 = manque.length ? 0.3 : 0; barre(p0 + (1 - p0) * t / d); txt('Fabrication : ' + Math.floor(t) + ' s sur ' + Math.round(d) + ' s de film'); } })
+        suivi: function (t, d) { var p0 = veutMv ? 0.5 : manque.length ? 0.2 : 0; barre(p0 + (1 - p0) * t / d); txt('Fabrication : ' + Math.floor(t) + ' s sur ' + Math.round(d) + ' s de film'); } })
         .then(function (res) { fin(); if (!m.closed) m.close(); Retouche.montreVideo(rt, res); }, function (e) { fin(); if (!m.closed) m.close(); if (!annule) UI.toast(e.message || 'La vidéo n\'a pas pu être créée.', 'err', 7000); });
     }).catch(function (e) { fin(); if (!m.closed) m.close(); UI.toast(e.message || 'La vidéo n\'a pas pu être créée.', 'err', 7000); });
     return m;
@@ -17189,6 +17215,44 @@ var Retouche = {
     }, 30);
   }
 };
+/* ---------- vos vraies vidéos d'atelier : de vraies personnes, étape par étape ----------
+   Pour chaque étape du métier (bain de teinture, rinçage… ; bobinage, ensouplage, tissage ;
+   tracé, coupe, couture, essayage), une vidéo ou une photo prise avec le téléphone remplace
+   l'image IA de cette étape. Elles restent sur ce téléphone (rien dans la base). */
+Object.assign(Retouche, {
+  etapes: function (nat) { return IA_SCENES.filter(function (s) { return s.serie && s.n.indexOf(nat) >= 0; }).sort(function (a, b) { return a.etape - b.etape; }); },
+  reelsHtml: function (rt, nat) {
+    var R = rt.reels || {}, E = Retouche.etapes(nat), n = E.filter(function (s) { return R[s.k]; }).length;
+    return '<details class="rt-reels"' + (n ? ' open' : '') + '><summary>Vos vraies vidéos d\'atelier' + (n ? ' (' + n + ')' : '') + ' — facultatif</summary>' +
+      '<p class="muted small">Filmez vos ouvriers avec le téléphone : pour chaque étape, votre vidéo (ou photo) remplace l\'image IA. Elle reste sur ce téléphone.</p>' +
+      '<div class="rt-rl">' + E.map(function (s) { var r = R[s.k]; return '<div class="rt-rli" data-rk="' + s.k + '"><span class="rt-rlt">' + s.etape + '. ' + esc(s.cap) + '</span><span class="rt-rln muted small">' + (r ? esc(r.nom) + (r.vid ? ' · ' + fmtN(r.vdur, 0) + ' s' : ' · photo') : 'image IA') + '</span>' +
+        '<label class="btn ghost sm">' + (r ? 'Changer' : 'Ajouter') + '<input type="file" accept="video/*,image/*" hidden data-rf="' + s.k + '"></label>' + (r ? '<button type="button" class="btn ghost sm" data-rx="' + s.k + '">Retirer</button>' : '') + '</div>'; }).join('') + '</div></details>';
+  },
+  /* m : la fenêtre ; apres() : redessiner le contenu dépendant */
+  reelsLier: function (rt, m, nat, apres) {
+    var maj = function () { var z = $('.rt-reels', m.el); if (!z) return; var o = z.open, d = document.createElement('div'); d.innerHTML = Retouche.reelsHtml(rt, nat); var nz = d.firstChild; nz.open = o || nz.open; z.parentNode.replaceChild(nz, z); if (apres) apres(); };
+    m.el.addEventListener('change', function (e) {
+      var inp = e.target.closest('[data-rf]'); if (!inp || !inp.files || !inp.files[0]) return;
+      var f = inp.files[0], k = inp.dataset.rf, s = IA.scene(k), z = inp.closest('.rt-rli'), nz = z && z.querySelector('.rt-rln');
+      if (nz) nz.textContent = 'chargement…';
+      Retouche.reelCharge(f, s, nat).then(function (r) { rt.reels = rt.reels || {}; rt.reels[k] = r; maj(); }, function (er) { UI.toast(er.message || 'Ce fichier ne peut pas être lu.', 'err', 6000); maj(); });
+    });
+    m.el.addEventListener('click', function (e) { var b = e.target.closest('[data-rx]'); if (!b) return; if (rt.reels) delete rt.reels[b.dataset.rx]; maj(); });
+  },
+  /* un fichier du téléphone → une étape réelle { k, serie, etape, cap, img, vid?, vdur?, reel: true } */
+  reelCharge: function (f, s, nat) {
+    var base = { k: s.k, g: s.g, n: s.n, serie: s.serie, etape: s.etape, sur: s.sur, cap: s.cap, nat: nat, reel: true, nom: f.name || 'fichier' };
+    if (/^video\//.test(f.type) || /\.(mp4|mov|m4v|webm|3gp)$/i.test(f.name || '')) {
+      return IA.chargeVideo(f).then(function (v) { return IA.imageDe(v.el, Math.min(1, v.dur / 2)).then(function (c) { return Object.assign(base, { vid: v.el, vdur: v.dur, img: Retouche.reduit(c, 1600) }); }); });
+    }
+    return new Promise(function (res, rej) {
+      var url = URL.createObjectURL(f), im = new Image();
+      im.onload = function () { res(Object.assign(base, { img: Retouche.reduit(im, 1600) })); URL.revokeObjectURL(url); };
+      im.onerror = function () { rej(new Error('Cette photo ne peut pas être lue.')); };
+      im.src = url;
+    });
+  }
+});
 
 /* ---------- studio : visuels générés à partir de la photo, et animations ----------
    Chaque appui sur « Générer » compose un nouveau visuel : un style (vitrine, tissu drapé,
@@ -17199,10 +17263,11 @@ var Retouche = {
 ICONS.magic = '<path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8 19 13M17.8 6.2 19 5M12.2 6.2 11 5M12.2 11.8 11 13"/><path d="m3 21 9-9"/>';
 ICONS.play = '<path d="M7 4.5v15l12.5-7.5z"/>';
 var STUDIO_STYLES = [['vitrine', 'Vitrine'], ['drape', 'Tissu drapé'], ['affiche', 'Affiche'], ['cadre', 'Cadre tissé'], ['details', 'Détails'], ['plies', 'Pagnes pliés'], ['collage', 'Collage'],
-  ['vent3d', 'Tissu au vent (3D)'], ['rouleau', 'Rouleau déroulé (3D)'], ['relance3d', 'Tissu relancé (3D)'], ['metier', 'Sur le métier'], ['planete', 'Planète (3D)'], ['kaleido', 'Kaléidoscope'], ['ia', 'Image IA'], ['photo', 'Photo seule']];
+  ['vent3d', 'Tissu au vent (3D)'], ['rouleau', 'Rouleau déroulé (3D)'], ['relance3d', 'Tissu relancé (3D)'], ['planete', 'Planète (3D)'], ['kaleido', 'Kaléidoscope'], ['ia', 'Photo réaliste (IA)'], ['photo', 'Photo seule']];
 /* styles tirés des scènes du film : nom du style → scène, moment de la scène */
-var STUDIO_SCENES = { vent3d: ['vent', 0.55], rouleau: ['deroule', 0.8], relance3d: ['relance', 0.5], metier: ['metier', 0.42], planete: ['planete', 0.6], kaleido: ['kaleido', 0.5] };
+var STUDIO_SCENES = { vent3d: ['vent', 0.55], rouleau: ['deroule', 0.8], relance3d: ['relance', 0.5], planete: ['planete', 0.6], kaleido: ['kaleido', 0.5] };
 var STUDIO_3D = ['vent3d', 'rouleau', 'relance3d', 'planete'];
+var STUDIO_TISSU = ['drape', 'plies', 'vent3d', 'rouleau', 'relance3d', 'planete'];
 var Studio = {
   alea: function (seed) { var s = (Number(seed) >>> 0) || 7; return function () { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; }; },
   ease: function (t) { return t <= 0 ? 0 : t >= 1 ? 1 : 1 - Math.pow(1 - t, 3); },
@@ -17549,7 +17614,8 @@ var Studio = {
   },
   /* un nouveau visuel : un autre style, d'autres couleurs, une autre mise en page */
   /* les styles possibles ici : sans WebGL, pas de 3D ; « Image IA » seulement s'il y a des images IA */
-  dispo: function (rt) { return STUDIO_STYLES.map(function (s) { return s[0]; }).filter(function (s) { return (s !== 'ia' || (rt.ia || []).length) && (STUDIO_3D.indexOf(s) < 0 || Tissu3D.ok()); }); },
+  /* une photo de fils (teinture) ou de métier (tissage) n'est pas un tissu : on ne la drape pas, on ne la plie pas */
+  dispo: function (rt) { var fini = !rt.nature || !rt.nature.type || rt.nature.type === 'fini'; return STUDIO_STYLES.map(function (s) { return s[0]; }).filter(function (s) { return (s !== 'ia' || (rt.ia || []).length) && (STUDIO_3D.indexOf(s) < 0 || Tissu3D.ok()) && (fini || STUDIO_TISSU.indexOf(s) < 0); }); },
   nouveau: function (rt) {
     var vus = rt.histo.map(function (h) { return h.d.tpl; }), styles = Studio.dispo(rt).filter(function (s) { return s !== 'photo'; });
     var reste = styles.filter(function (s) { return vus.slice(-8).indexOf(s) < 0 && s !== rt.design.tpl; });
@@ -17560,96 +17626,54 @@ var Studio = {
     return { tpl: tpl, seed: Math.floor(r() * 2147483647) + 1, mode: modes[Math.floor(r() * modes.length)], serif: r() < 0.55, ia: tpl === 'ia' ? Math.floor(r() * rt.ia.length) : 0 };
   }
 };
-
-/* ---------- tissu en haute définition ----------
-   Même à partir d'une petite photo ou d'un petit morceau de tissu, l'application reconstitue le
-   tissu fil à fil : elle lit les bandes de chaîne et de trame, leurs couleurs mesurées et le
-   rapport du motif, puis redessine le tissage (toile) à 2048 pixels, avec le relief de chaque fil.
-   La reconstitution est comparée à la photo : si elle ne lui ressemble pas assez (motif en
-   réserve, photo trop complexe), la photo est agrandie et rendue nette à la place. */
+/* ---------- tissu net, identique à la photo ----------
+   Le tissu montré dans les images et les vidéos est toujours la photo fournie elle-même : jamais
+   redessiné ni imaginé. Une petite photo (ou un petit morceau de tissu) est agrandie par paliers,
+   puis rendue nette (masque flou à seuil, rayon adapté à l'agrandissement) : les fils ressortent,
+   le bruit de la photo n'est pas amplifié, et l'image réduite à sa taille d'origine redonne la photo. */
 var TissuHD = {
-  hash: function (n) { n = Math.imul(n ^ 0x9e3779b9, 0x85ebca6b) >>> 0; n ^= n >>> 13; n = Math.imul(n, 0xc2b2ae35) >>> 0; n ^= n >>> 16; return (n >>> 0) / 4294967296; },
   donnees: function (src, max) {
     var k = Math.min(1, max / Math.max(src.width, src.height)), c = document.createElement('canvas'); c.width = Math.max(8, Math.round(src.width * k)); c.height = Math.max(8, Math.round(src.height * k));
     var x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(src, 0, 0, c.width, c.height);
     return x.getImageData(0, 0, c.width, c.height);
   },
-  /* période des fils le long d'un axe (en pixels de l'image), 0 si elle ne se voit pas :
-     autocorrélation, ligne par ligne, du grain fin (les bords des bandes sont écartés) */
-  pas: function (src, axe) {
-    var w = Math.min(src.width, 360), h = Math.min(src.height, 360), c = document.createElement('canvas'); c.width = w; c.height = h;
-    var x = c.getContext('2d'); x.drawImage(src, Math.floor((src.width - w) / 2), Math.floor((src.height - h) / 2), w, h, 0, 0, w, h);
-    var d = x.getImageData(0, 0, w, h).data, n = axe === 'x' ? w : h, m = axe === 'x' ? h : w, hp = new Float32Array(n * m), i, j, L = new Float32Array(w * h);
-    for (i = 0; i < w * h; i++) L[i] = 0.299 * d[i * 4] + 0.587 * d[i * 4 + 1] + 0.114 * d[i * 4 + 2];
-    var at = function (j, i) { return axe === 'x' ? L[j * w + i] : L[i * w + j]; }, ab = [];
-    for (j = 0; j < m; j++) for (i = 2; i < n - 2; i++) { var v = at(j, i) - (at(j, i - 2) + at(j, i - 1) + at(j, i + 1) + at(j, i + 2)) / 4; hp[j * n + i] = v; if ((i + j) % 7 === 0) ab.push(Math.abs(v)); }
-    if (!ab.length) return 0;
-    ab.sort(function (p, q) { return p - q; }); var mad = ab[Math.floor(ab.length / 2)] || 0; if (mad < 0.4) return 0;
-    var lim = 3 * mad, v0 = 0;
-    for (i = 0; i < hp.length; i++) { if (Math.abs(hp[i]) > lim) hp[i] = 0; v0 += hp[i] * hp[i]; }
-    if (v0 <= 0) return 0;
-    var K = Math.min(30, Math.floor(n / 4)), r = new Float32Array(K + 1);
-    for (var k = 1; k <= K; k++) { var s = 0; for (j = 0; j < m; j++) { var o = j * n; for (i = 2; i < n - 2 - k; i++) s += hp[o + i] * hp[o + i + k]; } r[k] = s / v0; }
-    for (k = 2; k < K; k++) if (r[k] > r[k - 1] && r[k] >= r[k + 1] && r[k] > 0.12) return k;
-    return 0;
-  },
-  /* suite de bandes { c, f } → couleur de chaque position (0..n-1) */
-  ligne: function (seq, n, rgb) {
-    var o = new Array(n), tot = seq.reduce(function (t, b) { return t + b.f; }, 0) || 1, acc = 0, b = 0, lim = seq[0].f / tot;
-    for (var i = 0; i < n; i++) { var u = (i + 0.5) / n; while (u > lim && b < seq.length - 1) { b++; acc = lim; lim = acc + seq[b].f / tot; } o[i] = rgb(seq[b].c); }
-    return o;
-  },
-  /* répète le rapport du motif pour couvrir environ la même largeur que la photo, sans raccord visible */
-  repete: function (rap, seqPhoto) {
-    if (!rap || !rap.unit || !rap.unit.length || rap.f <= 0) return { seq: seqPhoto, sans: seqPhoto.length === 1, fois: 1 };
-    var n = Math.max(1, Math.min(12, Math.round(1 / rap.f))), seq = [];
-    for (var i = 0; i < n; i++) rap.unit.forEach(function (b) { seq.push({ c: b.c, f: b.f }); });
-    return { seq: seq, sans: true, fois: n, larg: n * rap.f };
-  },
-  /* dessin du tissage : dom = 'chaine' (la chaîne couvre), 'trame' (la trame couvre), 'equi' (toile équilibrée) */
-  rendu: function (W, H, colX, colY, px, py, dom) {
-    var c = document.createElement('canvas'); c.width = W; c.height = H;
-    var x = c.getContext('2d'), im = x.createImageData(W, H), d = im.data;
-    var cx = new Float32Array(W), cy = new Float32Array(H), ix = new Int32Array(W), iy = new Int32Array(H), fx = new Float32Array(W), fy = new Float32Array(H), vx = new Float32Array(W), vy = new Float32Array(H), q;
-    for (q = 0; q < W; q++) { var a = q / px; ix[q] = Math.floor(a); fx[q] = a - ix[q]; cx[q] = 0.84 + 0.2 * Math.sin(Math.PI * fx[q]); vx[q] = 1 + (TissuHD.hash(ix[q] * 7 + 1) - 0.5) * 0.06; }
-    for (q = 0; q < H; q++) { var b = q / py; iy[q] = Math.floor(b); fy[q] = b - iy[q]; cy[q] = 0.84 + 0.2 * Math.sin(Math.PI * fy[q]); vy[q] = 1 + (TissuHD.hash(iy[q] * 13 + 5) - 0.5) * 0.06; }
-    var p = 0;
-    for (var y = 0; y < H; y++) {
-      var wy = colY[y], j = iy[y];
-      for (var xx = 0; xx < W; xx++, p += 4) {
-        var wx = colX[xx], up = ((ix[xx] + j) & 1) === 0, col, k;
-        if (dom === 'chaine') {
-          /* chaîne apparente : côtes verticales, la trame n'apparaît qu'au fond des sillons */
-          col = wx; k = cx[xx] * vx[xx] * (up ? 1.025 : 0.95) * (0.975 + 0.025 * Math.cos(2 * Math.PI * fy[y]));
-          if (fx[xx] < 0.08 || fx[xx] > 0.96) { col = [(wx[0] * 2 + wy[0]) / 3, (wx[1] * 2 + wy[1]) / 3, (wx[2] * 2 + wy[2]) / 3]; k *= 0.78; }
-        } else if (dom === 'trame') {
-          col = wy; k = cy[y] * vy[y] * (up ? 0.95 : 1.025) * (0.975 + 0.025 * Math.cos(2 * Math.PI * fx[xx]));
-          if (fy[y] < 0.08 || fy[y] > 0.96) { col = [(wy[0] * 2 + wx[0]) / 3, (wy[1] * 2 + wx[1]) / 3, (wy[2] * 2 + wx[2]) / 3]; k *= 0.78; }
-        } else {
-          if (up) { col = wx; k = cx[xx] * vx[xx] * (0.9 + 0.12 * Math.sin(Math.PI * fy[y])); }
-          else { col = wy; k = cy[y] * vy[y] * (0.9 + 0.12 * Math.sin(Math.PI * fx[xx])); }
+  /* netteté : masque flou séparable (rayon r), force k, seuil s (on ne renforce pas le grain de la photo) */
+  nettete: function (im, r, k, s) {
+    var w = im.width, h = im.height, d = im.data, n = w * h, a = new Float32Array(n * 3), b = new Float32Array(n * 3), i, x, y, q;
+    for (i = 0; i < n; i++) { a[i * 3] = d[i * 4]; a[i * 3 + 1] = d[i * 4 + 1]; a[i * 3 + 2] = d[i * 4 + 2]; }
+    var passe = function (src, dst, horiz) {
+      var L = horiz ? w : h, M = horiz ? h : w, pas = horiz ? 1 : w, nb = 2 * r + 1;
+      for (var m = 0; m < M; m++) {
+        var o0 = horiz ? m * w : m;
+        for (q = 0; q < 3; q++) {
+          var som = 0, j;
+          for (j = -r; j <= r; j++) som += src[(o0 + Math.max(0, Math.min(L - 1, j)) * pas) * 3 + q];
+          for (j = 0; j < L; j++) {
+            dst[(o0 + j * pas) * 3 + q] = som / nb;
+            som += src[(o0 + Math.min(L - 1, j + r + 1) * pas) * 3 + q] - src[(o0 + Math.max(0, j - r) * pas) * 3 + q];
+          }
         }
-        var n = 1 + (TissuHD.hash(p * 0.25 + 977) - 0.5) * 0.05;
-        d[p] = col[0] * k * n; d[p + 1] = col[1] * k * n; d[p + 2] = col[2] * k * n; d[p + 3] = 255;
       }
-    }
+    };
+    passe(a, b, true); var c = new Float32Array(n * 3); passe(b, c, false);
+    for (i = 0; i < n; i++) for (q = 0; q < 3; q++) { var v = a[i * 3 + q], e = v - c[i * 3 + q]; if (Math.abs(e) > s) d[i * 4 + q] = v + k * (e - (e > 0 ? s : -s)); }
+    return im;
+  },
+  /* la photo agrandie (si besoin) et nette ; cible = plus grand côté voulu */
+  agrandi: function (src, cible) {
+    cible = cible || 2048;
+    var f = cible / Math.max(src.width, src.height), c = document.createElement('canvas'), x;
+    /* un seul agrandissement de haute qualité (plus fin que plusieurs paliers), puis la netteté à deux échelles :
+       les fils (petit rayon) et les bords du motif (grand rayon), proportionnées à l'agrandissement */
+    if (f > 1.02) { c.width = Math.round(src.width * f); c.height = Math.round(src.height * f); }
+    else { c.width = src.width; c.height = src.height; }
+    x = c.getContext('2d'); x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high'; x.drawImage(src, 0, 0, c.width, c.height);
+    var im = x.getImageData(0, 0, c.width, c.height);
+    if (f <= 1.02) TissuHD.nettete(im, 1, 0.35, 2.5);
+    else { TissuHD.nettete(im, Math.max(1, Math.min(6, Math.round(f * 0.35))), f <= 2 ? 0.6 : 0.8, 2); TissuHD.nettete(im, Math.max(2, Math.min(12, Math.round(f))), 0.35, 2); }
     x.putImageData(im, 0, 0);
     return c;
   },
-  /* la photo agrandie par étapes puis rendue nette (masque flou) */
-  agrandi: function (src, cible) {
-    cible = cible || 2048;
-    var c = src;
-    while (Math.max(c.width, c.height) < cible) {
-      var k = Math.min(2, cible / Math.max(c.width, c.height)), n = document.createElement('canvas'); n.width = Math.round(c.width * k); n.height = Math.round(c.height * k);
-      var nx = n.getContext('2d'); nx.imageSmoothingEnabled = true; nx.imageSmoothingQuality = 'high'; nx.drawImage(c, 0, 0, n.width, n.height); c = n;
-    }
-    if (c === src) { var cp = document.createElement('canvas'); cp.width = src.width; cp.height = src.height; cp.getContext('2d').drawImage(src, 0, 0); c = cp; }
-    var x = c.getContext('2d'), im = x.getImageData(0, 0, c.width, c.height);
-    Retouche.nettete(im, Math.max(src.width, src.height) < 900 ? 0.9 : 0.45); x.putImageData(im, 0, 0);
-    return c;
-  },
-  /* tissu reconstitué depuis la photo ; o = { structure (forcée), sansControle, largeur } */
   /* la photo redressée si les rayures sont un peu de travers (agrandie pour ne pas laisser de coins vides) */
   redresse: function (photo) {
     try {
@@ -17660,51 +17684,6 @@ var TissuHD = {
       x.translate(W / 2, H / 2); x.rotate(b); x.scale(sc, sc); x.drawImage(photo, -W / 2, -H / 2);
       return { img: c, angle: inc.angle };
     } catch (e) { return { img: photo, angle: 0 }; }
-  },
-  creer: function (photo, o) {
-    o = o || {};
-    var orig = photo, red = TissuHD.redresse(photo); photo = red.img;
-    var A = TissuHD.donnees(photo, 900), a;
-    try { a = Analyse.analyser(A, { finesse: 0.0035, structure: o.structure || undefined }); } catch (e) { return { img: TissuHD.agrandi(photo), mode: 'agrandi', seamX: false, seamY: false, score: 0 }; }
-    var st = a.structure, rgb = function (i) { return (a.couleurs[i] || a.couleurs[0]).rgb; };
-    if (st === 'reserve' && !o.structure) return { img: TissuHD.agrandi(photo), mode: 'agrandi', seamX: false, seamY: false, score: 0, structure: st };
-    /* contrôle : le tissu redessiné à la taille de la photo doit lui ressembler */
-    var score = 1, ecart = 0;
-    if (!o.sansControle) {
-      var w = A.width, h = A.height, cX = TissuHD.ligne(a.chaine, w, rgb), cY = TissuHD.ligne(a.trame, h, rgb), d = A.data, s = 0, s0 = 0, mr = 0, mg = 0, mb = 0, N = w * h, i;
-      for (i = 0; i < N; i++) { mr += d[i * 4]; mg += d[i * 4 + 1]; mb += d[i * 4 + 2]; } mr /= N; mg /= N; mb /= N;
-      for (var yy = 0; yy < h; yy++) for (var xx = 0; xx < w; xx++) {
-        var q = (yy * w + xx) * 4, cw = cX[xx], ct = cY[yy], c3 = st === 'trame' ? ct : st === 'carreaux' ? [(cw[0] + ct[0]) / 2, (cw[1] + ct[1]) / 2, (cw[2] + ct[2]) / 2] : cw;
-        s += Math.abs(d[q] - c3[0]) + Math.abs(d[q + 1] - c3[1]) + Math.abs(d[q + 2] - c3[2]);
-        s0 += Math.abs(d[q] - mr) + Math.abs(d[q + 1] - mg) + Math.abs(d[q + 2] - mb);
-      }
-      ecart = s / N / 3; score = s0 > 0 ? 1 - s / s0 : 1;
-      if (st === 'uni' ? ecart > 30 : (ecart > 26 || score < 0.45)) return { img: TissuHD.agrandi(photo), mode: 'agrandi', seamX: false, seamY: false, score: score, ecart: ecart, structure: st };
-    }
-    var rx = TissuHD.repete(st === 'trame' || st === 'uni' ? null : a.rapportChaine, a.chaine), ry = TissuHD.repete(st === 'chaine' || st === 'uni' ? null : a.rapportTrame, a.trame);
-    var champW = rx.larg || 1, champH = (ry.larg || 1) * photo.height / photo.width;
-    var W = o.largeur || 2048, H = Math.max(256, Math.min(2048, Math.round(W * champH / champW)));
-    var ppx = TissuHD.pas(orig, 'x'), ppy = TissuHD.pas(orig, 'y');
-    var px = ppx ? ppx * W / (photo.width * champW) : W / 200, py = ppy ? ppy * H / (photo.height * (ry.larg || 1)) : px * 1.08;
-    px = Math.max(6, Math.min(14, px)); py = Math.max(6, Math.min(14, py));
-    var img = TissuHD.rendu(W, H, TissuHD.ligne(rx.seq, W, rgb), TissuHD.ligne(ry.seq, H, rgb), px, py, st === 'trame' ? 'trame' : st === 'carreaux' ? 'equi' : 'chaine');
-    return { img: img, mode: 'reconstruit', seamX: rx.sans, seamY: ry.sans || st === 'chaine' || st === 'uni', score: score, ecart: ecart, structure: st, pas: [px, py], pasPhoto: [ppx, ppy], fois: rx.fois, bandes: a.chaine.length, angle: red.angle };
-  },
-  /* un tissu imaginé avec les couleurs de fils teints (photo de teinture) : rayures symétriques */
-  depuisCouleurs: function (cols, o) {
-    o = o || {};
-    var L = cols.filter(function (c) { return c && c.rgb; }).slice(0, 5); if (!L.length) L = [{ rgb: [34, 48, 107] }];
-    var fond = L[0], autres = L.slice(1), unit = [{ c: 0, f: 0.3 }], fake = { couleurs: L };
-    if (!autres.length) autres = [{ rgb: L[0].rgb.map(function (v) { return Math.min(255, v + 70); }) }];
-    var pal = [fond].concat(autres);
-    autres.forEach(function (c, i) { unit.push({ c: i + 1, f: 0.035 + 0.02 * (i % 2) }); unit.push({ c: 0, f: 0.03 }); });
-    for (var j = unit.length - 2; j > 0; j--) unit.push({ c: unit[j].c, f: unit[j].f });
-    unit.push({ c: 0, f: 0.3 });
-    var seq = [], rep = o.fois || 3; for (var r = 0; r < rep; r++) unit.forEach(function (b) { seq.push(b); });
-    var W = o.largeur || 2048, H = Math.round(W * 0.75), rgb = function (i) { return pal[i].rgb; };
-    var img = TissuHD.rendu(W, H, TissuHD.ligne(seq, W, rgb), TissuHD.ligne([{ c: 0, f: 1 }], H, rgb), W / 220, W / 220 * 1.08, 'chaine');
-    fake = null;
-    return { img: img, mode: 'imagine', seamX: true, seamY: true, score: 1, structure: 'chaine' };
   }
 };
 
@@ -18022,7 +18001,7 @@ var Tissu3D = {
 
 /* ---------- film du tissu : une vidéo jusqu'à 1 minute, montée en scènes ----------
    À partir de la photo du tissu : le tissu en 3D qui se déroule sur la table, qu'on tire,
-   qu'on secoue, qu'on relance ; le métier qui tisse le motif ; les vrais chiffres de
+   qu'on secoue, qu'on relance (toujours la photo elle-même, jamais un tissu redessiné) ; les vrais chiffres de
    fabrication (plan de tissage enregistré, couleurs mesurées sur la photo, dimensions de la
    fiche) ; des scènes extraordinaires (planète, ruban, kaléidoscope). Aucun personnage dessiné :
    les personnes et les gestes du métier viennent des images IA photoréalistes ;
@@ -18033,7 +18012,6 @@ var FILM_BPM = 96, FILM_BEAT = 60 / FILM_BPM;
 var FILM_DUREES = [[15, '15 s'], [30, '30 s'], [45, '45 s'], [60, '1 min']];
 var FILM_CHOIX = [
   ['ouvre', 'Le tissu en mouvement : déroulé, tiré, secoué, relancé'],
-  ['tisserand', 'Le métier tisse le motif, fil à fil'],
   ['faits', 'Fabrication et couleurs : les vrais chiffres'],
   ['extra', 'Images extraordinaires'],
   ['ia', 'Personnes et étapes du métier (images IA réalistes)']
@@ -18048,9 +18026,11 @@ var Film = {
     P.faits = Object.assign({}, B.faits, Film.textes(rt));
     /* images IA de cette photo seulement (jamais celles d'un autre tissu) */
     P.ia = typeof IA !== 'undefined' && IA.banque ? IA.banque(rt, P.nature) : (rt.ia || []).filter(function (q) { return q && q.img; });
+    /* vos vraies vidéos ou photos d'atelier, étape par étape (elles passent avant les images IA) */
+    P.reels = rt.reels || {};
     P.gl = B.gl && Tissu3D.init(W, H);
     if (P.gl) {
-      P.tx = Tissu3D.texture('tissu', B.motif, B.hd && B.hd.mode !== 'agrandi' ? 2048 : 1024, false, [B.hd && B.hd.seamX, B.hd && B.hd.seamY]);
+      P.tx = Tissu3D.texture('tissu', B.motif, 2048, false, [false, false]);
       P.txBois = Tissu3D.texture('bois' + (P.seed % 2), Film.bois(P.seed % 2 === 0), 512);
       P.txSol = Tissu3D.texture('sol', B.sol, 16);
       if (!P.tx || !P.txBois || !P.txSol) P.gl = false;
@@ -18067,21 +18047,18 @@ var Film = {
     var B = { O: O, pal: pal, C: Studio.couleurs(pal, 'sombre'), Cc: Studio.couleurs(pal, 'clair') };
     B.tissu = Film.recadre(O, 0.03); B.flou = Film.floute(B.tissu, 28); B.faits = Film.faits(rt, B.tissu);
     B.sol = Film.uni(Studio.mix(pal.clair, '#efe9e1', 0.75)); B.gl = Tissu3D.ok();
-    /* nature de la photo et tissu en haute définition : reconstitué fil à fil (ou photo agrandie et nette) ;
-       pour une photo de teinture, un tissu imaginé avec les couleurs des fils ; pour une photo de tissage,
-       le tissu d'après les couleurs de la chaîne au centre de la photo */
+    /* le tissu montré est toujours la photo elle-même, jamais redessiné ni imaginé :
+       agrandie et rendue nette si elle est petite (réduite, elle redonne exactement la photo) */
     B.nature = nat;
     var vives = B.faits.couleurs.filter(function (c) { var l = Coul.labHex(c.vrai); return Math.sqrt(l[1] * l[1] + l[2] * l[2]) > 14; });
     B.teintes = (vives.length ? vives : B.faits.couleurs).map(function (c) { return c.vrai; }).slice(0, 5);
     if (!B.teintes.length) B.teintes = pal.toutes.slice(0, 4);
-    try {
-      if (nat === 'teinture') B.hd = TissuHD.depuisCouleurs(B.teintes.map(function (h) { return { rgb: Coul.hex2rgb(h) }; }));
-      else if (nat === 'tissage') B.hd = TissuHD.creer(Film.recadre(B.tissu, 0.18), { structure: 'chaine', sansControle: true });
-      else B.hd = TissuHD.creer(B.tissu);
-    } catch (e) { B.hd = { img: B.tissu, mode: 'photo', seamX: false, seamY: false }; }
-    B.motif = B.hd.img;
-    /* gros plan de présentation : la photo, ou le tissu reconstitué si la photo est petite */
-    B.vue = nat === 'fini' && B.hd.mode === 'reconstruit' && Math.max(B.tissu.width, B.tissu.height) < 1100 ? B.hd.img : B.tissu;
+    /* la photo en pleine définition (pas la version réduite des calculs), recadrée de la même façon */
+    var hdSrc = img ? B.tissu : Film.recadre(Studio.source(rt, Retouche.ajustee(rt)), 0.03);
+    var net = TissuHD.agrandi(hdSrc, 2048);
+    B.hd = { img: net, mode: 'photo', seamX: false, seamY: false };
+    B.motif = net;
+    B.vue = Math.max(hdSrc.width, hdSrc.height) < 1100 ? TissuHD.agrandi(hdSrc, 1600) : hdSrc;
     B.chaine = Film.chaineCouleurs(B.motif, 72);
     if (img) img._filmB = { cle: cle, B: B }; else rt._film = { cle: cle, B: B };
     return B;
@@ -18136,15 +18113,15 @@ var Film = {
   plan: function (P, total, choix) {
     var r = P.r, B = FILM_BEAT, on = function (k) { return !choix || choix[k] !== false; };
     var pools = {
-      ouvre: on('ouvre') ? (P.gl ? ['deroule', 'vent', 'tire', 'relance', 'secoue'] : ['drape2d']) : [],
-      tiss: on('tisserand') ? ['metier'] : [],
+      /* le tissu en 3D : seulement pour une photo de tissu (pas pour des fils ni un métier) */
+      ouvre: on('ouvre') && (P.nature || 'fini') === 'fini' ? (P.gl ? ['deroule', 'vent', 'tire', 'relance', 'secoue'] : ['drape2d']) : [],
       faits: on('faits') ? ['fabrication', 'couleurs'] : [],
-      extra: on('extra') ? (P.gl ? ['planete', 'ruban', 'kaleido'] : ['kaleido']) : [],
+      extra: on('extra') ? (P.gl && (P.nature || 'fini') === 'fini' ? ['planete', 'ruban', 'kaleido'] : ['kaleido']) : [],
       ia: on('ia') ? P.ia.map(function (q, i) { return 'ia:' + i; }) : []
     };
     var reste = {}; Object.keys(pools).forEach(function (k) { reste[k] = pools[k].slice(); });
     var prend = function (k) { var a = reste[k]; return a.length ? a.splice(Math.floor(r() * a.length), 1)[0] : null; };
-    var tour = ['ia', 'ouvre', 'ia', 'tiss', 'ia', 'faits', 'ia', 'ouvre', 'ia', 'extra', 'ia', 'faits', 'ouvre', 'ia', 'extra'];
+    var tour = ['ia', 'ouvre', 'ia', 'faits', 'ia', 'ouvre', 'ia', 'extra', 'ia', 'faits', 'ouvre', 'ia', 'extra'];
     var cible = Math.max(16, Math.round(total / B)) * B, budget = cible - (Film.longueur('intro') + Film.longueur('fin') - B), seq = [], i = 0, vides = 0, recharges = 0;
     while (budget > 2.5 * B) {
       var s = prend(tour[i % tour.length]); i++;
@@ -18158,7 +18135,7 @@ var Film = {
       if (seq.length && seq[seq.length - 1] === s) continue;
       seq.push(s); budget -= Film.longueur(s) - B;
     }
-    if (!seq.length) seq.push(P.gl ? 'vent' : 'drape2d');
+    if (!seq.length) seq.push((P.nature || 'fini') !== 'fini' ? 'couleurs' : P.gl ? 'vent' : 'drape2d');
     var scenes = [{ k: 'intro', d: Film.longueur('intro') }].concat(seq.map(function (k) { return k.indexOf('ia:') === 0 ? { k: 'ia', d: Film.longueur('ia'), ia: P.ia[Number(k.slice(3))] } : { k: k, d: Film.longueur(k) }; }), [{ k: 'fin', d: Film.longueur('fin') }]);
     var somme = function () { return scenes.reduce(function (t, q) { return t + q.d; }, 0) - B * (scenes.length - 1); };
     /* durées ajustées au battement près pour tomber juste sur la durée voulue */
@@ -18200,6 +18177,41 @@ var Film = {
     } else { x.drawImage(A, 0, 0); x.globalAlpha = e; x.drawImage(B, 0, 0); }
     x.restore();
   },
+  /* ---------- plans vidéo (IA ou vos vidéos) : l'image exacte de chaque instant ----------
+     temps dans le plan : en vitesse réelle si le plan est assez long, sinon ralenti pour remplir la scène */
+  tempsClip: function (s, u) {
+    var q = s.ia, vd = (q && (q.vdur || (q.vid && q.vid.duration))) || 0; if (!vd || !isFinite(vd)) return 0;
+    u = Math.max(0, Math.min(1, u));
+    return vd >= s.d + 0.4 ? 0.3 + u * s.d : u * Math.max(0, vd - 0.06);
+  },
+  /* place une vidéo à l'instant t et attend que l'image soit prête */
+  cale: function (v, t) {
+    if (Math.abs((v.currentTime || 0) - t) < 0.004 && v.readyState >= 2) return Promise.resolve();
+    return new Promise(function (res) {
+      var fini = false, ok = function () { if (fini) return; fini = true; v.removeEventListener('seeked', ok); res(); };
+      v.addEventListener('seeked', ok); setTimeout(ok, 1500);
+      try { if (!v.paused) v.pause(); v.currentTime = t; } catch (e) { ok(); }
+    });
+  },
+  /* avant de dessiner l'instant T : les vidéos des scènes visibles sont mises à la bonne image */
+  pret: function (P, F, T) {
+    var L = F.scenes.filter(function (s) { return s.ia && s.ia.vid && T >= s.t0 && T < s.t0 + s.d; });
+    if (!L.length) return null;
+    return Promise.all(L.map(function (s) { return Film.cale(s.ia.vid, Film.tempsClip(s, (T - s.t0) / s.d)); }));
+  },
+  /* enregistrement en temps réel : les vidéos visibles jouent, les autres sont en pause */
+  joue: function (P, F, T) {
+    F.scenes.forEach(function (s) {
+      var v = s.ia && s.ia.vid; if (!v) return;
+      var on = T >= s.t0 && T < s.t0 + s.d;
+      if (!on) { if (!v.paused) try { v.pause(); } catch (e) {} return; }
+      var cible = Film.tempsClip(s, (T - s.t0) / s.d), vd = s.ia.vdur || v.duration || 0;
+      if (v.paused || Math.abs(v.currentTime - cible) > 0.35) {
+        try { v.playbackRate = vd && vd < s.d + 0.4 ? Math.max(0.5, (vd - 0.06) / s.d) : 1; v.currentTime = cible; var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } catch (e) {}
+      }
+    });
+  },
+  arrete: function (F) { F.scenes.forEach(function (s) { var v = s.ia && s.ia.vid; if (v && !v.paused) try { v.pause(); } catch (e) {} }); },
   tampon: function (P, k) { P.tp = P.tp || {}; var c = P.tp[k]; if (!c) { c = P.tp[k] = document.createElement('canvas'); c.width = P.W; c.height = P.H; } return c; },
   scene: function (x, P, s, u, t) {
     x.save(); x.imageSmoothingQuality = 'high';
@@ -18213,7 +18225,8 @@ var Film = {
   /* apparition puis disparition dans la scène */
   vis: function (u, a, b, c, d) { return Math.min(Film.e(u, a, b), 1 - Film.e(u, c, d)); },
   couvre: function (x, img, X, Y, W, H, z, px, py) {
-    var s = Math.max(W / img.width, H / img.height) * (z || 1), w = img.width * s, h = img.height * s;
+    var iw = img.videoWidth || img.naturalWidth || img.width, ih = img.videoHeight || img.naturalHeight || img.height;
+    var s = Math.max(W / iw, H / ih) * (z || 1), w = iw * s, h = ih * s;
     x.drawImage(img, X + (W - w) / 2 + (px || 0) * (w - W) / 2, Y + (H - h) / 2 + (py || 0) * (h - H) / 2, w, h);
   },
   /* fond sombre aux couleurs du tissu, avec le tissu flou en transparence */
@@ -18349,84 +18362,6 @@ Film.ombreSol = function (x, cx, cy, rx, ry, a) { x.save(); x.translate(cx, cy);
 Film.dims = function (F) { return [F.largeur ? fmtN(F.largeur, 1) + ' cm de large' : '', F.longueur ? 'pièce de ' + fmtN(F.longueur, 2) + ' m' : ''].filter(Boolean).join(' — '); };
 Film.nomsCouleurs = function (F, n) { var v = []; F.couleurs.forEach(function (c) { if (v.indexOf(c.nom) < 0) v.push(c.nom); }); return v.slice(0, n || 4).join(' · '); };
 
-/* ---------- le métier à tisser : vue du tisserand, le motif de la photo tissé duite après duite ----------
-   La toile du métier est dessinée à plat (proportions de la vidéo), puis posée en perspective (WebGL). */
-Film.metierPrep = function (P) {
-  var T = Film.T(P), a = P.W / P.H, gros = a < 0.9, Nw = gros ? 56 : (P.m < 600 ? 72 : 90);
-  var Hm = Math.max(8, Math.round(Nw * T.height / T.width)), c = document.createElement('canvas'); c.width = Nw; c.height = Hm;
-  var x = c.getContext('2d'); x.imageSmoothingQuality = 'high';
-  /* en gros plan (vidéo verticale) : la partie centrale du tissu */
-  var part = gros ? 0.62 : 1; x.drawImage(T, T.width * (1 - part) / 2, 0, T.width * part, T.height, 0, 0, Nw, Hm);
-  var d = x.getImageData(0, 0, Nw, Hm).data, SX = 1024, SY = Math.round(SX * Math.max(0.8, Math.min(2.2, 1.2 / a))), cv = document.createElement('canvas'); cv.width = SX; cv.height = SY;
-  var trame = []; for (var j = 0; j < Hm; j++) { var cnt = {}, best = null, bn = 0; for (var i = 0; i < Nw; i++) { var o = (j * Nw + i) * 4, k = (d[o] >> 5) + '-' + (d[o + 1] >> 5) + '-' + (d[o + 2] >> 5); cnt[k] = (cnt[k] || 0) + 1; if (cnt[k] > bn) { bn = cnt[k]; best = [d[o], d[o + 1], d[o + 2]]; } } trame.push(best); }
-  return { Nw: Nw, Hm: Hm, d: d, trame: trame, SX: SX, SY: SY, cv: cv, gros: gros, part: part };
-};
-Film.metierDessin = function (P, t) {
-  var M = P.metier, SX = M.SX, SY = M.SY, U = SX, x = M.cv.getContext('2d'), Nw = M.Nw, T = Film.T(P);
-  var xl = SX * (M.gros ? 0.17 : 0.15), xr = SX - xl, ww = xr - xl, sp = ww / Nw;
-  var yh1 = SY * 0.27, yh2 = SY * 0.335, yb0 = SY * 0.47, yb1 = SY * 0.6, yf = SY * 0.625, ybb = SY * 0.9, Tp = 2 * FILM_BEAT;
-  var k = Math.floor(t / Tp), ph = (t % Tp) / Tp, pickH = U * 0.018;
-  var cale = function (a, b) { return Math.max(0, Math.min(1, (ph - a) / (b - a))); }, sm = function (v) { return v * v * (3 - 2 * v); };
-  var bat = ph < 0.55 ? 0 : ph < 0.68 ? sm(cale(0.55, 0.68)) : 1 - sm(cale(0.68, 0.95)), yb = yb0 + (yb1 - yb0) * bat;
-  var R = pickH * (k + sm(cale(0.6, 0.7))), tw = T.width * M.part, th = T.height * ww / tw;
-  var lignePhoto = function (r) { var n = Math.floor(r / th), w = r - n * th; if (n % 2) w = th - w; return Math.max(0, Math.min(M.Hm - 1, Math.floor(w / th * M.Hm))); };
-  var lf = lignePhoto(R), coul = function (i, l) { var o = (l * Nw + i) * 4; return [M.d[o], M.d[o + 1], M.d[o + 2]]; };
-  var rgb = function (c, f) { return 'rgb(' + Math.round(Math.min(255, c[0] * f)) + ',' + Math.round(Math.min(255, c[1] * f)) + ',' + Math.round(Math.min(255, c[2] * f)) + ')'; };
-  var g = x.createLinearGradient(0, 0, 0, SY); g.addColorStop(0, '#120c07'); g.addColorStop(1, '#2a1b10'); x.fillStyle = g; x.fillRect(0, 0, SX, SY);
-  /* montants du métier */
-  if (!M.gros) [[0, U * 0.05], [SX - U * 0.05, U * 0.05]].forEach(function (q) { var gg = x.createLinearGradient(q[0], 0, q[0] + q[1], 0); gg.addColorStop(0, '#3b2414'); gg.addColorStop(0.5, '#8a5a32'); gg.addColorStop(1, '#2c1a0d'); x.fillStyle = gg; x.fillRect(q[0], 0, q[1], SY); });
-  /* le tissu déjà tissé, qui avance vers le tisserand */
-  x.save(); x.beginPath(); x.rect(xl, yf, ww, SY - yf); x.clip();
-  var sx0 = T.width * (1 - M.part) / 2, n0 = Math.floor((R - (SY - yf)) / th) - 1, n1 = Math.floor(R / th) + 1;
-  for (var n = n0; n <= n1; n++) { var yTop = yf + R - (n + 1) * th; x.save(); if (n % 2) { x.translate(xl, yTop); x.drawImage(T, sx0, 0, tw, T.height, 0, 0, ww, th + 1); } else { x.translate(xl, yTop + th); x.scale(1, -1); x.drawImage(T, sx0, 0, tw, T.height, 0, 0, ww, th + 1); } x.restore(); }
-  x.globalAlpha = 0.16; x.fillStyle = '#000'; var pas = U * 0.006; for (var yy = yf + ((R % pas) + pas) % pas; yy < SY; yy += pas) x.fillRect(xl, yy, ww, pas * 0.25); x.globalAlpha = 1;
-  var gs = x.createLinearGradient(0, yf, 0, yf + U * 0.05); gs.addColorStop(0, 'rgba(0,0,0,.45)'); gs.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = gs; x.fillRect(xl, yf, ww, U * 0.05);
-  x.restore();
-  /* ensouple de poitrine */
-  Film.barre(x, [U * 0.02, ybb], [SX - U * 0.02, ybb], U * 0.055, false);
-  /* les fils de chaîne en deux nappes : celle qui monte est éclairée, l'autre dans l'ombre */
-  var haut = k % 2, ouvre = sm(cale(0, 0.12)), nappe = function (pair) {
-    for (var i = pair; i < Nw; i += 2) {
-      var c = coul(i, lf), X = xl + (i + 0.5) * sp, monte = (i % 2) === haut, f = monte ? 1.08 : 0.58;
-      var gg = x.createLinearGradient(0, 0, 0, yf); gg.addColorStop(0, rgb(c, 0.2)); gg.addColorStop(0.3, rgb(c, f * 0.8)); gg.addColorStop(1, rgb(c, f));
-      x.fillStyle = gg; x.fillRect(X - sp * 0.36, 0, sp * 0.72, yf + 1);
-      if (monte) { x.fillStyle = 'rgba(255,255,255,.16)'; x.fillRect(X - sp * 0.14, 0, sp * 0.12, yf); }
-    }
-  };
-  nappe(haut ? 0 : 1);
-  /* la navette passe dans la foule, entre les deux nappes, et laisse sa duite */
-  var ys = (yb0 + yf) / 2 + U * 0.01, dir = k % 2 ? -1 : 1, nv = sm(cale(0.12, 0.55)), ext = U * 0.16, xs = dir > 0 ? xl - ext + (ww + 2 * ext) * nv : xr + ext - (ww + 2 * ext) * nv;
-  var tc = M.trame[lf] || [200, 200, 200], yw = ph < 0.55 ? ys : ys + (yf - ys - 2) * Math.min(1, bat * 1.05);
-  x.strokeStyle = rgb(tc, 1); x.lineWidth = U * 0.005;
-  if (ph > 0.12) { x.beginPath(); x.moveTo(dir > 0 ? xl - U * 0.01 : xr + U * 0.01, ph < 0.55 ? yf - U * 0.006 : yw); x.lineTo(ph < 0.55 ? xs : (dir > 0 ? xr + U * 0.02 : xl - U * 0.02), yw); x.stroke(); }
-  if (ph > 0.1 && ph < 0.6) {
-    x.save(); x.translate(xs, ys); x.shadowColor = 'rgba(0,0,0,.45)'; x.shadowBlur = U * 0.012; x.shadowOffsetY = U * 0.006;
-    var lw = U * 0.17, lh = U * 0.038, gn = x.createLinearGradient(0, -lh / 2, 0, lh / 2); gn.addColorStop(0, '#e7c08a'); gn.addColorStop(0.5, '#b27a43'); gn.addColorStop(1, '#5d3a1c');
-    x.fillStyle = gn; x.beginPath(); x.moveTo(-lw / 2, 0); x.quadraticCurveTo(-lw * 0.3, -lh / 2, 0, -lh / 2); x.quadraticCurveTo(lw * 0.3, -lh / 2, lw / 2, 0); x.quadraticCurveTo(lw * 0.3, lh / 2, 0, lh / 2); x.quadraticCurveTo(-lw * 0.3, lh / 2, -lw / 2, 0); x.fill();
-    x.shadowColor = 'transparent'; x.fillStyle = '#2a170a'; Studio.chemin(x, { x: -lw * 0.26, y: -lh * 0.24, w: lw * 0.52, h: lh * 0.48, r: lh * 0.2 }); x.fill();
-    x.fillStyle = rgb(tc, 1); Studio.chemin(x, { x: -lw * 0.22, y: -lh * 0.18, w: lw * 0.44, h: lh * 0.36, r: lh * 0.16 }); x.fill();
-    x.fillStyle = 'rgba(255,255,255,.35)'; x.fillRect(-lw * 0.22, -lh * 0.15, lw * 0.44, lh * 0.08);
-    x.restore();
-  }
-  nappe(haut ? 1 : 0);
-  /* les lisses : deux cadres, l'un levé, l'autre baissé */
-  [yh1, yh2].forEach(function (y, q) {
-    var leve = (q === haut) ? ouvre : 1 - ouvre, ep = U * 0.018;
-    x.save(); x.shadowColor = 'rgba(0,0,0,.5)'; x.shadowBlur = U * (0.004 + 0.012 * leve); x.shadowOffsetY = U * (0.003 + 0.012 * leve);
-    var gg = x.createLinearGradient(0, y - ep / 2, 0, y + ep / 2); gg.addColorStop(0, '#6d4524'); gg.addColorStop(0.5, '#b98552'); gg.addColorStop(1, '#3c2412');
-    x.fillStyle = gg; x.fillRect(0, y - ep / 2 - leve * U * 0.006, SX, ep); x.restore();
-    x.fillStyle = 'rgba(235,225,205,.55)'; for (var i = q; i < Nw; i += 2) x.fillRect(xl + (i + 0.5) * sp - 1, y - U * 0.02 - leve * U * 0.006, 2, U * 0.04);
-  });
-  /* le battant et son peigne */
-  x.save(); x.shadowColor = 'rgba(0,0,0,.55)'; x.shadowBlur = U * 0.02; x.shadowOffsetY = U * 0.014;
-  var ep2 = U * 0.04, gb = x.createLinearGradient(0, yb - ep2 / 2, 0, yb + ep2 / 2); gb.addColorStop(0, '#7b4e28'); gb.addColorStop(0.4, '#d8a46a'); gb.addColorStop(1, '#40260f');
-  x.fillStyle = gb; Studio.chemin(x, { x: -U * 0.02, y: yb - ep2 / 2, w: SX + U * 0.04, h: ep2, r: ep2 * 0.4 }); x.fill(); x.restore();
-  x.fillStyle = 'rgba(190,195,205,.92)'; x.fillRect(xl - U * 0.01, yb + ep2 / 2, ww + U * 0.02, U * 0.014);
-  x.fillStyle = 'rgba(40,44,52,.75)'; for (var dd = xl; dd < xr; dd += sp / 2) x.fillRect(dd, yb + ep2 / 2, 1.3, U * 0.014);
-  var gl = x.createRadialGradient(SX * 0.5, SY * 0.5, U * 0.1, SX * 0.5, SY * 0.52, Math.max(SX, SY) * 0.72); gl.addColorStop(0, 'rgba(255,200,120,0)'); gl.addColorStop(1, 'rgba(8,4,0,.55)'); x.fillStyle = gl; x.fillRect(0, 0, SX, SY);
-  return M.cv;
-};
-
 Film.scenes = {
   /* ouverture : le tissu en gros plan, un trait de lumière, le titre */
   intro: function (x, P, s, u, t) {
@@ -18505,22 +18440,6 @@ Film.scenes = {
     Film.legende(x, P, u, { sur: F.accroche || 'Tissé à la main', titre: F.titre, sous: Film.dims(F) }, { a0: 0.2 });
   },
   /* le tisserand tisse le modèle */
-  metier: function (x, P, s, u, t) {
-    var W = P.W, H = P.H, F = P.faits, M = P.metier || (P.metier = Film.metierPrep(P));
-    var tex = Film.metierDessin(P, t + 0.3);
-    x.fillStyle = '#0d0905'; x.fillRect(0, 0, W, H);
-    if (P.gl) {
-      var T = Tissu3D.texture('metier', tex, 1024, true), pw = 1.6, ph = pw * M.SY / M.SX, fov = 50, el = (54 - 6 * u) * Math.PI / 180;
-      var hf = 2 * Math.atan(Math.tan(fov * Math.PI / 360) * W / H), D = 0.47 * pw / Math.tan(hf / 2) * (M.gros ? 0.9 : 1) * (1 - 0.04 * u), at = [0, 0, 0.04 * ph];
-      var cam = Film.cam(P, [0, D * Math.sin(el), at[2] + D * Math.cos(el)], at, fov);
-      Film.gl(x, P, { cam: cam, lum: [0, 1, 0.3], objets: [{ mode: 'plan', tex: T, size: [pw, ph], rep: [1, 1], p: [0], amb: 0.95, gloss: 0 }] });
-      var fe = Film.ecran(P, cam, [0, 0, -ph / 2]), fy = fe[2] > 0 ? Math.max(H * 0.1, Math.min(H * 0.45, fe[1] + H * 0.1)) : H * 0.2;
-      var fg = x.createLinearGradient(0, 0, 0, fy); fg.addColorStop(0, 'rgba(13,9,5,1)'); fg.addColorStop(0.5, 'rgba(13,9,5,.8)'); fg.addColorStop(1, 'rgba(13,9,5,0)'); x.fillStyle = fg; x.fillRect(0, 0, W, fy);
-    } else Film.couvre(x, tex, 0, 0, W, H, 1.02 - 0.02 * u);
-    Film.vignette(x, P, 0.45);
-    var det = F.peigne ? [mcPeigne(F.peigne), F.fpd ? plural(F.fpd, 'fil') + ' par dent' : '', F.fils ? fmtN(F.fils) + ' fils de chaîne' : ''].filter(Boolean).join(' · ') : [F.nomStructure, F.ville ? 'à ' + F.ville : ''].filter(Boolean).join(' · ');
-    Film.legende(x, P, u, { sur: 'Sur le métier', titre: 'Tissé fil à fil', sous: det }, { a0: 0.18, haut: true });
-  },
   /* fabrication : les chiffres du plan de tissage et de la fiche */
   fabrication: function (x, P, s, u, t) {
     var W = P.W, H = P.H, F = P.faits, m = P.m, vert = W / H < 0.9, Lf = [];
@@ -18620,15 +18539,18 @@ Film.scenes = {
   },
   /* image IA : lent zoom, légende, mention discrète */
   ia: function (x, P, s, u, t) {
-    var W = P.W, H = P.H, F = P.faits, q = s.ia || {}, im = q.img;
+    var W = P.W, H = P.H, F = P.faits, q = s.ia || {}, im = q.img, vid = q.vid && q.vid.readyState >= 2 ? q.vid : null;
     x.fillStyle = '#000'; x.fillRect(0, 0, W, H);
-    /* mouvement de caméra lent sur la photo (avancée ou recul, léger glissement), différent d'une scène à l'autre */
-    if (im) { var dir = s.v % 4, z = dir < 2 ? 1.03 + 0.1 * u : 1.13 - 0.1 * u; Film.couvre(x, im, 0, 0, W, H, z, dir % 2 ? 0.5 * (u - 0.5) : -0.5 * (u - 0.5), (dir < 2 ? 0.25 : -0.2) * (u - 0.5)); }
+    /* un plan vidéo (personnes en mouvement) : l'image exacte de l'instant, à peine rapprochée ;
+       sinon la photo, avec un mouvement de caméra lent (avancée ou recul, léger glissement) */
+    if (vid) Film.couvre(x, vid, 0, 0, W, H, 1.02 + 0.03 * u, 0, 0);
+    else if (im) { var dir = s.v % 4, z = dir < 2 ? 1.03 + 0.1 * u : 1.13 - 0.1 * u; Film.couvre(x, im, 0, 0, W, H, z, dir % 2 ? 0.5 * (u - 0.5) : -0.5 * (u - 0.5), (dir < 2 ? 0.25 : -0.2) * (u - 0.5)); }
     Film.vignette(x, P, 0.35);
     var L = s.num && q.serie ? { sur: 'Étape ' + s.num + ' · ' + (FILM_SERIES[q.serie] || q.sur || ''), titre: q.cap, sous: F.atelier ? 'à l\'atelier ' + F.atelier : F.titre }
       : { sur: q.sur || 'Inspiration', titre: q.cap || F.titre, sous: q.cap ? F.titre : '' };
     Film.legende(x, P, u, L, { a0: 0.08, fort: true });
-    if (P.rt.iaMention !== false) { var sz = Math.round(P.m * 0.024); x.save(); x.font = '600 ' + sz + 'px ' + Studio.SANS; var tw = x.measureText('Image IA').width; x.fillStyle = 'rgba(0,0,0,.45)'; Studio.chemin(x, { x: P.m * 0.04, y: P.m * 0.04, w: tw + sz * 1.2, h: sz * 1.7, r: sz * 0.85 }); x.fill(); x.fillStyle = '#fff'; x.textBaseline = 'middle'; x.fillText('Image IA', P.m * 0.04 + sz * 0.6, P.m * 0.04 + sz * 0.87); x.restore(); }
+    /* mention demandée par Facebook et TikTok pour ce qui est créé par l'IA (jamais sur vos propres vidéos) */
+    if (!q.reel && P.rt.iaMention !== false) { var lb = vid ? 'Vidéo IA' : 'Image IA', sz = Math.round(P.m * 0.024); x.save(); x.font = '600 ' + sz + 'px ' + Studio.SANS; var tw = x.measureText(lb).width; x.fillStyle = 'rgba(0,0,0,.45)'; Studio.chemin(x, { x: P.m * 0.04, y: P.m * 0.04, w: tw + sz * 1.2, h: sz * 1.7, r: sz * 0.85 }); x.fill(); x.fillStyle = '#fff'; x.textBaseline = 'middle'; x.fillText(lb, P.m * 0.04 + sz * 0.6, P.m * 0.04 + sz * 0.87); x.restore(); }
   },
   /* fin : logo, nom du modèle, prix, contact */
   fin: function (x, P, s, u, t) {
@@ -18822,6 +18744,7 @@ Film.tempsReel = function (P, F, cv, buf, o) {
     var stop = function (annule) {
       if (fini) return; fini = true;
       try { if (src) src.stop(); } catch (e) {}
+      Film.arrete(F);
       if (annule) rec.onstop = function () { ferme(); rej(new Error('annulé')); };
       setTimeout(function () { try { rec.stop(); } catch (e) { rej(e); } }, annule ? 0 : 150);
     };
@@ -18839,8 +18762,8 @@ Film.tempsReel = function (P, F, cv, buf, o) {
         if (fini) return;
         if (o.annule && o.annule()) { stop(true); return; }
         var t = (performance.now() - debut) / 1000;
-        if (t >= dur) { Film.image(x, P, F, dur - 0.001); stop(false); if (o.suivi) o.suivi(dur, dur); return; }
-        Film.image(x, P, F, t); if (o.suivi) o.suivi(t, dur);
+        if (t >= dur) { Film.image(x, P, F, dur - 0.001); Film.arrete(F); stop(false); if (o.suivi) o.suivi(dur, dur); return; }
+        Film.joue(P, F, t); Film.image(x, P, F, t); if (o.suivi) o.suivi(t, dur);
         if (window.requestAnimationFrame && !document.hidden) requestAnimationFrame(boucle); else setTimeout(boucle, 33);
       };
       boucle();
@@ -18944,14 +18867,18 @@ Film.encoder = function (P, F, cv, buf, o) {
     var suite = function () {
       if (err) return Promise.reject(err);
       if (o.annule && o.annule()) { try { enc.close(); } catch (e) {} return Promise.reject(new Error('annulé')); }
-      if (i >= N) return enc.flush().then(function () { enc.close(); });
-      var t = i / fps;
-      Film.image(x, P, F, t);
-      var fr = new VideoFrame(cv, { timestamp: Math.round(i * 1e6 / fps), duration: Math.round(1e6 / fps) });
-      enc.encode(fr, { keyFrame: i % (fps * 2) === 0 }); fr.close();
-      i++; if (o.suivi) o.suivi(t, F.total);
-      var att = function () { return enc.encodeQueueSize > 3 ? Film.attente(4).then(att) : Promise.resolve(); };
-      return att().then(function () { return i % 3 ? suite() : Film.attente(0).then(suite); });
+      if (i >= N) { Film.arrete(F); return enc.flush().then(function () { enc.close(); }); }
+      var t = i / fps, pr = Film.pret(P, F, t);
+      var dessine = function () {
+        Film.image(x, P, F, t);
+        var fr = new VideoFrame(cv, { timestamp: Math.round(i * 1e6 / fps), duration: Math.round(1e6 / fps) });
+        enc.encode(fr, { keyFrame: i % (fps * 2) === 0 }); fr.close();
+        i++; if (o.suivi) o.suivi(t, F.total);
+        var att = function () { return enc.encodeQueueSize > 3 ? Film.attente(4).then(att) : Promise.resolve(); };
+        return att().then(function () { return i % 3 ? suite() : Film.attente(0).then(suite); });
+      };
+      /* les plans vidéo sont d'abord mis à l'image exacte de cet instant */
+      return pr ? pr.then(dessine) : dessine();
     };
     return suite();
   }).then(function () {
@@ -18994,7 +18921,7 @@ Film.encoder = function (P, F, cv, buf, o) {
 ICONS.sparkle = '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>';
 var IA_FOURN = [['gemini', 'Google Gemini (images « Nano Banana »)'], ['openai', 'OpenAI (images GPT)']];
 /* qualité : modèles essayés dans l'ordre (le premier qui répond est retenu) et définition demandée */
-var IA_QUALITES = [['standard', 'Standard — rapide, le moins cher'], ['hd', 'Haute définition — conseillé pour les vidéos'], ['max', 'Maximale — la plus réaliste, plus chère']];
+var IA_QUALITES = [['max', 'Maximale — la plus fidèle au tissu et la plus réaliste (conseillé)'], ['hd', 'Haute définition — moins chère'], ['standard', 'Standard — rapide, le moins cher']];
 var IA_MODELES = {
   gemini: {
     standard: ['gemini-3.1-flash-lite-image', 'gemini-nano-banana-2.1', 'gemini-3.1-flash-image', 'gemini-2.5-flash-image'],
@@ -19011,7 +18938,8 @@ var IA_MODELES = {
 var IA_2K = ['gemini-nano-banana-2.1', 'gemini-3.1-flash-image', 'gemini-3-pro-image'];
 /* une vraie photo, jamais un dessin */
 var IA_STYLE = ' Style: an authentic, ultra-realistic photograph taken with a professional full-frame camera and a prime lens, natural light, true-to-life colors, real skin texture and natural anatomy (natural hands with five fingers), sharp focus on the fabric. Any people shown are fictional (not real, identifiable individuals), dignified and attractive, of West African appearance, dressed modestly. It must look like a real photo: not an illustration, not a cartoon, not a 3D render, not a painting, not CGI. Do not add any text, letters, numbers, logo or watermark.';
-var IA_SUITE = ' The second reference image is an earlier photo from the same series: keep the same workshop, the same artisan (same face, same clothes, same build) and the same light, from a different moment and angle.';
+var IA_GROS = ' The second reference image is a sharp close-up of the same fabric: wherever the fabric appears, reproduce exactly this weave, this pattern, these colors and this scale — crisp, clean and identical, never approximated.';
+var IA_SUITE = ' The third reference image is an earlier photo from the same series: keep the same workshop, the same artisan (same face, same clothes, same build) and the same light, from a different moment and angle.';
 /* scènes : n = natures de photo, g = groupe, serie = métier (même atelier d'une étape à l'autre), etape = rang dans le métier */
 var IA_SCENES = [
   /* ===== teinture : la photo montre des fils teints ===== */
@@ -19056,7 +18984,7 @@ var IA = {
   garder: function (c) { try { if (c) localStorage.setItem(IA.cle(), JSON.stringify(c)); else localStorage.removeItem(IA.cle()); return true; } catch (e) { return false; } },
   pret: function () { var c = IA.cfg(); return !!(c.cle && c.fourn); },
   nomFourn: function (k) { return (IA_FOURN.filter(function (f) { return f[0] === k; })[0] || ['', k])[1]; },
-  qualite: function (c) { c = c || IA.cfg(); return IA_MODELES.gemini[c.qualite] ? c.qualite : 'hd'; },
+  qualite: function (c) { c = c || IA.cfg(); return IA_MODELES.gemini[c.qualite] ? c.qualite : 'max'; },
   scene: function (k) { return IA_SCENES.filter(function (s) { return s.k === k; })[0] || null; },
   /* réglages : service, clé et qualité, enregistrés sur ce téléphone seulement */
   reglages: function (apres) {
@@ -19086,6 +19014,13 @@ var IA = {
   /* une image envoyée comme modèle : JPEG de 1024 px au plus */
   jpeg: function (c, max) { c = Retouche.reduit(c, max || 1024); var url = c.toDataURL('image/jpeg', 0.9); return { b64: url.split(',')[1], url: url, w: c.width, h: c.height }; },
   reference: function (rt, max) { return IA.jpeg(Studio.source(rt, Retouche.reduit(Retouche.ajustee(rt), 1400)), max || 1024); },
+  /* gros plan net du centre de la photo : le service voit les fils, le motif et les couleurs exactes */
+  gros: function (rt) {
+    var src = Studio.source(rt, Retouche.reduit(Retouche.ajustee(rt), 2400)), k = 0.5, c = document.createElement('canvas');
+    c.width = Math.max(8, Math.round(src.width * k)); c.height = Math.max(8, Math.round(src.height * k));
+    c.getContext('2d').drawImage(src, (src.width - c.width) / 2, (src.height - c.height) / 2, c.width, c.height, 0, 0, c.width, c.height);
+    return IA.jpeg(TissuHD.agrandi(c, 1024), 1024);
+  },
   /* description du tissu pour aider le service à le reproduire fidèlement */
   description: function (rt) {
     var F = null, nat = (rt.nature && rt.nature.type) || 'fini'; try { F = Film.faits(rt, Retouche.reduit(Retouche.ajustee(rt), 600)); } catch (e) { F = null; }
@@ -19158,11 +19093,11 @@ var IA = {
   },
   retenir: function (fourn, mod) { var cc = IA.cfg(); if (cc.modele) return; var o = typeof cc.modeleOk === 'object' && cc.modeleOk ? cc.modeleOk : {}; o[fourn + ':' + IA.qualite(cc)] = mod; cc.modeleOk = o; IA.garder(cc); },
   /* Google Gemini : texte + photo(s) de référence → image */
-  gemini: function (c, prompt, refs, ratio) {
-    refs = [].concat(refs).filter(Boolean);
+  gemini: function (c, prompt, refs, ratio, o) {
+    refs = [].concat(refs).filter(Boolean); o = o || {};
     var liste = IA.liste(c, 'gemini'), q = IA.qualite(c), premiere = null, essai = function (i, sansTaille) {
       var mod = liste[i], ic = { aspectRatio: ratio };
-      if (!sansTaille && q !== 'standard' && IA_2K.indexOf(mod) >= 0) ic.imageSize = '2K';
+      if (!sansTaille && (q !== 'standard' || o.taille) && IA_2K.indexOf(mod) >= 0) ic.imageSize = o.taille || '2K';
       var parts = [{ text: prompt }].concat(refs.map(function (r) { return { inline_data: { mime_type: 'image/jpeg', data: r.b64 } }; }));
       return fetch('https://generativelanguage.googleapis.com/v1beta/models/' + mod + ':generateContent', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': c.cle },
         body: JSON.stringify({ contents: [{ parts: parts }], generationConfig: { responseModalities: ['TEXT', 'IMAGE'], imageConfig: ic } }) })
@@ -19188,15 +19123,17 @@ var IA = {
     refs = [].concat(refs).filter(Boolean);
     var liste = IA.liste(c, 'openai'), q = IA.qualite(c), taille = /^(9:16|2:3|3:4|4:5)$/.test(ratio) ? '1024x1536' : /^(16:9|3:2|4:3|5:4|21:9)$/.test(ratio) ? '1536x1024' : '1024x1024', premiere = null;
     var blobs = refs.map(function (r) { var bin = atob(r.b64), u8 = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return new Blob([u8], { type: 'image/jpeg' }); });
-    var essai = function (k, une) {
+    var sansFid = false, essai = function (k, une) {
       var fd = new FormData(), bs = une ? blobs.slice(0, 1) : blobs; fd.append('model', liste[k]); fd.append('prompt', prompt);
       if (bs.length > 1) bs.forEach(function (b, i) { fd.append('image[]', b, 'ref' + i + '.jpg'); }); else fd.append('image', bs[0], 'tissu.jpg');
       fd.append('size', taille); fd.append('quality', c.qualiteOpenai || (q === 'standard' ? 'medium' : 'high')); fd.append('n', '1');
+      if (!sansFid) fd.append('input_fidelity', 'high');
       return fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: 'Bearer ' + c.cle }, body: fd })
         .then(function (r) { return r.text().then(function (t) { var j = null; try { j = JSON.parse(t); } catch (e) { j = null; } return { st: r.status, ok: r.ok, j: j, t: t }; }); })
         .then(function (R) {
           if (!R.ok) {
             var msg = R.j && R.j.error ? R.j.error.message : R.t;
+            if (R.st === 400 && !sansFid && /input_fidelity/i.test(msg)) { sansFid = true; return essai(k, une); }
             if (R.st === 400 && bs.length > 1 && /image/i.test(msg) && !/model/i.test(msg)) return essai(k, true);
             premiere = premiere || [R.st, msg];
             if (IA.autreModele(R.st, msg) && k + 1 < liste.length) return essai(k + 1, une);
@@ -19214,7 +19151,8 @@ var IA = {
   une: function (rt, scene, ref, ratio, o) {
     o = o || {};
     var c = IA.cfg(), refs = [ref], prompt = IA.description(rt) + scene.p;
-    if (o.suite) { refs.push(IA.jpeg(o.suite, 768)); prompt += IA_SUITE; }
+    if (o.gros) { refs.push(o.gros); prompt += IA_GROS; }
+    if (o.suite && o.gros) { refs.push(IA.jpeg(o.suite, 768)); prompt += IA_SUITE; }
     prompt += IA_STYLE;
     var appel = c.fourn === 'openai' ? IA.openai(c, prompt, refs, ratio) : IA.gemini(c, prompt, refs, ratio);
     return appel.then(function (url) {
@@ -19227,8 +19165,8 @@ var IA = {
     return (rt.ia || []).filter(function (q) { return q && q.img && (!q.emp || !emp || q.emp === emp) && (!nat || !q.n || q.n.indexOf(nat) >= 0); });
   },
   manquantes: function (rt, cles, nat) {
-    var deja = IA.banque(rt, nat).map(function (q) { return q.k; });
-    return cles.filter(function (k, i) { return cles.indexOf(k) === i && deja.indexOf(k) < 0; }).map(IA.scene).filter(function (s) { return s && s.n.indexOf(nat) >= 0; });
+    var deja = IA.banque(rt, nat).map(function (q) { return q.k; }), reels = rt.reels || {};
+    return cles.filter(function (k, i) { return cles.indexOf(k) === i && deja.indexOf(k) < 0 && !reels[k]; }).map(IA.scene).filter(function (s) { return s && s.n.indexOf(nat) >= 0; });
   },
   /* fabrique une liste de scènes ; les étapes d'un métier forment une série : la première est faite seule,
      les suivantes reçoivent cette première image pour garder le même atelier et le même artisan.
@@ -19236,14 +19174,14 @@ var IA = {
   lot: function (rt, scenes, suivi, nature, fmt) {
     if (!IA.pret()) return Promise.reject(new Error('Ajoutez d\'abord la clé du service d\'IA.'));
     if (navigator.onLine === false) return Promise.reject(new Error('Pas de connexion internet : les images IA ont besoin d\'internet.'));
-    var nat = nature || (rt.nature && rt.nature.type) || 'fini', ref = IA.reference(rt), t = Retouche.taille(rt, fmt), ratio = IA.ratio(t.w, t.h), emp = rt.empreinte || '';
+    var nat = nature || (rt.nature && rt.nature.type) || 'fini', ref = IA.reference(rt), gros = IA.gros(rt), t = Retouche.taille(rt, fmt), ratio = IA.ratio(t.w, t.h), emp = rt.empreinte || '';
     var faites = [], erreurs = [], fait = 0, total = scenes.length;
     rt.ia = rt.ia || [];
     var garde = function (q) { faites.push(q); rt.ia.push(q); while (rt.ia.length > 28) rt.ia.shift(); };
     var tete = function (serie) { var b = IA.banque(rt, nat).concat(faites).filter(function (q) { return q.serie === serie && q.etape; }).sort(function (a, b2) { return a.etape - b2.etape; }); return b[0] ? b[0].img : null; };
     var une = function (s) {
       var suite = s.serie ? tete(s.serie) : null;
-      return IA.une(rt, s, ref, ratio, { suite: suite, nat: nat, emp: emp }).then(garde, function (e) { erreurs.push(e.message || String(e)); })
+      return IA.une(rt, s, ref, ratio, { gros: gros, suite: suite, nat: nat, emp: emp }).then(garde, function (e) { erreurs.push(e.message || String(e)); })
         .then(function () { fait++; if (suivi) suivi(fait, total, faites); });
     };
     /* 1. la première étape de chaque série qui n'a pas encore d'image */
@@ -19266,18 +19204,180 @@ var IA = {
   },
   /* retouche par l'IA : la photo améliorée devient la photo de travail (on peut revenir à l'originale) */
   RETOUCHES: [
-    ['ameliore', 'Améliorer la photo', 'Retouch this product photograph of a woven fabric like a professional photographer: correct the white balance and exposure, recover true vivid colors, increase clarity and sharpness of the weave, remove dust and noise. Keep the fabric, its pattern, colors and framing exactly identical; do not add or remove anything.'],
+    ['ameliore', 'Photo nette HD (identique)', 'Reproduce this exact photograph as a sharper, cleaner, higher-resolution version, like a professional product photographer would deliver it: identical framing, identical fabric, identical pattern, threads, colors and proportions; remove blur, noise and compression artifacts, correct the white balance and exposure. Do not add, remove, move or restyle anything.'],
     ['studio', 'Fond studio', 'Turn this photo into a premium studio product shot: the same fabric, neatly laid with a few elegant soft folds on a clean light background, soft professional lighting and gentle shadow. Keep the fabric pattern and colors exactly identical.'],
     ['luxe', 'Mise en scène luxe', 'Create a luxury e-commerce photograph of this exact fabric: a neatly folded stack and an elegantly draped length on a dark wooden table with warm spotlight, premium boutique atmosphere. Keep the fabric pattern and colors exactly identical.']
   ],
+  /* écart entre deux images (0 = identiques) : moyennes des couleurs sur une petite grille, après recadrage au même format */
+  ecart: function (a, b) {
+    var w = 96, asp = a.width / a.height, h = Math.max(8, Math.round(w / asp)), lit = function (img) {
+      var c = document.createElement('canvas'); c.width = w; c.height = h; var x = c.getContext('2d'), iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+      var sw = iw, sh = iw / asp; if (sh > ih) { sh = ih; sw = ih * asp; }
+      x.imageSmoothingQuality = 'high'; x.drawImage(img, (iw - sw) / 2, (ih - sh) / 2, sw, sh, 0, 0, w, h); return x.getImageData(0, 0, w, h).data;
+    };
+    var p = lit(a), q = lit(b), s = 0; for (var i = 0; i < p.length; i += 4) s += Math.abs(p[i] - q[i]) + Math.abs(p[i + 1] - q[i + 1]) + Math.abs(p[i + 2] - q[i + 2]);
+    return s / (p.length / 4) / 3;
+  },
+  /* la photo nette faite dans le téléphone (mêmes pixels, agrandis et nets) */
+  netLocal: function (rt) { return TissuHD.agrandi(Retouche.ajustee(rt), Math.min(3200, Math.max(2400, Math.max(rt.full.width, rt.full.height)))).toDataURL('image/jpeg', 0.94); },
+  /* renvoie { url, note } ; pour la photo nette, l'image de l'IA est contrôlée : si elle s'écarte de la photo
+     (motif, couleurs, cadrage), elle est refusée et la photo nette faite dans le téléphone la remplace */
   retouche: function (rt, k) {
     var R = IA.RETOUCHES.filter(function (q) { return q[0] === k; })[0]; if (!R) return Promise.reject(new Error('Retouche inconnue'));
     if (!IA.pret()) return Promise.reject(new Error('Ajoutez d\'abord la clé du service d\'IA.'));
     if (navigator.onLine === false) return Promise.reject(new Error('Pas de connexion internet.'));
-    var ref = IA.reference(rt), c = IA.cfg(), ratio = IA.ratio(ref.w, ref.h), p = R[2] + ' Photorealistic. No text, no watermark.';
-    return (c.fourn === 'openai' ? IA.openai(c, p, ref, ratio) : IA.gemini(c, p, ref, ratio));
-  }
+    var src = Studio.source(rt, Retouche.reduit(Retouche.ajustee(rt), 2048)), ref = IA.jpeg(src, 1536), c = IA.cfg(), ratio = IA.ratio(ref.w, ref.h), p = R[2] + ' Photorealistic. No text, no watermark.';
+    var appel = c.fourn === 'openai' ? IA.openai(c, p, ref, ratio) : IA.gemini(c, p, ref, ratio, { taille: k === 'ameliore' ? '4K' : null });
+    if (k !== 'ameliore') return appel.then(function (url) { return { url: url }; });
+    return appel.then(function (url) {
+      return new Promise(function (res) {
+        var im = new Image(); im.onload = function () { var e = IA.ecart(src, im); res(e <= IA.SEUIL_FIDELE ? { url: url, ecart: e } : { url: IA.netLocal(rt), ecart: e, note: 'L\'image de l\'IA s\'écartait de votre photo : la photo nette faite dans le téléphone, identique à l\'originale, est gardée.' }); };
+        im.onerror = function () { res({ url: IA.netLocal(rt), note: 'Image de l\'IA illisible : la photo nette faite dans le téléphone est gardée.' }); }; im.src = url;
+      });
+    });
+  },
+  SEUIL_FIDELE: 14
 };
+
+/* ---------- vidéos IA : les photos réalistes prennent vie (Google Gemini Omni Flash) ----------
+   Chaque photo (le teinturier au bain, le tisserand au métier, le couturier, les mannequins) devient
+   un vrai plan vidéo de quelques secondes : mêmes personnes, même tissu, gestes naturels. Le service
+   vidéo d'OpenAI (Sora) ayant fermé, seules les clés Google font la vidéo. */
+var IA_VIDEO_MODELES = ['gemini-omni-1.1-flash'];
+var IA_VIDEO_PRIX = 0.1; /* dollars par seconde de vidéo (720p), d'après la page des prix de Google */
+var IA_MOUV = {
+  bain: 'The dyer slowly lifts the dripping skeins out of the dye bath, lets them drain, then plunges them back in; steam drifts up; gentle handheld camera slowly pushing in.',
+  rincage: 'The dyer rinses the skeins in the clear water, lifting and squeezing them; water pours and splashes, colored runoff swirls; slow camera move.',
+  lavage: 'The dyer kneads and squeezes the yarn in the soapy foam, bubbles move; close, steady camera slowly drifting.',
+  sechage: 'A light breeze makes the hanging skeins sway; the dyer walks between the rows and straightens a skein; slow lateral tracking shot.',
+  tein_tisserand: 'The weaver presses the treadles, throws the shuttle across the shed and beats the weft with the beater, in a steady rhythm; slow push-in.',
+  bobinage: 'The weaver turns the crank; the bobbin spins and fills with yarn while the thread runs from the skein; close-up, steady camera.',
+  ensouplage: 'The warp beam turns slowly as the weavers wind the warp; hundreds of threads glide through the raddle; slow tracking shot along the threads.',
+  metier_t: 'The weaver presses the treadles, the warp threads open the shed, the shuttle flies across, the beater packs the weft; steady rhythm; slow push-in on the cloth.',
+  trace: 'The tailor draws along the paper pattern with the chalk and the line appears on the fabric; slow overhead camera move.',
+  coupe: 'The large scissors cut along the chalk line while the other hand holds the fabric flat; close-up, slow camera move.',
+  couture: 'The sewing machine runs: the needle moves up and down quickly, the fabric advances under the presser foot, the tailor guides it with both hands; close-up.',
+  finition: 'The tailor adjusts the shoulder of the finished garment while the client turns slowly in front of the mirror; smooth camera arc.',
+  _mode: 'The person walks slowly and confidently toward the camera, then turns gracefully; the fabric of the outfit moves naturally; smooth tracking shot.',
+  _deco: 'Slow cinematic dolly move through the room, soft daylight shifting gently across the fabric.',
+  _sacs: 'Slow cinematic orbit around the bags, soft light gliding across the fabric and leather.',
+  _extra: 'The fabric flows and ripples in the wind; slow majestic camera move.',
+  _vente: 'Slow cinematic camera move along the display, natural light.',
+  _fini: 'Slow cinematic camera move across the fabric, light playing on the weave.',
+  _procede: 'The artisan continues the work with natural, precise gestures; slow camera move.'
+};
+var IA_MOUV_FIN = ' Keep exactly the same people, faces, clothes, fabric pattern and colors as in the image. Photorealistic, natural human motion at normal speed, no morphing, no distortion, no added text. One continuous shot of about 8 seconds. Natural ambient sound only, no music, no speech.';
+Object.assign(IA, {
+  videoPossible: function () { var c = IA.cfg(); return IA.pret() && c.fourn === 'gemini'; },
+  /* la vidéo dans une réponse du service, où qu'elle soit (steps[].content[], outputs[]…) */
+  trouveVideo: function (o, prof) {
+    if (!o || typeof o !== 'object' || (prof || 0) > 8) return null;
+    if ((o.type === 'video' || /^video\//.test(o.mime_type || o.mimeType || '')) && (o.data || o.uri)) return o;
+    var ks = Array.isArray(o) ? o.map(function (v, i) { return i; }) : Object.keys(o);
+    for (var i = 0; i < ks.length; i++) { var v = o[ks[i]]; if (v && typeof v === 'object') { var r = IA.trouveVideo(v, (prof || 0) + 1); if (r) return r; } }
+    return null;
+  },
+  b64Blob: function (b64, type) { var bin = atob(b64), u8 = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return new Blob([u8], { type: type || 'video/mp4' }); },
+  /* une vidéo (fichier ou réponse du service) prête à être lue image par image */
+  chargeVideo: function (blob) {
+    var el = document.createElement('video'); el.muted = true; el.playsInline = true; el.setAttribute('playsinline', ''); el.setAttribute('muted', ''); el.preload = 'auto'; el.crossOrigin = 'anonymous';
+    var url = URL.createObjectURL(blob);
+    return new Promise(function (res, rej) {
+      var fini = false, t = setTimeout(function () { if (!fini) { fini = true; rej(new Error('La vidéo ne peut pas être lue sur ce téléphone.')); } }, 25000);
+      el.onloadeddata = function () {
+        if (fini) return; fini = true; clearTimeout(t);
+        var d = el.duration; if (!isFinite(d) || !d) d = 8;
+        res({ el: el, dur: d, url: url, w: el.videoWidth, h: el.videoHeight });
+      };
+      el.onerror = function () { if (fini) return; fini = true; clearTimeout(t); rej(new Error('La vidéo ne peut pas être lue sur ce téléphone.')); };
+      el.src = url; try { el.load(); } catch (e) {}
+    });
+  },
+  /* image fixe tirée d'une vidéo (pour les vignettes et les images seules) */
+  imageDe: function (el, t) {
+    return new Promise(function (res) {
+      var fait = false, ok = function () { if (fait) return; fait = true; var c = document.createElement('canvas'); c.width = el.videoWidth || 720; c.height = el.videoHeight || 1280; try { c.getContext('2d').drawImage(el, 0, 0, c.width, c.height); } catch (e) {} res(c); };
+      el.addEventListener('seeked', ok, { once: true }); setTimeout(ok, 2500);
+      try { el.currentTime = Math.min(t || 0.2, Math.max(0, (el.duration || 1) - 0.1)); } catch (e) { ok(); }
+    });
+  },
+  /* une photo réaliste → un plan vidéo ; renvoie la photo complétée de { vid, vdur } */
+  clip: function (q, ratio) {
+    var c = IA.cfg(), img = IA.jpeg(q.img, 1280), prompt = (IA_MOUV[q.k] || IA_MOUV['_' + q.g] || IA_MOUV._fini) + IA_MOUV_FIN;
+    var liste = c.modeleVideo ? [c.modeleVideo] : IA_VIDEO_MODELES.slice(), premiere = null;
+    var essai = function (i, simple) {
+      var body = { model: liste[i], input: [{ type: 'image', data: img.b64, mime_type: 'image/jpeg' }, { type: 'text', text: prompt }], response_format: { type: 'video', aspect_ratio: ratio, resolution: '720p' } };
+      if (!simple) { body.generation_config = { video_config: { task: 'image_to_video' } }; body.background = false; body.store = false; body.stream = false; }
+      return fetch('https://generativelanguage.googleapis.com/v1beta/interactions', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': c.cle }, body: JSON.stringify(body) })
+        .then(function (r) { return r.text().then(function (t) { var j = null; try { j = JSON.parse(t); } catch (e) { j = null; } return { st: r.status, ok: r.ok, j: j, t: t }; }); })
+        .then(function (R) {
+          if (!R.ok) {
+            var msg = R.j && R.j.error ? R.j.error.message : R.t;
+            if (R.st === 400 && !simple && /background|store|stream|generation_config|video_config|task|unknown name|cannot find field/i.test(msg)) return essai(i, true);
+            premiere = premiere || [R.st, msg];
+            if (IA.autreModele(R.st, msg) && i + 1 < liste.length) return essai(i + 1);
+            throw new Error(IA.erreur(premiere[0], premiere[1]));
+          }
+          var v = IA.trouveVideo(R.j);
+          if (!v) throw new Error(IA.erreur(0, /block|safety/i.test(R.t) ? 'blocked' : 'aucune vidéo reçue'));
+          if (v.data) return IA.b64Blob(v.data, v.mime_type || v.mimeType);
+          return IA.telecharge(c, v.uri);
+        });
+    };
+    return essai(0).then(IA.chargeVideo).then(function (v) { q.vid = v.el; q.vdur = v.dur; q.vurl = v.url; return q; });
+  },
+  /* vidéo livrée par adresse : on attend que le fichier soit prêt (files/ID, état ACTIVE), puis on le télécharge */
+  telecharge: function (c, uri) {
+    var m = String(uri || '').match(/files\/([A-Za-z0-9_-]+)/), base = 'https://generativelanguage.googleapis.com/v1beta/files/', h = { headers: { 'x-goog-api-key': c.cle } };
+    var direct = function () { return fetch(uri, h).then(function (r) { if (!r.ok) throw new Error('La vidéo de l\'IA n\'a pas pu être téléchargée.'); return r.blob(); }); };
+    if (!m) return direct();
+    var id = m[1], debut = Date.now();
+    var attend = function () {
+      return fetch(base + id, h).then(function (r) { return r.ok ? r.json() : null; }, function () { return null; }).then(function (j) {
+        var st = j && (j.state || (j.file && j.file.state)); if (st === 'FAILED') throw new Error('Le service n\'a pas pu terminer la vidéo.');
+        if (!j || st === 'ACTIVE' || !st) return fetch(base + id + ':download?alt=media', h).then(function (r) { if (!r.ok) return direct(); return r.blob(); });
+        if (Date.now() - debut > 240000) throw new Error('La vidéo de l\'IA met trop de temps à arriver.');
+        return new Promise(function (res) { setTimeout(res, 3000); }).then(attend);
+      });
+    };
+    return attend();
+  },
+  /* plusieurs plans vidéo, deux à la fois ; suivi(fait, total) ; ceux qui échouent gardent leur photo animée */
+  clips: function (rt, items, suivi, fmt) {
+    var t = Retouche.taille(rt, fmt), ratio = t.w > t.h * 1.05 ? '16:9' : '9:16', faits = [], erreurs = [], fait = 0, i = 0, total = items.length;
+    if (suivi) suivi(0, total);
+    return new Promise(function (res) {
+      if (!total) { res({ clips: faits, erreurs: erreurs }); return; }
+      var actifs = 0, lance = function () {
+        while (actifs < 2 && i < total) {
+          actifs++;
+          IA.clip(items[i++], ratio).then(function (q) { faits.push(q); }, function (e) { erreurs.push(e.message || String(e)); }).then(function () {
+            actifs--; fait++; if (suivi) suivi(fait, total);
+            if (fait >= total) res({ clips: faits, erreurs: erreurs }); else lance();
+          });
+        }
+      };
+      lance();
+    });
+  },
+  /* clés des scènes IA utilisées par des modèles, selon le mouvement voulu : 'etapes' (le métier) ou 'tout' */
+  clesAnimees: function (mds, nat, mouv) {
+    var ks = [];
+    mds.forEach(function (md) { md.scenes.forEach(function (q) { if (q[0].indexOf('ia:') !== 0) return; var k = q[0].slice(3), s = IA.scene(k); if (s && s.n.indexOf(nat) >= 0 && ks.indexOf(k) < 0 && (mouv === 'tout' || s.serie)) ks.push(k); }); });
+    return ks;
+  },
+  /* les photos de la banque qui doivent encore devenir des vidéos */
+  aAnimer: function (rt, mds, nat, mouv) {
+    if (!mouv || mouv === 'non') return [];
+    var ks = IA.clesAnimees(mds, nat, mouv), reels = rt.reels || {};
+    return IA.banque(rt, nat).filter(function (q) { return ks.indexOf(q.k) >= 0 && !q.vid && !reels[q.k]; });
+  },
+  /* nombre de plans vidéo et prix approximatif */
+  devisVideo: function (rt, mds, nat, mouv) {
+    var reels = rt.reels || {}, b = IA.banque(rt, nat), n = IA.clesAnimees(mds, nat, mouv).filter(function (k) { return !reels[k] && !b.some(function (q) { return q.k === k && q.vid; }); }).length;
+    return { n: n, prix: Math.round(n * 8 * IA_VIDEO_PRIX * 10) / 10 };
+  }
+});
 /* ---------- 5 modèles de vidéos par photo, pour la page Facebook ----------
    Aucun dessin animé : les personnes et les gestes du métier sont des photos réalistes créées
    par l'IA (scènes « ia:… »), le reste montre la vraie photo et le tissu lui-même (3D, chiffres,
@@ -19298,18 +19398,18 @@ var FILM_MODELES = {
     { k: 'collection', nom: 'La collection complète', scenes: [['photo', 1], ['ia:coupe', 1], ['ia:couture', 1], ['ia:finition', 3], ['ia:femme', 1], ['ia:homme', 2], ['ia:enfant', 2], ['ia:coussins', 2], ['ia:fauteuil', 3], ['ia:traversin', 3], ['ia:sacs', 2], ['ia:fini_extra', 3]], comp: ['deroule', 'ruban', 'planete', 'couleurs'] }
   ],
   tissage: [
-    { k: 'fil', nom: 'Du fil au tissu', scenes: FILM_TISS.concat([['metier', 2], ['ia:tiss_rouleau', 2], ['photo', 3]]), comp: ['photo', 'metier', 'deroule', 'couleurs'] },
-    { k: 'chiffres', nom: 'Les chiffres du tissage', scenes: FILM_TISS.concat([['fabrication', 1], ['couleurs', 2], ['photo', 3]]), comp: ['fabrication', 'metier', 'couleurs', 'photo'] },
-    { k: 'mode', nom: 'Du métier à la mode', scenes: FILM_TISS.concat([['ia:tiss_femme', 1], ['ia:tiss_homme', 1], ['deroule', 3]]), comp: ['photo', 'metier', 'vent', 'ruban'] },
-    { k: 'maison', nom: 'Du métier à la maison', scenes: FILM_TISS.concat([['ia:tiss_maison', 1], ['ia:tiss_marche', 2], ['vent', 3]]), comp: ['photo', 'metier', 'relance', 'kaleido'] },
-    { k: 'mouvement', nom: 'Le tissu en mouvement', scenes: FILM_TISS.concat([['deroule', 1], ['tire', 2], ['ia:tiss_extra', 2], ['relance', 3]]), comp: ['metier', 'deroule', 'tire', 'relance', 'planete'] }
+    { k: 'fil', nom: 'Du fil au tissu', scenes: FILM_TISS.concat([['ia:tiss_rouleau', 1], ['photo', 2], ['couleurs', 3]]), comp: ['photo', 'couleurs', 'fabrication', 'kaleido'] },
+    { k: 'chiffres', nom: 'Les chiffres du tissage', scenes: FILM_TISS.concat([['fabrication', 1], ['couleurs', 2], ['photo', 3]]), comp: ['fabrication', 'couleurs', 'photo', 'kaleido'] },
+    { k: 'mode', nom: 'Du métier à la mode', scenes: FILM_TISS.concat([['ia:tiss_femme', 1], ['ia:tiss_homme', 1], ['photo', 3]]), comp: ['photo', 'couleurs', 'kaleido', 'fabrication'] },
+    { k: 'maison', nom: 'Du métier à la maison', scenes: FILM_TISS.concat([['ia:tiss_maison', 1], ['ia:tiss_marche', 2], ['photo', 3]]), comp: ['photo', 'couleurs', 'kaleido', 'fabrication'] },
+    { k: 'atelier', nom: 'Notre atelier de tissage', scenes: FILM_TISS.concat([['photo', 1], ['ia:tiss_rouleau', 2], ['ia:tiss_extra', 2], ['fabrication', 3]]), comp: ['photo', 'fabrication', 'couleurs', 'kaleido'] }
   ],
   teinture: [
-    { k: 'etapes', nom: 'De la teinture au séchage', scenes: FILM_TEIN.concat([['ia:tein_fils', 2], ['photo', 2], ['couleurs', 3]]), comp: ['photo', 'couleurs', 'ruban', 'vent'] },
-    { k: 'couleurs', nom: 'Nos couleurs', scenes: FILM_TEIN.concat([['couleurs', 1], ['ia:tein_fils', 2], ['photo', 3]]), comp: ['couleurs', 'photo', 'kaleido', 'deroule'] },
-    { k: 'savoir', nom: 'Le savoir-faire', scenes: FILM_TEIN.concat([['tein_recette', 1], ['photo', 2], ['ia:tein_extra', 3]]), comp: ['tein_recette', 'photo', 'planete', 'tire'] },
-    { k: 'tissu', nom: 'Du fil teint au tissu', scenes: FILM_TEIN.concat([['ia:tein_tisserand', 1], ['ia:tein_tissu', 1], ['deroule', 3]]), comp: ['photo', 'deroule', 'relance', 'couleurs'] },
-    { k: 'mode', nom: 'Des fils à la mode', scenes: FILM_TEIN.concat([['ia:tein_femme', 1], ['ia:tein_homme', 1], ['ruban', 3]]), comp: ['photo', 'vent', 'ruban', 'kaleido'] }
+    { k: 'etapes', nom: 'De la teinture au séchage', scenes: FILM_TEIN.concat([['ia:tein_fils', 2], ['photo', 2], ['couleurs', 3]]), comp: ['photo', 'couleurs', 'tein_recette', 'kaleido'] },
+    { k: 'couleurs', nom: 'Nos couleurs', scenes: FILM_TEIN.concat([['couleurs', 1], ['ia:tein_fils', 2], ['photo', 3]]), comp: ['couleurs', 'photo', 'kaleido', 'tein_recette'] },
+    { k: 'savoir', nom: 'Le savoir-faire', scenes: FILM_TEIN.concat([['tein_recette', 1], ['photo', 2], ['ia:tein_extra', 3]]), comp: ['tein_recette', 'photo', 'couleurs', 'kaleido'] },
+    { k: 'tissu', nom: 'Du fil teint au tissu', scenes: FILM_TEIN.concat([['ia:tein_tisserand', 1], ['ia:tein_tissu', 1], ['photo', 3]]), comp: ['photo', 'couleurs', 'tein_recette', 'kaleido'] },
+    { k: 'mode', nom: 'Des fils à la mode', scenes: FILM_TEIN.concat([['ia:tein_femme', 1], ['ia:tein_homme', 1], ['kaleido', 3]]), comp: ['photo', 'couleurs', 'kaleido', 'tein_recette'] }
   ]
 };
 /* scènes en 3D (sans WebGL, on s'en passe) */
@@ -19323,17 +19423,19 @@ Film.natureDe = function (rt) { return (rt && rt.nature && rt.nature.type) || 'f
 Film.modeles = function (nat) { return FILM_MODELES[nat] || FILM_MODELES.fini; };
 /* le plan d'un modèle : scènes dans l'ordre (images IA à leur place si elles existent), durées au battement près */
 Film.planModele = function (P, total, md, choix) {
-  var B = FILM_BEAT, on = function (k) { return !choix || choix[k] !== false; }, dispo = function (k) { return !!Film.scenes[k] && (P.gl || FILM_GL.indexOf(k) < 0); };
+  /* le tissu en 3D seulement pour une photo de tissu fini (jamais un tissu inventé à partir de fils ou d'un métier) */
+  var B = FILM_BEAT, nat = P.nature || 'fini', on = function (k) { return !choix || choix[k] !== false; }, dispo = function (k) { return !!Film.scenes[k] && (FILM_GL.indexOf(k) < 0 || (P.gl && nat === 'fini')); };
   var banque = {}; if (on('ia')) (P.ia || []).forEach(function (q) { if (!banque[q.k]) banque[q.k] = q; });
   var seq = [];
   md.scenes.forEach(function (q) {
     var k = q[0];
-    if (k.indexOf('ia:') === 0) { var im = banque[k.slice(3)]; if (im) seq.push({ k: 'ia', d: Film.longueur('ia'), p: q[1], ia: im }); return; }
+    /* étape du métier : votre vraie vidéo (ou photo) d'atelier d'abord, sinon la photo ou la vidéo IA */
+    if (k.indexOf('ia:') === 0) { var kk = k.slice(3), im = (P.reels || {})[kk] || banque[kk]; if (im) seq.push({ k: 'ia', d: Film.longueur('ia'), p: q[1], ia: im }); return; }
     if (dispo(k)) seq.push({ k: k, d: Film.longueur(k), p: q[1] });
   });
   var cible = Math.max(16, Math.round(total / B)) * B, somme = function () { return seq.reduce(function (t, q) { return t + q.d; }, 0) + Film.longueur('intro') + Film.longueur('fin') - B * (seq.length + 1); };
   /* trop court (images IA absentes) : on complète avec des scènes du tissu */
-  (md.comp || []).concat(['photo', 'couleurs', 'deroule', 'vent', 'kaleido']).forEach(function (k) { if (somme() < cible - 3 * B && dispo(k) && !seq.some(function (q) { return q.k === k; })) seq.push({ k: k, d: Film.longueur(k), p: 3 }); });
+  (md.comp || []).concat(nat === 'fini' ? ['photo', 'couleurs', 'deroule', 'vent', 'kaleido', 'drape2d'] : ['photo', 'couleurs', 'kaleido', 'fabrication']).forEach(function (k) { if (somme() < cible - 3 * B && dispo(k) && !seq.some(function (q) { return q.k === k; })) seq.push({ k: k, d: Film.longueur(k), p: 3 }); });
   if (!seq.length) seq = [{ k: 'photo', d: Film.longueur('photo'), p: 1 }];
   /* trop long : on raccourcit (jusqu'aux 7/10 de chaque scène), on retire les scènes secondaires (priorité 3 et plus),
      on raccourcit encore (4 battements au moins), puis on retire la priorité 2, et en dernier recours la priorité 1 (par la fin) */
@@ -19364,7 +19466,7 @@ var Pub = {
   dieses: function (s) { return '#' + norm(s || '').split(/[^a-z0-9]+/).filter(Boolean).map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(''); },
   ACCROCHES: {
     fini: { habits: '✨ Du tissu à l\'habit : {titre} prend vie !', famille: '👨‍👩‍👧 Toute la famille habillée en {titre}', maison: '🏠 Votre maison aux couleurs de {titre}', sacs: '👜 Sacs et accessoires en {titre}', collection: '🌟 La collection complète : {titre}' },
-    tissage: { fil: '🧵 Du fil au tissu : le tissage de {titre}', chiffres: '📏 Les vrais chiffres de notre tissage', mode: '🧵➡️👗 Du métier à tisser à la mode', maison: '🧵➡️🏠 Du métier à tisser à votre maison', mouvement: '🎬 Fil après fil, le tissu prend forme' },
+    tissage: { fil: '🧵 Du fil au tissu : le tissage de {titre}', chiffres: '📏 Les vrais chiffres de notre tissage', mode: '🧵➡️👗 Du métier à tisser à la mode', maison: '🧵➡️🏠 Du métier à tisser à votre maison', atelier: '🎬 Fil après fil, le tissu prend forme dans notre atelier' },
     teinture: { etapes: '🎨 Du fil écru à la couleur : nos étapes de teinture', couleurs: '🌈 Nos couleurs, teintes à l\'atelier', savoir: '🧪 Le savoir-faire de nos teinturiers', tissu: '🎨➡️🧵 Du fil teint au tissu', soleil: '☀️ Nos fils sèchent au soleil' }
   },
   /* le texte d'une publication : accroche, description vraie, prix, contact, mots-clés */
@@ -19445,6 +19547,7 @@ var Pack = {
         '<div class="fld"><span>Durée de chaque vidéo</span><div class="rt-seg" role="group" aria-label="Durée">' + FILM_DUREES.map(function (d) { return '<button type="button" data-pd="' + d[0] + '"' + (o.duree === d[0] ? ' class="on"' : '') + '>' + esc(d[1]) + '</button>'; }).join('') + '</div></div>' +
         '<label class="chk rt-chk"><input type="checkbox" data-pm' + (o.musique ? ' checked' : '') + '><span>Musique (une mélodie différente par vidéo)</span></label>' +
         (iaOk || deja ? '<label class="chk rt-chk"><input type="checkbox" data-pi' + (o.ia ? ' checked' : '') + '><span>Personnes et étapes du métier en <strong>photos réalistes</strong> (IA) : ' + (aFaire ? (iaOk ? aFaire + ' images à créer pour cette photo, puis gardées pour les 5 vidéos' : deja + ' images déjà prêtes ; ajoutez la clé pour les autres') : 'images déjà prêtes') + '</span></label>' : '') +
+        Pack.mouvHtml(rt, mds, nat, o) + Retouche.reelsHtml(rt, nat) +
         (iaOk ? '' : '<div class="rt-iaplus"><p><strong>Pas de dessin animé :</strong> sans clé IA, les vidéos montrent votre photo et le tissu en mouvement, <strong>sans personnes ni étapes du métier</strong>. Pour la teinture, le tissage, la couture et des personnes habillées de votre tissu en photos réalistes, ajoutez la clé d\'un service d\'IA.</p><button type="button" class="btn primary sm" data-preg>' + icon('sparkle') + ' Ajouter la clé IA</button></div>') +
         '<p class="muted small">' + (iaOk && aFaire ? 'Les images IA se créent d\'abord (1 à 3 minutes, internet nécessaire), puis les' : 'Les') + ' vidéos se fabriquent l\'une après l\'autre : gardez l\'application ouverte jusqu\'à la fin.</p>',
       actions: [{ t: icon('play') + ' Créer les 5 vidéos', act: 'go', cls: 'primary' }, { t: 'Mes publications', act: 'jr', cls: 'ghost' }, { t: 'Fermer', act: '__close', cls: 'ghost' }],
@@ -19452,17 +19555,29 @@ var Pack = {
         if (a === 'jr') { Pub.journal(); return; }
         if (a !== 'go') return;
         o.fmt = $('[data-pf]', m.el).value; o.musique = $('[data-pm]', m.el).checked; o.ia = $('[data-pi]', m.el) ? $('[data-pi]', m.el).checked : false;
+        o.mouv = $('[data-pmv]', m.el) ? $('[data-pmv]', m.el).value : 'non';
         m.close(); Pack.creer(rt, Object.assign({}, o));
       } });
+    Retouche.reelsLier(rt, m, nat, function () { var z = $('.rt-mv', m.el); if (z) { var d = document.createElement('div'); o.mouv = $('[data-pmv]', m.el).value; d.innerHTML = Pack.mouvHtml(rt, mds, nat, o); z.parentNode.replaceChild(d.firstChild, z); } });
     m.el.addEventListener('click', function (e) {
       if (e.target.closest('[data-preg]')) { m.close(); IA.reglages(function (ok) { Retouche.iaEtat(rt); if (ok) { o.ia = true; Pack.ouvrir(rt); } }); return; }
       var d = e.target.closest('[data-pd]'); if (!d) return; o.duree = Number(d.dataset.pd); $$('[data-pd]', m.el).forEach(function (x) { x.classList.toggle('on', x === d); });
     });
     return m;
   },
+  /* personnes en mouvement : les photos réalistes deviennent de vrais plans vidéo (clé Google) */
+  mouvHtml: function (rt, mds, nat, o) {
+    if (!IA.pret()) return '<div class="rt-mv"></div>';
+    if (!IA.videoPossible()) return '<p class="muted small rt-mv">Personnes en mouvement : il faut une clé Google Gemini (le service vidéo d\'OpenAI a fermé). Avec votre clé, les photos réalistes sont animées par des mouvements de caméra.</p>';
+    var d1 = IA.devisVideo(rt, mds, nat, 'etapes'), d2 = IA.devisVideo(rt, mds, nat, 'tout'), v = o.mouv || 'etapes', met = { teinture: 'Teinture', tissage: 'Tissage', fini: 'Couture' }[nat] || 'Métier';
+    var devis = function (d) { return d.n ? d.n + ' plan' + (d.n > 1 ? 's' : '') + ', ≈ ' + fmtN(d.prix, 1) + ' $' : 'déjà prête'; };
+    var opt = [['etapes', met + ' en vidéo : ' + devis(d1)], ['tout', met + ' et personnes en vidéo : ' + devis(d2)], ['non', 'Non : photos animées (sans frais vidéo)']];
+    return '<label class="fld rt-mv"><span>Personnes en mouvement (vidéo IA)</span><select data-pmv>' + opt.map(function (q) { return '<option value="' + q[0] + '"' + (v === q[0] ? ' selected' : '') + '>' + esc(q[1]) + '</option>'; }).join('') + '</select>' +
+      '<small class="muted">Chaque photo réaliste devient un plan vidéo de quelques secondes : mêmes personnes, même tissu, vrais gestes (environ ' + fmtN(IA_VIDEO_PRIX, 2) + ' $ la seconde, prix de Google). Créés une fois, puis gardés pour les 5 vidéos.</small></label>';
+  },
   nomScene: function (k) {
     if (k.indexOf('ia:') === 0) { var sc = IA.scene(k.slice(3)); return sc ? sc.cap.charAt(0).toLowerCase() + sc.cap.slice(1) : k; }
-    return ({ photo: 'présentation', deroule: 'tissu déroulé', vent: 'tissu au vent', tire: 'tissu tiré', relance: 'tissu relancé', secoue: 'tissu secoué', drape2d: 'tissu drapé', planete: 'planète', ruban: 'ruban', kaleido: 'kaléidoscope', metier: 'le motif tissé', fabrication: 'les chiffres', couleurs: 'les couleurs', tein_recette: 'recettes' }[k] || k);
+    return ({ photo: 'présentation', deroule: 'tissu déroulé', vent: 'tissu au vent', tire: 'tissu tiré', relance: 'tissu relancé', secoue: 'tissu secoué', drape2d: 'tissu drapé', planete: 'planète', ruban: 'ruban', kaleido: 'kaléidoscope', fabrication: 'les chiffres', couleurs: 'les couleurs', tein_recette: 'recettes' }[k] || k);
   },
   creer: function (rt, o) {
     var nat = Film.natureDe(rt), mds = Film.modeles(nat), res = [], annule = false, cv = document.createElement('canvas'), fmt0 = rt.fmt;
@@ -19473,11 +19588,21 @@ var Pack = {
     $('.rt-live', m.el).appendChild(cv);
     var txt = function (t) { var z = $('#pk-txt', m.el); if (z) z.textContent = t; }, barre = function (k) { var z = $('.rt-prog i', m.el); if (z) z.style.width = Math.round(k * 100) + '%'; };
     var fin = function () { rt.videoEnCours = false; rt.fmt = fmt0; };
-    var manque = o.ia && IA.pret() && navigator.onLine !== false ? IA.pourModeles(rt, mds, nat) : [], part = manque.length ? 0.35 : 0;
-    var avant = manque.length ? IA.lot(rt, manque, function (f, tot) { txt('Photos réalistes (IA) : ' + f + ' sur ' + tot + '…'); barre(f / Math.max(1, tot) * part); }, nat, o.fmt).then(function (r) {
+    var enLigne = IA.pret() && navigator.onLine !== false, manque = o.ia && enLigne ? IA.pourModeles(rt, mds, nat) : [];
+    var veutMv = o.ia && enLigne && o.mouv && o.mouv !== 'non' && IA.videoPossible() && IA.devisVideo(rt, mds, nat, o.mouv).n > 0;
+    var p0 = manque.length ? 0.2 : 0, p1 = veutMv ? 0.35 : 0, part = p0 + p1;
+    var avant = manque.length ? IA.lot(rt, manque, function (f, tot) { txt('Photos réalistes (IA) : ' + f + ' sur ' + tot + '…'); barre(f / Math.max(1, tot) * p0); }, nat, o.fmt).then(function (r) {
       Retouche.iaEtat(rt);
       if (r.erreurs.length) UI.toast(r.images.length ? r.erreurs.length + ' image' + (r.erreurs.length > 1 ? 's' : '') + ' IA n\'ont pas pu être créées (' + r.erreurs[0] + ') : les vidéos se font avec les autres.' : 'Images IA : ' + r.erreurs[0] + ' Les vidéos se font sans elles.', 'info', 9000);
     }, function (e) { UI.toast(e.message || 'Images IA impossibles.', 'info', 8000); }) : Promise.resolve();
+    /* puis les personnes en mouvement : chaque photo réaliste devient un plan vidéo */
+    if (veutMv) avant = avant.then(function () {
+      if (annule) return;
+      var aa = IA.aAnimer(rt, mds, nat, o.mouv); if (!aa.length) return;
+      return IA.clips(rt, aa, function (f, tot) { txt('Personnes en mouvement (vidéo IA) : ' + f + ' sur ' + tot + '… (environ une minute par plan)'); barre(p0 + f / Math.max(1, tot) * p1); }, o.fmt).then(function (r) {
+        if (r.erreurs.length) UI.toast(r.clips.length ? r.erreurs.length + ' plan' + (r.erreurs.length > 1 ? 's' : '') + ' vidéo n\'ont pas pu être créés (' + r.erreurs[0] + ') : leurs photos réalistes sont utilisées.' : 'Vidéo IA : ' + r.erreurs[0] + ' Les photos réalistes sont utilisées.', 'info', 9000);
+      });
+    });
     rt.fmt = o.fmt;
     var une = function (i) {
       if (annule) return Promise.reject(new Error('annulé'));
