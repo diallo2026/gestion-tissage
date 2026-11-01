@@ -922,7 +922,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261029-2000';
+NERP.build = '20261101-1840';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -14882,27 +14882,53 @@ Corr.ffo = function (id) {
     var f = get('formation/factures', id); if (!f) return;
     var msg = Corr.bloque('formation', id) || (f.statut === 'annulee' ? 'Facture annulée.' : null); if (msg) return Corr.refus(msg);
     var tl = function (l) { return Math.round((Number(l.q) || 0) * (l.pu || 0)); };
-    var cmp = function (o, ls) { return [o.date, o.client || '', o.adresse || '', o.objet || '', o.echeance || '', ls.map(function (l) { return [l.designation, l.q, l.pu]; })]; };
+    /* période de la formation : elle est tenue par la formation du registre (c'est elle que la
+       facture imprime) et recopiée dans l'objet et les désignations (« du … au … ») */
+    var r = f.registre ? get('formation/registre', f.registre) : null;
+    var per0 = r ? [r.debut || '', r.fin || ''] : null;
+    var suit = function (h, lines) {
+      if (!r || !h.debutFormation || !h.finFormation) return;
+      h.objet = Corr.ffoPer(h.objet, h.debutFormation, h.finFormation);
+      lines.forEach(function (l) { l.designation = Corr.ffoPer(l.designation, h.debutFormation, h.finFormation); });
+    };
+    var perDe = function (h) { return r ? [h.debutFormation || '', h.finFormation || ''] : null; };
+    var cmp = function (o, ls, per) { return [o.date, o.client || '', o.adresse || '', o.objet || '', o.echeance || '', ls.map(function (l) { return [l.designation, l.q, l.pu]; }), per]; };
     return docModal({
       title: 'Modifier la facture de formation ' + f.num, size: 'l',
-      intro: 'Encaissé à ce jour : ' + fmtGNF(f.paye || 0) + '. Les encaissements se corrigent un par un depuis la facture.',
-      values: { date: f.date, client: f.client || '', adresse: f.adresse || '', objet: f.objet || '', echeance: f.echeance || '' },
-      fields: [{ k: 'date', t: 'Date', type: 'date', req: true }, { k: 'echeance', t: 'Échéance de paiement', type: 'date' }, { k: 'client', t: 'Facturé à', req: true }, { k: 'adresse', t: 'Adresse de facturation' }, { k: 'objet', t: 'Objet', span: 2 }, Corr.motifF()],
+      intro: 'Encaissé à ce jour : ' + fmtGNF(f.paye || 0) + '. Les encaissements se corrigent un par un depuis la facture.' + (r ? ' La période de la formation corrigée ici est celle qui s\'imprime sur la facture ; les dates « du … au … » de l\'objet et des désignations suivent automatiquement.' : ''),
+      values: { date: f.date, client: f.client || '', adresse: f.adresse || '', objet: f.objet || '', echeance: f.echeance || '', debutFormation: r ? r.debut || '' : '', finFormation: r ? r.fin || '' : '' },
+      fields: [{ k: 'date', t: 'Date', type: 'date', req: true }, { k: 'echeance', t: 'Échéance de paiement', type: 'date' }, { k: 'client', t: 'Facturé à', req: true }, { k: 'adresse', t: 'Adresse de facturation' }]
+        .concat(r ? [{ k: 'debutFormation', t: 'Début de la formation', type: 'date', req: true }, { k: 'finFormation', t: 'Fin de la formation', type: 'date', req: true }] : [])
+        .concat([{ k: 'objet', t: 'Objet', span: 2 }, Corr.motifF()]),
+      onOpen: function (mm) {
+        var dEl = $('[data-k="debutFormation"]', mm.el), fEl = $('[data-k="finFormation"]', mm.el);
+        if (!dEl || !fEl) return;
+        var maj = function () {
+          if (!dEl.value || !fEl.value) return;
+          $$('[data-k="objet"], [data-lk="designation"]', mm.el).forEach(function (el) { var nv = Corr.ffoPer(el.value, dEl.value, fEl.value); if (nv !== el.value) el.value = nv; });
+        };
+        ['input', 'change'].forEach(function (ev) { dEl.addEventListener(ev, maj); fEl.addEventListener(ev, maj); });
+        maj();
+      },
       linesTitle: 'Détail', lines: { cols: [{ k: 'designation', t: 'Désignation', req: true, w: '50%' }, { k: 'q', t: 'Quantité', type: 'number', req: true }, { k: 'pu', t: 'Prix unitaire (GNF)', type: 'money', req: true }, { k: 'tot', t: 'Total', type: 'calc', calc: function (l) { return fmtMoney(tl(l)); } }],
         rows: (f.lignes || []).map(function (l) { return { designation: l.designation, q: l.q, pu: l.pu }; }), opts: { foot: function (ls) { return 'Nouveau total : <strong>' + fmtGNF(sum(ls, tl)) + '</strong> — avant : ' + fmtGNF(f.total || 0); } } },
       ok: 'Enregistrer la correction',
       check: function (h, lines) {
         var t = sum(lines, tl);
         if (h.date > today()) return 'La date ne peut pas être dans le futur.';
+        if (r && h.finFormation < h.debutFormation) return 'La fin de la formation précède son début.';
         if (lines.some(function (l) { return !(l.q > 0); })) return 'Indiquez les quantités.';
         if (t < (f.paye || 0)) return 'Le nouveau total (' + fmtGNF(t) + ') est inférieur à ce qui a déjà été encaissé (' + fmtGNF(f.paye) + ') : corrigez d\'abord un encaissement.';
-        if (Corr.memes(cmp(f, f.lignes || []), cmp(h, lines))) return 'Aucune modification.';
+        suit(h, lines);
+        if (Corr.memes(cmp(f, f.lignes || [], per0), cmp(h, lines, perDe(h)))) return 'Aucune modification.';
       },
       save: function (h, lines) {
-        var t = sum(lines, tl);
+        suit(h, lines);
+        var t = sum(lines, tl), per = perDe(h), perChg = !!r && !Corr.memes(per0, per);
         return Corr.soumettre({ type: 'corr.ffo', module: 'formation', financier: t !== (f.total || 0) || h.date !== f.date, motif: h.corrMotif,
-          label: 'Correction de la facture de formation ' + f.num + Corr.delta(f.total || 0, t),
-          payload: { id: id, sig: Corr.sig(f), h: { date: h.date, client: h.client, adresse: h.adresse || null, objet: h.objet || null, echeance: h.echeance || null }, lignes: lines.map(function (l) { return { designation: l.designation, q: l.q, pu: l.pu }; }) } });
+          label: 'Correction de la facture de formation ' + f.num + Corr.delta(f.total || 0, t) + (perChg ? ', période ' + Corr.ffoPerTxt(per0[0], per0[1]) + ' → ' + Corr.ffoPerTxt(per[0], per[1]) : ''),
+          payload: Object.assign({ id: id, sig: Corr.sig(f), h: { date: h.date, client: h.client, adresse: h.adresse || null, objet: h.objet || null, echeance: h.echeance || null }, lignes: lines.map(function (l) { return { designation: l.designation, q: l.q, pu: l.pu }; }) },
+            perChg ? { periode: { registre: f.registre, debut0: per0[0] || null, fin0: per0[1] || null, debut: per[0], fin: per[1] } } : {}) });
       },
       okMsg: Corr.okMsg
     });
@@ -14911,13 +14937,29 @@ Corr.ffo = function (id) {
 Corr.apply.ffo = function (x, tx, req) {
   var f = get('formation/factures', x.id); Corr.verif(f, x.sig);
   if (f.statut === 'annulee') throw new Error('Facture annulée.');
+  var p = x.periode || null, r = null;
+  if (p) {
+    r = get('formation/registre', p.registre);
+    if (!r) throw new Error('La formation de cette facture est introuvable : sa période ne peut pas être corrigée.');
+    if ((r.debut || null) !== (p.debut0 || null) || (r.fin || null) !== (p.fin0 || null)) throw new Error('La période de la formation a changé depuis la demande de correction : refaites la correction.');
+    if (!p.debut || !p.fin || p.fin < p.debut) throw new Error('Période de la formation invalide.');
+  }
   var lignes = x.lignes.map(function (l) { return { designation: l.designation, q: l.q, pu: l.pu, total: Math.round((Number(l.q) || 0) * (l.pu || 0)) }; });
   var total = sum(lignes, function (l) { return l.total; });
   if (total < (f.paye || 0)) throw new Error('Le nouveau total est inférieur à ce qui a déjà été encaissé.');
   var up = Object.assign({}, x.h, { lignes: lignes, total: total });
   Corr.ecrire(tx, 'formation/factures', x.id, f, up);
-  tx.audit('Correction de la facture de formation ' + f.num + Corr.delta(f.total || 0, total), 'formation', x.id, { avant: Corr.resume(f, ['date', 'client', 'total']), apres: Corr.resume(up, ['date', 'client', 'total']), motif: req.motif || undefined });
+  if (Object.keys(up).some(function (k) { return !Corr.memes(f[k], up[k]); }))
+    tx.audit('Correction de la facture de formation ' + f.num + Corr.delta(f.total || 0, total), 'formation', x.id, { avant: Corr.resume(f, ['date', 'client', 'total']), apres: Corr.resume(up, ['date', 'client', 'total']), motif: req.motif || undefined });
+  if (p) {
+    /* la période vit sur la formation du registre (champs debut / fin existants) */
+    Corr.ecrire(tx, 'formation/registre', p.registre, r, { debut: p.debut, fin: p.fin });
+    tx.audit('Correction de la période de la formation « ' + (r.intitule || '') + ' » (facture ' + f.num + ') : ' + Corr.ffoPerTxt(p.debut0, p.fin0) + ' → ' + Corr.ffoPerTxt(p.debut, p.fin), 'formation', p.registre, { motif: req.motif || undefined });
+  }
 };
+/* « du JJ/MM/AAAA au JJ/MM/AAAA » d'un texte de facture de formation, remplacé par la période donnée */
+Corr.ffoPerTxt = function (d, fn) { return 'du ' + fmtDate(d) + ' au ' + fmtDate(fn); };
+Corr.ffoPer = function (s, d, fn) { return s ? String(s).replace(/du (\d{2}\/\d{2}\/\d{4}|—) au (\d{2}\/\d{2}\/\d{4}|—)/g, Corr.ffoPerTxt(d, fn)) : s; };
 
 /* =====================================================================
    Distributeur : bons de fils remis, remboursements de fils
@@ -15394,7 +15436,7 @@ Corr.apply.comptant = function (x, tx, req) {
     vs: ['Correction de bon de versement', remisesBlocs],
     dep: ['Correction de dépense', ['finances/depenses']],
     ins: ["Correction d'inscription", ['formation/inscriptions', 'formation/apprenants', 'ventes/clients']],
-    ffo: ['Correction de facture de formation', ['formation/factures']],
+    ffo: ['Correction de facture de formation', ['formation/factures', 'formation/registre']],
     bf: ['Correction de bon de fils', DIST_NEED],
     rbf: ['Correction de remboursement de fils', DIST_NEED],
     bc: ['Correction de commande fournisseur', Corr.ACH_NEED],
