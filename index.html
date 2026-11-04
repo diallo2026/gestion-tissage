@@ -889,6 +889,17 @@ button.cat-card { cursor: pointer; } button.cat-card:hover { border-color: var(-
   .mwrap:has(#rt-stage, .rt-mv, .rt-reels, .pk-l, .pk-g, .pk-j, #ia-k) { align-items: flex-start; }
 }
 
+/* objectifs de production */
+.obj-rap .box, .obj-who { border: 1px solid var(--line); border-radius: var(--r-l); padding: 10px 12px; margin: 8px 0; background: var(--surface); }
+.obj-rap h3 { margin: 18px 0 6px; }
+.obj-rap h4 { margin: 12px 0 4px; font-size: .95rem; }
+.obj-rap .tot { margin: 8px 0 0 auto; width: min(100%, 520px); border-collapse: collapse; }
+.obj-rap .tot td { padding: 5px 8px; border-bottom: 1px solid var(--line); }
+.obj-rap .tot td.n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.obj-rap .tot tr.big td { font-weight: 700; }
+.obj-rap tr.sub td, .obj-prev tr:first-child td { background: var(--vat-50); }
+@media (max-width: 640px) { .obj-rap .two { grid-template-columns: minmax(0, 1fr); } }
+
 @media print {
   .side, .topbar, .banner, .tabs, .ttools, .pager, .btn, .ibtn, #toasts { display: none !important; }
   .maincol { margin: 0; } .main { padding: 0; }
@@ -922,7 +933,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261101-1840';
+NERP.build = '20261104-1530';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -3712,7 +3723,8 @@ var NAV_PARTIES = {
     { g: 'Mes déclarations', items: [{ r: 'moi', t: 'Mes déclarations', i: 'clip', mod: '*', tabs: [['ouvriers/moi', 'Mes déclarations'], ['ouvriers/mapaie', 'Ma paie']] }] },
     { g: 'Producteurs', items: [
       { r: 'prod-decl', t: 'Déclarations de production', i: 'bolt', mod: 'ouvriers', tabs: [['production/rapide', 'Déclaration rapide'], ['ouvriers/declarations', 'À valider et historique'], ['production/producteurs', 'Producteurs']] },
-      { r: 'prod-paie', t: 'Versements et paie', i: 'wallet', mod: 'paie', tabs: [['ouvriers/paie', 'Versements aux producteurs'], ['ouvriers/rapports', 'Rapports par producteur'], ['parametres/personnel', 'Fiches du personnel']] }
+      { r: 'prod-paie', t: 'Versements et paie', i: 'wallet', mod: 'paie', tabs: [['ouvriers/paie', 'Versements aux producteurs'], ['ouvriers/rapports', 'Rapports par producteur'], ['parametres/personnel', 'Fiches du personnel']] },
+      { r: 'ouvriers/objectifs', t: 'Objectifs de production', i: 'chart', mod: 'ouvriers' }
     ] },
     { g: 'Production', items: [
       { r: 'prod-suivi', t: 'Suivi de la production', i: 'chart', mod: 'production', tabs: [['production/mensuel', 'Production mensuelle'], ['production/inventaire', 'Inventaire de production'], ['production/sorties', 'Sorties mensuelles'], ['production/transferts', 'Transferts']] },
@@ -3770,7 +3782,8 @@ var NAV_PARTIES = {
   tisserand: [
     { g: 'Tisserands', items: [
       { r: 'tisserand/nouveau', t: 'Nouveau tisserand', i: 'plus', mod: 'ouvriers' },
-      { r: 'tisserand/liste', t: 'Liste des tisserands', i: 'users', mod: 'ouvriers' }
+      { r: 'tisserand/liste', t: 'Liste des tisserands', i: 'users', mod: 'ouvriers' },
+      { r: 'ouvriers/objectifs', t: 'Objectifs de production', i: 'chart', mod: 'ouvriers' }
     ] }
   ],
   /* Distributeur : fils remis aux tisserands (sous-traitance) et commerce des fils */
@@ -3827,7 +3840,7 @@ var NAV_ADMIN = [
   ] },
   { g: 'Les personnes', items: [
     { r: 'gerants', t: 'Gérants et rôles', i: 'users', mod: 'utilisateurs', tabs: [['parametres/utilisateurs', 'Gérants et accès'], ['parametres/roles', 'Rôles et autorisations']] },
-    { r: 'ouvriers', t: 'Personnel et paie', i: 'clip', mod: 'ouvriers', tabs: [['parametres/personnel', 'Personnel'], ['ouvriers/declarations', 'Déclarations'], ['ouvriers/paie', 'Paie'], ['ouvriers/rapports', 'Rapports par personne']] }
+    { r: 'ouvriers', t: 'Personnel et paie', i: 'clip', mod: 'ouvriers', tabs: [['parametres/personnel', 'Personnel'], ['ouvriers/declarations', 'Déclarations'], ['ouvriers/paie', 'Paie'], ['ouvriers/rapports', 'Rapports par personne'], ['ouvriers/objectifs', 'Objectifs']] }
   ] },
   { g: 'Le contrôle', items: [
     { r: 'admin', t: 'Contrôle', i: 'audit', mod: 'admin', tabs: [['admin/audit', "Journal d'audit"], ['admin/reinit', 'Réinitialisation'], ['admin/sauvegarde', 'Sauvegarde']] }
@@ -19816,6 +19829,557 @@ Valid.register('suppr.ffo', 'Suppression de facture de formation', function (p, 
   tx.audit('Suppression de la facture de formation ' + f.num + ' (' + fmtGNF(f.total || 0) + ', ' + (f.client || '') + ')', 'formation', p.id, { avant: Corr.clean(strip(f)), motif: (req && req.motif) || undefined });
 });
 Valid.needs['suppr.ffo'] = ['formation/factures', 'formation/registre', 'finances/comptes', 'finances/soldes', 'finances/clotures', 'admin/validations'];
+
+
+/* ===== 31-objectifs.js ===== */
+/* =====================================================================
+   Objectifs de production de chaque personne (tisserand, ouvrier ou
+   employé, chacun dans son domaine).
+   Une « production », c'est : les paquets de matières premières que la
+   personne prend (bobinage…), le nombre d'unités (complets) qu'ils
+   donnent, les jours qu'il lui faut pour la finir et les dépenses qu'elle
+   demande pour la faire. On en tire ses prévisions par jour, par semaine
+   et par mois : unités, paquets, dépenses, salaire, valeur produite et
+   rapport pour l'atelier.
+   Le rapport de production rappelle ce qu'elle a pris, son objectif, ses
+   dépenses prévues, puis ce qu'elle a réellement produit (ses
+   déclarations validées) et l'écart.
+   Le salaire suit l'objectif : unités produites × prix de l'unité. Il se
+   verse par la paie existante : les déclarations payées sont couvertes
+   et ne se paient jamais deux fois.
+   Données à part, dans le bloc ouvert : ouvriers/objectifs/<personne>/<id>.
+   Les déclarations, la paie et le stock gardent leurs règles.
+   ===================================================================== */
+
+var OBJ_PORTEES = [['production', 'Une production'], ['jour', 'Journalier'], ['semaine', 'Hebdomadaire'], ['mois', 'Mensuel']];
+function objPorteeNom(k) { return (OBJ_PORTEES.filter(function (x) { return x[0] === k; })[0] || [k, k || '—'])[1]; }
+function lundiDe(iso) { var d = new Date(iso + 'T12:00:00'); return addDays(iso, -((d.getDay() + 6) % 7)); }
+
+var Obj = {
+  st: { p: '' },
+  need: function () {
+    var n = ['parametres/personnel', 'ouvriers/decl', 'ouvriers/objectifs', 'stock/articles', 'production/modeles'];
+    if (can('paie')) n.push('paie/fiches', 'finances/comptes', 'finances/soldes', 'finances/clotures');
+    if (can('ventes')) n.push('ventes/tarifs');
+    return n;
+  },
+  chemin: function (p, id) { return 'd/ouvriers/objectifs/' + p + '/' + id; },
+
+  /* ---------- lecture ---------- */
+  tous: function (filter) {
+    var out = [], c = col('ouvriers/objectifs');
+    Object.keys(c).forEach(function (p) {
+      Object.keys(c[p] || {}).forEach(function (id) { var x = c[p][id]; if (!x || typeof x !== 'object') return; x.id = id; x.p = p; if (!filter || filter(x)) out.push(x); });
+    });
+    return out;
+  },
+  get: function (p, id) { var x = (col('ouvriers/objectifs')[p] || {})[id]; if (!x || typeof x !== 'object') return null; x.id = id; x.p = p; return x; },
+  /* enregistrement propre (sans les champs d'affichage) */
+  rec: function (o) { var r = strip(o); delete r.p; return r; },
+
+  /* ---------- unités et textes ---------- */
+  uTxt: function (o, n) {
+    var u = String((o && o.unite) || 'complet').trim() || 'complet';
+    if (Math.abs(Number(n) || 0) < 2) return u;
+    return u.replace(/^(\S+)/, function (w) { return /[sxz]$/i.test(w) ? w : w + 's'; });
+  },
+  qTxt: function (o, n, dec) { return fmtN(n, dec === undefined ? 1 : dec) + ' ' + Obj.uTxt(o, n); },
+  jTxt: function (n) { return fmtN(n, 1) + (Math.abs(Number(n) || 0) >= 2 ? ' jours' : ' jour'); },
+  paqTxt: function (n) { return fmtN(n, 1) + ' paquet' + (Math.abs(n) >= 2 ? 's' : ''); },
+  /* paquets à prévoir : on ne prend pas un morceau de paquet */
+  paqPrevoir: function (n) { return Math.ceil((Number(n) || 0) - 1e-9); },
+  periodeTxt: function (o) { return o.debut === o.fin ? 'le ' + fmtDate(o.debut) : 'du ' + fmtDate(o.debut) + ' au ' + fmtDate(o.fin); },
+
+  /* ---------- période ---------- */
+  finDe: function (portee, debut, joursProd) {
+    if (!debut) return '';
+    if (portee === 'jour') return debut;
+    if (portee === 'semaine') return addDays(debut, 6);
+    if (portee === 'mois') {
+      var x = debut.split('-').map(Number), ny = x[1] === 12 ? x[0] + 1 : x[0], nm = x[1] === 12 ? 1 : x[1] + 1;
+      var dim = new Date(ny, nm, 0).getDate();
+      if (x[2] > dim) return ny + '-' + pad2(nm) + '-' + pad2(dim);
+      return addDays(ny + '-' + pad2(nm) + '-' + pad2(Math.min(x[2], dim)), -1);
+    }
+    return addDays(debut, Math.max(1, Math.ceil(Number(joursProd) || 1)) - 1);
+  },
+  joursDefaut: function (portee, o) {
+    if (portee === 'jour') return 1;
+    if (portee === 'semaine') return Number(o.joursSemaine) || 6;
+    if (portee === 'mois') return Number(o.joursMois) || 26;
+    return Number(o.joursProd) || 1;
+  },
+  etat: function (o) { if (o.statut === 'clos') return 'clos'; var t = today(); if (t < o.debut) return 'avenir'; if (t > o.fin) return 'termine'; return 'en_cours'; },
+  etatNom: function (e) { return { clos: 'Clos', avenir: 'À venir', termine: 'Période finie', en_cours: 'En cours' }[e] || e; },
+  etatBadge: function (o) { var e = Obj.etat(o); return UI.badge(Obj.etatNom(e), { clos: '', avenir: 'info', termine: '', en_cours: 'info' }[e]); },
+  tauxBadge: function (t) { if (t === null || t === undefined) return ''; var pc = Math.round(t * 100); return UI.badge(pc + ' %', pc >= 100 ? 'ok' : pc >= 70 ? 'warn' : 'err'); },
+
+  /* ---------- prévisions ----------
+     une production = N unités en D jours avec ses paquets et ses dépenses ;
+     un horizon de J jours de travail en contient J / D. */
+  calc: function (o) {
+    var N = Number(o.complets) || 0, D = Number(o.joursProd) || 0, pc = Number(o.prixComplet) || 0, pv = Number(o.prixVente) || 0;
+    var mats = (o.matieres || []).filter(function (m) { return m && (m.nom || m.paquets); });
+    var deps = (o.depenses || []).filter(function (d) { return d && (d.libelle || d.montant); });
+    var coutMat = sum(mats, function (m) { return (Number(m.paquets) || 0) * (Number(m.prix) || 0); });
+    var dep = sum(deps, function (d) { return Number(d.montant) || 0; });
+    var horizon = function (jours) {
+      var nb = D > 0 ? jours / D : 0, c = N * nb;
+      var h = { jours: jours, nb: nb, complets: c,
+        paquets: mats.map(function (m) { return (Number(m.paquets) || 0) * nb; }),
+        coutMat: Math.round(coutMat * nb), dep: Math.round(dep * nb), salaire: Math.round(c * pc), valeur: Math.round(c * pv) };
+      h.rapport = h.valeur - h.coutMat - h.dep - h.salaire;
+      return h;
+    };
+    var js = Number(o.joursSemaine) || 6, jm = Number(o.joursMois) || 26, jp = Number(o.joursPeriode) || Obj.joursDefaut(o.portee, o);
+    var H = { periode: horizon(jp), production: horizon(D), jour: horizon(1), semaine: horizon(js), mois: horizon(jm) };
+    return { N: N, D: D, cJ: D > 0 ? N / D : 0, mats: mats, deps: deps, coutMat: coutMat, dep: dep, H: H, cible: H.periode.complets, js: js, jm: jm, jp: jp };
+  },
+
+  /* ---------- réalisé : les déclarations de la personne sur la période ---------- */
+  unites: function (o, d) {
+    if (o.compte === 'metres') { var mc = fromQ(o.metresComplet || 0); return mc > 0 ? fromQ(d.metres || 0) / mc : 0; }
+    return Number(d.pieces) || 0;
+  },
+  decls: function (o, d1, d2) {
+    d1 = d1 || o.debut; d2 = d2 || o.fin;
+    return Ouv.declsDe(o.p).filter(function (d) { return d.date >= d1 && d.date <= d2 && d.statut !== 'rejetee' && (!o.art || d.art === o.art); }).sort(byKey('date'));
+  },
+  /* unités validées d'une personne sur un intervalle, selon la règle de l'objectif */
+  produit: function (o, d1, d2) { return sum(Obj.decls(o, d1, d2).filter(function (d) { return d.statut === 'validee'; }), function (d) { return Obj.unites(o, d); }); },
+  reel: function (o) {
+    var ds = Obj.decls(o), val = ds.filter(function (d) { return d.statut === 'validee'; }), att = ds.filter(function (d) { return d.statut === 'attente'; });
+    var u = function (d) { return Obj.unites(o, d); }, jours = {};
+    val.forEach(function (d) { if (u(d) > 0 || Number(d.jours) > 0) jours[d.date] = true; });
+    return { ds: ds, val: val, att: att, complets: sum(val, u), attente: sum(att, u), joursTravailles: Object.keys(jours).length };
+  },
+
+  /* ---------- bilan : objectif, réalisé, matières, dépenses, salaire, rapport ---------- */
+  bilan: function (o) {
+    var k = Obj.calc(o), r = Obj.reel(o), pc = Number(o.prixComplet) || 0, pv = Number(o.prixVente) || 0;
+    var mats = k.mats.map(function (m, i) {
+      var besoin = k.N > 0 ? (Number(m.paquets) || 0) * r.complets / k.N : 0;
+      var pris = m.pris === null || m.pris === undefined || m.pris === '' ? null : Number(m.pris) || 0;
+      return { nom: m.nom || 'Matière ' + (i + 1), parProd: Number(m.paquets) || 0, prevu: k.H.periode.paquets[i] || 0, pris: pris, besoin: besoin, ecart: pris === null ? null : pris - besoin, prix: Number(m.prix) || 0 };
+    });
+    var aPris = mats.some(function (x) { return x.pris !== null; });
+    var coutMat = Math.round(aPris ? sum(mats, function (x) { return (x.pris || 0) * x.prix; }) : sum(mats, function (x) { return x.besoin * x.prix; }));
+    var depRemis = k.deps.some(function (d) { return d.reel !== null && d.reel !== undefined && d.reel !== ''; });
+    var depReel = Math.round(depRemis ? sum(k.deps, function (d) { return Number(d.reel) || 0; }) : (k.N > 0 ? k.dep * r.complets / k.N : 0));
+    var salaire = Math.round(r.complets * pc), valeur = Math.round(r.complets * pv);
+    /* paiements faits selon cet objectif (un paiement annulé ne compte plus) */
+    var fs = Ouv.fiches(o.p), cov = Ouv.couverture(fs), paies = o.paies || {};
+    var pl = Object.keys(paies).map(function (fid) { var x = paies[fid] || {}; return { fid: fid, num: x.num || '', date: x.date || '', brut: Number(x.brut) || 0, montant: Number(x.montant) || 0, complets: Number(x.complets) || 0, annule: !!cov.annul[fid] }; }).sort(byKey('date'));
+    var actifs = {}; pl.forEach(function (x) { if (!x.annule) actifs[x.fid] = true; });
+    var payeObj = sum(pl.filter(function (x) { return !x.annule; }), function (x) { return x.brut; });
+    /* déclarations de la période déjà payées par la paie habituelle, et celles qui restent à payer */
+    var autre = r.val.filter(function (d) { return cov.decl[d.id] && !actifs[cov.decl[d.id]]; });
+    var nonCouv = r.val.filter(function (d) { return !cov.decl[d.id]; });
+    var aPayerC = sum(nonCouv, function (d) { return Obj.unites(o, d); });
+    return { k: k, r: r, mats: mats, aPris: aPris, coutMat: coutMat, depRemis: depRemis, depReel: depReel, salaire: salaire, valeur: valeur,
+      rapport: valeur - coutMat - depReel - salaire, taux: k.cible > 0 ? r.complets / k.cible : null,
+      paies: pl, payeObj: payeObj, payeAutre: sum(autre, function (d) { return Number(d.montant) || 0; }), nbAutre: autre.length,
+      nonCouv: nonCouv, aPayerC: aPayerC, aPayer: Math.round(aPayerC * pc) };
+  },
+  /* un autre objectif de la même personne (même produit) qui couvre déjà ces dates */
+  chevauche: function (p, id, v) {
+    return Obj.tous(function (o) { return o.p === p && o.id !== id && o.statut !== 'clos' && (o.art || '') === (v.art || '') && o.debut <= v.fin && o.fin >= v.debut; })[0] || null;
+  },
+
+  /* ---------- saisie d'un objectif ---------- */
+  edit: function (p0, id, modele) {
+    var cur = id ? Obj.get(p0, id) : null;
+    if (id && !cur) { UI.toast('Objectif introuvable.', 'err'); return; }
+    if (!can('ouvriers', cur ? 'modifier' : 'creer')) { UI.toast('Votre rôle ne permet pas de ' + (cur ? 'modifier' : 'créer') + ' un objectif.', 'err'); return; }
+    var mm = canMoney();
+    var o0 = cur ? Obj.rec(clone(cur)) : modele ? clone(modele) : { portee: 'semaine', debut: today(), unite: 'complet', compte: 'pieces', joursSemaine: 6, joursMois: 26, matieres: [{ nom: 'Bobinage' }, {}], depenses: [{}] };
+    if (!cur && p0) o0.p = p0;
+    if (!cur && !modele) {
+      o0.fin = Obj.finDe(o0.portee, o0.debut, o0.joursProd); o0.joursPeriode = Obj.joursDefaut(o0.portee, o0);
+      var pers0 = p0 ? get('parametres/personnel', p0) : null;
+      if (pers0 && pers0.mode === 'piece' && pers0.taux) o0.prixComplet = Number(pers0.taux) || null;
+    }
+    var persF = cur ? { k: 'pinfo', type: 'html', span: 2, html: '<p class="obj-who"><strong>' + esc(personneName(p0)) + '</strong>' + ((get('parametres/personnel', p0) || {}).fonction ? ' — ' + esc(get('parametres/personnel', p0).fonction) : '') + '</p>' }
+      : { k: 'p', t: 'Personne (tisserand, ouvrier ou employé)', type: 'select', req: true, span: 2, opts: function () { return Opt.personnel(function (x) { return x.actif !== false; }); } };
+    var fA = [
+      { type: 'section', t: 'La personne et la période' }, persF,
+      { k: 'portee', t: 'Objectif', type: 'select', req: true, empty: false, opts: OBJ_PORTEES },
+      { k: 'debut', t: 'Début', type: 'date', req: true },
+      { k: 'fin', t: 'Fin', type: 'date', req: true, help: "Se met selon l'objectif ; vous pouvez la changer." },
+      { k: 'joursPeriode', t: 'Jours de travail sur la période', type: 'number', req: true, min: 0, help: 'Se met selon l\'objectif et les jours de travail ci-dessous.' },
+      { type: 'section', t: "Une production : ce qu'il prend, ce que cela donne, en combien de jours", help: 'Exemple : 3 paquets de bobinage donnent 6 complets en 3 jours.' },
+      { k: 'art', t: 'Produit fabriqué', type: 'select', opts: function () { return Ouv.produitsOpts(); }, emptyLabel: 'Tous ses produits', help: 'Choisi : seules ses déclarations de ce produit comptent.' },
+      { k: 'unite', t: 'Unité produite', req: true, ph: 'complet, pagne, mètre…' },
+      { k: 'complets', t: 'Unités que donne une production', type: 'number', req: true, min: 0 },
+      { k: 'joursProd', t: 'Jours pour finir une production', type: 'number', req: true, min: 0 },
+      { k: 'compte', t: 'Le réalisé se compte avec', type: 'select', req: true, empty: false, opts: [['pieces', 'Les pièces déclarées (1 pièce = 1 unité)'], ['metres', 'Les mètres déclarés, convertis en unités']] },
+      { k: 'metresComplet', t: 'Mètres pour une unité', type: 'qty', help: 'Pour convertir les mètres déclarés en unités.' }
+    ];
+    var fC = [
+      { type: 'section', t: mm ? 'Salaire, valeur et jours de travail' : 'Jours de travail' },
+      mm ? { k: 'prixComplet', t: 'Prix payé à la personne par unité (GNF)', type: 'money', req: true, help: 'Son salaire : unités produites × ce prix.' } : null,
+      mm ? { k: 'prixVente', t: "Valeur d'une unité à la vente (GNF)", type: 'money', help: "Pour le rapport de l'atelier." } : null,
+      { k: 'joursSemaine', t: 'Jours de travail par semaine', type: 'number', req: true, min: 1, maxv: 7 },
+      { k: 'joursMois', t: 'Jours de travail par mois', type: 'number', req: true, min: 1, maxv: 31 },
+      { k: 'obs', t: 'Observation', type: 'textarea', rows: 2, span: 2 },
+      { k: 'prev', type: 'html', span: 2, html: '<div class="obj-prev" data-obj-prev></div>' }
+    ].filter(Boolean);
+    var fields = fA.concat(fC);
+    var sfx = Date.now().toString(36), lidM = 'objm_' + sfx, lidD = 'objd_' + sfx;
+    var colsM = [{ k: 'nom', t: 'Matière première', req: true, w: '32%' }, { k: 'paquets', t: 'Paquets par production', type: 'number', req: true }]
+      .concat(mm ? [{ k: 'prix', t: "Prix d'un paquet (GNF)", type: 'money' }] : []).concat([{ k: 'pris', t: 'Paquets réellement pris', type: 'number' }]);
+    var colsD = [{ k: 'libelle', t: 'Dépense', req: true, w: '40%' }, { k: 'montant', t: 'Prévu pour une production (GNF)', type: 'money', req: true }, { k: 'reel', t: 'Réellement remis (GNF)', type: 'money' }];
+    var body = '<p class="muted intro">Pour une production : les paquets qu\'il prend, ce qu\'ils donnent, les jours pour la finir et les dépenses qu\'il demande. Les prévisions par jour, semaine et mois se calculent en bas.</p>' +
+      '<form class="mform" novalidate>' + UI.fields(fA, o0) + '</form>' +
+      '<h3 class="mt">Matières premières d\'une production</h3>' + LineEd.html(lidM, colsM, o0.matieres || [], { addLabel: 'Ajouter une matière' }) +
+      (mm ? '<h3 class="mt">Dépenses prévues pour une production</h3><p class="muted small">Ce qu\'il demande pour faire cette production (achats, transport, aide…). « Réellement remis » se remplit au fur et à mesure.</p>' + LineEd.html(lidD, colsD, o0.depenses || [], { addLabel: 'Ajouter une dépense', min: 0 }) : '') +
+      '<form class="mform" novalidate>' + UI.fields(fC, o0) + '</form>';
+
+    /* lecture légère (sans message d'erreur) pour les prévisions affichées en direct */
+    var lire = function (root) {
+      var g = function (k) { var el = $('[data-k="' + k + '"]', root); return el ? el.value : ''; };
+      var n = function (k) { var x = parseNum(g(k)); return isNaN(x) ? 0 : x; };
+      var rows = function (lid) { return $$('[data-lines="' + lid + '"] tbody tr[data-line]', root).map(function (tr) { return LineEd.readRow(lid, tr).l; }); };
+      var o = { p: cur ? p0 : g('p'), portee: g('portee'), debut: g('debut'), fin: g('fin'), joursPeriode: n('joursPeriode'), art: g('art') || null, unite: g('unite') || 'complet', complets: n('complets'), joursProd: n('joursProd'), compte: g('compte'),
+        joursSemaine: n('joursSemaine'), joursMois: n('joursMois'), matieres: rows(lidM) };
+      o.prixComplet = mm ? toMoney(g('prixComplet')) || 0 : Number(o0.prixComplet) || 0;
+      o.prixVente = mm ? toMoney(g('prixVente')) || 0 : Number(o0.prixVente) || 0;
+      o.depenses = mm ? rows(lidD) : (o0.depenses || []);
+      if (!mm) o.matieres.forEach(function (m, i) { m.prix = ((o0.matieres || [])[i] || {}).prix || null; });
+      return o;
+    };
+    return new Promise(function (resolve) {
+      var m = UI.modal({
+        title: cur ? 'Objectif de ' + personneName(p0) : 'Nouvel objectif de production', size: 'xl', body: body,
+        actions: [{ t: 'Annuler', act: 'cancel', cls: 'ghost' }, { t: cur ? 'Enregistrer' : "Enregistrer l'objectif", act: 'ok', cls: 'primary' }],
+        onOpen: function (mm2) {
+          var el = mm2.el;
+          LineEd.bind(el);
+          $$('form', el).forEach(function (f) { f.addEventListener('submit', function (e) { e.preventDefault(); }); });
+          var E = function (k) { return $('[data-k="' + k + '"]', el); };
+          ['fin', 'joursPeriode'].forEach(function (k) { var x = E(k); if (x) x.addEventListener('input', function () { x.dataset.man = '1'; }); });
+          if (cur) { E('fin').dataset.man = '1'; E('joursPeriode').dataset.man = '1'; }
+          var auto = function (src) {
+            var o = lire(el);
+            if (src === 'portee') { E('fin').dataset.man = ''; E('joursPeriode').dataset.man = ''; }
+            if (!E('fin').dataset.man && o.debut) E('fin').value = Obj.finDe(o.portee, o.debut, o.joursProd);
+            if (!E('joursPeriode').dataset.man) E('joursPeriode').value = String(Obj.joursDefaut(o.portee, o)).replace('.', ',');
+          };
+          var montrer = function () {
+            var o = lire(el), fm = E('metresComplet') && E('metresComplet').closest('.fld');
+            if (fm) fm.hidden = o.compte !== 'metres';
+            var z = $('[data-obj-prev]', el); if (z) z.innerHTML = Obj.prevHtml(o, false);
+          };
+          el.addEventListener('change', function (e) {
+            var k = e.target && e.target.dataset ? e.target.dataset.k : null;
+            if (k === 'portee' || k === 'debut' || k === 'joursProd' || k === 'joursSemaine' || k === 'joursMois') auto(k);
+            if (k === 'p' && mm && !cur) { var ps = get('parametres/personnel', e.target.value); if (ps && ps.mode === 'piece' && ps.taux && !E('prixComplet').value) E('prixComplet').value = String(ps.taux); }
+            if (k === 'art' && mm && e.target.value && !E('prixVente').value) { var pt = typeof prixTarif === 'function' ? prixTarif(e.target.value, 'detail', 'piece') : null; if (pt) E('prixVente').value = String(pt); }
+            montrer();
+          });
+          el.addEventListener('input', debounce(montrer, 200));
+          montrer();
+        },
+        onAct: function (act, btn) {
+          if (act === 'cancel') { m.close(); return; }
+          if (act !== 'ok') return;
+          var v = UI.readFields(m.el, fields); if (!v) return;
+          var mats = LineEd.read(m.el, lidM); if (!mats) return;
+          var deps = mm ? LineEd.read(m.el, lidD) : (o0.depenses || []); if (!deps) return;
+          var p = cur ? p0 : v.p;
+          if (!p) { UI.toast('Choisissez la personne.', 'err'); return; }
+          if (v.fin < v.debut) { UI.toast('La fin précède le début.', 'err'); return; }
+          if (!(v.complets > 0)) { UI.toast("Indiquez combien d'unités donne une production.", 'err'); return; }
+          if (!(v.joursProd > 0)) { UI.toast('Indiquez en combien de jours il finit une production.', 'err'); return; }
+          if (!(v.joursPeriode > 0)) { UI.toast('Indiquez les jours de travail sur la période.', 'err'); return; }
+          if (v.compte === 'metres' && !(v.metresComplet > 0)) { UI.toast('Indiquez combien de mètres font une unité.', 'err'); return; }
+          if (!mats.length) { UI.toast('Indiquez au moins une matière première et ses paquets.', 'err'); return; }
+          if (mats.some(function (x) { return !(Number(x.paquets) > 0); })) { UI.toast('Chaque matière doit avoir un nombre de paquets.', 'err'); return; }
+          var dbl = Obj.chevauche(p, id, v);
+          if (dbl) { UI.toast('Un objectif de ' + personneName(p) + ' couvre déjà ces dates (' + Obj.periodeTxt(dbl) + ') : modifiez-le ou choisissez d\'autres dates.', 'err', 8000); return; }
+          var old = cur || {};
+          var rec = {
+            portee: v.portee, debut: v.debut, fin: v.fin, joursPeriode: v.joursPeriode, art: v.art || null, unite: v.unite || 'complet',
+            complets: v.complets, joursProd: v.joursProd, compte: v.compte, metresComplet: v.compte === 'metres' ? v.metresComplet : null,
+            matieres: mats.map(function (x, i) { return { nom: x.nom, paquets: Number(x.paquets) || 0, prix: mm ? (x.prix || null) : (((old.matieres || [])[i] || {}).prix || null), pris: x.pris === null || x.pris === undefined ? null : Number(x.pris) }; }),
+            depenses: (deps || []).map(function (d) { return { libelle: d.libelle, montant: Number(d.montant) || 0, reel: d.reel === null || d.reel === undefined || d.reel === '' ? null : Number(d.reel) }; }),
+            prixComplet: mm ? (v.prixComplet || 0) : (Number(old.prixComplet) || 0), prixVente: mm ? (v.prixVente || null) : (old.prixVente || null),
+            joursSemaine: v.joursSemaine, joursMois: v.joursMois, obs: v.obs || null,
+            statut: old.statut || 'en_cours', paies: old.paies || null,
+            creeLe: old.creeLe || today(), par: old.par || S.user.uid, parNom: old.parNom || S.member.nom,
+            majLe: cur ? today() : null, majParNom: cur ? S.member.nom : null, ts: old.ts || FB.TS()
+          };
+          var nid = id || FB.newId();
+          runOp(btn, function () {
+            var tx = new Tx('objectif de production');
+            tx.set(Obj.chemin(p, nid), rec);
+            var k = Obj.calc(rec);
+            tx.audit((cur ? "Modification de l'objectif de " : 'Objectif de production de ') + personneName(p) + ' — ' + objPorteeNom(rec.portee) + ' ' + Obj.periodeTxt(rec) + ' : ' + Obj.qTxt(rec, k.cible) + ' (' + Obj.qTxt(rec, k.N) + ' en ' + Obj.jTxt(k.D) + ' par production)', 'ouvriers', nid);
+            return tx.commit();
+          }, cur ? 'Objectif enregistré.' : 'Objectif enregistré : ses prévisions et son rapport sont prêts.').then(function (r) { if (r !== false) { m.done = true; m.close(true); resolve({ p: p, id: nid }); } });
+        },
+        onClose: function () { if (!m.done) resolve(null); }
+      });
+    });
+  },
+
+  /* ---------- tableau des prévisions (jour, semaine, mois) ---------- */
+  prevHtml: function (o, print) {
+    var k = Obj.calc(o), n = print ? 'n' : 'num', mm = canMoney();
+    if (!(k.N > 0) || !(k.D > 0)) return '<p class="muted small">Indiquez les unités que donne une production et les jours pour la finir : les prévisions s\'affichent ici.</p>';
+    var hs = [['periode', 'Objectif (' + fmtN(k.jp, 1) + ' j)'], ['production', 'Une production (' + fmtN(k.D, 1) + ' j)'], ['jour', 'Par jour'], ['semaine', 'Par semaine (' + fmtN(k.js, 1) + ' j)'], ['mois', 'Par mois (' + fmtN(k.jm, 1) + ' j)']];
+    var row = function (label, f, strong) { return '<tr><td>' + (strong ? '<strong>' + label + '</strong>' : label) + '</td>' + hs.map(function (h) { var v = f(k.H[h[0]]); return '<td class="' + n + '">' + (strong ? '<strong>' + v + '</strong>' : v) + '</td>'; }).join('') + '</tr>'; };
+    var cap = function (t) { t = String(t); return t.charAt(0).toUpperCase() + t.slice(1); };
+    var rows = [row(esc(cap(Obj.uTxt(o, 2))) + ' à produire', function (h) { return fmtN(h.complets, 1); }, true), row('Productions à faire', function (h) { return fmtN(h.nb, 2); })]
+      .concat(k.mats.map(function (m, i) { return row('Paquets de ' + esc(m.nom || 'matière'), function (h) { var q = h.paquets[i] || 0; return fmtN(q, 1) + (Obj.paqPrevoir(q) !== q ? ' <small class="muted">(' + Obj.paqPrevoir(q) + ' à prévoir)</small>' : ''); }); }));
+    if (mm) rows = rows.concat([
+      row('Coût des matières', function (h) { return fmtMoney(h.coutMat); }), row('Dépenses prévues', function (h) { return fmtMoney(h.dep); }),
+      row('Salaire de la personne', function (h) { return fmtMoney(h.salaire); }, true), row('Valeur de la production', function (h) { return fmtMoney(h.valeur); }),
+      row("Rapport pour l'atelier", function (h) { return '<span class="' + (h.rapport < 0 ? 'tx-err' : '') + '">' + fmtMoney(h.rapport) + '</span>'; }, true)]);
+    return (print ? '' : '<h3 class="mt">Prévisions</h3>') + '<p class="small">Une production : <strong>' + esc(Obj.qTxt(o, k.N)) + '</strong> en <strong>' + Obj.jTxt(k.D) + '</strong>, soit <strong>' + esc(Obj.qTxt(o, k.cJ, 2)) + ' par jour</strong>.' + (mm ? ' Montants en GNF.' : '') + '</p>' +
+      '<div class="tscroll"><table class="grid"><thead><tr><th>Prévision</th>' + hs.map(function (h) { return '<th class="' + n + '">' + esc(h[1]) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table></div>';
+  },
+
+  /* ---------- rapport de production d'un objectif ---------- */
+  rapportHtml: function (o, print) {
+    var B = Obj.bilan(o), k = B.k, r = B.r, pers = get('parametres/personnel', o.p) || {}, n = print ? 'n' : 'num', mm = canMoney();
+    var a = o.art ? articleOf(o.art) : null, U = function (x, d) { return esc(Obj.qTxt(o, x, d)); };
+    var cap = function (t) { t = String(t); return t.charAt(0).toUpperCase() + t.slice(1); };
+    var tbl = function (head, rows, foot) { return '<div class="tscroll"><table class="grid"><thead><tr>' + head.map(function (h) { return '<th' + (h[1] ? ' class="' + n + '"' : '') + '>' + esc(h[0]) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody>' + (foot ? '<tfoot>' + foot + '</tfoot>' : '') + '</table></div>'; };
+    var td = function (v, num) { return '<td' + (num ? ' class="' + n + '"' : '') + '>' + v + '</td>'; };
+    var h = '';
+    /* en-tête : la personne et l'objectif */
+    h += '<div class="two"><div class="box">' + (pers.photo ? '<img src="' + attr(pers.photo) + '" alt="" style="float:right;max-width:80px;max-height:80px;margin-left:10px;border-radius:6px">' : '') + '<strong>' + esc(pers.nom || personneName(o.p)) + '</strong>' + (pers.fonction ? '<br>' + esc(pers.fonction) : '') + (pers.matricule ? '<br>Matricule ' + esc(pers.matricule) : '') + (pers.tel ? '<br>' + esc(pers.tel) : '') + '</div>' +
+      '<div class="box">Objectif <strong>' + esc(objPorteeNom(o.portee).toLowerCase()) + '</strong> ' + esc(Obj.periodeTxt(o)) + '<br>' + Obj.jTxt(Number(o.joursPeriode) || k.jp) + ' de travail prévus' + (a ? '<br>Produit : ' + esc(ptLabel(a)) : '') + '<br>État : ' + esc(Obj.etatNom(Obj.etat(o))) + (o.parNom ? '<br><small class="muted">Établi par ' + esc(o.parNom) + (o.creeLe ? ' le ' + fmtDate(o.creeLe) : '') + '</small>' : '') + '</div></div>';
+    /* 1. préambule : ce qu'il a pris, son objectif, ses dépenses prévues */
+    h += '<h3>1. Ce qu\'il a pris et son objectif</h3><p>Pour une production, ' + esc(pers.nom || 'la personne') + ' prend ' + esc(k.mats.map(function (m) { return Obj.paqTxt(Number(m.paquets) || 0) + ' de ' + (m.nom || 'matière'); }).join(', ') || '—') +
+      ', qui donnent <strong>' + U(k.N) + '</strong> en <strong>' + Obj.jTxt(k.D) + '</strong>, soit ' + U(k.cJ, 2) + ' par jour. Objectif de la période : <strong>' + U(k.cible) + '</strong>.</p>';
+    h += tbl([['Matière première'], ['Paquets par production', 1], ['Prévu sur la période', 1], ['Réellement pris', 1]].concat(mm ? [['Prix du paquet', 1], ['Valeur prise', 1]] : []),
+      B.mats.map(function (x) { return '<tr>' + td(esc(x.nom)) + td(fmtN(x.parProd, 1), 1) + td(fmtN(x.prevu, 1) + (Obj.paqPrevoir(x.prevu) !== x.prevu ? ' <small class="muted">(' + Obj.paqPrevoir(x.prevu) + ')</small>' : ''), 1) + td(x.pris === null ? '<span class="muted">non saisi</span>' : fmtN(x.pris, 1), 1) + (mm ? td(fmtMoney(x.prix), 1) + td(x.pris === null ? '' : fmtMoney(x.pris * x.prix), 1) : '') + '</tr>'; }));
+    if (mm) {
+      h += '<h3>Dépenses prévues qu\'il a demandées</h3>' + (k.deps.length ? tbl([['Dépense'], ['Pour une production', 1], ['Prévu sur la période', 1], ['Réellement remis', 1]],
+        k.deps.map(function (d) { return '<tr>' + td(esc(d.libelle || '')) + td(fmtMoney(d.montant), 1) + td(fmtMoney((Number(d.montant) || 0) * k.H.periode.nb), 1) + td(d.reel === null || d.reel === undefined ? '<span class="muted">non saisi</span>' : fmtMoney(d.reel), 1) + '</tr>'; }),
+        '<tr><td>Total</td>' + td(fmtMoney(k.dep), 1) + td(fmtMoney(k.H.periode.dep), 1) + td(B.depRemis ? fmtMoney(B.depReel) : '', 1) + '</tr>') : '<p class="muted">Aucune dépense prévue.</p>');
+    }
+    /* 2. prévisions */
+    h += '<h3>2. Prévisions</h3>' + Obj.prevHtml(o, true);
+    /* 3. production réalisée, jour par jour (et semaine par semaine sur un mois) */
+    var parJour = groupBy(r.ds, function (d) { return d.date; }), dates = Object.keys(parJour).sort(), lignes = [], semaine = null, sv = 0;
+    var finSem = function () { if (semaine !== null && daysBetween(o.debut, o.fin) > 6) lignes.push('<tr class="sub"><td colspan="2"><em>Semaine du ' + fmtDate(semaine) + '</em></td>' + td('<em>' + fmtN(sv, 1) + '</em>', 1) + td('') + '</tr>'); };
+    dates.forEach(function (dt) {
+      var w = lundiDe(dt); if (semaine !== null && w !== semaine) { finSem(); sv = 0; } semaine = w;
+      parJour[dt].forEach(function (d) {
+        var u = Obj.unites(o, d); if (d.statut === 'validee') sv += u;
+        lignes.push('<tr>' + td(fmtDate(d.date)) + td(esc(Ouv.resume(d))) + td(fmtN(u, 1), 1) + td(d.statut === 'validee' ? 'Validée' + (d.recu ? ' <span class="code">' + esc(d.recu) + '</span>' : '') : 'En attente') + '</tr>');
+      });
+    });
+    finSem();
+    h += '<h3>3. Ce qu\'il a produit</h3>' + (lignes.length ? tbl([['Date'], ['Déclaré'], [Obj.uTxt(o, 2), 1], ['État']], lignes, '<tr><td colspan="2">Total validé</td>' + td(fmtN(r.complets, 1), 1) + td(r.attente ? '+ ' + fmtN(r.attente, 1) + ' en attente' : '') + '</tr>')
+      : '<p class="muted">Aucune déclaration sur la période' + (a ? ' pour ce produit' : '') + '.</p>');
+    /* 4. bilan */
+    var txt = B.taux === null ? '—' : Math.round(B.taux * 100) + ' %';
+    h += '<h3>4. Bilan de l\'objectif</h3>' + tbl([['Indicateur'], ['Prévu', 1], ['Réalisé', 1], ['Écart', 1]], [
+      '<tr>' + td('<strong>' + esc(Obj.uTxt(o, 2).charAt(0).toUpperCase() + Obj.uTxt(o, 2).slice(1)) + '</strong>') + td(fmtN(k.cible, 1), 1) + td('<strong>' + fmtN(r.complets, 1) + '</strong>', 1) + td(fmtN(r.complets - k.cible, 1) + ' (' + txt + ')', 1) + '</tr>',
+      '<tr>' + td('Jours travaillés') + td(fmtN(k.jp, 1), 1) + td(String(r.joursTravailles), 1) + td(fmtN(r.joursTravailles - k.jp, 1), 1) + '</tr>',
+      '<tr>' + td('Moyenne par jour travaillé') + td(fmtN(k.cJ, 2), 1) + td(r.joursTravailles ? fmtN(r.complets / r.joursTravailles, 2) : '—', 1) + td('') + '</tr>'
+    ].concat(B.mats.map(function (x) { return '<tr>' + td('Paquets de ' + esc(x.nom) + ' <small class="muted">(pris / nécessaires au réalisé)</small>') + td(fmtN(x.prevu, 1), 1) + td((x.pris === null ? '—' : fmtN(x.pris, 1)) + ' / ' + fmtN(x.besoin, 1), 1) + td(x.ecart === null ? '' : (x.ecart >= 0 ? fmtN(x.ecart, 1) + ' en main' : '<span class="tx-err">' + fmtN(-x.ecart, 1) + ' manquent</span>'), 1) + '</tr>'; }))
+      .concat(mm ? ['<tr>' + td('Dépenses' + (B.depRemis ? ' (remises)' : ' <small class="muted">(estimées sur le réalisé)</small>')) + td(fmtMoney(k.H.periode.dep), 1) + td(fmtMoney(B.depReel), 1) + td(fmtMoney(B.depReel - k.H.periode.dep), 1) + '</tr>'] : []));
+    /* 5. salaire de la personne et rapport pour l'atelier : prévu et réalisé */
+    if (mm) {
+      var P = k.H.periode, m3 = function (label, prevu, reel, strong) { var w = function (x) { return strong ? '<strong>' + x + '</strong>' : x; }; return '<tr>' + td(w(label)) + td(prevu === '' ? '' : w(prevu), 1) + td(reel === '' ? '' : w(reel), 1) + '</tr>'; };
+      var payes = B.paies.filter(function (x) { return !x.annule; });
+      h += '<h3>5. Salaire et revenus</h3><h4>Salaire de ' + esc(pers.nom || 'la personne') + ' (' + fmtGNF(o.prixComplet || 0) + ' par ' + esc(Obj.uTxt(o, 1)) + ')</h4>' + tbl([[''], ['Prévu', 1], ['Réalisé', 1]], [
+        m3(esc(cap(Obj.uTxt(o, 2))), fmtN(P.complets, 1), fmtN(r.complets, 1)),
+        m3("Salaire selon l'objectif", fmtMoney(P.salaire), fmtMoney(B.salaire), true),
+        B.payeObj ? m3("Déjà payé selon l'objectif" + (payes.length ? ' (' + esc(payes.map(function (x) { return x.num; }).join(', ')) + ')' : ''), '', fmtMoney(B.payeObj)) : '',
+        B.nbAutre ? m3('Déjà payé par la paie habituelle (' + plural(B.nbAutre, 'déclaration') + ')', '', fmtMoney(B.payeAutre)) : '',
+        m3("Reste à payer selon l'objectif" + (B.aPayerC ? ' (' + esc(Obj.qTxt(o, B.aPayerC)) + ')' : ''), '', fmtMoney(B.aPayer), true),
+        m3('Revenu prévu par jour / semaine / mois', fmtMoney(k.H.jour.salaire) + ' / ' + fmtMoney(k.H.semaine.salaire) + ' / ' + fmtMoney(k.H.mois.salaire), '')
+      ]) + "<h4>Rapport pour l'atelier</h4>" + tbl([[''], ['Prévu', 1], ['Réalisé', 1]], [
+        m3('Valeur de la production', fmtMoney(P.valeur), fmtMoney(B.valeur)),
+        m3('Matières premières' + (B.aPris ? ' (réalisé : paquets pris)' : ' (réalisé : estimé)'), '− ' + fmtMoney(P.coutMat), '− ' + fmtMoney(B.coutMat)),
+        m3('Dépenses' + (B.depRemis ? ' (réalisé : remises)' : ' (réalisé : estimé)'), '− ' + fmtMoney(P.dep), '− ' + fmtMoney(B.depReel)),
+        m3('Salaire', '− ' + fmtMoney(P.salaire), '− ' + fmtMoney(B.salaire)),
+        m3("Rapport pour l'atelier", '<span class="' + (P.rapport < 0 ? 'tx-err' : '') + '">' + fmtMoney(P.rapport) + '</span>', '<span class="' + (B.rapport < 0 ? 'tx-err' : '') + '">' + fmtMoney(B.rapport) + '</span>', true),
+        m3('Rapport prévu par jour / semaine / mois', fmtMoney(k.H.jour.rapport) + ' / ' + fmtMoney(k.H.semaine.rapport) + ' / ' + fmtMoney(k.H.mois.rapport), '')
+      ]) + '<p class="small muted">Montants en GNF.</p>';
+    }
+    if (r.att.length) h += '<p class="small muted">' + plural(r.att.length, 'déclaration', 'déclarations') + ' en attente de validation (' + U(r.attente) + ') ne ' + (r.att.length > 1 ? 'sont' : 'est') + ' pas comptée' + (r.att.length > 1 ? 's' : '') + ' dans le réalisé ni dans le salaire.</p>';
+    if (o.obs) h += '<p class="small">Observation : ' + esc(o.obs) + '</p>';
+    return h;
+  },
+
+  /* ---------- fiche, impression ---------- */
+  fiche: function (p, id) {
+    var o = Obj.get(p, id); if (!o) return;
+    var B = Obj.bilan(o), acts = [{ t: icon('print') + ' Imprimer le rapport (A4)', act: 'print', cls: 'ghost' }];
+    if (can('ouvriers', 'modifier')) acts.push({ t: icon('edit') + ' Modifier', act: 'edit', cls: 'ghost' });
+    if (can('ouvriers', 'modifier')) acts.push({ t: o.statut === 'clos' ? 'Rouvrir' : 'Clore', act: 'clore', cls: 'ghost' });
+    if (can('ouvriers', 'supprimer')) acts.push({ t: icon('trash') + ' Supprimer', act: 'suppr', cls: 'ghost del' });
+    if (can('paie', 'creer') && canMoney() && B.aPayer > 0) acts.push({ t: icon('wallet') + ' Payer selon l\'objectif', act: 'payer', cls: 'primary' });
+    detailModal('Objectif de ' + personneName(p), '<div class="obj-rap">' + Obj.rapportHtml(o, false) + '</div>', acts, function (a, b, m) {
+      if (a === 'print') Obj.imprimer(p, id);
+      if (a === 'edit') { m.close(); Obj.edit(p, id); }
+      if (a === 'clore') { m.close(); Obj.clore(p, id); }
+      if (a === 'suppr') { m.close(); Obj.supprimer(p, id); }
+      if (a === 'payer') { m.close(); Obj.payer(p, id); }
+    }, 'xl');
+  },
+  imprimer: function (p, id) {
+    var o = Obj.get(p, id); if (!o) return;
+    UI.print({ title: 'Rapport de production — ' + personneName(p), docTitle: 'Rapport de production', docMeta: '<div>Objectif ' + esc(objPorteeNom(o.portee).toLowerCase()) + '</div><div>' + esc(Obj.periodeTxt(o)) + '</div><div>' + esc(blocLabel(S.bloc)) + '</div>',
+      body: Obj.rapportHtml(o, true) + '<div class="sig"><div>' + esc(personneName(p)) + '</div><div>Le responsable de la production</div></div>' });
+  },
+  clore: function (p, id) {
+    var o = Obj.get(p, id); if (!o) return;
+    var rouvrir = o.statut === 'clos';
+    UI.confirm({ title: (rouvrir ? 'Rouvrir' : 'Clore') + " l'objectif", message: personneName(p) + ' — ' + objPorteeNom(o.portee) + ' ' + Obj.periodeTxt(o) + (rouvrir ? '' : '. Le rapport reste consultable et imprimable.'), ok: rouvrir ? 'Rouvrir' : 'Clore' }).then(function (c) {
+      if (!c.ok) return;
+      var tx = new Tx('objectif'); tx.set(Obj.chemin(p, id) + '/statut', rouvrir ? 'en_cours' : 'clos');
+      tx.audit((rouvrir ? 'Objectif rouvert : ' : 'Objectif clos : ') + personneName(p) + ' — ' + Obj.periodeTxt(o), 'ouvriers', id);
+      runOp(null, function () { return tx.commit(); }, rouvrir ? 'Objectif rouvert.' : 'Objectif clos.');
+    });
+  },
+  supprimer: function (p, id) {
+    var o = Obj.get(p, id); if (!o) return;
+    var B = Obj.bilan(o);
+    if (B.paies.some(function (x) { return !x.annule; })) { UI.toast("Cet objectif a servi à payer la personne : annulez d'abord ce paiement (Paie), ou utilisez « Clore ».", 'err', 8000); return; }
+    UI.confirm({ title: "Supprimer l'objectif", message: personneName(p) + ' — ' + objPorteeNom(o.portee) + ' ' + Obj.periodeTxt(o) + '. Ses déclarations et sa paie ne changent pas.', danger: true, motif: true, ok: 'Supprimer' }).then(function (c) {
+      if (!c.ok) return;
+      var tx = new Tx('objectif'); tx.set(Obj.chemin(p, id), null);
+      tx.audit('Objectif supprimé : ' + personneName(p) + ' — ' + Obj.periodeTxt(o), 'ouvriers', id, { motif: c.motif });
+      runOp(null, function () { return tx.commit(); }, 'Objectif supprimé.');
+    });
+  },
+
+  /* ---------- paie selon l'objectif : unités validées non payées × prix ---------- */
+  payer: function (p, id) {
+    var o = Obj.get(p, id), pers = get('parametres/personnel', p); if (!o || !pers) return;
+    if (!can('paie', 'creer')) { UI.toast('Votre rôle ne permet pas de payer.', 'err'); return; }
+    var pc = Number(o.prixComplet) || 0;
+    if (!(pc > 0)) { UI.toast("Indiquez d'abord le prix payé par unité (Modifier l'objectif).", 'err', 7000); return; }
+    var B = Obj.bilan(o), ob = Ouv.bilan(p);
+    if (!B.nonCouv.length || !(B.aPayer > 0)) { UI.toast("Rien à payer : aucune production validée et non payée sur la période de l'objectif.", 'info', 7000); return; }
+    var calc = function (v) { var brut = Obj.bilan(Obj.get(p, id)).aPayer, av = Ouv.bilan(p).avances; var ded = Math.max(0, Math.min(v.avanceDeduite === null || v.avanceDeduite === undefined ? av : v.avanceDeduite, av, brut)); return { brut: brut, ded: ded, net: brut - ded }; };
+    UI.formModal({
+      title: 'Payer ' + pers.nom + " selon l'objectif", size: 'm',
+      intro: esc(Obj.qTxt(o, B.aPayerC)) + ' validé' + (B.aPayerC >= 2 ? 's' : '') + ' et non payé' + (B.aPayerC >= 2 ? 's' : '') + ' sur la période (' + esc(Obj.periodeTxt(o)) + ') × ' + fmtGNF(pc) + ' = <strong>' + fmtGNF(B.aPayer) + '</strong>.' +
+        (pers.mode === 'mois' ? ' <strong>' + esc(pers.nom) + ' est payé au mois : ce paiement s\'ajoute à son salaire mensuel.</strong>' : '') +
+        (B.r.att.length ? ' ' + plural(B.r.att.length, 'déclaration en attente n\'est', 'déclarations en attente ne sont') + ' pas comptée' + (B.r.att.length > 1 ? 's : validez-les' : ' : validez-la') + ' d\'abord.' : '') +
+        ' Les déclarations payées ici ne seront plus payées par la paie habituelle.',
+      fields: [
+        { k: 'avanceDeduite', t: 'Avance déduite (GNF)', type: 'money', dflt: ob.avances ? Math.min(ob.avances, B.aPayer) : null, help: ob.avances ? 'Avances versées et pas encore déduites : ' + fmtGNF(ob.avances) + '.' : 'Aucune avance en cours.' },
+        { k: 'calc', type: 'html', span: 2, html: '<div class="paie-calc" data-obj-calc></div>' },
+        { k: 'compte', t: 'Payé avec', type: 'select', req: true, opts: Opt.comptes, dflt: defCompte() },
+        { k: 'date', t: 'Date du paiement', type: 'date', req: true, dflt: today() },
+        { k: 'motif', t: 'Observation', span: 2 }
+      ],
+      ok: 'Payer',
+      onOpen: function (m) {
+        var upd = function () { var el = $('[data-k="avanceDeduite"]', m.el), raw = el ? el.value : ''; var c = calc({ avanceDeduite: raw === '' ? null : toMoney(raw) }); var z = $('[data-obj-calc]', m.el); if (z) z.innerHTML = UI.kv([['Brut selon l\'objectif', fmtGNF(c.brut)], ['Avance déduite', fmtGNF(c.ded)], ['Net à verser', '<strong>' + fmtGNF(c.net) + '</strong>']]); };
+        m.el.addEventListener('input', upd); upd();
+      },
+      check: function (v) {
+        var c = calc(v);
+        if (!(c.brut > 0)) return 'Rien à payer.';
+        if (v.date > today()) return 'La date ne peut pas être dans le futur.';
+        if (c.net > 0 && c.net > soldeCompte(v.compte)) return 'Solde insuffisant sur ' + compteName(v.compte) + ' (' + fmtGNF(soldeCompte(v.compte)) + ').';
+        if (col('finances/clotures')[monthOf(v.date)]) return 'Ce mois est clôturé : choisissez une date dans un mois ouvert.';
+      },
+      save: function (v) {
+        var o2 = Obj.get(p, id), B2 = Obj.bilan(o2), c = calc(v);
+        if (!B2.nonCouv.length || !(c.brut > 0)) return Promise.reject(new Error('Rien à payer : la production a déjà été payée.'));
+        return Promise.all([nextNum('PO', v.date), c.net > 0 ? nextNum('DEP', v.date) : null]).then(function (nn) {
+          var fid = FB.newId(), tx = new Tx('paie selon l\'objectif'), decls = {};
+          B2.nonCouv.forEach(function (d) { decls[d.id] = true; });
+          var label = 'objectif ' + objPorteeNom(o2.portee).toLowerCase() + ' ' + Obj.periodeTxt(o2) + ' — ' + Obj.qTxt(o2, B2.aPayerC) + ' × ' + fmtGNF(pc);
+          var rec = { type: 'paie', num: nn[0], date: v.date, portee: 'tout', periode: null, mois: null, label: label, decls: decls,
+            metres: sum(B2.nonCouv, function (d) { return d.metres || 0; }) || null, jours: sum(B2.nonCouv, function (d) { return Number(d.jours) || 0; }) || null, pieces: sum(B2.nonCouv, function (d) { return d.pieces || 0; }) || null,
+            mode: pers.mode || 'jour', taux: Number(pers.taux) || 0, brut: c.brut, avanceDeduite: c.ded, montant: c.net, compte: v.compte, motif: v.motif || null, par: S.user.uid, parNom: S.member.nom, ts: FB.TS() };
+          Ouv.sortie(tx, rec, fid, nn[1], pers, p, 'Paie ' + pers.nom + ' — ' + label);
+          tx.set('d/paie/fiches/' + p + '/' + fid, rec);
+          tx.set(Obj.chemin(p, id) + '/paies/' + fid, { num: nn[0], date: v.date, brut: c.brut, montant: c.net, complets: B2.aPayerC });
+          tx.audit('Paie ' + nn[0] + ' selon l\'objectif : ' + pers.nom + ' — ' + label + ' — ' + fmtGNF(c.net) + (c.ded ? ' (avance déduite ' + fmtGNF(c.ded) + ')' : ''), 'paie', fid);
+          return tx.commit();
+        });
+      },
+      okMsg: 'Paiement enregistré.'
+    }).then(function (v) {
+      if (!v) return;
+      setTimeout(function () { UI.confirm({ title: 'Rapport de production', message: 'Imprimer le rapport de production et de paie de ' + pers.nom + ' ?', ok: 'Imprimer' }).then(function (r) { if (r.ok) Obj.imprimer(p, id); }); }, 300);
+    });
+  },
+
+  /* ---------- suivi : aujourd'hui, cette semaine, ce mois ---------- */
+  suivi: function (o) {
+    var k = Obj.calc(o), t = today(), l = lundiDe(t), m1 = startOfMonth(t);
+    var cl = function (d1, d2) { return [d1 < o.debut ? o.debut : d1, d2 > o.fin ? o.fin : d2]; };
+    var w = cl(l, addDays(l, 6)), mo = cl(m1, monthOf(t) + '-31');
+    return { k: k, jour: Obj.produit(o, t, t), semaine: Obj.produit(o, w[0], w[1]), mois: Obj.produit(o, mo[0], mo[1]), total: Obj.produit(o) };
+  }
+};
+
+/* ---------- écran : objectifs de production ---------- */
+view('ouvriers/objectifs', {
+  mod: 'ouvriers', title: 'Objectifs de production',
+  check: function () { return can('ouvriers') || can('paie'); },
+  need: function () { return Obj.need(); },
+  render: function () {
+    var st = Obj.st, mm = canMoney(), cp = can('ouvriers', 'creer');
+    var rows = Obj.tous(function (o) { return !st.p || o.p === st.p; }).map(function (o) {
+      var B = Obj.bilan(o);
+      return { id: o.p + '|' + o.id, p: o.p, o: o, nom: personneName(o.p), debut: o.debut, _e: Obj.etat(o), cible: B.k.cible, reel: B.r.complets, att: B.r.attente, taux: B.taux, aPayer: B.aPayer, salaire: B.salaire };
+    });
+    var enCours = rows.filter(function (r) { return r._e === 'en_cours'; });
+    var finis = rows.filter(function (r) { return r._e === 'termine' || r._e === 'clos'; });
+    var suivi = enCours.map(function (r) { return { r: r, s: Obj.suivi(r.o) }; });
+    var pct = function (a, b) { return b > 0 ? ' ' + Obj.tauxBadge(a / b) : ''; };
+    return pageHead('Objectifs de production', 'Pour chaque tisserand ou employé : les paquets de matières qu\'il prend, ce qu\'ils donnent, en combien de jours et ses dépenses. Ses prévisions par jour, semaine et mois, ce qu\'il a réellement produit, et son salaire selon l\'objectif. Touchez un objectif pour son rapport.',
+      (cp ? UI.btn(icon('plus') + ' Nouvel objectif', 'nouveau', 'primary') : '')) +
+      tiles([{ t: 'Objectifs en cours', v: enCours.length }, { t: 'À venir', v: rows.filter(function (r) { return r._e === 'avenir'; }).length },
+        { t: 'Atteints (périodes finies)', v: finis.filter(function (r) { return r.taux !== null && r.taux >= 1; }).length + ' / ' + finis.length },
+        mm && can('paie') ? { t: 'Salaire à payer selon les objectifs', v: fmtGNF(sum(rows.filter(function (r) { return r._e !== 'clos'; }), function (r) { return r.aPayer; })), tone: 'gold' } : null]) +
+      (suivi.length ? '<h2>Suivi des objectifs en cours</h2><div class="tscroll"><table class="grid"><thead><tr><th>Personne</th><th>Objectif</th><th class="num">Aujourd\'hui</th><th class="num">Cette semaine</th><th class="num">Ce mois</th><th class="num">Objectif</th></tr></thead><tbody>' +
+        suivi.map(function (x) { var o = x.r.o, k = x.s.k; return '<tr class="clk" data-act="fiche" data-id="' + attr(x.r.id) + '"><td><span class="pers">' + photoPers(get('parametres/personnel', o.p)) + '<span><strong>' + esc(x.r.nom) + '</strong></span></span></td><td>' + esc(objPorteeNom(o.portee)) + '<br><small class="muted">' + esc(Obj.periodeTxt(o)) + '</small></td>' +
+          '<td class="num">' + fmtN(x.s.jour, 1) + ' / ' + fmtN(k.H.jour.complets, 1) + pct(x.s.jour, k.H.jour.complets) + '</td><td class="num">' + fmtN(x.s.semaine, 1) + ' / ' + fmtN(k.H.semaine.complets, 1) + pct(x.s.semaine, k.H.semaine.complets) + '</td>' +
+          '<td class="num">' + fmtN(x.s.mois, 1) + ' / ' + fmtN(k.H.mois.complets, 1) + pct(x.s.mois, k.H.mois.complets) + '</td><td class="num"><strong>' + fmtN(x.s.total, 1) + ' / ' + fmtN(k.cible, 1) + '</strong>' + pct(x.s.total, k.cible) + '</td></tr>'; }).join('') +
+        '</tbody></table></div><p class="small muted">Réalisé (déclarations validées) / prévu, en ' + esc(Obj.uTxt(suivi[0].r.o, 2)) + ' ou dans l\'unité de chaque objectif.</p>' : '') +
+      '<h2 class="mt">Tous les objectifs</h2>' +
+      '<div class="seg" role="group" aria-label="Personne"><span class="seg-sel"><select data-chg="pers" aria-label="Personne"><option value="">Toutes les personnes</option>' + Opt.personnel().map(function (x) { return '<option value="' + attr(x[0]) + '"' + (st.p === x[0] ? ' selected' : '') + '>' + esc(x[1]) + '</option>'; }).join('') + '</select></span></div>' +
+      UI.table({
+        id: 'objectifs', rows: rows, sort: 'debut', dir: -1, rowAct: 'fiche',
+        filters: [{ k: '_e', t: 'État', opts: [['en_cours', 'En cours'], ['avenir', 'À venir'], ['termine', 'Période finie'], ['clos', 'Clos']] }],
+        text: function (r) { return [r.nom, objPorteeNom(r.o.portee), r.o.unite, r.o.art ? artName(r.o.art) : ''].join(' '); },
+        cols: [{ k: 'nom', t: 'Personne', f: function (r) { return '<strong>' + esc(r.nom) + '</strong>' + (r.o.art ? '<br><small class="muted">' + esc(artName(r.o.art)) + '</small>' : ''); } },
+          { k: 'debut', t: 'Période', f: function (r) { return esc(objPorteeNom(r.o.portee)) + '<br><small class="muted">' + esc(Obj.periodeTxt(r.o)) + '</small>'; } },
+          { k: 'cible', t: 'Objectif', num: true, f: function (r) { return esc(Obj.qTxt(r.o, r.cible)); } },
+          { k: 'reel', t: 'Réalisé', num: true, f: function (r) { return '<strong>' + fmtN(r.reel, 1) + '</strong>' + (r.att ? '<br><small class="muted">+ ' + fmtN(r.att, 1) + ' en attente</small>' : ''); } },
+          { k: 'taux', t: 'Atteint', num: true, f: function (r) { return Obj.tauxBadge(r.taux); } },
+          mm ? { k: 'salaire', t: 'Salaire (objectif)', num: true, f: function (r) { return fmtMoney(r.salaire) + (r.aPayer ? '<br><small class="tx-warn">reste ' + fmtMoney(r.aPayer) + '</small>' : ''); } } : null,
+          { k: '_e', t: 'État', f: function (r) { return Obj.etatBadge(r.o); } }].filter(Boolean),
+        actions: function (r) { return UI.ibtn('print', 'imprimer1', r.id, 'Imprimer le rapport') + (cp ? UI.ibtn('plus', 'suivant', r.id, 'Objectif suivant pour cette personne') : ''); },
+        empty: 'Aucun objectif. Touchez « Nouvel objectif » : choisissez la personne, les paquets qu\'elle prend pour une production, ce qu\'ils donnent et en combien de jours.'
+      });
+  },
+  acts: {
+    nouveau: function () { Obj.edit(Obj.st.p || null); },
+    fiche: function (k) { var x = String(k).split('|'); Obj.fiche(x[0], x[1]); },
+    imprimer1: function (k) { var x = String(k).split('|'); Obj.imprimer(x[0], x[1]); },
+    /* même réglage, période suivante */
+    suivant: function (k) { var x = String(k).split('|'); Obj.suivant(x[0], x[1]); },
+    pers: function (v) { Obj.st.p = v || ''; App.render(true); }
+  }
+});
+/* nouvel objectif repris du précédent, sur la période qui suit */
+Obj.suivant = function (p, id) {
+  var o = Obj.get(p, id); if (!o) return;
+  var base = Obj.rec(clone(o)), debut = addDays(o.fin, 1);
+  base.debut = debut; base.fin = Obj.finDe(o.portee, debut, o.joursProd);
+  base.matieres = (base.matieres || []).map(function (m) { return { nom: m.nom, paquets: m.paquets, prix: m.prix }; });
+  base.depenses = (base.depenses || []).map(function (d) { return { libelle: d.libelle, montant: d.montant }; });
+  delete base.paies; delete base.statut; delete base.creeLe; delete base.par; delete base.parNom; delete base.majLe; delete base.majParNom; delete base.ts;
+  Obj.edit(p, null, base);
+};
 
 
 /* ===== 99-boot.js ===== */
