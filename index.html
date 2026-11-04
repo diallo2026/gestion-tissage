@@ -893,6 +893,8 @@ button.cat-card { cursor: pointer; } button.cat-card:hover { border-color: var(-
 .obj-rap .box, .obj-who { border: 1px solid var(--line); border-radius: var(--r-l); padding: 10px 12px; margin: 8px 0; background: var(--surface); }
 .obj-rap h3 { margin: 18px 0 6px; }
 .obj-rap h4 { margin: 12px 0 4px; font-size: .95rem; }
+.r-qu { display: flex; gap: 8px; } .r-qu input { flex: 1 1 auto; min-width: 0; } .r-qu select { flex: 0 0 auto; width: auto; }
+.tissu-eq { display: block; margin-top: 4px; color: var(--indigo-700); font-weight: 600; }
 .obj-rap .tot { margin: 8px 0 0 auto; width: min(100%, 520px); border-collapse: collapse; }
 .obj-rap .tot td { padding: 5px 8px; border-bottom: 1px solid var(--line); }
 .obj-rap .tot td.n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -933,7 +935,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261104-1530';
+NERP.build = '20261104-2355';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -5391,9 +5393,10 @@ function ptViews(p) {
         p === 'boutique' ? { t: 'Commandes clients en cours', v: list('ventes/commandes', function (c) { return c.statut === 'en_cours'; }).length, go: 'ventes/devis' } : null
       ]);
       var metres = sum(enStock.filter(function (a) { return a.nature === 'tissu'; }), function (a) { return a._s.q; });
+      var mTissu = tissuSomme(enStock, function (a) { return a._s.q; });
       var entMois = list('transferts', function (b) { return b.vers === p && b.date >= m0; }).length + list(p + '/achats', function (a) { return a.date >= m0 && a.statut !== 'annulee' && !a.initiale; }).length;
       h += '<h2 class="sec">Stock ' + esc(de) + '</h2>' + tiles([
-        metres ? { t: 'Tissus en stock', v: fmtQ(metres, 'm'), s: plural(sum(enStock, function (a) { return a._s.lots; }), 'pièce'), go: X('produits') } : null,
+        mTissu ? tissuTile('Tissus en stock', mTissu, X('produits'), sum(enStock, function (a) { return a._s.lots; }) ? plural(sum(enStock, function (a) { return a._s.lots; }), 'pièce') : '') : metres ? { t: 'Tissus en stock', v: fmtQ(metres, 'm'), s: plural(sum(enStock, function (a) { return a._s.lots; }), 'pièce'), go: X('produits') } : null,
         { t: 'Produits en stock', v: enStock.length, go: X('produits') },
         mm ? { t: 'Valeur du stock (coût)', v: fmtGNF(sum(enStock, function (a) { return a._s.v; })) } : null,
         { t: 'Entrées ce mois', v: entMois, s: 'achats et transferts reçus', go: X('entrees') },
@@ -5443,14 +5446,14 @@ function ptViews(p) {
       return pageHead(p === 'boutique' ? 'Produits en boutique' : 'Produits ' + de, 'Référence, désignation, quantité en stock, prix unitaire, stock initial, seuil d\'alerte et prix de vente. Le stock ' + esc(de) + ' est séparé de celui des autres blocs : il se remplit par les entrées (achats) et les bons de transfert reçus d\'un bloc lié, et baisse par les ventes et les transferts envoyés.',
         (canEntrer() ? UI.btn(icon('plus') + ' Nouveau produit', 'produit', 'primary') : '') + (canVendre() || canEntrer() ? UI.btn(icon('bolt') + ' Saisie rapide', 'go', 'ghost', ' data-id="' + X('rapide') + '"') : '') +
         (canTransf() && blocsLiesA(p).length ? UI.btn(icon('download') + ' Recevoir d\'un bloc lié', 'recevoir', 'ghost') : '') + UI.btn(icon('print') + ' Imprimer', 'imprimer', 'ghost')) +
-        tiles([{ t: 'Produits en stock', v: enStock.length }, enStock.some(function (a) { return a.nature === 'tissu'; }) ? { t: 'Tissus', v: fmtQ(sum(enStock.filter(function (a) { return a.nature === 'tissu'; }), function (a) { return a._q; }), 'm'), s: plural(sum(enStock, function (a) { return a._lots; }), 'pièce') } : null, mm ? { t: 'Valeur au coût', v: fmtGNF(sum(enStock, function (a) { return a._v; })) } : null, { t: 'En rupture', v: rows.filter(function (a) { return a._q <= 0; }).length }]) +
+        tiles([{ t: 'Produits en stock', v: enStock.length }, tissuSomme(enStock, function (a) { return a._q; }) ? tissuTile('Tissus', tissuSomme(enStock, function (a) { return a._q; }), null, sum(enStock, function (a) { return a._lots; }) ? plural(sum(enStock, function (a) { return a._lots; }), 'pièce') : '') : enStock.some(function (a) { return a.nature === 'tissu'; }) ? { t: 'Tissus', v: fmtQ(sum(enStock.filter(function (a) { return a.nature === 'tissu'; }), function (a) { return a._q; }), 'm'), s: plural(sum(enStock, function (a) { return a._lots; }), 'pièce') } : null, mm ? { t: 'Valeur au coût', v: fmtGNF(sum(enStock, function (a) { return a._v; })) } : null, { t: 'En rupture', v: rows.filter(function (a) { return a._q <= 0; }).length }]) +
         UI.table({
           id: p + '-prod', rows: rows, sort: 'nom', pageSize: 40,
           filters: [{ k: 'categorie', t: 'Catégorie', opts: Opt.categories() }, { k: '_etat', t: 'Stock', opts: [['1', 'En stock'], ['s', 'Sous le seuil'], ['0', 'En rupture']] }],
           text: function (a) { return [a.code, a.nom, a.categorie].join(' '); },
           cols: [{ k: 'code', t: 'Référence', f: function (a) { return '<span class="code">' + esc(a.code || '') + '</span>'; } },
             { k: 'nom', t: 'Désignation', f: function (a) { return '<strong>' + esc(a.nom) + '</strong><br><small class="muted">' + esc(pname('categories', a.categorie, CATEGORIES_DEFAUT) === '—' ? '' : pname('categories', a.categorie, CATEGORIES_DEFAUT)) + '</small>'; } },
-            { k: '_q', t: 'Quantité', num: true, f: function (a) { return a._q > 0 ? fmtQ(a._q, a.unite) + (a._sc ? '<br><small class="muted">dont second choix ' + fmtQ(a._sc) + '</small>' : '') + (a._lots ? '<br><small class="muted">' + plural(a._lots, 'pièce ou lot', 'pièces ou lots') + '</small>' : '') : '<span class="tx-err">rupture</span>'; } },
+            { k: '_q', t: 'Quantité', num: true, f: function (a) { return a._q > 0 ? (tissuFacteur(a) !== null ? tissuHtml(tissuMetresArt(a, a._q)) : fmtQ(a._q, a.unite)) + (a._sc ? '<br><small class="muted">dont second choix ' + fmtQ(a._sc) + '</small>' : '') + (a._lots ? '<br><small class="muted">' + plural(a._lots, 'pièce ou lot', 'pièces ou lots') + '</small>' : '') : '<span class="tx-err">rupture</span>'; } },
             mm ? { k: '_pa', t: 'Prix unitaire (achat)', num: true, f: function (a) { return a._pa ? fmtMoney(a._pa) : ''; } } : null,
             { k: '_init', t: 'Stock initial', num: true, f: function (a) { return a._init ? fmtQ(a._init, a.unite) : ''; } },
             { k: '_seuil', t: "Seuil d'alerte", num: true, f: function (a) { return a._seuil ? fmtQ(a._seuil) : ''; } },
@@ -5469,7 +5472,7 @@ function ptViews(p) {
         var mm = canMoney();
         var rows = ptProduits(p).map(function (a) { a._s = ptStock(p, a.id); return a; }).sort(byKey('nom'));
         UI.print({ title: 'Produits ' + de, docTitle: 'Stock ' + de, docMeta: meta('<div>Au ' + fmtDate(today()) + '</div>'),
-          body: printLines([{ t: 'Référence', f: function (a) { return esc(a.code || ''); } }, { t: 'Désignation', k: 'nom' }, { t: 'Quantité', n: 1, f: function (a) { return fmtQ(a._s.q, a.unite); } }].concat(mm ? [{ t: 'Prix unitaire', n: 1, f: function (a) { return fmtMoney(ptPrixAchat(a.id)); } }] : []).concat([{ t: 'Seuil', n: 1, f: function (a) { return ptSeuil(p, a.id) ? fmtQ(ptSeuil(p, a.id)) : ''; } }, { t: 'Prix de vente', n: 1, f: function (a) { return ptPrixVente(a.id) ? fmtMoney(ptPrixVente(a.id)) : ''; } }]).concat(mm ? [{ t: 'Valeur', n: 1, f: function (a) { return fmtMoney(a._s.v); } }] : []), rows,
+          body: printLines([{ t: 'Référence', f: function (a) { return esc(a.code || ''); } }, { t: 'Désignation', k: 'nom' }, { t: 'Quantité', n: 1, f: function (a) { return tissuFacteur(a) !== null && a._s.q ? esc(tissuTxt(tissuMetresArt(a, a._s.q))) : fmtQ(a._s.q, a.unite); } }].concat(mm ? [{ t: 'Prix unitaire', n: 1, f: function (a) { return fmtMoney(ptPrixAchat(a.id)); } }] : []).concat([{ t: 'Seuil', n: 1, f: function (a) { return ptSeuil(p, a.id) ? fmtQ(ptSeuil(p, a.id)) : ''; } }, { t: 'Prix de vente', n: 1, f: function (a) { return ptPrixVente(a.id) ? fmtMoney(ptPrixVente(a.id)) : ''; } }]).concat(mm ? [{ t: 'Valeur', n: 1, f: function (a) { return fmtMoney(a._s.v); } }] : []), rows,
             mm ? '<tr><td colspan="3">Valeur totale du stock</td><td colspan="4" class="n">' + fmtMoney(sum(rows, function (a) { return a._s.v; })) + '</td></tr>' : '') });
       }
     }
@@ -6932,13 +6935,15 @@ view('tableau', {
     var kgNat = function (nat) { return sum(list('stock/articles', function (a) { return a.nature === nat; }), function (a) { return stockArticle(a.id).dispo; }); };
     var tissuPF = sum(list('stock/articles', function (a) { return a.nature === 'tissu'; }), function (a) { var s = stockArticle(a.id); return (s.parEmp.PF || 0) + (s.parEmp.SC || 0); });
     var tissuBtq = sum(list('stock/articles', function (a) { return a.nature === 'tissu'; }), function (a) { return stockArticle(a.id).btq; });
+    var tisArts = list('stock/articles', function (a) { return a.nature === 'tissu'; });
+    var tisPFm = tissuSomme(tisArts, function (a) { var s = stockArticle(a.id); return (s.parEmp.PF || 0) + (s.parEmp.SC || 0); }), tisBtqm = tissuSomme(tisArts, function (a) { return stockArticle(a.id).btq; });
     var valStock = sum(list('stock/articles'), function (a) { return stockArticle(a.id).valeur; });
     h += '<h2 class="sec">Stock et fabrication</h2>' + tiles([
       mm ? { t: 'Valeur du stock', v: fmtGNF(valStock), go: 'stock/etat' } : null,
       { t: 'Fils bruts disponibles', v: fmtQ(kgNat('fil_brut'), 'kg'), go: 'stock/etat' },
       { t: 'Fils teints disponibles', v: fmtQ(kgNat('fil_teint'), 'kg'), go: 'stock/lots' },
-      { t: 'Tissus finis à la production', v: fmtQ(tissuPF, 'm'), s: tissuPF ? 'à envoyer en boutique pour la vente' : '', go: 'production/transferts' },
-      { t: 'Tissus en boutique', v: fmtQ(tissuBtq, 'm'), go: 'boutique/produits' },
+      tisPFm || !tissuPF ? tissuTile('Tissus finis à la production', tisPFm, 'production/transferts', tisPFm ? 'à envoyer en boutique pour la vente' : '') : { t: 'Tissus finis à la production', v: fmtQ(tissuPF, 'm'), s: 'à envoyer en boutique pour la vente', go: 'production/transferts' },
+      tisBtqm || !tissuBtq ? tissuTile('Tissus en boutique', tisBtqm, 'boutique/produits') : { t: 'Tissus en boutique', v: fmtQ(tissuBtq, 'm'), go: 'boutique/produits' },
       can('teinture') ? { t: 'Lots de teinture en cours', v: list('teinture/lots', function (l) { return l.statut === 'lance'; }).length, go: 'teinture/lots' } : null,
       { t: 'Lots à contrôler', v: aCtrl.length, tone: aCtrl.length ? 'warn' : '', go: 'qualite/controles' }
     ]);
@@ -7778,7 +7783,7 @@ view('stock/etat', {
           { k: '_where', t: 'Répartition', nosort: true, f: function (a) { return Object.keys(a._s.parEmp).filter(function (e) { return a._s.parEmp[e]; }).map(function (e) { return '<span class="chip">' + esc(empName(e)) + ' ' + fmtQ(a._s.parEmp[e]) + '</span>'; }).join(' '); } },
           { k: '_d', t: 'Disponible atelier', num: true, f: function (a) { return (a._alert ? '<span class="tx-err" title="Sous le seuil">' : '<span>') + fmtQ(a._d) + '</span>'; } },
           { k: '_b', t: 'En boutique', num: true, sv: function (a) { return a._s.btq; }, f: function (a) { return a._s.btq ? fmtQ(a._s.btq) : ''; } },
-          { k: '_t', t: 'Total', num: true, f: function (a) { return fmtQ(a._t); } },
+          { k: '_t', t: 'Total', num: true, f: function (a) { return fmtQ(a._t) + (a._t > 0 && tissuFacteur(a) !== null ? '<br><small class="muted">' + esc(tissuComplets(tissuMetresArt(a, a._t)) + ' · ' + tissuPagnes(tissuMetresArt(a, a._t))) + '</small>' : ''); } },
           mm ? { k: '_v', t: 'Valeur', num: true, f: function (a) { return fmtMoney(a._v); } } : null
         ].filter(Boolean),
         rowAct: 'fiche',
@@ -11921,11 +11926,13 @@ var Ouv = {
     return montant || 0;
   },
   resume: function (d) {
-    var b = [];
+    var b = [], tm = declTissuM(d), ua = d.art ? tissuUniteArt(articleOf(d.art)) : null;
     if (d.art) b.push(artName(d.art));
     if (d.jours !== undefined && d.jours !== null && Number(d.jours) > 0) b.push(Number(d.jours) === 1 ? 'journée' : Number(d.jours) === 0.5 ? 'demi-journée' : fmtN(d.jours, 1) + ' j');
-    if (d.metres) b.push(fmtQ(d.metres, 'm'));
-    if (d.pieces) b.push(plural(d.pieces, 'pièce'));
+    /* tissu : la production se lit en complets, pagnes et mètres (8 m = 1 pagne, 3 pagnes = 1 complet) */
+    if (tm > 0) b.push(tissuTxt(tm));
+    else if (d.metres) b.push(fmtQ(d.metres, 'm'));
+    if (d.pieces && !(tm > 0 && (ua === 'pagne' || ua === 'complet'))) b.push(plural(d.pieces, 'pièce'));
     if (d.heures) b.push(fmtN(d.heures, 1) + ' h');
     return b.join(' · ') || '—';
   },
@@ -11941,7 +11948,9 @@ var Ouv = {
     var fields = [
       { k: 'date', t: 'Date du travail', type: 'date', req: true, dflt: today(), valid: function (v) { return v > today() ? 'La date ne peut pas être dans le futur.' : null; } },
       { k: 'jours', t: 'Présence', type: 'select', req: true, empty: false, opts: PRESENCES, dflt: mode === 'tache' || mode === 'piece' ? '0' : '1', help: mode === 'jour' ? 'Payé à la journée : la présence fait la paie.' : '' },
-      { k: 'metres', t: 'Mètres tissés' + (mode === 'tache' ? '' : ' (facultatif)'), type: 'qty', req: mode === 'tache' },
+      { k: 'metres', t: 'Tissu produit' + (mode === 'tache' ? '' : ' (facultatif)'), type: 'qty', req: mode === 'tache' },
+      { k: 'uMetres', t: 'Compté en', type: 'select', req: true, empty: false, opts: TISSU_UNITES, dflt: 'm' },
+      { k: 'eqMetres', type: 'html', span: 2, html: '<p class="small tissu-eq" data-tissu-eq>' + esc(tissuRegle()) + '</p>' },
       { k: 'pieces', t: 'Pièces terminées' + (mode === 'piece' ? '' : ' (facultatif)'), type: 'number', min: 0, req: mode === 'piece' },
       { k: 'heures', t: 'Heures travaillées' + (mode === 'heure' ? '' : ' (facultatif)'), type: 'number', min: 0, maxv: 24, req: mode === 'heure' },
       { k: 'art', t: 'Référence du produit (modèle tissé)', type: 'select', opts: function () { return Ouv.produitsOpts(); }, emptyLabel: 'Non précisé' },
@@ -11952,6 +11961,10 @@ var Ouv = {
     var vals0 = cur ? Object.assign({}, cur, { jours: cur.jours === undefined || cur.jours === null ? '1' : String(cur.jours) }) : {};
     return UI.formModal({
       title: (cur ? 'Modifier — ' : soi ? 'Déclarer ma journée' : 'Déclaration pour ') + (soi && !cur ? '' : pers.nom), size: 'm', values: vals0, fields: fields,
+      onOpen: function (m) {
+        var maj = function () { var q = $('[data-k="metres"]', m.el), u = $('[data-k="uMetres"]', m.el), z = $('[data-tissu-eq]', m.el); if (q && u && z) z.textContent = tissuEqSaisie(q.value, u.value); };
+        m.el.addEventListener('input', maj); m.el.addEventListener('change', maj); maj();
+      },
       intro: soi ? 'Votre déclaration est envoyée au responsable. Elle sera payée une fois validée.' : 'La déclaration attend la validation d\'un responsable avant tout paiement.',
       ok: cur ? 'Enregistrer' : 'Envoyer la déclaration',
       check: function (v) {
@@ -11961,7 +11974,7 @@ var Ouv = {
       },
       save: function (v) {
         var nid = id || FB.newId(), tx = new Tx('déclaration');
-        var rec = { date: v.date, jours: Number(v.jours || 0), metres: v.metres || null, pieces: v.pieces || null, heures: v.heures || null, art: v.art || (cur && cur.art) || null, metier: v.metier || null, op: v.op || (cur && cur.op) || null, obs: v.obs || null,
+        var rec = { date: v.date, jours: Number(v.jours || 0), metres: v.metres ? Math.round(v.metres * tissuFacteurU(v.uMetres || 'm')) : null, pieces: v.pieces || null, heures: v.heures || null, art: v.art || (cur && cur.art) || null, metier: v.metier || null, op: v.op || (cur && cur.op) || null, obs: v.obs || null,
           statut: 'attente', uid: soi ? S.user.uid : (cur && cur.uid === S.user.uid ? cur.uid : S.user.uid), parNom: S.member.nom, source: soi ? 'ouvrier' : 'gerant', ts: cur && cur.ts ? cur.ts : FB.TS() };
         tx.set('d/ouvriers/decl/' + p + '/' + nid, rec);
         tx.audit((cur ? 'Modification de la déclaration de ' : 'Déclaration de production de ') + pers.nom + ' du ' + fmtDate(v.date) + ' : ' + Ouv.resume(rec), 'ouvriers', nid);
@@ -12046,7 +12059,7 @@ var Ouv = {
     UI.print({ title: 'Reçu ' + (d.recu || ''), docTitle: 'Reçu de validation de production', docMeta: '<div>N° ' + esc(d.recu || '—') + '</div><div>Date du travail : ' + fmtDate(d.date) + '</div><div>' + esc(blocLabel(S.bloc)) + '</div>',
       body: '<div class="two"><div class="box">' + (pers.photo ? '<img class="photo" src="' + attr(pers.photo) + '" alt="" style="float:right;max-width:90px;max-height:90px;margin-left:10px">' : '') + '<strong>' + esc(pers.nom || '') + '</strong>' + (pers.matricule ? '<br>Matricule ' + esc(pers.matricule) : '') + '<br>' + esc(pers.fonction || 'Producteur') + (pers.tel ? '<br>' + esc(pers.tel) : '') + '</div>' +
         '<div class="box">Mode de paie : ' + esc(modeNom(d.mode || pers.mode)) + '<br>Taux : ' + fmtGNF(d.taux || pers.taux || 0) + ' ' + esc(tauxUnite(d.mode || pers.mode)) + (d.statut === 'validee' ? '<br>Validée par ' + esc(d.valideParNom || '') + (d.valideLe ? ' le ' + fmtDateTime(d.valideLe) : '') : '<br><strong>En attente de validation</strong>') + '</div></div>' +
-        printLines([{ t: 'Référence', f: function () { var a = articleOf(d.art); return esc(a ? a.code || '' : ''); } }, { t: 'Désignation', f: function () { return esc(d.art ? artName(d.art) : 'Travail de la journée'); } }, { t: 'Quantité produite', n: 1, f: function () { return d.metres ? fmtQ(d.metres, 'm') : d.pieces ? plural(d.pieces, 'pièce') : ''; } }, { t: 'Présence', f: function () { return d.jours ? (Number(d.jours) === 1 ? 'Journée' : Number(d.jours) === 0.5 ? 'Demi-journée' : fmtN(d.jours, 1)) : ''; } }, { t: 'Heures', n: 1, f: function () { return d.heures ? fmtN(d.heures, 1) : ''; } }, { t: 'Montant', n: 1, f: function () { return fmtMoney(d.montant !== undefined ? d.montant : Ouv.montant(d, pers)); } }], [d]) +
+        printLines([{ t: 'Référence', f: function () { var a = articleOf(d.art); return esc(a ? a.code || '' : ''); } }, { t: 'Désignation', f: function () { return esc(d.art ? artName(d.art) : 'Travail de la journée'); } }, { t: 'Quantité produite', n: 1, f: function () { var tm = declTissuM(d); return tm > 0 ? esc(tissuTxt(tm)) : d.metres ? fmtQ(d.metres, 'm') : d.pieces ? plural(d.pieces, 'pièce') : ''; } }, { t: 'Présence', f: function () { return d.jours ? (Number(d.jours) === 1 ? 'Journée' : Number(d.jours) === 0.5 ? 'Demi-journée' : fmtN(d.jours, 1)) : ''; } }, { t: 'Heures', n: 1, f: function () { return d.heures ? fmtN(d.heures, 1) : ''; } }, { t: 'Montant', n: 1, f: function () { return fmtMoney(d.montant !== undefined ? d.montant : Ouv.montant(d, pers)); } }], [d]) +
         (d.stockQ ? '<div class="box">Entrée en stock de la production : ' + fmtQ(d.stockQ, artUnit(d.art)) + (d.stockLot && d.stockLot !== '_' ? ' — pièce ' + esc(lotNum(d.stockLot)) : '') + '.</div>' : '') +
         (d.obs ? '<p class="small">Observation : ' + esc(d.obs) + '</p>' : '') +
         printTotals([['Montant dû pour ce travail', fmtGNF(d.montant !== undefined ? d.montant : Ouv.montant(d, pers)), true]]) +
@@ -12508,6 +12521,7 @@ view('production/tableau', {
     var mJ = sum(ds.filter(function (d) { return d.date === t && d.statut !== 'rejetee'; }), function (d) { return d.metres || 0; });
     var mM = sum(val.filter(function (d) { return d.date >= m0; }), function (d) { return d.metres || 0; });
     var mA = sum(val.filter(function (d) { return d.date >= y0; }), function (d) { return d.metres || 0; });
+    var tJ = sum(ds.filter(function (d) { return d.date === t && d.statut !== 'rejetee'; }), declTissuM), tM = sum(val.filter(function (d) { return d.date >= m0; }), declTissuM), tA = sum(val.filter(function (d) { return d.date >= y0; }), declTissuM);
     var actifsM = Object.keys(groupBy(val.filter(function (d) { return d.date >= m0; }), function (d) { return d.p; })).length;
     var arts = ptProduits('production').map(function (a) { a._s = ptStock('production', a.id); return a; }).filter(function (a) { return a._s.q > 0; });
     var fv = ptFactures('production', function (f) { return f.date >= m0; });
@@ -12521,11 +12535,11 @@ view('production/tableau', {
     if (vAtt.length) alertes.push({ t: plural(vAtt.length, 'opération') + ' à valider', d: vAtt.slice(0, 3).map(function (v) { return v.label; }).join(' ; '), go: 'admin/validations' });
     h += alertes.length ? '<section class="alerts">' + alertes.map(function (a) { return '<button type="button" class="alert" data-act="go" data-id="' + a.go + '">' + icon('alert') + '<span><strong>' + esc(a.t) + '</strong>' + (a.d ? '<small>' + esc(a.d) + '</small>' : '') + '</span></button>'; }).join('') + '</section>' : '<section class="alerts ok"><p>' + icon('check') + ' Aucune alerte en ce moment.</p></section>';
     h += '<h2 class="sec">Production déclarée</h2>' + tiles([
-      { t: "Mètres déclarés aujourd'hui", v: fmtQ(mJ, 'm'), go: 'production/rapide' }, { t: 'Mètres validés ce mois', v: fmtQ(mM, 'm'), go: 'production/mensuel' }, { t: "Mètres validés cette année", v: fmtQ(mA, 'm') },
+      tissuTile("Déclaré aujourd'hui", tJ, 'production/rapide'), tissuTile('Validé ce mois', tM, 'production/mensuel'), tissuTile('Validé cette année', tA),
       { t: 'Producteurs actifs ce mois', v: actifsM + ' / ' + ps.length, go: 'production/producteurs' }, { t: 'Déclarations à valider', v: att.length, tone: att.length ? 'warn' : '', go: 'ouvriers/declarations' },
       can('paie') && mm ? { t: 'Reste à payer aux producteurs', v: fmtGNF(sum(ps, function (p) { return Math.max(0, Ouv.bilan(p.id).aPayer); })), go: 'ouvriers/paie' } : null]);
     h += '<h2 class="sec">Stock et ventes de la production</h2>' + tiles([
-      { t: 'Tissus en stock', v: fmtQ(sum(arts.filter(function (a) { return a.nature === 'tissu'; }), function (a) { return a._s.q; }), 'm'), s: plural(sum(arts, function (a) { return a._s.lots; }), 'pièce'), go: 'production/produits' },
+      tissuTile('Tissus en stock', tissuSomme(arts, function (a) { return a._s.q; }), 'production/produits', sum(arts, function (a) { return a._s.lots; }) ? plural(sum(arts, function (a) { return a._s.lots; }), 'pièce') : ''),
       mm ? { t: 'Valeur du stock (coût)', v: fmtGNF(sum(arts, function (a) { return a._s.v; })) } : null,
       { t: 'Transferts envoyés ce mois', v: ptTransferts('production').filter(function (b) { return b._sens === 'sortie' && b.date >= m0; }).length, go: 'production/transferts' },
       mm ? { t: "Ventes directes du mois", v: fmtGNF(sum(fv, facDu)), go: 'production/ventes' } : null]);
@@ -12553,6 +12567,7 @@ view('production/rapide', {
     var res = q ? ps.filter(function (p) { return norm([p.nom, p.tel, p.matricule, p.fonction].join(' ')).indexOf(q) >= 0; }) : ps;
     var t = today(), jour = Ouv.decls(function (d) { return d.date === (f.date || t); }).sort(function (a, b) { return (b.ts || 0) - (a.ts || 0); });
     var a = f.art ? articleOf(f.art) : null, unite = a ? (a.unite === 'm' ? 'm' : 'pièces') : 'm';
+    var uTis = ProdR.uTissu(a), uArt = a ? tissuUniteArt(a) : null;
     var prods = Ouv.produitsOpts();
     var h = pageHead('Déclaration rapide de production', 'Tapez le nom, le téléphone ou le matricule du producteur : sa fiche apparaît avec sa photo. Choisissez la référence du produit et la quantité produite ; la déclaration attend la validation d\'un responsable, puis un reçu numéroté est remis au producteur.', UI.btn(icon('print') + ' Imprimer la journée', 'imprimer', 'ghost')) +
       '<section class="card pad rapide r-decl">' +
@@ -12561,7 +12576,9 @@ view('production/rapide', {
       (pers ? '<div class="prod-sel">' + photoPers(pers, 'ps-ph') + '<div><strong>' + esc(pers.nom) + '</strong><br><small class="muted">' + esc(pers.fonction || 'Producteur') + (pers.matricule ? ' — matricule ' + esc(pers.matricule) : '') + (pers.tel ? ' — ' + esc(pers.tel) : '') + '</small><br><small>' + esc(modeNom(pers.mode)) + ' : ' + moneyN(pers.taux || 0) + ' ' + esc(tauxUnite(pers.mode)) + '</small></div>' + UI.btn('Changer de producteur', 'autre', 'ghost sm') + '</div>' +
         '<div class="fgrid r-grid">' +
           '<label class="fld span2"><span>Référence du produit</span><input list="dl-prod-decl" data-pf="art" value="' + attr(a ? ptLabel(a) : (f.artTxt || '')) + '" placeholder="Tapez la désignation ou la référence…" autocomplete="off"><datalist id="dl-prod-decl">' + prods.map(function (o) { return '<option value="' + attr(o[1]) + '">'; }).join('') + '</datalist><small class="muted">' + (a ? 'Désignation : <strong>' + esc(a.nom) + '</strong>' + (a.code ? ' — référence ' + esc(a.code) : '') : 'Facultatif pour une simple journée de présence.') + '</small></label>' +
-          '<label class="fld"><span>Quantité produite (' + esc(unite) + ')' + (pers.mode === 'tache' || pers.mode === 'piece' ? ' *' : '') + '</span><input inputmode="decimal" data-pf="q" value="' + attr(f.q !== undefined && f.q !== null ? String(f.q).replace('.', ',') : '') + '" placeholder="0"></label>' +
+          '<label class="fld"><span>Quantité produite (' + esc(uTis ? 'mètres, pagnes ou complets' : uArt === 'pagne' ? 'pagnes' : uArt === 'complet' ? 'complets' : unite) + ')' + (pers.mode === 'tache' || pers.mode === 'piece' ? ' *' : '') + '</span><span class="r-qu"><input inputmode="decimal" data-pf="q" value="' + attr(f.q !== undefined && f.q !== null ? String(f.q).replace('.', ',') : '') + '" placeholder="0">' +
+            (uTis ? '<select data-pf="u" aria-label="Compté en">' + TISSU_UNITES.map(function (o) { return '<option value="' + o[0] + '"' + ((f.u || 'm') === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>' : '') + '</span>' +
+            '<small class="tissu-eq" data-tissu-eq>' + esc(ProdR.eqTxt(a, f.q, f.u)) + '</small></label>' +
           '<label class="fld"><span>Présence</span><select data-pf="jours">' + PRESENCES.map(function (o) { return '<option value="' + o[0] + '"' + (String(f.jours !== undefined ? f.jours : (pers.mode === 'tache' || pers.mode === 'piece' ? '0' : '1')) === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
           '<label class="fld"><span>Date du travail</span><input type="date" data-pf="date" value="' + attr(f.date || t) + '"></label>' +
           '<label class="fld"><span>Métier</span><select data-pf="metier"><option value="">—</option>' + Opt.metiers().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === f.metier ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
@@ -12570,7 +12587,7 @@ view('production/rapide', {
         '</div><div class="row end">' + UI.btn(icon('check') + ' Enregistrer la déclaration', 'enreg', 'primary big', ' data-needs-net') + '</div>' : '') +
       '</section>' +
       '<h2>Déclarations du ' + fmtDate(f.date || t) + '</h2>' +
-      tiles([{ t: 'Déclarations', v: jour.filter(function (d) { return d.statut !== 'rejetee'; }).length }, { t: 'Mètres déclarés', v: fmtQ(sum(jour.filter(function (d) { return d.statut !== 'rejetee'; }), function (d) { return d.metres || 0; }), 'm') }, { t: 'En attente', v: jour.filter(function (d) { return d.statut === 'attente'; }).length }, canMoney() ? { t: 'Montant validé', v: fmtGNF(sum(jour.filter(function (d) { return d.statut === 'validee'; }), function (d) { return d.montant || 0; })) } : null]) +
+      tiles([{ t: 'Déclarations', v: jour.filter(function (d) { return d.statut !== 'rejetee'; }).length }, tissuTile('Production déclarée', sum(jour.filter(function (d) { return d.statut !== 'rejetee'; }), declTissuM)), { t: 'En attente', v: jour.filter(function (d) { return d.statut === 'attente'; }).length }, canMoney() ? { t: 'Montant validé', v: fmtGNF(sum(jour.filter(function (d) { return d.statut === 'validee'; }), function (d) { return d.montant || 0; })) } : null]) +
       UI.table({
         id: 'decl-jour', rows: jour, sort: 'ts', dir: -1, search: false,
         cols: [{ k: 'p', t: 'Producteur', sv: function (d) { return personneName(d.p); }, f: function (d) { var p = get('parametres/personnel', d.p); return '<span class="pers">' + photoPers(p) + '<span>' + esc(personneName(d.p)) + '</span></span>'; } }, { k: 'r', t: 'Production', nosort: true, f: function (d) { return esc(Ouv.resume(d)); } },
@@ -12582,6 +12599,9 @@ view('production/rapide', {
   },
   after: function (a, el) {
     var st = ProdR.st, rq = $('[data-rq]', el);
+    /* équivalence en mètres, pagnes et complets pendant la saisie */
+    var eqMaj = function () { var z = $('[data-tissu-eq]', el), q = $('[data-pf="q"]', el), u = $('[data-pf="u"]', el); if (z && q) z.textContent = ProdR.eqTxt(st.f.art ? articleOf(st.f.art) : null, q.value, u ? u.value : null); };
+    $$('[data-pf="q"], [data-pf="u"]', el).forEach(function (x) { x.addEventListener('input', eqMaj); x.addEventListener('change', eqMaj); });
     if (rq) { rq.addEventListener('input', debounce(function () { if (!document.body.contains(rq)) return; st.q = rq.value; if (!st.p) { var pos = rq.selectionStart; Pt.rerender(function () { var r2 = $('#main [data-rq]'); if (r2) { r2.focus(); try { r2.setSelectionRange(pos, pos); } catch (e) {} } }); } }, 250)); if (!st.p) setTimeout(function () { try { rq.focus(); } catch (e) {} }, 30); }
     $$('[data-pf]', el).forEach(function (inp) {
       var lire = function () { var k = inp.dataset.pf; if (k === 'valider') st.f.valider = inp.checked; else if (k === 'art') { st.f.artTxt = inp.value; } else st.f[k] = inp.value || null; return k; };
@@ -12605,6 +12625,14 @@ view('production/rapide', {
     imprimer: function () { var tb = UI.tcfg['decl-jour']; UI.print({ title: 'Déclarations du ' + fmtDate(ProdR.st.f.date || today()), docTitle: 'Déclarations de production', docMeta: '<div>' + esc(blocLabel(S.bloc)) + '</div><div>' + fmtDate(ProdR.st.f.date || today()) + '</div>', body: tb ? UI.printTable(tb) : '' }); }
   }
 });
+/* la quantité se tape en mètres, pagnes ou complets : produit en mètres (tissu) ou pas encore choisi */
+ProdR.uTissu = function (a) { return !a || (a.nature === 'tissu' && a.unite === 'm'); };
+ProdR.eqTxt = function (a, qRaw, u) {
+  if (ProdR.uTissu(a)) return tissuEqSaisie(qRaw, u || 'm');
+  var ua = tissuUniteArt(a);
+  if (ua === 'pagne' || ua === 'complet') return tissuEqSaisie(qRaw, ua);
+  return '';
+};
 ProdR.enregistrer = function (btn) {
   var st = ProdR.st, f = st.f, p = st.p, pers = get('parametres/personnel', p);
   if (!pers) { UI.toast('Choisissez le producteur.', 'err'); return; }
@@ -12615,7 +12643,7 @@ ProdR.enregistrer = function (btn) {
   var date = f.date || today(); if (date > today()) { UI.toast('La date ne peut pas être dans le futur.', 'err'); return; }
   var jours = Number(f.jours !== undefined && f.jours !== null ? f.jours : (pers.mode === 'tache' || pers.mode === 'piece' ? 0 : 1));
   var enPieces = a && a.unite !== 'm';
-  var metres = !enPieces && qn ? Math.round(qn * 1000) : null, pieces = enPieces && qn ? Math.round(qn) : null;
+  var metres = !enPieces && qn ? Math.round(qn * tissuFacteurU(ProdR.uTissu(a) ? (f.u || 'm') : 'm') * 1000) : null, pieces = enPieces && qn ? Math.round(qn) : null;
   if (enPieces && qn && pieces !== qn) { UI.toast('Le nombre de pièces est un nombre entier.', 'err'); return; }
   if (!(jours > 0) && !metres && !pieces) { UI.toast('Indiquez la quantité produite ou une présence.', 'err'); return; }
   if (pers.mode === 'tache' && !metres) { UI.toast(pers.nom + ' est payé au métrage : indiquez les mètres produits.', 'err'); return; }
@@ -12639,7 +12667,7 @@ ProdR.enregistrer = function (btn) {
     });
   }, null).then(function (r) {
     if (!r) return;
-    st.f = { date: f.date }; st.p = null; st.q = '';
+    st.f = { date: f.date, u: f.u }; st.p = null; st.q = '';
     UI.toast(r.rp ? 'Déclaration validée : reçu ' + r.rp + '.' : 'Déclaration envoyée pour validation.', 'ok');
     App.render(true);
     if (r.rp) Ouv.proposerRecu(p, r.did, r.rp, pers.nom, 350);
@@ -12698,9 +12726,9 @@ view('production/mensuel', {
     var parArt = groupBy(val.filter(function (d) { return d.art; }), function (d) { return d.art; });
     var h = pageHead('Production mensuelle', 'Les mètres validés de chaque producteur, mois par mois, et la production par produit. Seule la production validée est comptée.',
       '<label class="inline">Année <select data-chg="an">' + anneesOpts().map(function (o) { return '<option' + (o[0] === an ? ' selected' : '') + '>' + o[0] + '</option>'; }).join('') + '</select></label>' + UI.btn(icon('print') + ' Imprimer', 'imprimer', 'ghost')) +
-      tiles([{ t: 'Mètres validés ' + an, v: fmtQ(sum(val, function (d) { return d.metres || 0; }), 'm') }, { t: 'Pièces validées', v: sum(val, function (d) { return d.pieces || 0; }) }, { t: 'Déclarations validées', v: val.length }, canMoney() ? { t: "Main-d'œuvre validée", v: fmtGNF(sum(val, function (d) { return d.montant || 0; })) } : null]) +
+      tiles([tissuTile('Tissu validé ' + an, sum(val, declTissuM)), { t: 'Pièces validées', v: sum(val, function (d) { return d.pieces || 0; }) }, { t: 'Déclarations validées', v: val.length }, canMoney() ? { t: "Main-d'œuvre validée", v: fmtGNF(sum(val, function (d) { return d.montant || 0; })) } : null]) +
       '<div class="tscroll"><table class="grid prod-mat"><thead><tr><th>Producteur</th>' + mois.map(function (m) { return '<th class="num">' + esc(moisCourt(m)) + '</th>'; }).join('') + '<th class="num">Total</th></tr></thead><tbody>' +
-      ps.map(function (p) { var tot = 0; return '<tr><td><span class="pers">' + photoPers(p) + '<span>' + esc(p.nom) + '</span></span></td>' + mois.map(function (m) { var v = cell(p.id, m); tot += v; return '<td class="num">' + (v ? fmtN(fromQ(v), 1) : '') + '</td>'; }).join('') + '<td class="num"><strong>' + fmtN(fromQ(tot), 1) + '</strong></td></tr>'; }).join('') +
+      ps.map(function (p) { var tot = 0; return '<tr><td><span class="pers">' + photoPers(p) + '<span>' + esc(p.nom) + '</span></span></td>' + mois.map(function (m) { var v = cell(p.id, m); tot += v; return '<td class="num">' + (v ? fmtN(fromQ(v), 1) : '') + '</td>'; }).join('') + '<td class="num"><strong>' + fmtN(fromQ(tot), 1) + '</strong>' + (tot ? '<br><small class="muted">' + esc(tissuComplets(fromQ(tot))) + '</small>' : '') + '</td></tr>'; }).join('') +
       '</tbody><tfoot><tr><td>Total (m)</td>' + mois.map(function (m) { return '<td class="num">' + fmtN(fromQ(sum(val.filter(function (d) { return monthOf(d.date) === m; }), function (d) { return d.metres || 0; })), 1) + '</td>'; }).join('') + '<td class="num">' + fmtN(fromQ(sum(val, function (d) { return d.metres || 0; })), 1) + '</td></tr></tfoot></table></div>' +
       '<section class="card pad"><h3>Mètres validés par mois — ' + esc(an) + '</h3>' + barChart({ title: 'Production mensuelle', cats: mois.map(moisCourt), fmt: function (v) { return fmtN(v / 1000, 0); }, series: [{ n: 'Mètres validés', cls: 's2', v: mois.map(function (m) { return sum(val.filter(function (d) { return monthOf(d.date) === m; }), function (d) { return d.metres || 0; }); }) }] }) + '</section>' +
       (Object.keys(parArt).length ? '<h2 class="mt">Par produit</h2><table class="grid"><thead><tr><th>Produit</th><th class="num">Mètres</th><th class="num">Pièces</th><th class="num">Déclarations</th></tr></thead><tbody>' + Object.keys(parArt).map(function (k) { var x = parArt[k]; return '<tr><td>' + esc(artName(k)) + '</td><td class="num">' + fmtQ(sum(x, function (d) { return d.metres || 0; })) + '</td><td class="num">' + sum(x, function (d) { return d.pieces || 0; }) + '</td><td class="num">' + x.length + '</td></tr>'; }).join('') + '</tbody></table>' : '');
@@ -19883,6 +19911,14 @@ var Obj = {
     if (Math.abs(Number(n) || 0) < 2) return u;
     return u.replace(/^(\S+)/, function (w) { return /[sxz]$/i.test(w) ? w : w + 's'; });
   },
+  /* dépense : prix unitaire × quantité = total ; une ligne d'avant n'a que son montant */
+  depLigne: function (d) {
+    d = d || {}; var has = function (x) { return x !== null && x !== undefined && x !== ''; };
+    if (has(d.pu) || has(d.q)) return { libelle: d.libelle, pu: d.pu, q: d.q, reel: d.reel };
+    if (has(d.montant)) return { libelle: d.libelle, pu: d.montant, q: 1, reel: d.reel };
+    return { libelle: d.libelle, reel: d.reel };
+  },
+  depTot: function (d) { return Math.round((Number(d && d.pu) || 0) * (Number(d && d.q) || 0)); },
   qTxt: function (o, n, dec) { return fmtN(n, dec === undefined ? 1 : dec) + ' ' + Obj.uTxt(o, n); },
   jTxt: function (n) { return fmtN(n, 1) + (Math.abs(Number(n) || 0) >= 2 ? ' jours' : ' jour'); },
   paqTxt: function (n) { return fmtN(n, 1) + ' paquet' + (Math.abs(n) >= 2 ? 's' : ''); },
@@ -19938,6 +19974,8 @@ var Obj = {
 
   /* ---------- réalisé : les déclarations de la personne sur la période ---------- */
   unites: function (o, d) {
+    /* le tissu déclaré (mètres, pagnes, complets) ramené à l'unité de l'objectif : 8 m = 1 pagne, 3 pagnes = 1 complet */
+    if (o.compte === 'tissu') return declTissuM(d) / tissuFacteurU(tissuUniteDe(o.unite) || 'complet');
     if (o.compte === 'metres') { var mc = fromQ(o.metresComplet || 0); return mc > 0 ? fromQ(d.metres || 0) / mc : 0; }
     return Number(d.pieces) || 0;
   },
@@ -19992,7 +20030,7 @@ var Obj = {
     if (id && !cur) { UI.toast('Objectif introuvable.', 'err'); return; }
     if (!can('ouvriers', cur ? 'modifier' : 'creer')) { UI.toast('Votre rôle ne permet pas de ' + (cur ? 'modifier' : 'créer') + ' un objectif.', 'err'); return; }
     var mm = canMoney();
-    var o0 = cur ? Obj.rec(clone(cur)) : modele ? clone(modele) : { portee: 'semaine', debut: today(), unite: 'complet', compte: 'pieces', joursSemaine: 6, joursMois: 26, matieres: [{ nom: 'Bobinage' }, {}], depenses: [{}] };
+    var o0 = cur ? Obj.rec(clone(cur)) : modele ? clone(modele) : { portee: 'semaine', debut: today(), unite: 'complet', compte: 'tissu', joursSemaine: 6, joursMois: 26, matieres: [{ nom: 'Bobinage' }, {}], depenses: [{}] };
     if (!cur && p0) o0.p = p0;
     if (!cur && !modele) {
       o0.fin = Obj.finDe(o0.portee, o0.debut, o0.joursProd); o0.joursPeriode = Obj.joursDefaut(o0.portee, o0);
@@ -20012,7 +20050,7 @@ var Obj = {
       { k: 'unite', t: 'Unité produite', req: true, ph: 'complet, pagne, mètre…' },
       { k: 'complets', t: 'Unités que donne une production', type: 'number', req: true, min: 0 },
       { k: 'joursProd', t: 'Jours pour finir une production', type: 'number', req: true, min: 0 },
-      { k: 'compte', t: 'Le réalisé se compte avec', type: 'select', req: true, empty: false, opts: [['pieces', 'Les pièces déclarées (1 pièce = 1 unité)'], ['metres', 'Les mètres déclarés, convertis en unités']] },
+      { k: 'compte', t: 'Le réalisé se compte avec', type: 'select', req: true, empty: false, opts: [['tissu', 'Le tissu déclaré, converti (' + tissuRegle() + ')'], ['pieces', 'Les pièces déclarées (1 pièce = 1 unité)'], ['metres', 'Les mètres déclarés, avec ma propre conversion']], help: 'Tissu : l\'unité « complet », « pagne » ou « mètre » est reconnue toute seule.' },
       { k: 'metresComplet', t: 'Mètres pour une unité', type: 'qty', help: 'Pour convertir les mètres déclarés en unités.' }
     ];
     var fC = [
@@ -20026,13 +20064,19 @@ var Obj = {
     ].filter(Boolean);
     var fields = fA.concat(fC);
     var sfx = Date.now().toString(36), lidM = 'objm_' + sfx, lidD = 'objd_' + sfx;
-    var colsM = [{ k: 'nom', t: 'Matière première', req: true, w: '32%' }, { k: 'paquets', t: 'Paquets par production', type: 'number', req: true }]
-      .concat(mm ? [{ k: 'prix', t: "Prix d'un paquet (GNF)", type: 'money' }] : []).concat([{ k: 'pris', t: 'Paquets réellement pris', type: 'number' }]);
-    var colsD = [{ k: 'libelle', t: 'Dépense', req: true, w: '40%' }, { k: 'montant', t: 'Prévu pour une production (GNF)', type: 'money', req: true }, { k: 'reel', t: 'Réellement remis (GNF)', type: 'money' }];
+    var valM = function (l) { return Math.round((Number(l.paquets) || 0) * (Number(l.prix) || 0)); };
+    var colsM = [{ k: 'nom', t: 'Matière première', req: true, w: '28%' }, { k: 'paquets', t: 'Paquets par production', type: 'number', req: true }]
+      .concat(mm ? [{ k: 'prix', t: "Prix d'un paquet (GNF)", type: 'money' }] : []).concat([{ k: 'pris', t: 'Paquets réellement pris', type: 'number' }])
+      .concat(mm ? [{ k: 'val', t: 'Valeur (GNF)', type: 'calc', calc: function (l) { return fmtMoney(valM(l)); } }] : []);
+    var colsD = [{ k: 'libelle', t: 'Dépense', req: true, w: '30%' }, { k: 'pu', t: 'Prix unitaire (GNF)', type: 'money', req: true }, { k: 'q', t: 'Quantité', type: 'number', req: true },
+      { k: 'tot', t: 'Total (GNF)', type: 'calc', calc: function (l) { return '<strong>' + fmtMoney(Obj.depTot(l)) + '</strong>'; } }, { k: 'reel', t: 'Réellement remis (GNF)', type: 'money' }];
+    /* une ligne d'avant (montant seul) se lit comme 1 × ce montant */
+    o0.depenses = (o0.depenses || []).map(function (d) { return Obj.depLigne(d); });
     var body = '<p class="muted intro">Pour une production : les paquets qu\'il prend, ce qu\'ils donnent, les jours pour la finir et les dépenses qu\'il demande. Les prévisions par jour, semaine et mois se calculent en bas.</p>' +
       '<form class="mform" novalidate>' + UI.fields(fA, o0) + '</form>' +
-      '<h3 class="mt">Matières premières d\'une production</h3>' + LineEd.html(lidM, colsM, o0.matieres || [], { addLabel: 'Ajouter une matière' }) +
-      (mm ? '<h3 class="mt">Dépenses prévues pour une production</h3><p class="muted small">Ce qu\'il demande pour faire cette production (achats, transport, aide…). « Réellement remis » se remplit au fur et à mesure.</p>' + LineEd.html(lidD, colsD, o0.depenses || [], { addLabel: 'Ajouter une dépense', min: 0 }) : '') +
+      '<h3 class="mt">Matières premières d\'une production</h3>' + LineEd.html(lidM, colsM, o0.matieres || [], { addLabel: 'Ajouter une matière', foot: mm ? function (ls) { return 'Coût des matières d\'une production : <strong>' + fmtGNF(sum(ls, valM)) + '</strong>'; } : null }) +
+      (mm ? '<h3 class="mt">Dépenses prévues pour une production</h3><p class="muted small">Ce qu\'il demande pour faire cette production (achats, transport, aide…) : prix unitaire × quantité, le total se calcule tout seul. « Réellement remis » se remplit au fur et à mesure.</p>' +
+        LineEd.html(lidD, colsD, o0.depenses || [], { addLabel: 'Ajouter une dépense', min: 0, foot: function (ls) { return 'Total des dépenses d\'une production : <strong>' + fmtGNF(sum(ls, Obj.depTot)) + '</strong>'; } }) : '') +
       '<form class="mform" novalidate>' + UI.fields(fC, o0) + '</form>';
 
     /* lecture légère (sans message d'erreur) pour les prévisions affichées en direct */
@@ -20044,7 +20088,7 @@ var Obj = {
         joursSemaine: n('joursSemaine'), joursMois: n('joursMois'), matieres: rows(lidM) };
       o.prixComplet = mm ? toMoney(g('prixComplet')) || 0 : Number(o0.prixComplet) || 0;
       o.prixVente = mm ? toMoney(g('prixVente')) || 0 : Number(o0.prixVente) || 0;
-      o.depenses = mm ? rows(lidD) : (o0.depenses || []);
+      o.depenses = (mm ? rows(lidD) : (o0.depenses || [])).map(function (d) { return Object.assign({}, d, { montant: Obj.depTot(d) }); });
       if (!mm) o.matieres.forEach(function (m, i) { m.prix = ((o0.matieres || [])[i] || {}).prix || null; });
       return o;
     };
@@ -20095,6 +20139,7 @@ var Obj = {
           if (v.compte === 'metres' && !(v.metresComplet > 0)) { UI.toast('Indiquez combien de mètres font une unité.', 'err'); return; }
           if (!mats.length) { UI.toast('Indiquez au moins une matière première et ses paquets.', 'err'); return; }
           if (mats.some(function (x) { return !(Number(x.paquets) > 0); })) { UI.toast('Chaque matière doit avoir un nombre de paquets.', 'err'); return; }
+          if (mm && (deps || []).some(function (d) { return !(Number(d.q) > 0); })) { UI.toast('Chaque dépense doit avoir une quantité.', 'err'); return; }
           var dbl = Obj.chevauche(p, id, v);
           if (dbl) { UI.toast('Un objectif de ' + personneName(p) + ' couvre déjà ces dates (' + Obj.periodeTxt(dbl) + ') : modifiez-le ou choisissez d\'autres dates.', 'err', 8000); return; }
           var old = cur || {};
@@ -20102,7 +20147,7 @@ var Obj = {
             portee: v.portee, debut: v.debut, fin: v.fin, joursPeriode: v.joursPeriode, art: v.art || null, unite: v.unite || 'complet',
             complets: v.complets, joursProd: v.joursProd, compte: v.compte, metresComplet: v.compte === 'metres' ? v.metresComplet : null,
             matieres: mats.map(function (x, i) { return { nom: x.nom, paquets: Number(x.paquets) || 0, prix: mm ? (x.prix || null) : (((old.matieres || [])[i] || {}).prix || null), pris: x.pris === null || x.pris === undefined ? null : Number(x.pris) }; }),
-            depenses: (deps || []).map(function (d) { return { libelle: d.libelle, montant: Number(d.montant) || 0, reel: d.reel === null || d.reel === undefined || d.reel === '' ? null : Number(d.reel) }; }),
+            depenses: (deps || []).map(function (d) { var l = mm ? d : Obj.depLigne(d); return { libelle: l.libelle, pu: Number(l.pu) || 0, q: Number(l.q) || 0, montant: Obj.depTot(l), reel: l.reel === null || l.reel === undefined || l.reel === '' ? null : Number(l.reel) }; }),
             prixComplet: mm ? (v.prixComplet || 0) : (Number(old.prixComplet) || 0), prixVente: mm ? (v.prixVente || null) : (old.prixVente || null),
             joursSemaine: v.joursSemaine, joursMois: v.joursMois, obs: v.obs || null,
             statut: old.statut || 'en_cours', paies: old.paies || null,
@@ -20157,9 +20202,9 @@ var Obj = {
     h += tbl([['Matière première'], ['Paquets par production', 1], ['Prévu sur la période', 1], ['Réellement pris', 1]].concat(mm ? [['Prix du paquet', 1], ['Valeur prise', 1]] : []),
       B.mats.map(function (x) { return '<tr>' + td(esc(x.nom)) + td(fmtN(x.parProd, 1), 1) + td(fmtN(x.prevu, 1) + (Obj.paqPrevoir(x.prevu) !== x.prevu ? ' <small class="muted">(' + Obj.paqPrevoir(x.prevu) + ')</small>' : ''), 1) + td(x.pris === null ? '<span class="muted">non saisi</span>' : fmtN(x.pris, 1), 1) + (mm ? td(fmtMoney(x.prix), 1) + td(x.pris === null ? '' : fmtMoney(x.pris * x.prix), 1) : '') + '</tr>'; }));
     if (mm) {
-      h += '<h3>Dépenses prévues qu\'il a demandées</h3>' + (k.deps.length ? tbl([['Dépense'], ['Pour une production', 1], ['Prévu sur la période', 1], ['Réellement remis', 1]],
-        k.deps.map(function (d) { return '<tr>' + td(esc(d.libelle || '')) + td(fmtMoney(d.montant), 1) + td(fmtMoney((Number(d.montant) || 0) * k.H.periode.nb), 1) + td(d.reel === null || d.reel === undefined ? '<span class="muted">non saisi</span>' : fmtMoney(d.reel), 1) + '</tr>'; }),
-        '<tr><td>Total</td>' + td(fmtMoney(k.dep), 1) + td(fmtMoney(k.H.periode.dep), 1) + td(B.depRemis ? fmtMoney(B.depReel) : '', 1) + '</tr>') : '<p class="muted">Aucune dépense prévue.</p>');
+      h += '<h3>Dépenses prévues qu\'il a demandées</h3>' + (k.deps.length ? tbl([['Dépense'], ['Prix unitaire', 1], ['Quantité', 1], ['Total pour une production', 1], ['Prévu sur la période', 1], ['Réellement remis', 1]],
+        k.deps.map(function (d) { var l = Obj.depLigne(d); return '<tr>' + td(esc(d.libelle || '')) + td(fmtMoney(l.pu), 1) + td(fmtN(Number(l.q) || 0, 2), 1) + td(fmtMoney(d.montant), 1) + td(fmtMoney((Number(d.montant) || 0) * k.H.periode.nb), 1) + td(d.reel === null || d.reel === undefined ? '<span class="muted">non saisi</span>' : fmtMoney(d.reel), 1) + '</tr>'; }),
+        '<tr><td colspan="3">Total</td>' + td(fmtMoney(k.dep), 1) + td(fmtMoney(k.H.periode.dep), 1) + td(B.depRemis ? fmtMoney(B.depReel) : '', 1) + '</tr>') : '<p class="muted">Aucune dépense prévue.</p>');
     }
     /* 2. prévisions */
     h += '<h3>2. Prévisions</h3>' + Obj.prevHtml(o, true);
@@ -20376,10 +20421,67 @@ Obj.suivant = function (p, id) {
   var base = Obj.rec(clone(o)), debut = addDays(o.fin, 1);
   base.debut = debut; base.fin = Obj.finDe(o.portee, debut, o.joursProd);
   base.matieres = (base.matieres || []).map(function (m) { return { nom: m.nom, paquets: m.paquets, prix: m.prix }; });
-  base.depenses = (base.depenses || []).map(function (d) { return { libelle: d.libelle, montant: d.montant }; });
+  base.depenses = (base.depenses || []).map(function (d) { return { libelle: d.libelle, pu: d.pu, q: d.q, montant: d.montant }; });
   delete base.paies; delete base.statut; delete base.creeLe; delete base.par; delete base.parNom; delete base.majLe; delete base.majParNom; delete base.ts;
   Obj.edit(p, null, base);
 };
+
+
+/* ===== 32-tissu-mesures.js ===== */
+/* =====================================================================
+   Tissu : mètres, pagnes et complets.
+   8 mètres font 1 pagne, 3 pagnes font 1 complet (24 mètres).
+   Rien ne change dans la base : le stock et les déclarations restent
+   enregistrés comme avant (en mètres, ou dans l'unité de l'article) ;
+   les pagnes et les complets se calculent à la saisie et à l'affichage.
+   ===================================================================== */
+var TISSU_MESURES = { metresPagne: 8, pagnesComplet: 3 };
+function tissuMPagne() { var r = (S.params && S.params.regles) || {}; return Number(r.metresPagne) > 0 ? Number(r.metresPagne) : TISSU_MESURES.metresPagne; }
+function tissuPagnesComplet() { var r = (S.params && S.params.regles) || {}; return Number(r.pagnesComplet) > 0 ? Number(r.pagnesComplet) : TISSU_MESURES.pagnesComplet; }
+function tissuMComplet() { return tissuMPagne() * tissuPagnesComplet(); }
+/* unités de saisie d'une quantité de tissu */
+var TISSU_UNITES = [['m', 'Mètres'], ['pagne', 'Pagnes'], ['complet', 'Complets']];
+function tissuFacteurU(u) { return u === 'complet' ? tissuMComplet() : u === 'pagne' ? tissuMPagne() : 1; }
+function tissuRegle() { return fmtN(tissuMPagne(), 2) + ' m = 1 pagne · ' + fmtN(tissuPagnesComplet(), 2) + ' pagnes = 1 complet (' + fmtN(tissuMComplet(), 2) + ' m)'; }
+/* une unité écrite (identifiant ou nom) : mètre, pagne ou complet ; null sinon */
+function tissuUniteDe(txt) {
+  var n = norm(txt).trim();
+  if (!n) return null;
+  if (n === 'm' || /^metres?\b/.test(n)) return 'm';
+  if (/^pagnes?\b/.test(n)) return 'pagne';
+  if (/^complets?\b/.test(n)) return 'complet';
+  return null;
+}
+/* unité d'un article de tissu (m, pagne, complet) ; null si ce n'est pas un tissu mesurable */
+function tissuUniteArt(a) {
+  if (!a || a.nature !== 'tissu') return null;
+  return tissuUniteDe(a.unite) || tissuUniteDe(pname('unites', a.unite, UNITES_DEFAUT));
+}
+/* mètres que fait une unité de stock de l'article */
+function tissuFacteur(a) { var u = tissuUniteArt(a); return u ? tissuFacteurU(u) : null; }
+/* quantité de stock (millièmes de l'unité de l'article) → mètres ; null si l'article n'est pas un tissu mesurable */
+function tissuMetresArt(a, q) { var f = tissuFacteur(a); return f === null ? null : fromQ(q) * f; }
+/* mètres de tissu d'une déclaration de production (sans produit précisé, la production d'un tisserand compte en tissu) */
+function declTissuM(d) {
+  if (!d) return 0;
+  var a = d.art ? articleOf(d.art) : null;
+  if (a && a.nature !== 'tissu') return 0;
+  var m = d.metres ? fromQ(d.metres) : 0, u = a ? tissuUniteArt(a) : null;
+  if (d.pieces && (u === 'pagne' || u === 'complet')) m += Number(d.pieces) * tissuFacteurU(u);
+  return m;
+}
+function tissuN(n, s, pl) { return fmtN(n, 2) + ' ' + (Math.abs(Number(n) || 0) >= 2 ? pl : s); }
+function tissuComplets(m) { return tissuN((Number(m) || 0) / tissuMComplet(), 'complet', 'complets'); }
+function tissuPagnes(m) { return tissuN((Number(m) || 0) / tissuMPagne(), 'pagne', 'pagnes'); }
+function tissuMetresTxt(m) { return fmtN(Number(m) || 0, 2) + ' m'; }
+/* « 2 complets · 6 pagnes · 48 m » : le complet d'abord */
+function tissuTxt(m) { return tissuComplets(m) + ' · ' + tissuPagnes(m) + ' · ' + tissuMetresTxt(m); }
+function tissuHtml(m) { return '<strong>' + esc(tissuComplets(m)) + '</strong><br><small class="muted">' + esc(tissuPagnes(m) + ' · ' + tissuMetresTxt(m)) + '</small>'; }
+function tissuTile(t, m, go, extra) { return { t: t, v: esc(tissuComplets(m)), s: esc(tissuPagnes(m) + ' · ' + tissuMetresTxt(m) + (extra ? ' · ' + extra : '')), go: go }; }
+/* somme des mètres de tissu d'une liste d'articles (q = quantité de stock de l'article) */
+function tissuSomme(arts, q) { return sum(arts, function (a) { var m = tissuMetresArt(a, q(a)); return m === null ? 0 : m; }); }
+/* équivalence d'une saisie : quantité tapée, unité choisie */
+function tissuEqSaisie(qRaw, u) { var n = parseNum(qRaw); return n > 0 ? '= ' + tissuTxt(n * tissuFacteurU(u || 'm')) : tissuRegle(); }
 
 
 /* ===== 99-boot.js ===== */
