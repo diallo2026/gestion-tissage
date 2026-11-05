@@ -937,7 +937,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261105-1500';
+NERP.build = '20261105-1600';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -2451,7 +2451,7 @@ var UI = {
       'table.l td{padding:7px 8px;border-bottom:1px solid #e1e5ef;vertical-align:top}table.l tr:nth-child(even) td{background:#f6f8fc}.n,table.l th.n,.vs th.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}' +
       '.bas{display:grid;grid-template-columns:1fr 78mm;gap:14px;margin-top:4mm;align-items:start}' +
       '.tot{width:100%;border-collapse:collapse}.tot td{padding:6px 9px}.tot tr td:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}' +
-      '.tot tr.t td{border-top:2px solid ' + col + ';font-weight:700;font-size:14px}.tot tr.r td{background:' + or_ + ';color:#fff;font-weight:700;font-size:15px}' +
+      '.tot tr.t td{border-top:2px solid ' + col + ';font-weight:700;font-size:14px}.tot tr.r td{background:' + (reste > 0 ? '#b23a3a' : or_) + ';color:#fff;font-weight:700;font-size:15px}' +
       '.mr{border:1px solid #d6dbe8;border-radius:8px;padding:9px 12px}.mr h4{margin:0 0 6px;font-size:10.5px;letter-spacing:.06em;color:' + col + ';text-transform:uppercase}' +
       '.mr .o{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px}.ck{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border:1.5px solid ' + col + ';border-radius:3px;margin-right:5px;font-size:10px;color:#fff;vertical-align:-2px}.ck.on{background:' + col + '}' +
       '.lt{margin:4mm 0 0;font-size:12px}.vs{margin-top:3mm;font-size:11.5px}.vs table{width:100%;border-collapse:collapse}.vs td,.vs th{padding:4px 6px;border-bottom:1px solid #e1e5ef;text-align:left}.vs th{color:#4a536b;font-weight:600}' +
@@ -3738,7 +3738,7 @@ var NAV_PARTIES = {
     { g: 'Mes déclarations', items: [{ r: 'moi', t: 'Mes déclarations', i: 'clip', mod: '*', tabs: [['ouvriers/moi', 'Mes déclarations'], ['ouvriers/mapaie', 'Ma paie']] }] },
     { g: 'Producteurs', items: [
       { r: 'prod-decl', t: 'Déclarations de production', i: 'bolt', mod: 'ouvriers', tabs: [['production/rapide', 'Déclaration rapide'], ['ouvriers/declarations', 'À valider et historique'], ['production/producteurs', 'Producteurs']] },
-      { r: 'prod-paie', t: 'Versements et paie', i: 'wallet', mod: 'paie', tabs: [['ouvriers/salaires', 'Salaires du mois'], ['ouvriers/paie', 'Versements aux producteurs'], ['ouvriers/rapports', 'Rapports par producteur'], ['parametres/personnel', 'Fiches du personnel']] },
+      { r: 'prod-paie', t: 'Versements et paie', i: 'wallet', mod: 'paie', tabs: [['ouvriers/salaires', 'Salaires du mois'], ['ouvriers/bulletins', 'Bulletins de paie'], ['ouvriers/paie', 'Versements aux producteurs'], ['ouvriers/rapports', 'Rapports par producteur'], ['parametres/personnel', 'Fiches du personnel']] },
       { r: 'prod-obj', t: 'Objectifs et prévisions', i: 'chart', mod: 'ouvriers', tabs: [['ouvriers/objectifs', 'Objectifs de chaque travailleur'], ['ouvriers/previsions', 'Prévision mensuelle']] }
     ] },
     { g: 'Production', items: [
@@ -3799,7 +3799,7 @@ var NAV_PARTIES = {
     { g: 'Tisserands', items: [
       { r: 'tisserand/nouveau', t: 'Nouveau tisserand', i: 'plus', mod: 'ouvriers' },
       { r: 'tisserand/liste', t: 'Liste des tisserands', i: 'users', mod: 'ouvriers' },
-      { r: 'tis-sal', t: 'Salaires', i: 'wallet', mod: 'paie', tabs: [['ouvriers/salaires', 'Salaires du mois'], ['ouvriers/rapports', 'Rapports journaliers et mensuels'], ['ouvriers/paie', 'Versements et avances']] },
+      { r: 'tis-sal', t: 'Salaires', i: 'wallet', mod: 'paie', tabs: [['ouvriers/salaires', 'Salaires du mois'], ['ouvriers/bulletins', 'Bulletins de paie'], ['ouvriers/rapports', 'Rapports journaliers et mensuels'], ['ouvriers/paie', 'Versements et avances']] },
       { r: 'tis-obj', t: 'Objectifs et prévisions', i: 'chart', mod: 'ouvriers', tabs: [['ouvriers/objectifs', 'Objectifs de chaque travailleur'], ['ouvriers/previsions', 'Prévision mensuelle']] }
     ] }
   ],
@@ -3857,7 +3857,7 @@ var NAV_ADMIN = [
   ] },
   { g: 'Les personnes', items: [
     { r: 'gerants', t: 'Gérants et rôles', i: 'users', mod: 'utilisateurs', tabs: [['parametres/utilisateurs', 'Gérants et accès'], ['parametres/roles', 'Rôles et autorisations']] },
-    { r: 'ouvriers', t: 'Personnel et paie', i: 'clip', mod: 'ouvriers', tabs: [['parametres/personnel', 'Personnel'], ['ouvriers/declarations', 'Déclarations'], ['ouvriers/salaires', 'Salaires du mois'], ['ouvriers/paie', 'Paie'], ['ouvriers/rapports', 'Rapports par personne'], ['ouvriers/objectifs', 'Objectifs'], ['ouvriers/previsions', 'Prévisions']] }
+    { r: 'ouvriers', t: 'Personnel et paie', i: 'clip', mod: 'ouvriers', tabs: [['parametres/personnel', 'Personnel'], ['ouvriers/declarations', 'Déclarations'], ['ouvriers/salaires', 'Salaires du mois'], ['ouvriers/bulletins', 'Bulletins de paie'], ['ouvriers/paie', 'Paie'], ['ouvriers/rapports', 'Rapports par personne'], ['ouvriers/objectifs', 'Objectifs'], ['ouvriers/previsions', 'Prévisions']] }
   ] },
   { g: 'Le contrôle', items: [
     { r: 'admin', t: 'Contrôle', i: 'audit', mod: 'admin', tabs: [['admin/audit', "Journal d'audit"], ['admin/reinit', 'Réinitialisation'], ['admin/sauvegarde', 'Sauvegarde']] }
@@ -5682,7 +5682,7 @@ function ptViews(p) {
         '<h2>Dettes des clients</h2>' + UI.table({
           id: p + '-dc', rows: rc, sort: 'du', dir: -1,
           cols: [{ k: 'nom', t: 'Client', f: function (r) { return '<strong>' + esc(r.nom) + '</strong>' + (r.tel ? '<br><small class="muted">' + esc(r.tel) + '</small>' : ''); } }, { k: 'n', t: 'Factures', num: true }, { k: 'du', t: 'Reste dû', num: true, f: function (r) { return '<strong>' + money(r.du) + '</strong>'; } }, { k: 'echu', t: 'Échu', num: true, f: function (r) { return r.echu ? '<span class="tx-err">' + money(r.echu) + '</span>' : ''; } }, { k: 'init', t: 'Dont dette initiale', num: true, f: function (r) { return r.init ? money(r.init) : ''; } }],
-          actions: function (r) { return r.id !== '_passage' && can('ventes', 'creer') ? UI.btn('Versement', 'verserC', 'sm', ' data-id="' + attr(r.id) + '" data-needs-net') : ''; },
+          actions: function (r) { return (r.id !== '_passage' ? Wa.btn(Wa.telClient(r.id), Wa.msgVente(r.nom, Wa.ventesDe(r.id, p)), true) + ' ' : '') + (r.id !== '_passage' && can('ventes', 'creer') ? UI.btn('Versement', 'verserC', 'sm', ' data-id="' + attr(r.id) + '" data-needs-net') : ''); },
           empty: 'Aucune dette client.'
         }) +
         '<h2 class="mt">Dettes envers les fournisseurs</h2>' + UI.table({
@@ -9851,7 +9851,7 @@ view('ventes/creances', {
           { k: 'du', t: 'Reste dû', num: true, f: function (r) { return money(r.du); } }, { k: 'echu', t: 'Échu', num: true, f: function (r) { return r.echu ? '<span class="tx-err">' + money(r.echu) + '</span>' : '0'; } },
           { k: 'retard', t: 'Retard max.', num: true, f: function (r) { return r.retard ? plural(r.retard, 'jour') : ''; } }],
         rowAct: 'fiche',
-        actions: function (r) { return r.tel ? '<a class="ibtn" target="_blank" rel="noopener" title="Relancer sur WhatsApp" href="https://wa.me/' + attr(String(r.tel).replace(/\D/g, '').replace(/^(6\d{8})$/, '224$1')) + '?text=' + encodeURIComponent('Bonjour ' + r.nom + ', sauf erreur de notre part, il reste ' + fmtGNF(r.du) + ' à régler à ' + (S.info.raisonSociale || '') + '. Merci de votre confiance.') + '">' + icon('whatsapp') + '</a>' : ''; },
+        actions: function (r) { return r.id !== '_passage' ? Wa.btn(Wa.telClient(r.id), Wa.msgVente(r.nom, list('ventes/factures', function (f) { return f.client === r.id && facReste(f) > 0 && facVisible(f); })), true) : ''; },
         empty: 'Aucune créance : toutes les factures sont réglées.'
       });
   },
@@ -10149,6 +10149,7 @@ var Ventes = {
     var reste = facReste(f), mm = canMoney();
     var acts = [{ t: icon('print') + ' Facture', act: 'print', cls: 'ghost' }];
     if (f.statut === 'validee' && reste > 0 && can('ventes', 'creer')) acts.push({ t: 'Encaisser', act: 'pay', cls: 'primary' });
+    if (f.statut === 'validee' && reste > 0 && f.client) acts.push({ t: icon('whatsapp') + ' Rappel WhatsApp', act: 'wa', cls: 'ghost' });
     if (f.statut === 'validee' && can('ventes', 'creer')) acts.unshift({ t: 'Retour ou annulation', act: 'avoir', cls: 'ghost' });
     if (f.statut === 'validee' && reste < 0 && can('finances', 'creer')) acts.push({ t: 'Rembourser l\'avoir', act: 'remb', cls: 'ghost' });
     if (f.statut !== 'annulee' && Corr.peut('ventes')) acts.unshift({ t: icon('edit') + ' Modifier', act: 'corr', cls: 'ghost' });
@@ -10168,6 +10169,7 @@ var Ventes = {
         if (act === 'print') Ventes.printFacture(f);
         if (act === 'rc') Ventes.printRecu(f, f.recus[Number(b.dataset.i)]);
         if (act === 'pay') { m.close(); Ventes.encaisser(id); }
+        if (act === 'wa') Wa.ouvrir(Wa.telClient(f.client), Wa.msgVente(clientName(f.client, f), Wa.ventesDe(f.client)));
         if (act === 'avoir') { m.close(); Ventes.avoir(id); }
         if (act === 'remb') { m.close(); Ventes.rembourser(id); }
       });
@@ -10340,7 +10342,7 @@ var Ventes = {
         printLines([{ t: 'Désignation', f: function (l) { return esc(artName(l.art)) + (l.lot && l.lot !== '_' ? '<br><span class="small muted">Pièce ' + esc(lotNum(l.lot)) + '</span>' : ''); } },
           { t: 'Quantité', n: 1, f: function (l) { return l.mode === 'piece' ? '1 pièce<br><span class="small muted">' + fmtQ(l.q, 'm') + '</span>' : fmtQ(l.q, artUnit(l.art) === 'm' ? 'm' : artUnit(l.art)); } },
           { t: 'Prix unitaire', n: 1, f: function (l) { return fmtMoney(l.pu); } }, { t: 'Remise', n: 1, f: function (l) { return l.remise ? l.remise + ' %' : ''; } }, { t: 'Montant', n: 1, f: function (l) { return fmtMoney(l.net); } }], f.lignes || []) +
-        printTotals([['Total brut', fmtGNF(f.total)], f.remise ? ['Remise', '− ' + fmtGNF(f.remise)] : null, ['Net à payer', fmtGNF(f.net), true], f.avoirs ? ['Avoirs', '− ' + fmtGNF(f.avoirs)] : null, ['Déjà payé', fmtGNF((f.paye || 0) - (f.rembourse || 0))], ['Reste à payer', fmtGNF(Math.max(0, reste)), true]]) +
+        printTotals([['Total brut', fmtGNF(f.total)], f.remise ? ['Remise', '− ' + fmtGNF(f.remise)] : null, ['Net à payer', fmtGNF(f.net), true], f.avoirs ? ['Avoirs', '− ' + fmtGNF(f.avoirs)] : null, ['Déjà payé', fmtGNF((f.paye || 0) - (f.rembourse || 0))], ['Reste à payer', resteRouge(reste), true]]) +
         (S.info.mentionFacture ? '<p class="small">' + esc(S.info.mentionFacture) + '</p>' : '') + (f.notes ? '<p class="small">' + esc(f.notes) + '</p>' : '') +
         '<div class="sig"><div>Le client</div><div>Pour ' + esc(S.info.raisonSociale || '') + '</div></div>'
     });
@@ -10351,7 +10353,7 @@ var Ventes = {
     UI.print({
       title: 'Reçu ' + r.num, docTitle: 'Reçu de paiement', docMeta: '<div>N° ' + esc(r.num) + '</div><div>Date : ' + fmtDate(r.date) + '</div>',
       body: Ventes.clientBox(f) + '<div class="box">Reçu la somme de <strong>' + fmtGNF(r.montant) + '</strong> en règlement ' + (f.lignes ? 'de la facture <strong>' + esc(f.num) + '</strong>' : 'de la commande <strong>' + esc(f.num) + '</strong>') + '.<br>Moyen : ' + esc(cpt.nom || r.compte) + '.</div>' +
-        (f.lignes ? printTotals([['Montant de la facture', fmtGNF(facDu(f))], ['Total payé à ce jour', fmtGNF((f.paye || 0) - (f.rembourse || 0))], ['Reste à payer', fmtGNF(Math.max(0, facReste(f))), true]]) : '') +
+        (f.lignes ? printTotals([['Montant de la facture', fmtGNF(facDu(f))], ['Total payé à ce jour', fmtGNF((f.paye || 0) - (f.rembourse || 0))], ['Reste à payer', resteRouge(facReste(f)), true]]) : '') +
         '<div class="sig"><div>Le client</div><div>Le caissier</div></div>'
     });
   },
@@ -10593,7 +10595,7 @@ view('formation/apprenants', {
           { k: 'tel', t: 'Téléphone' }, { k: '_reg', t: 'Formation suivie', f: function (a) { var r = get('formation/registre', a.registre); return r ? esc(r.intitule) : (a._last ? esc((formationOf(a._last.formation) || {}).intitule || '') : ''); } },
           { k: '_reste', t: 'Reste à payer', num: true, f: function (a) { return a._reste > 0 ? '<span class="tx-err">' + fmtMoney(a._reste) + '</span>' : '0'; } }],
         rowAct: 'fiche',
-        actions: function (a) { return can('formation', 'modifier') ? UI.ibtn('edit', 'edit', a.id, 'Modifier') : ''; },
+        actions: function (a) { return (a._reste > 0 ? Wa.btn(a.tel, Wa.msgFormation(appName(a.id), list('formation/inscriptions', function (i) { return i.apprenant === a.id && i.statut !== 'annulee' && insReste(i) > 0; }).map(function (i) { var s0 = sessionOf(i.session); return { txt: 'Inscription ' + i.num + (s0 ? ' — ' + sessionLabel(s0) : ''), reste: insReste(i) }; })), true) + ' ' : '') + (can('formation', 'modifier') ? UI.ibtn('edit', 'edit', a.id, 'Modifier') : ''); },
         empty: 'Aucun apprenant.'
       });
   },
@@ -10618,7 +10620,7 @@ view('formation/paiements', {
           { k: 'payeur', t: 'Payeur', f: function (i) { return i.payeur && i.payeur !== 'apprenant' ? esc(clientName(i.payeur)) : 'Apprenant'; } },
           { k: 'total', t: 'Total', num: true, f: function (i) { return fmtMoney(i.total); } }, { k: 'paye', t: 'Payé', num: true, f: function (i) { return fmtMoney(i.paye || 0); } },
           { k: '_reste', t: 'Reste', num: true, f: function (i) { return i._echu > 0 ? '<span class="tx-err">' + fmtMoney(i._reste) + '</span>' : fmtMoney(i._reste); } }],
-        actions: function (i) { return i._reste > 0 && can('formation', 'creer') ? UI.btn('Encaisser', 'payer', 'sm', ' data-id="' + attr(i.id) + '"') : ''; },
+        actions: function (i) { return (i._reste > 0 ? Form.waIns(i) + ' ' : '') + (i._reste > 0 && can('formation', 'creer') ? UI.btn('Encaisser', 'payer', 'sm', ' data-id="' + attr(i.id) + '"') : ''); },
         rowAct: 'fiche', empty: 'Aucune inscription.'
       });
   },
@@ -10627,6 +10629,13 @@ view('formation/paiements', {
 
 var Form = {
   sec: {},
+  /* rappel WhatsApp d'une inscription : au client qui paie, sinon à l'apprenant */
+  waIns: function (i) {
+    var payeur = i.payeur && i.payeur !== 'apprenant' ? i.payeur : null, ap = apprenantOf(i.apprenant) || {};
+    var tel = payeur ? Wa.telClient(payeur) : ap.tel, nom = payeur ? clientName(payeur) : appName(i.apprenant);
+    var ins = list('formation/inscriptions', function (x) { return x.statut !== 'annulee' && insReste(x) > 0 && (payeur ? x.payeur === payeur : x.apprenant === i.apprenant && !(x.payeur && x.payeur !== 'apprenant')); });
+    return Wa.btn(tel, Wa.msgFormation(nom, ins.map(function (x) { var s0 = sessionOf(x.session); return { txt: 'Inscription ' + x.num + ' — ' + appName(x.apprenant) + (s0 ? ' — ' + sessionLabel(s0) : ''), reste: insReste(x) }; })), true);
+  },
 
   editFormation: function (id) {
     var cur = id ? strip(formationOf(id)) : { type: 'petit_metier' };
@@ -10791,7 +10800,7 @@ var Form = {
     var s = sessionOf(i.session) || {}, f = formationOf(s.formation) || {};
     UI.print({ title: 'Reçu ' + r.num, docTitle: 'Reçu de paiement', docMeta: '<div>N° ' + esc(r.num) + '</div><div>Date : ' + fmtDate(r.date) + '</div>',
       body: '<div class="box">Reçu de <strong>' + esc(i.payeur === 'apprenant' ? appName(i.apprenant) : clientName(i.payeur)) + '</strong> la somme de <strong>' + fmtGNF(r.montant) + '</strong> pour la formation « ' + esc(f.intitule || '') + ' » (session ' + esc(s.code || '') + ') de ' + esc(appName(i.apprenant)) + ', matricule ' + esc((apprenantOf(i.apprenant) || {}).matricule || '') + '.</div>' +
-        printTotals([['Total de la formation', fmtGNF(i.total)], ['Payé à ce jour', fmtGNF(i.paye || 0)], ['Reste à payer', fmtGNF(insReste(i)), true]]) + '<div class="sig"><div>Le payeur</div><div>Le caissier</div></div>' });
+        printTotals([['Total de la formation', fmtGNF(i.total)], ['Payé à ce jour', fmtGNF(i.paye || 0)], ['Reste à payer', resteRouge(insReste(i)), true]]) + '<div class="sig"><div>Le payeur</div><div>Le caissier</div></div>' });
   },
 
   /* ---------- sections de la session ---------- */
@@ -12265,7 +12274,9 @@ var Ouv = {
   },
 
   /* ---------- bulletin et relevés ---------- */
-  bulletin: function (p, mois) {
+  /* bulletin de paie du mois (voir Bul) */
+  bulletin: function (p, mois) { return Bul.imprimer(p, mois); },
+  bulletinAncien: function (p, mois) {
     var pers = get('parametres/personnel', p) || {}, b = Ouv.bilan(p);
     var ds = b.ds.filter(function (d) { return monthOf(d.date) === mois && d.statut !== 'rejetee'; }).sort(byKey('date'));
     var fs = b.fs.filter(function (f) { return monthOf(f.date) === mois; }).sort(byKey('date'));
@@ -13792,7 +13803,7 @@ view('distributeur/comptes', {
           { k: 'du', t: 'Doit au bloc', num: true, f: function (c) { return c.du > 0 ? '<strong class="tx-err">' + money(c.du) + '</strong>' : '0'; } },
           { k: 'duDist', t: 'Doit à son distributeur', num: true, f: function (c) { return c.duDist > 0 ? '<span class="tx-err">' + money(c.duDist) + '</span>' : ''; } }, { k: 'last', t: 'Dernier mouvement', f: function (c) { return c.last ? fmtDate(c.last) : ''; } }],
         foot: function (rs) { return '<tr><td colspan="2">Total</td><td class="num">' + money(sum(rs, function (c) { return c.pris; })) + '</td><td class="num">' + money(sum(rs, function (c) { return c.especes; })) + '</td><td class="num">' + money(sum(rs, function (c) { return c.tissu; })) + '</td><td class="num">' + money(sum(rs, function (c) { return c.fils; })) + '</td><td class="num">' + money(sum(rs, function (c) { return Math.max(0, c.du); })) + '</td><td class="num">' + money(sum(rs, function (c) { return c.duDist; })) + '</td><td></td></tr>'; },
-        rowAct: 'compte', actions: Dist.peut() ? function (c) { return c.supprime ? '' : UI.btn('Remettre', 'rem', 'ghost sm', ' data-id="' + attr(c.id) + '" data-needs-net') + (c.du > 0 || c.duDist > 0 ? UI.btn('Remboursement', 'rembT', 'sm', ' data-id="' + attr(c.id) + '" data-needs-net') : ''); } : null,
+        rowAct: 'compte', actions: function (c) { return (c.du > 0 || c.duDist > 0 ? Wa.btn(c.tel, Wa.msgDist(c), true) + ' ' : '') + (Dist.peut() && !c.supprime ? UI.btn('Remettre', 'rem', 'ghost sm', ' data-id="' + attr(c.id) + '" data-needs-net') + (c.du > 0 || c.duDist > 0 ? UI.btn('Remboursement', 'rembT', 'sm', ' data-id="' + attr(c.id) + '" data-needs-net') : '') : ''); },
         empty: 'Aucun tisserand.' });
   },
   acts: {
@@ -14008,7 +14019,7 @@ var FormF = {
         var x = get('formation/factures', id), last = (x.versements || [])[(x.versements || []).length - 1]; if (!last) return;
         UI.print({ title: 'Reçu ' + last.recu, docTitle: 'Reçu de paiement', docMeta: '<div>N° ' + esc(last.recu) + '</div><div>Date : ' + fmtDate(last.date) + '</div>',
           body: '<div class="box">Reçu de <strong>' + esc(x.client || '') + '</strong> la somme de <strong>' + fmtGNF(last.montant) + '</strong> (' + esc(majuscule(enLettres(last.montant))) + ' francs guinéens) pour la facture de formation <strong>' + esc(x.num) + '</strong> — ' + esc(x.objet || '') + '.<br>Encaissé dans : ' + esc(compteName(last.compte)) + '.</div>' +
-            printTotals([['Montant de la facture', fmtGNF(x.total)], ['Payé à ce jour', fmtGNF(x.paye || 0)], ['Reste à payer', fmtGNF(ffoReste(x)), true]]) + '<div class="sig"><div>Le payeur</div><div>Le caissier : ' + esc(last.par || '') + '</div></div>' });
+            printTotals([['Montant de la facture', fmtGNF(x.total)], ['Payé à ce jour', fmtGNF(x.paye || 0)], ['Reste à payer', resteRouge(ffoReste(x)), true]]) + '<div class="sig"><div>Le payeur</div><div>Le caissier : ' + esc(last.par || '') + '</div></div>' });
       }, 350);
     });
   },
@@ -14136,7 +14147,7 @@ view('formation/factures', {
           { k: 'total', t: 'Montant', num: true, f: function (f) { return money(f.total); } }, { k: 'paye', t: 'Payé', num: true, f: function (f) { return money(f.paye || 0); } },
           { k: '_reste', t: 'Reste', num: true, f: function (f) { return f._reste > 0 ? '<span class="' + (f._e === 'echue' ? 'tx-err' : '') + '">' + money(f._reste) + '</span>' : '0'; } }, { k: '_e', t: 'État', f: function (f) { return statutBadge(f._e); } }],
         foot: function (rs) { var a = rs.filter(function (f) { return f._e !== 'annulee'; }); return '<tr><td colspan="4">Total</td><td class="num">' + money(sum(a, function (f) { return f.total || 0; })) + '</td><td class="num">' + money(sum(a, function (f) { return f.paye || 0; })) + '</td><td class="num">' + money(sum(a, function (f) { return f._reste; })) + '</td><td></td></tr>'; },
-        rowAct: 'fiche', actions: function (f) { return UI.ibtn('print', 'print', f.id, 'Imprimer la facture') + (f._reste > 0 && can('formation', 'creer') && can('finances', 'creer') ? UI.btn('Encaisser', 'pay', 'sm', ' data-id="' + attr(f.id) + '" data-needs-net') : ''); },
+        rowAct: 'fiche', actions: function (f) { return UI.ibtn('print', 'print', f.id, 'Imprimer la facture') + (f._reste > 0 ? ' ' + Wa.btn(Wa.telTexte(f.adresse || (get('formation/registre', f.registre) || {}).adresseFacture), Wa.msgFormation(f.client || 'Madame, Monsieur', [{ txt: 'Facture ' + f.num + ' — ' + (f._form || f.objet || 'formation'), reste: f._reste }]), true) : '') + (f._reste > 0 && can('formation', 'creer') && can('finances', 'creer') ? UI.btn('Encaisser', 'pay', 'sm', ' data-id="' + attr(f.id) + '" data-needs-net') : ''); },
         empty: 'Aucune facture pour cette période. Une facture se crée en enregistrant une formation avec un montant.' }) +
       (sansFac.length ? '<h2 class="mt">Formations à facturer</h2><ul class="plain">' + sansFac.map(function (r) { return '<li><strong>' + esc(r.intitule) + '</strong> — ' + money(r.budget) + ' ' + (can('formation', 'creer') ? UI.btn('Facturer', 'facturer', 'ghost sm', ' data-id="' + attr(r.id) + '" data-needs-net') : '') + '</li>'; }).join('') + '</ul>' : '');
   },
@@ -20960,7 +20971,7 @@ function vclientsView(p) {
             { k: 'n', t: 'Factures', num: true }, { k: 'achete', t: 'Acheté', num: true, f: function (d) { return moneyN(d.achete); } }, { k: 'verse', t: 'Déjà versé', num: true, f: function (d) { return moneyN(d.verse); } },
             { k: 'du', t: 'Reste dû', num: true, f: function (d) { return '<strong class="tx-err">' + moneyN(d.du) + '</strong>'; } },
             { k: 'ech', t: 'Échéance', f: function (d) { return d.ech ? fmtDate(d.ech) + (d.ech < t ? ' ' + UI.badge('Dépassée', 'err') : '') : ''; } }],
-          actions: function (d) { return cv ? UI.btn(icon('wallet') + ' Faire un versement', 'verser', 'primary sm', ' data-id="' + attr(d.id) + '" data-needs-net') : ''; },
+          actions: function (d) { return (d.client ? Wa.btn(Wa.telClient(d.client), Wa.msgVente(d.nom, Wa.ventesDe(d.client, p)), true) + ' ' : '') + (cv ? UI.btn(icon('wallet') + ' Faire un versement', 'verser', 'primary sm', ' data-id="' + attr(d.id) + '" data-needs-net') : ''); },
           empty: q ? 'Aucun client ne correspond à cette recherche.' : 'Aucune dette en cours : tous les clients sont à jour.'
         }) +
         '<h2 class="mt">Versements reçus</h2>' +
@@ -20990,6 +21001,140 @@ function vclientsView(p) {
   });
 }
 vclientsView('boutique');
+
+
+/* ===== 35-whatsapp-bulletins.js ===== */
+/* =====================================================================
+   Rappels WhatsApp aux débiteurs (ventes, formation, distributeur) et
+   bulletins de paie de chaque ouvrier.
+   WhatsApp : le bouton ouvre WhatsApp sur le numéro de la personne avec
+   le message déjà écrit ; on le relit et on l'envoie. Rien n'est
+   enregistré. Un numéro guinéen à 9 chiffres (6xx xx xx xx) reçoit
+   l'indicatif 224.
+   Bulletin de paie : le salaire du mois (somme des jours travaillés, ou
+   salaire fixe), les avances déduites, ce qui est payé et ce qui reste,
+   pour un ouvrier ou pour tous à la fois.
+   ===================================================================== */
+var Wa = {
+  num: function (tel) {
+    var n = String(tel || '').replace(/\D/g, '');
+    if (/^00/.test(n)) n = n.slice(2);
+    if (/^6\d{8}$/.test(n)) n = '224' + n;
+    return n.length >= 8 ? n : '';
+  },
+  /* premier numéro de téléphone trouvé dans un texte libre (adresse de facturation…) */
+  telTexte: function (s) { var m = String(s || '').match(/\+?\d[\d .-]{6,}\d/); return m ? m[0] : ''; },
+  lien: function (tel, txt) { var n = Wa.num(tel); return n ? 'https://wa.me/' + n + '?text=' + encodeURIComponent(txt) : ''; },
+  /* bouton (lien) ; sans numéro, une mention discrète */
+  btn: function (tel, txt, petit) {
+    var h = Wa.lien(tel, txt);
+    return h ? '<a class="btn wa' + (petit ? ' sm' : '') + '" target="_blank" rel="noopener" href="' + attr(h) + '" title="Rappel sur WhatsApp">' + icon('whatsapp') + (petit ? '' : ' WhatsApp') + '</a>'
+      : '<small class="muted" title="Ajoutez son numéro dans sa fiche pour lui écrire sur WhatsApp">sans numéro</small>';
+  },
+  ouvrir: function (tel, txt) { var h = Wa.lien(tel, txt); if (!h) { UI.toast('Aucun numéro WhatsApp : ajoutez son téléphone dans sa fiche.', 'err', 6000); return; } window.open(h, '_blank', 'noopener'); },
+  atelier: function () { var i = S.info || {}; return i.raisonSociale || (S.tenant && S.tenant.nom) || ''; },
+  signature: function () { var i = S.info || {}; return '\n\n' + Wa.atelier() + (i.tel ? ' — ' + i.tel : ''); },
+  /* dette de ventes : les factures ouvertes, la plus ancienne d'abord */
+  msgVente: function (nom, fs) {
+    fs = (fs || []).slice().sort(function (a, b) { return String(a.date).localeCompare(String(b.date)); });
+    var du = sum(fs, facReste);
+    return 'Bonjour ' + nom + ',\nSauf erreur de notre part, il vous reste *' + fmtGNF(du) + '* à régler' + (fs.length ? ' :\n' + fs.map(function (f) { return '• Facture ' + f.num + ' du ' + fmtDate(f.date) + ' : ' + fmtGNF(facReste(f)) + (f.echeance && facReste(f) > 0 ? ' (échéance ' + fmtDate(f.echeance) + ')' : ''); }).join('\n') : '.') +
+      '\nMerci de passer régler ou de nous contacter pour convenir d\'un versement.' + Wa.signature();
+  },
+  ventesDe: function (client, p) { return list('ventes/factures', function (f) { return f.client === client && facReste(f) > 0 && (!p || facPartie(f) === p); }); },
+  telClient: function (id) { var c = clientOf(id) || {}; return c.whatsapp || c.tel || ''; },
+  /* dette de formation : inscriptions et factures de formation */
+  msgFormation: function (nom, lignes) {
+    var du = sum(lignes, function (l) { return l.reste; });
+    return 'Bonjour ' + nom + ',\nSauf erreur de notre part, il reste *' + fmtGNF(du) + '* à régler pour la formation' + (lignes.length ? ' :\n' + lignes.map(function (l) { return '• ' + l.txt + ' : ' + fmtGNF(l.reste); }).join('\n') : '.') +
+      '\nMerci de passer régler ou de nous contacter.' + Wa.signature();
+  },
+  /* dette d'un tisserand envers le distributeur (fils remis) */
+  msgDist: function (c) {
+    return 'Bonjour ' + c.nom + ',\nSauf erreur de notre part, il vous reste à rendre au bloc *' + fmtGNF(Math.max(0, c.du)) + '* pour les fils remis' + (c.rb && c.rb.length ? ' (en ' + c.rb.map(modeRembNom).map(function (x) { return x.toLowerCase(); }).join(', ') + ')' : '') + '.' +
+      (c.duDist > 0 ? '\nVous devez aussi ' + fmtGNF(c.duDist) + ' à votre distributeur' + (c.distNom ? ' (' + c.distNom + ')' : '') + '.' : '') +
+      '\nMerci de passer régler ou de nous contacter.' + Wa.signature();
+  }
+};
+/* reste à payer en rouge sur les documents imprimés */
+function resteRouge(n) { return n > 0 ? '<strong style="color:#b23a3a">' + fmtGNF(n) + '</strong>' : fmtGNF(Math.max(0, n || 0)); }
+
+/* ---------- bulletins de paie ---------- */
+var Bul = {
+  st: { mois: monthOf(today()) },
+  base: function (d, pers) {
+    var m = d.mode || pers.mode;
+    if (m === 'jour') return Number(d.jours) === 0.5 ? 'Demi-journée' : Number(d.jours) === 1 ? '1 journée' : fmtN(d.jours || 0, 1) + ' j';
+    if (m === 'tache') return fmtN(d.metres ? fromQ(d.metres) : declTissuM(d), 2) + ' m';
+    if (m === 'complet') return tissuComplets(declTissuM(d));
+    if (m === 'pagne') return tissuPagnes(declTissuM(d));
+    if (m === 'piece') return plural(Number(d.pieces) || 0, 'pièce');
+    if (m === 'heure') return fmtN(d.heures || 0, 1) + ' h';
+    return '';
+  },
+  html: function (p, mois) {
+    var c = Sal.calc(p, mois), pers = c.pers || {}, b = Ouv.bilan(p);
+    var fs = b.fs.filter(function (f) { return monthOf(f.date) === mois && f.type !== 'annulation' && !b.cov.annul[f.id]; }).sort(byKey('date'));
+    var avDed = sum(fs.filter(function (f) { return f.type === 'paie'; }), function (f) { return f.avanceDeduite || 0; });
+    var avVers = sum(fs.filter(function (f) { return f.type === 'avance'; }), function (f) { return f.montant || 0; });
+    var verse = sum(fs, function (f) { return f.montant || 0; });
+    var fin = (function () { var x = mois.split('-').map(Number); return mois + '-' + pad2(new Date(x[0], x[1], 0).getDate()); })();
+    var lignes = c.fixe ? '<tr><td>Salaire mensuel</td><td>' + esc(fmtMois(mois)) + '</td><td class="n">1 mois</td><td class="n">' + fmtMoney(pers.taux || 0) + '</td><td class="n">' + fmtMoney(c.du) + '</td></tr>'
+      : c.val.map(function (d) { return '<tr><td>' + fmtDate(d.date) + '</td><td>' + esc(Ouv.resume(d)) + '</td><td class="n">' + esc(Bul.base(d, pers)) + '</td><td class="n">' + fmtMoney(d.taux !== undefined ? d.taux : pers.taux || 0) + '</td><td class="n">' + fmtMoney(d.montant || 0) + '</td></tr>'; }).join('');
+    return '<div class="bp">' +
+      '<div class="two"><div class="box"><strong>Employé</strong><br>' + esc(pers.nom || '') + (pers.matricule ? '<br>Matricule : ' + esc(pers.matricule) : '') + (pers.fonction ? '<br>Fonction : ' + esc(pers.fonction) : '') + (pers.tel ? '<br>Téléphone : ' + esc(pers.tel) : '') + '</div>' +
+      '<div class="box"><strong>Période</strong> : du 01/' + mois.slice(5, 7) + '/' + mois.slice(0, 4) + ' au ' + fmtDate(fin) + '<br>Mode de paie : ' + esc(modeNom(pers.mode)) + '<br>Taux : ' + fmtGNF(pers.taux || 0) + ' ' + esc(tauxUnite(pers.mode)) + '<br>Jours travaillés : <strong>' + c.jours + '</strong></div></div>' +
+      '<h3>Éléments du salaire</h3><table><thead><tr><th>Date</th><th>Travail</th><th class="n">Base</th><th class="n">Taux</th><th class="n">Montant</th></tr></thead><tbody>' +
+      (lignes || '<tr><td colspan="5">Aucun travail validé ce mois.</td></tr>') + '</tbody><tfoot><tr><td colspan="4">SALAIRE BRUT DU MOIS' + (c.fixe ? ' (fixe)' : ' (' + plural(c.jours, 'jour travaillé', 'jours travaillés') + ')') + '</td><td class="n">' + fmtMoney(c.du) + '</td></tr></tfoot></table>' +
+      (fs.length ? '<h3>Paiements du mois</h3><table><thead><tr><th>Date</th><th>N°</th><th>Nature</th><th class="n">Brut</th><th class="n">Avance déduite</th><th class="n">Versé</th></tr></thead><tbody>' +
+        fs.map(function (f) { return '<tr><td>' + fmtDate(f.date) + '</td><td>' + esc(f.num || '') + '</td><td>' + (f.type === 'avance' ? 'Avance' : 'Paie — ' + esc(f.label || '')) + '</td><td class="n">' + (f.type === 'avance' ? '' : fmtMoney(f.brut || f.montant || 0)) + '</td><td class="n">' + (f.avanceDeduite ? fmtMoney(f.avanceDeduite) : '') + '</td><td class="n">' + fmtMoney(f.montant || 0) + '</td></tr>'; }).join('') + '</tbody></table>' : '') +
+      printTotals([['Salaire brut du mois', fmtGNF(c.du)], avDed ? ['Avances déduites', '− ' + fmtGNF(avDed)] : null, ['Déjà payé sur ce salaire', fmtGNF(c.paye)], ['Reste à payer sur ce salaire', resteRouge(c.reste), true],
+        avVers ? ['Avances versées dans le mois', fmtGNF(avVers)] : null, ['Total versé dans le mois', fmtGNF(verse)], c.avances ? ['Avances non encore déduites', fmtGNF(c.avances)] : null]) +
+      '<p class="small">Salaire du mois arrêté à <strong>' + esc(majuscule(enLettres(c.du))) + ' francs guinéens</strong>.' + (c.att.length ? ' ' + plural(c.att.length, 'déclaration en attente de validation n\'est', 'déclarations en attente de validation ne sont') + ' pas comptée' + (c.att.length > 1 ? 's' : '') + ' (≈ ' + fmtGNF(c.estime) + ').' : '') + '</p>' +
+      '<div class="sig"><div>L\'employé (lu et approuvé)</div><div>L\'employeur</div></div></div>';
+  },
+  imprimer: function (p, mois) {
+    var pers = get('parametres/personnel', p) || {};
+    UI.print({ title: 'Bulletin de paie ' + (pers.nom || '') + ' ' + mois, docTitle: 'Bulletin de paie', docMeta: '<div>' + esc(fmtMois(mois)) + '</div><div>N° BP-' + esc(mois.replace('-', '')) + '-' + esc(pers.matricule || p.slice(-5)) + '</div><div>' + esc(blocLabel(S.bloc)) + '</div>', body: Bul.html(p, mois) });
+  },
+  /* tous les bulletins du mois, un par page */
+  imprimerTous: function (mois) {
+    var rows = Sal.lignes(mois).filter(function (c) { return c.du > 0 || c.ds.length || c.paye; });
+    if (!rows.length) { UI.toast('Aucun bulletin pour ' + fmtMois(mois) + '.', 'info'); return; }
+    UI.print({ title: 'Bulletins de paie ' + mois, docTitle: 'Bulletins de paie', docMeta: '<div>' + esc(fmtMois(mois)) + '</div><div>' + plural(rows.length, 'bulletin') + '</div><div>' + esc(blocLabel(S.bloc)) + '</div>',
+      body: '<style>.bp{break-after:page;page-break-after:always}.bp:last-child{break-after:auto;page-break-after:auto}.bp-t{font-size:15px;margin:0 0 8px;border-bottom:2px solid #22306b;padding-bottom:4px}</style>' +
+        rows.map(function (c) { return '<h2 class="bp-t">Bulletin de paie — ' + esc(c.nom) + ' — ' + esc(fmtMois(mois)) + '</h2>' + Bul.html(c.id, mois); }).join('') });
+  }
+};
+
+view('ouvriers/bulletins', {
+  mod: 'paie', title: 'Bulletins de paie',
+  check: function () { return can('paie') || can('ouvriers'); },
+  need: function () { return Sal.need(); },
+  render: function () {
+    var mois = Bul.st.mois, mm = canMoney(), rows = Sal.lignes(mois);
+    return pageHead('Bulletins de paie', "Le bulletin de chaque ouvrier pour le mois choisi : ses jours travaillés et le montant de chacun, son salaire brut, les avances déduites, ce qui est payé et ce qui reste. Imprimez-le seul, ou tous les bulletins du mois d'un coup (un par page).",
+      '<label class="inline">Mois <input type="month" data-chg="mois" value="' + attr(mois) + '"></label>' + UI.btn(icon('print') + ' Imprimer tous les bulletins', 'tous', 'primary')) +
+      UI.table({
+        id: 'bulletins', rows: rows, sort: 'nom', search: rows.length > 8,
+        text: function (c) { return [c.nom, c.pers.matricule, c.pers.fonction].join(' '); },
+        cols: [{ k: 'nom', t: 'Ouvrier', f: function (c) { return '<span class="pers">' + photoPers(c.pers) + '<span><strong>' + esc(c.nom) + '</strong>' + (c.pers.fonction ? '<br><small class="muted">' + esc(c.pers.fonction) + '</small>' : '') + '</span></span>'; } },
+          { k: 'mode', t: 'Rémunération', sv: function (c) { return modeNom(c.pers.mode); }, f: function (c) { return esc(modeNom(c.pers.mode)) + (mm ? '<br><small class="muted">' + fmtMoney(c.pers.taux || 0) + ' ' + esc(tauxUnite(c.pers.mode)) + '</small>' : ''); } },
+          { k: 'jours', t: 'Jours travaillés', num: true },
+          mm ? { k: 'du', t: 'Salaire brut', num: true, f: function (c) { return '<strong>' + fmtMoney(c.du) + '</strong>'; } } : null,
+          mm ? { k: 'paye', t: 'Payé', num: true, f: function (c) { return fmtMoney(c.paye); } } : null,
+          mm ? { k: 'reste', t: 'Reste à payer', num: true, f: function (c) { return c.reste > 0 ? '<strong class="tx-err">' + fmtMoney(c.reste) + '</strong>' : '<span class="tx-ok">0</span>'; } } : null].filter(Boolean),
+        rowAct: 'bul',
+        actions: function (c) { return UI.btn(icon('print') + ' Bulletin', 'bul', 'ghost sm', ' data-id="' + attr(c.id) + '"'); },
+        empty: 'Aucun ouvrier.'
+      });
+  },
+  acts: {
+    mois: function (v) { if (/^\d{4}-\d{2}$/.test(v || '')) { Bul.st.mois = v; App.render(true); } },
+    bul: function (p) { Bul.imprimer(p, Bul.st.mois); },
+    tous: function () { Bul.imprimerTous(Bul.st.mois); }
+  }
+});
 
 
 /* ===== 99-boot.js ===== */
