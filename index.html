@@ -937,7 +937,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261105-1600';
+NERP.build = '20261105-1630';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -9969,8 +9969,12 @@ var Ventes = {
   calcLigne: function (l, tarif) {
     var s = Ventes.parseSrc(l.src); if (!s) return { brut: 0, net: 0 };
     var qty = l.mode === 'piece' ? 1 : fromQ(l.q || 0);
-    var brut = Math.round(qty * (l.pu || 0)), rem = Math.round(brut * (l.remise || 0) / 100);
-    return { brut: brut, remise: rem, net: brut - rem };
+    var brut = Math.round(qty * (l.pu || 0));
+    /* remise en montant (GNF) ; une ligne enregistrée avant garde sa remise en % */
+    var mt = l.remiseMt !== undefined && l.remiseMt !== null && l.remiseMt !== '' ? Number(l.remiseMt) || 0 : null;
+    var rem = mt !== null ? Math.min(Math.max(0, Math.round(mt)), brut) : Math.round(brut * (l.remise || 0) / 100);
+    /* pct : la même remise en %, gardée sur la ligne (règle de la remise maximale, anciens écrans) */
+    return { brut: brut, remise: rem, net: brut - rem, pct: brut ? Math.round(rem / brut * 10000) / 100 : 0 };
   },
   nouvelleVente: function (preset, fromCmd) {
     preset = preset || {};
@@ -9984,7 +9988,7 @@ var Ventes = {
       { k: 'mode', t: 'Vendu', type: 'select', req: true, opts: [['m', 'Au mètre ou à la quantité'], ['piece', 'Pièce entière']], dflt: 'm' },
       { k: 'q', t: 'Quantité (m ou unités)', type: 'qty' },
       { k: 'pu', t: 'Prix unitaire', type: 'money', req: true },
-      { k: 'remise', t: 'Remise %', type: 'number' },
+      { k: 'remiseMt', t: 'Remise (GNF)', type: 'money' },
       { k: 'tot', t: 'Total', type: 'calc', calc: function (l) { return fmtMoney(Ventes.calcLigne(l).net); } }
     ];
     var mm;
@@ -10060,7 +10064,7 @@ var Ventes = {
           var dispo = soldeOf(s.art, s.lot, s.emp).q;
           parSrc[l.src] = (parSrc[l.src] || 0) + (l.mode === 'piece' ? dispo : l.q);
           if (parSrc[l.src] > dispo) return 'Ligne ' + (i + 1) + ' : il ne reste que ' + fmtQ(dispo, artUnit(s.art)) + '.';
-          if ((l.remise || 0) < 0 || (l.remise || 0) > 100) return 'Ligne ' + (i + 1) + ' : remise invalide.';
+          var rmt = Number(l.remiseMt) || 0, bru = Ventes.calcLigne(Object.assign({}, l, { remiseMt: 0 })).brut; if (rmt < 0) return 'Ligne ' + (i + 1) + ' : remise invalide.'; if (rmt > bru) return 'Ligne ' + (i + 1) + ' : la remise (' + fmtGNF(rmt) + ') dépasse le montant de la ligne (' + fmtGNF(bru) + ').';
         }
         var total = sum(lines, function (l) { return Ventes.calcLigne(l).net; });
         var acompte = fromCmd ? (fromCmd.acompte || 0) : 0;
@@ -10083,9 +10087,9 @@ var Ventes = {
           var q = l.mode === 'piece' ? soldeOf(s.art, s.lot, s.emp).q : l.q;
           var calc = Ventes.calcLigne(l);
           var pt = prixTarif(s.art, tarif, l.mode === 'piece' ? 'piece' : 'm');
-          if ((l.remise || 0) > remMax) exceptions.push('remise de ' + l.remise + ' % sur ' + a.nom);
+          if (calc.pct > remMax) exceptions.push('remise de ' + fmtGNF(calc.remise) + ' (' + fmtN(calc.pct, 2) + ' %) sur ' + a.nom);
           if (pt && l.pu < pt) exceptions.push('prix ' + fmtMoney(l.pu) + ' inférieur au tarif ' + fmtMoney(pt) + ' sur ' + a.nom);
-          return { art: s.art, lot: s.lot, emp: s.emp, mode: l.mode, q: q, pu: l.pu, prixTarif: pt || null, remise: l.remise || 0, brut: calc.brut, montantRemise: calc.remise, net: calc.net };
+          return { art: s.art, lot: s.lot, emp: s.emp, mode: l.mode, q: q, pu: l.pu, prixTarif: pt || null, remise: calc.pct, brut: calc.brut, montantRemise: calc.remise, net: calc.net };
         });
         var total = sum(lignes, function (l) { return l.brut; }), remise = sum(lignes, function (l) { return l.montantRemise; }), net = total - remise;
         var acompte = fromCmd ? (fromCmd.acompte || 0) : 0;
@@ -10160,7 +10164,7 @@ var Ventes = {
       UI.kv([['Total brut', fmtGNF(f.total)], ['Remise', fmtGNF(f.remise || 0)], ['Net', fmtGNF(f.net)], f.avoirs ? ['Avoirs', fmtGNF(f.avoirs)] : null, ['Encaissé', fmtGNF((f.paye || 0) - (f.rembourse || 0))], ['Reste dû', reste < 0 ? 'Avoir client ' + fmtGNF(-reste) : reste > 0 ? '<strong class="tx-err">' + fmtGNF(reste) + '</strong>' : fmtGNF(reste)], mm && f.cout !== undefined ? ['Coût de revient', fmtGNF(f.cout)] : null, mm && f.cout !== undefined ? ['Marge brute', fmtGNF(facDu(f) - f.cout) + ' (' + fmtPct((facDu(f) - f.cout) / Math.max(1, facDu(f))) + ')'] : null]) + '</div>' +
       (f.exceptions ? '<p class="note warn">' + icon('alert') + '<span>' + esc(f.exceptions.join(' ; ')) + '</span></p>' : '') +
       '<table class="grid"><thead><tr><th>Produit</th><th>Pièce</th><th class="num">Quantité</th><th class="num">Prix unitaire</th><th class="num">Remise</th><th class="num">Net</th>' + (mm ? '<th class="num">Coût</th>' : '') + '</tr></thead><tbody>' +
-      (f.lignes || []).map(function (l) { return '<tr><td>' + esc(artName(l.art)) + '</td><td class="code">' + esc(l.lot !== '_' ? lotNum(l.lot) : '') + '</td><td class="num">' + (l.mode === 'piece' ? '1 pièce (' + fmtQ(l.q, 'm') + ')' : fmtQ(l.q, artUnit(l.art))) + (l.retourne ? '<br><small class="tx-err">retourné ' + fmtQ(l.retourne) + '</small>' : '') + '</td><td class="num">' + fmtMoney(l.pu) + (l.prixTarif && l.pu !== l.prixTarif ? '<br><small class="muted">tarif ' + fmtMoney(l.prixTarif) + '</small>' : '') + '</td><td class="num">' + (l.remise ? l.remise + ' %' : '') + '</td><td class="num">' + fmtMoney(l.net) + '</td>' + (mm ? '<td class="num">' + (l.cout !== undefined ? fmtMoney(l.cout) : '') + '</td>' : '') + '</tr>'; }).join('') + '</tbody></table>' +
+      (f.lignes || []).map(function (l) { return '<tr><td>' + esc(artName(l.art)) + '</td><td class="code">' + esc(l.lot !== '_' ? lotNum(l.lot) : '') + '</td><td class="num">' + (l.mode === 'piece' ? '1 pièce (' + fmtQ(l.q, 'm') + ')' : fmtQ(l.q, artUnit(l.art))) + (l.retourne ? '<br><small class="tx-err">retourné ' + fmtQ(l.retourne) + '</small>' : '') + '</td><td class="num">' + fmtMoney(l.pu) + (l.prixTarif && l.pu !== l.prixTarif ? '<br><small class="muted">tarif ' + fmtMoney(l.prixTarif) + '</small>' : '') + '</td><td class="num">' + (l.montantRemise ? fmtMoney(l.montantRemise) : l.remise ? l.remise + ' %' : '') + '</td><td class="num">' + fmtMoney(l.net) + '</td>' + (mm ? '<td class="num">' + (l.cout !== undefined ? fmtMoney(l.cout) : '') + '</td>' : '') + '</tr>'; }).join('') + '</tbody></table>' +
       (f.recus && f.recus.length ? '<h3>Encaissements</h3><table class="grid"><thead><tr><th>Reçu</th><th>Date</th><th>Compte</th><th class="num">Montant</th><th></th></tr></thead><tbody>' + f.recus.map(function (r, i) { return '<tr><td class="code">' + esc(r.num) + '</td><td>' + fmtDate(r.date) + '</td><td>' + esc((get('finances/comptes', r.compte) || {}).nom || r.compte) + '</td><td class="num">' + fmtMoney(r.montant) + '</td><td><button type="button" class="linkbtn" data-mact="rc" data-i="' + i + '">Imprimer</button>' + (corrRc ? ' <button type="button" class="linkbtn" data-mact="rcEdit" data-i="' + i + '">Modifier</button>' : '') + '</td></tr>'; }).join('') + '</tbody></table>' : ''),
       acts, function (act, b) {
         if (act === 'corr') { m.close(); Corr.facture(id); }
@@ -10341,7 +10345,7 @@ var Ventes = {
       body: Ventes.clientBox(f) +
         printLines([{ t: 'Désignation', f: function (l) { return esc(artName(l.art)) + (l.lot && l.lot !== '_' ? '<br><span class="small muted">Pièce ' + esc(lotNum(l.lot)) + '</span>' : ''); } },
           { t: 'Quantité', n: 1, f: function (l) { return l.mode === 'piece' ? '1 pièce<br><span class="small muted">' + fmtQ(l.q, 'm') + '</span>' : fmtQ(l.q, artUnit(l.art) === 'm' ? 'm' : artUnit(l.art)); } },
-          { t: 'Prix unitaire', n: 1, f: function (l) { return fmtMoney(l.pu); } }, { t: 'Remise', n: 1, f: function (l) { return l.remise ? l.remise + ' %' : ''; } }, { t: 'Montant', n: 1, f: function (l) { return fmtMoney(l.net); } }], f.lignes || []) +
+          { t: 'Prix unitaire', n: 1, f: function (l) { return fmtMoney(l.pu); } }, { t: 'Remise', n: 1, f: function (l) { return l.montantRemise ? fmtMoney(l.montantRemise) : l.remise ? l.remise + ' %' : ''; } }, { t: 'Montant', n: 1, f: function (l) { return fmtMoney(l.net); } }], f.lignes || []) +
         printTotals([['Total brut', fmtGNF(f.total)], f.remise ? ['Remise', '− ' + fmtGNF(f.remise)] : null, ['Net à payer', fmtGNF(f.net), true], f.avoirs ? ['Avoirs', '− ' + fmtGNF(f.avoirs)] : null, ['Déjà payé', fmtGNF((f.paye || 0) - (f.rembourse || 0))], ['Reste à payer', resteRouge(reste), true]]) +
         (S.info.mentionFacture ? '<p class="small">' + esc(S.info.mentionFacture) + '</p>' : '') + (f.notes ? '<p class="small">' + esc(f.notes) + '</p>' : '') +
         '<div class="sig"><div>Le client</div><div>Pour ' + esc(S.info.raisonSociale || '') + '</div></div>'
@@ -14478,9 +14482,9 @@ Corr.facCalc = function (f, p) {
       var s = Ventes.parseSrc(l.src); if (!s) throw new Error('Produit introuvable sur une ligne de la facture.');
       var o = l.idx !== null && l.idx !== undefined ? old[l.idx] : null, calc = Ventes.calcLigne(l), mode = l.mode || 'm';
       var pt = o && o.art === s.art && (o.mode || 'm') === mode ? (o.prixTarif || null) : (prixTarif(s.art, tarif, mode === 'piece' ? 'piece' : 'm') || null);
-      return { art: s.art, lot: s.lot || '_', emp: s.emp, mode: mode, q: l.q, pu: l.pu, prixTarif: pt, remise: l.remise || 0, brut: calc.brut, montantRemise: calc.remise, net: calc.net };
+      return { art: s.art, lot: s.lot || '_', emp: s.emp, mode: mode, q: l.q, pu: l.pu, prixTarif: pt, remise: calc.pct, brut: calc.brut, montantRemise: calc.remise, net: calc.net };
     });
-    var cmp = function (l) { return [l.art, l.lot || '_', l.emp, l.mode || 'm', l.q, l.pu, l.remise || 0]; };
+    var cmp = function (l) { return [l.art, l.lot || '_', l.emp, l.mode || 'm', l.q, l.pu, l.montantRemise || 0]; };
     lignesChg = !Corr.memes(old.map(cmp), nl.map(cmp));
     if (lignesChg) { up.total = sum(nl, function (l) { return l.brut; }); up.remise = sum(nl, function (l) { return l.montantRemise; }); up.net = up.total - up.remise; net = up.net; }
     else nl = null;
@@ -14508,7 +14512,7 @@ Corr.facture = function (id) {
       if (!opts0.some(function (o) { return o[0] === three; }) && !extra.some(function (o) { return o[0] === three; })) extra.push([three, artName(l.art) + (l.lot && l.lot !== '_' ? ' — ' + lotNum(l.lot) : '') + ' — ' + empName(l.emp) + ' (sur la facture)']);
       return three;
     };
-    var rows = old.map(function (l, i) { return { idx: i, src: srcOf(l), mode: l.mode || 'm', q: l.q, pu: l.pu, remise: l.remise || 0 }; });
+    var rows = old.map(function (l, i) { return { idx: i, src: srcOf(l), mode: l.mode || 'm', q: l.q, pu: l.pu, remiseMt: l.montantRemise || 0 }; });
     var dispo = function (s) { return soldeOf(s.art, s.lot, s.emp).q + (deja[Corr.skey(s)] || 0); };
     var tarifDe = function (root) { var c = clientOf(($('[data-k="client"]', root) || {}).value); return c ? c.tarif : (f.tarif || 'detail'); };
     var suit = Corr.suitFac(f);
@@ -14526,7 +14530,7 @@ Corr.facture = function (id) {
       { k: 'mode', t: 'Vendu', type: 'select', req: true, opts: [['m', 'Au mètre ou à la quantité'], ['piece', 'Pièce entière']], dflt: 'm' },
       { k: 'q', t: 'Quantité (m ou unités)', type: 'qty' },
       { k: 'pu', t: 'Prix unitaire', type: 'money', req: true },
-      { k: 'remise', t: 'Remise %', type: 'number' },
+      { k: 'remiseMt', t: 'Remise (GNF)', type: 'money' },
       { k: 'tot', t: 'Total', type: 'calc', calc: function (l) { return fmtMoney(Ventes.calcLigne(l).net); } }
     ];
     var fields = [
@@ -14597,7 +14601,7 @@ Corr.facture = function (id) {
             if (!(l.q > 0)) return 'Ligne ' + (i + 1) + ' : indiquez la quantité.';
             var k = Corr.skey(s); par[k] = (par[k] || 0) + l.q;
             var d = dispo(s); if (par[k] > d && !(articleOf(s.art) || {}).negOk && valide) return 'Ligne ' + (i + 1) + ' : il ne reste que ' + fmtQ(d, artUnit(s.art)) + ' (quantité déjà vendue sur cette facture comprise).';
-            if ((l.remise || 0) < 0 || (l.remise || 0) > 100) return 'Ligne ' + (i + 1) + ' : remise invalide.';
+            var rmt = Number(l.remiseMt) || 0, bru = Ventes.calcLigne(Object.assign({}, l, { remiseMt: 0 })).brut; if (rmt < 0) return 'Ligne ' + (i + 1) + ' : remise invalide.'; if (rmt > bru) return 'Ligne ' + (i + 1) + ' : la remise (' + fmtGNF(rmt) + ') dépasse le montant de la ligne (' + fmtGNF(bru) + ').';
           }
         }
         if (init && !(h.montant > 0)) return 'Indiquez le montant dû.';
@@ -14673,7 +14677,7 @@ Corr.facPaye = function (f, p, up, n, tx, req, doc) {
 };
 Corr.facPayload = function (f, id, h, lines, sansLignes, suit) {
   return { id: id, sig: Corr.sig(f), h: { client: h.client || null, clientNom: h.clientNom || null, date: h.date, echeance: h.echeance || null, notes: h.notes || null },
-    lignes: sansLignes ? null : lines.map(function (l) { return { idx: Corr.idxOf(l.idx), src: l.src, mode: l.mode || 'm', q: l.q, pu: l.pu, remise: l.remise || 0 }; }),
+    lignes: sansLignes ? null : lines.map(function (l) { return { idx: Corr.idxOf(l.idx), src: l.src, mode: l.mode || 'm', q: l.q, pu: l.pu, remiseMt: Number(l.remiseMt) || 0 }; }),
     montant: f.initiale || !(f.lignes || []).length ? h.montant : null, suit: !!(suit && h.suit) };
 };
 Corr.apply.fac = function (p, tx, req) {
