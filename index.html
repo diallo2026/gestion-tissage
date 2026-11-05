@@ -894,6 +894,7 @@ button.cat-card { cursor: pointer; } button.cat-card:hover { border-color: var(-
 .obj-rap h3 { margin: 18px 0 6px; }
 .obj-rap h4 { margin: 12px 0 4px; font-size: .95rem; }
 .r-qu { display: flex; gap: 8px; } .r-qu input { flex: 1 1 auto; min-width: 0; } .r-qu select { flex: 0 0 auto; width: auto; }
+.reste-aff { font-weight: 700; background: var(--vat-50); }
 .tissu-eq { display: block; margin-top: 4px; color: var(--indigo-700); font-weight: 600; }
 .obj-rap .tot { margin: 8px 0 0 auto; width: min(100%, 520px); border-collapse: collapse; }
 .obj-rap .tot td { padding: 5px 8px; border-bottom: 1px solid var(--line); }
@@ -935,7 +936,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261105-1400';
+NERP.build = '20261105-1430';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -6112,12 +6113,13 @@ var Pt = {
         '<label class="fld"><span>Quantité' + (a ? ' (' + esc(a.unite) + ')' : '') + ' *</span><input inputmode="decimal" data-rf="q" value="' + attr(q ? qInput(q) : '') + '" placeholder="0"></label>' +
         '<label class="fld"><span>' + (vente ? 'Prix de vente unitaire (GNF)' : "Prix d'achat unitaire (GNF)") + ' *</span><input inputmode="numeric" data-rf="pu" value="' + attr(pu === null || pu === undefined ? '' : String(pu)) + '" placeholder="0"></label>' +
         (vente ? '<label class="fld"><span>Client</span><select data-rf="client"><option value="">Client de passage</option>' + Opt.clients().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === f.client ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
-          '<label class="fld"><span>Montant encaissé (GNF)</span><input inputmode="numeric" data-rf="paye" value="' + attr(String(paye || '')) + '"' + (credit ? '' : ' readonly') + '><small class="muted">' + (credit ? 'Crédit autorisé : encours ' + fmtGNF(encoursClient(c.id)) + ' sur ' + fmtGNF(c.plafond) + '.' : 'Paiement complet (un crédit demande un client avec un plafond).') + '</small></label>'
+          '<label class="fld"><span>Montant payé (GNF)</span><input inputmode="numeric" data-rf="paye" value="' + attr(String(paye || '')) + '"><small class="muted">Se met au total ; tapez le montant réellement payé.</small></label>' +
+          '<label class="fld"><span>Reste à payer (GNF)</span><input data-rf-reste readonly tabindex="-1" class="reste-aff" value="' + attr(tot ? fmtMoney(Math.max(0, tot - (paye || 0))) : '') + '"><small class="muted" data-rf-reste-h>' + esc(Pt.resteTxt(tot, paye || 0, c)) + '</small></label>'
           : '<label class="fld"><span>Fournisseur</span><select data-rf="four"><option value="">Autre ou aucun</option>' + Opt.fournisseurs().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === f.four ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
             (!f.four ? '<label class="fld"><span>Nom du fournisseur</span><input data-rf="fourNom" value="' + attr(f.fourNom || '') + '" placeholder="facultatif"></label>' : '') +
             '<label class="fld"><span>Paiement</span><select data-rf="paiement">' + [['comptant', 'Payé maintenant'], ['credit', 'À crédit (dette fournisseur)'], ['aucun', 'Sans achat (don, retour, reprise…) — validé par un responsable']].map(function (o) { return '<option value="' + o[0] + '"' + ((f.paiement || 'comptant') === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
             ((f.paiement || 'comptant') === 'aucun' ? '<label class="fld span2"><span>Motif *</span><input data-rf="motif" value="' + attr(f.motif || '') + '"></label>' : '')) +
-        ((vente && paye > 0) || (!vente && (f.paiement || 'comptant') === 'comptant') ? '<label class="fld"><span>' + (vente ? 'Encaissé sur' : 'Payé avec') + '</span><select data-rf="compte">' + Opt.comptes().map(function (o) { return '<option value="' + attr(o[0]) + '"' + ((f.compte || defCompte()) === o[0] ? ' selected' : '') + '>' + esc(o[1]) + (mm ? ' (' + fmtGNF(soldeCompte(o[0])) + ')' : '') + '</option>'; }).join('') + '</select></label>' : '') +
+        (vente || (!vente && (f.paiement || 'comptant') === 'comptant') ? '<label class="fld"><span>' + (vente ? 'Encaissé sur' : 'Payé avec') + '</span><select data-rf="compte">' + Opt.comptes().map(function (o) { return '<option value="' + attr(o[0]) + '"' + ((f.compte || defCompte()) === o[0] ? ' selected' : '') + '>' + esc(o[1]) + (mm ? ' (' + fmtGNF(soldeCompte(o[0])) + ')' : '') + '</option>'; }).join('') + '</select></label>' : '') +
         '<label class="fld"><span>Date (modifiable)</span><input type="date" data-rf="date" value="' + attr(f.date || today()) + '"></label>' +
       '</div>' +
       '<div class="r-preview' + (vente && a && q > dispo ? ' bad' : '') + '">' + (a ? (vente && q > dispo ? icon('alert') + ' Stock insuffisant (disponible : ' + fmtQ(dispo, a.unite) + ')' : esc(a.nom) + (q ? (vente ? ' × ' : ' + ') + fmtQ(q, a.unite) : '') + (tot ? ' = <strong>' + fmtGNF(tot) + '</strong>' : '')) : 'Choisissez un produit') + '</div>' +
@@ -6137,6 +6139,22 @@ var Pt = {
     lotsDispo(art).forEach(function (x) { if (emps.indexOf(x.emp) < 0) return; out.push({ v: x.lot + '|' + x.emp, q: x.q, t: (x.lot !== '_' ? lotNum(x.lot) + ' — ' : '') + empName(x.emp) + ' — ' + fmtQ(x.q, a.unite) + (x.emp === 'SC' || x.emp === 'BTQ-SC' ? ' (second choix)' : '') }); });
     return out;
   },
+  /* reste à payer d'une vente rapide, et ce qu'il devient (crédit, client de passage…) */
+  resteTxt: function (tot, paye, c) {
+    var reste = (tot || 0) - (paye || 0), credit = c && c.plafond > 0;
+    if (!tot) return '';
+    if (reste < 0) return 'Le montant payé dépasse le total de ' + fmtGNF(-reste) + '.';
+    if (reste === 0) return 'Payé en totalité.';
+    if (credit) return 'À crédit — encours ' + fmtGNF(encoursClient(c.id)) + ' sur un plafond de ' + fmtGNF(c.plafond) + '.';
+    return c ? "Ce client n'a pas de plafond de crédit : encaissez le total, ou donnez-lui un plafond (fiche du client)." : 'Client de passage : il paie le total. Pour une vente à crédit, choisissez le client.';
+  },
+  resteMaj: function (p, el) {
+    var R = ptState(p).rapide, f = R.f, a = f.art ? articleOf(f.art) : null, z = $('[data-rf-reste]', el), hz = $('[data-rf-reste-h]', el); if (!z) return;
+    var tot = a && f.q && f.pu && !isNaN(f.q) && !isNaN(f.pu) ? Math.round(fromQ(f.q) * f.pu) : 0;
+    var paye = f.paye === null || f.paye === undefined || isNaN(f.paye) ? tot : f.paye, c = f.client ? clientOf(f.client) : null;
+    z.value = tot ? fmtMoney(Math.max(0, tot - paye)) : '';
+    if (hz) { hz.textContent = Pt.resteTxt(tot, paye, c); hz.classList.toggle('tx-warn', tot > 0 && (paye > tot || (paye < tot && !(c && c.plafond > 0)))); }
+  },
   rapideBind: function (p, el) {
     var R = ptState(p).rapide;
     var lire = function (inp) {
@@ -6146,19 +6164,19 @@ var Pt = {
       else R.f[k] = v || null;
       return k;
     };
-    var refresh = function () { var pv = $('.r-preview', el); if (!pv) return; var a = R.f.art ? articleOf(R.f.art) : null; var q = R.f.q, pu = R.f.pu; if (a && q && pu && !isNaN(q) && !isNaN(pu)) { var tot = Math.round(fromQ(q) * pu); pv.innerHTML = esc(a.nom) + (R.mode === 'vente' ? ' × ' : ' + ') + fmtQ(q, a.unite) + ' = <strong>' + fmtGNF(tot) + '</strong>'; var py = $('[data-rf="paye"]', el); if (py && py.readOnly) { py.value = tot; R.f.paye = tot; } } };
+    var refresh = function () { var pv = $('.r-preview', el); if (!pv) return; var a = R.f.art ? articleOf(R.f.art) : null; var q = R.f.q, pu = R.f.pu; if (a && q && pu && !isNaN(q) && !isNaN(pu)) { var tot = Math.round(fromQ(q) * pu); pv.innerHTML = esc(a.nom) + (R.mode === 'vente' ? ' × ' : ' + ') + fmtQ(q, a.unite) + ' = <strong>' + fmtGNF(tot) + '</strong>'; var py = $('[data-rf="paye"]', el); if (py && !R.f.payeManuel) { py.value = tot; R.f.paye = tot; } } Pt.resteMaj(p, el); };
     $$('[data-rf]', el).forEach(function (inp) {
-      inp.addEventListener('input', function () { lire(inp); if (inp.dataset.rf === 'q' || inp.dataset.rf === 'pu') refresh(); });
+      inp.addEventListener('input', function () { lire(inp); if (inp.dataset.rf === 'q' || inp.dataset.rf === 'pu') refresh(); if (inp.dataset.rf === 'paye') { R.f.payeManuel = true; Pt.resteMaj(p, el); } });
       inp.addEventListener('change', function () {
         if (!document.body.contains(inp)) return;
         var k = lire(inp);
         if (k === 'prod') {
           var a = Pt.acTrouve(p, R.mode === 'vente', inp.value);
           if ((a ? a.id : null) === (R.f.art || null) && R.f.prod === inp.value) return;
-          R.f.art = a ? a.id : null; R.f.prod = inp.value; R.f.pu = null; R.f.lot = null; R.f.paye = null;
+          R.f.art = a ? a.id : null; R.f.prod = inp.value; R.f.pu = null; R.f.lot = null; R.f.paye = null; R.f.payeManuel = false;
           Pt.rerender(function () { var qi = $('#main [data-rf="q"]'); if (qi && R.f.art) qi.focus(); }); return;
         }
-        if (['client', 'paiement', 'four', 'lot'].indexOf(k) >= 0) { if (k === 'client') R.f.paye = null; Pt.rerender(); }
+        if (['client', 'paiement', 'four', 'lot'].indexOf(k) >= 0) { if (k === 'client' && !R.f.payeManuel) R.f.paye = null; Pt.rerender(); }
       });
     });
     var pr = $('[data-rf="prod"]', el); if (pr) Pt.acBind(p, pr, $('.ac-list', el));
@@ -6279,8 +6297,9 @@ var Pt = {
     var dispo = soldeOf(a.id, lot, emp).q;
     if (f.q > dispo && !a.negOk) { UI.toast('Stock insuffisant : il reste ' + fmtQ(dispo, a.unite) + '.', 'err'); return null; }
     var total = Math.round(fromQ(f.q) * pu), c = f.client ? clientOf(f.client) : null;
-    var paye = c && c.plafond > 0 ? (f.paye === null || f.paye === undefined ? total : f.paye) : total;
-    if (paye > total) { UI.toast('Le montant encaissé dépasse le total.', 'err'); return null; }
+    var paye = f.paye === null || f.paye === undefined || isNaN(f.paye) ? total : f.paye;
+    if (paye < 0) { UI.toast('Le montant payé ne peut pas être négatif.', 'err'); return null; }
+    if (paye > total) { UI.toast('Le montant payé dépasse le total.', 'err'); return null; }
     var reste = total - paye;
     if (reste > 0) {
       if (!c || !(c.plafond > 0)) { UI.toast('Vente à crédit impossible : choisissez un client avec un plafond de crédit, ou encaissez le total.', 'err'); return null; }
@@ -9975,7 +9994,8 @@ var Ventes = {
         { k: 'date', t: 'Date', type: 'date', req: true, dflt: today() },
         { k: 'echeance', t: 'Échéance (si crédit)', type: 'date' },
         { type: 'section', t: 'Encaissement' },
-        { k: 'paye', t: 'Montant encaissé maintenant (GNF)', type: 'money' },
+        { k: 'paye', t: 'Montant payé (GNF)', type: 'money', help: 'Se met au total ; tapez le montant réellement payé.' },
+        { k: 'resteAff', type: 'html', html: '<label class="fld"><span>Reste à payer (GNF)</span><input data-reste readonly tabindex="-1" class="reste-aff"><small class="muted" data-reste-h></small></label>' },
         { k: 'compte', t: 'Encaissé sur', type: 'select', opts: Opt.comptes, dflt: defCompte() },
         { k: 'ref', t: 'Référence (transaction Orange Money…)' },
         { k: 'notes', t: 'Notes sur la facture', span: 2 }
@@ -10020,7 +10040,9 @@ var Ventes = {
           else if (reste > 0 && credit) h = 'Reste ' + fmtGNF(reste) + ' à crédit — encours ' + fmtGNF(encoursClient(c.id)) + ' sur un plafond de ' + fmtGNF(c.plafond) + '.';
           else if (reste > 0) { h = 'Reste ' + fmtGNF(reste) + ' : ' + (c ? 'ce client n\'a pas de plafond de crédit (fiche du client). Encaissez le total, ou donnez-lui un plafond.' : 'un client de passage paie le total ; pour une vente à crédit, choisissez le client.'); bad = true; }
           else h = du ? 'Payé en totalité.' + (credit ? ' Crédit possible : encours ' + fmtGNF(encoursClient(c.id)) + ' sur un plafond de ' + fmtGNF(c.plafond) + '.' : '') : '';
-          var sm = paye.closest('.fld').querySelector('small.muted'); if (!sm) { sm = document.createElement('small'); sm.className = 'muted'; paye.closest('.fld').insertBefore(sm, paye.closest('.fld').querySelector('.ferr')); } sm.textContent = h; sm.classList.toggle('tx-warn', bad);
+          var rz = $('[data-reste]', m.el), sm = $('[data-reste-h]', m.el);
+          if (rz) rz.value = du ? fmtMoney(Math.max(0, reste)) : '';
+          if (sm) { sm.textContent = h; sm.classList.toggle('tx-warn', bad); }
         };
         cs.addEventListener('change', sync);
         m.el.addEventListener('input', function (e) { if (e.target.closest('[data-lines]')) setTimeout(sync, 0); });
@@ -14477,6 +14499,14 @@ Corr.facture = function (id) {
     var dispo = function (s) { return soldeOf(s.art, s.lot, s.emp).q + (deja[Corr.skey(s)] || 0); };
     var tarifDe = function (root) { var c = clientOf(($('[data-k="client"]', root) || {}).value); return c ? c.tarif : (f.tarif || 'detail'); };
     var suit = Corr.suitFac(f);
+    /* montant payé : celui de la facture validée, ou l'encaissement prévu d'une facture en attente */
+    var payeOk = f.statut === 'validee' || f.statut === 'attente', ep = f.encaissementPrevu || null, recus0 = f.recus || [];
+    var paid0 = f.statut === 'attente' ? ((ep && ep.montant) || 0) : (f.paye || 0);
+    var horsRecus = f.statut === 'validee' ? Math.max(0, (f.paye || 0) - sum(recus0, function (r) { return r.montant || 0; })) : 0;
+    var compte0 = (recus0.length ? recus0[recus0.length - 1].compte : null) || (ep && ep.compte) || (get('finances/comptes', defCompte()) ? defCompte() : null) || (Opt.comptes()[0] || [])[0] || null;
+    var auto0 = paid0 > 0 && paid0 >= facDu(f) + (f.rembourse || 0);
+    var payeDe = function (h) { var x = h.payeTotal; return x === null || x === undefined || isNaN(x) ? 0 : x; };
+    var payeChg = function (h) { return payeOk && (payeDe(h) !== paid0 || (f.statut === 'attente' && payeDe(h) > 0 && (h.payeCompte || null) !== ((ep && ep.compte) || null))); };
     var cols = [
       { k: 'idx', t: '', hidden: true },
       { k: 'src', t: 'Pièce ou produit', type: 'select', req: true, w: '38%', opts: function () { var o = Ventes.ligneOpts(PV); extra.forEach(function (x) { if (!o.some(function (y) { return y[0] === x[0]; })) o.push(x); }); return o; } },
@@ -14493,15 +14523,17 @@ Corr.facture = function (id) {
       { k: 'echeance', t: 'Échéance', type: 'date' },
       init ? { k: 'montant', t: 'Montant dû (GNF)', type: 'money', req: true } : null,
       { k: 'notes', t: 'Notes sur la facture', span: 2 },
-      suit ? { k: 'suit', t: 'Le reçu ' + (f.recus[0].num || '') + ' suit le nouveau montant (vente payée comptant)', type: 'checkbox', span: 2, help: "Décochez si l'argent réellement reçu ne change pas : la différence restera due par le client, ou lui sera due." } : null,
+      payeOk ? { k: 'payeTotal', t: 'Montant payé (GNF)', type: 'money', help: (auto0 ? 'Vente payée en totalité : le montant suit le nouveau total ; tapez' : 'Tapez') + ' le montant réellement payé.' + (horsRecus ? ' Dont ' + fmtGNF(horsRecus) + " d'acompte (il se corrige depuis la commande)." : '') } : null,
+      payeOk ? { k: 'resteAff', type: 'html', html: '<label class="fld"><span>Reste à payer (GNF)</span><input data-reste readonly tabindex="-1" class="reste-aff"><small class="muted" data-reste-h></small></label>' } : null,
+      payeOk ? { k: 'payeCompte', t: 'Encaissé sur', type: 'select', opts: Opt.comptes } : null,
       Corr.motifF()
     ].filter(Boolean);
     return docModal({
       title: 'Modifier la facture ' + f.num, size: 'xl',
       intro: (verrou ? 'Cette facture a déjà un retour ou un avoir : ses lignes ne se modifient plus (en-tête seulement). ' : '') +
         (valide && !init && !verrou ? 'Les quantités en plus sortent du stock, celles en moins y reviennent au coût de la vente. ' : '') +
-        'Les reçus se corrigent un par un depuis la facture.' + (f.statut === 'attente' ? ' La facture attend encore sa validation : rien n\'a bougé dans le stock ni la caisse.' : ''),
-      values: { client: f.client || '', clientNom: f.clientNom || '', date: f.date, echeance: f.echeance || '', montant: init ? f.net : null, notes: f.notes || '', suit: true },
+        'Le montant payé se corrige ici : les reçus et la caisse suivent (un reçu peut aussi se corriger seul depuis la facture).' + (f.statut === 'attente' ? ' La facture attend encore sa validation : rien n\'a bougé dans le stock ni la caisse.' : ''),
+      values: { client: f.client || '', clientNom: f.clientNom || '', date: f.date, echeance: f.echeance || '', montant: init ? f.net : null, notes: f.notes || '', payeTotal: payeOk ? paid0 : null, payeCompte: compte0 },
       fields: fields,
       linesTitle: 'Articles vendus',
       lines: init || verrou ? null : { cols: cols, rows: rows, opts: {
@@ -14516,7 +14548,32 @@ Corr.facture = function (id) {
           }
         }
       } },
-      onOpen: function (m) { $$('tr[data-line]', m.el).forEach(function (tr) { var md = $('[data-lk="mode"]', tr); if (md && md.value === 'piece') $('[data-lk="q"]', tr).readOnly = true; }); },
+      onOpen: function (m, lid) {
+        $$('tr[data-line]', m.el).forEach(function (tr) { var md = $('[data-lk="mode"]', tr); if (md && md.value === 'piece') $('[data-lk="q"]', tr).readOnly = true; });
+        if (!payeOk) return;
+        /* reste à payer en direct ; une vente payée en totalité suit le nouveau total tant qu'on ne touche pas au montant payé */
+        var py = $('[data-k="payeTotal"]', m.el), corrige = false;
+        var totalNow = function () {
+          if (init) { var x = toMoney(($('[data-k="montant"]', m.el) || {}).value); return isNaN(x) ? 0 : x; }
+          if (verrou || !lid) return f.net || 0;
+          return sum($$('[data-lines="' + lid + '"] tbody tr[data-line]', m.el).map(function (tr) { return LineEd.readRow(lid, tr).l; }), function (l) { return Ventes.calcLigne(l).net; });
+        };
+        var maj = function () {
+          var du = totalNow() - (f.avoirs || 0) + (f.rembourse || 0);
+          if (auto0 && !corrige) py.value = String(Math.max(0, du));
+          var pv = toMoney(py.value); if (isNaN(pv)) pv = 0;
+          var reste = du - pv, z = $('[data-reste]', m.el), hz = $('[data-reste-h]', m.el);
+          if (z) z.value = fmtMoney(Math.max(0, reste));
+          if (hz) {
+            hz.textContent = reste < 0 ? 'Le montant payé dépasse le total de ' + fmtGNF(-reste) + '.' : reste > 0 ? 'Restera dû par le client.' : 'Payé en totalité.';
+            hz.classList.toggle('tx-warn', reste < 0);
+          }
+        };
+        py.addEventListener('input', function () { corrige = true; maj(); });
+        m.el.addEventListener('input', function (e) { if (e.target !== py) setTimeout(maj, 0); });
+        m.el.addEventListener('change', function (e) { if (e.target !== py) setTimeout(maj, 0); });
+        maj();
+      },
       ok: 'Enregistrer la correction',
       check: function (h, lines) {
         if (h.date > today()) return 'La date ne peut pas être dans le futur.';
@@ -14531,21 +14588,75 @@ Corr.facture = function (id) {
           }
         }
         if (init && !(h.montant > 0)) return 'Indiquez le montant dû.';
-        var n = Corr.facCalc(f, Corr.facPayload(f, id, h, lines, init || verrou, suit));
-        if (!n.change) return 'Aucune modification.';
+        var n = Corr.facCalc(f, Corr.facPayload(f, id, h, lines, init || verrou, false)), pc = payeChg(h);
+        if (payeOk) {
+          var pT = payeDe(h), maxP = n.net - (f.avoirs || 0) + (f.rembourse || 0);
+          if (pT < 0) return 'Le montant payé ne peut pas être négatif.';
+          if (pT > maxP) return 'Le montant payé (' + fmtGNF(pT) + ') dépasse ce qui est dû (' + fmtGNF(maxP) + ').';
+          if (pT < horsRecus) return 'Le montant payé ne peut pas descendre sous l\'acompte déjà versé (' + fmtGNF(horsRecus) + ') : corrigez-le depuis la commande.';
+          if (pc && pT > 0 && !h.payeCompte) return 'Choisissez où l\'argent est encaissé.';
+          if (pc && f.statut === 'validee' && pT !== paid0) {
+            var dR = recus0.length ? recus0[recus0.length - 1].date : h.date;
+            if (Corr.clos(dR)) return Corr.closMsg(dR);
+            if (Corr.clos(h.date)) return Corr.closMsg(h.date);
+          }
+        }
+        if (!n.change && !pc) return 'Aucune modification.';
         if (n.financier && Corr.clos(f.date)) return Corr.closMsg(f.date);
         if (n.financier && Corr.clos(h.date)) return Corr.closMsg(h.date);
-        if (suit && h.suit && n.net !== f.net) { var r0 = f.recus[0]; if (Corr.clos(r0.date)) return Corr.closMsg(r0.date); }
+        if (suit && !pc && n.up.date !== f.date) { var r0 = f.recus[0]; if (Corr.clos(r0.date)) return Corr.closMsg(r0.date); }
       },
       save: function (h, lines) {
-        var p = Corr.facPayload(f, id, h, lines, init || verrou, suit), n = Corr.facCalc(f, p);
-        var reste = n.net - (f.avoirs || 0) - (p.suit && n.net !== f.net ? n.net : (f.paye || 0)) + (f.rembourse || 0);
-        return Corr.soumettre({ type: 'corr.fac', module: 'ventes', financier: n.financier, motif: h.corrMotif, payload: p,
-          label: 'Correction de la facture ' + f.num + Corr.delta(f.net || 0, n.net) + (n.up.date !== f.date ? ', date ' + fmtDate(f.date) + ' → ' + fmtDate(n.up.date) : '') + (n.up.client !== (f.client || null) ? ', client ' + clientName(f.client, f) + ' → ' + clientName(n.up.client, n.up) : '') + (f.statut === 'validee' && reste > 0 ? ' (reste dû ' + fmtGNF(reste) + ')' : '') });
+        var pc = payeChg(h), pT = payeDe(h);
+        /* sans changement du montant payé, une vente payée comptant garde son reçu à la date de la facture (comme avant) */
+        var p = Corr.facPayload(f, id, h, lines, init || verrou, false), n = Corr.facCalc(f, p);
+        p.suit = !!(suit && !pc && n.up.date !== f.date);
+        p.paye = pc ? pT : null; p.payeCompte = pc ? (h.payeCompte || null) : null;
+        var nouveauRecu = pc && f.statut === 'validee' && pT > (f.paye || 0) && !recus0.length;
+        return (nouveauRecu ? nextNum('RC', h.date) : Promise.resolve(null)).then(function (rc) {
+          p.recuNum = rc;
+          var reste = n.net - (f.avoirs || 0) - (pc ? pT : (f.paye || 0)) + (f.rembourse || 0);
+          return Corr.soumettre({ type: 'corr.fac', module: 'ventes', financier: n.financier || pc, motif: h.corrMotif, payload: p,
+            label: 'Correction de la facture ' + f.num + Corr.delta(f.net || 0, n.net) + (n.up.date !== f.date ? ', date ' + fmtDate(f.date) + ' → ' + fmtDate(n.up.date) : '') + (n.up.client !== (f.client || null) ? ', client ' + clientName(f.client, f) + ' → ' + clientName(n.up.client, n.up) : '') + (pc && pT !== paid0 ? ', payé ' + fmtGNF(paid0) + ' → ' + fmtGNF(pT) : '') + (f.statut === 'validee' && reste > 0 ? ' (reste dû ' + fmtGNF(reste) + ')' : '') });
+        });
       },
       okMsg: Corr.okMsg
     });
   });
+};
+Corr.facPaye = function (f, p, up, n, tx, req, doc) {
+  var P = Number(p.paye) || 0, maxP = n.net - (f.avoirs || 0) + (f.rembourse || 0);
+  if (P < 0 || P > maxP) throw new Error('Le montant payé dépasse ce qui est dû sur ' + f.num + '.');
+  if (f.statut === 'attente') {
+    var e = f.encaissementPrevu || {};
+    up.encaissementPrevu = P > 0 ? { montant: P, compte: p.payeCompte || e.compte || defCompte(), ref: e.ref || null } : null;
+    return;
+  }
+  if (f.statut !== 'validee') return;
+  var delta = P - (f.paye || 0); if (!delta) return;
+  var meta = Corr.kind('fac').meta(Object.assign({}, f, up)), items = (f.recus || []).map(function (r) { return Object.assign({}, r); });
+  var avant = [], apres = [], L = function (r) { return { compte: r.compte, date: r.date, cat: meta.cat, centre: meta.centre, m: r.montant || 0 }; };
+  var dateDe = function (r) { return r.date === f.date && up.date ? up.date : r.date; };
+  if (delta > 0) {
+    if (items.length) { var i = items.length - 1, r = items[i]; avant.push(L(r)); items[i] = Object.assign({}, r, { montant: (r.montant || 0) + delta, compte: p.payeCompte || r.compte, date: dateDe(r) }); apres.push(L(items[i])); }
+    else {
+      if (!p.payeCompte) throw new Error("Choisissez où l'argent est encaissé.");
+      var nr = { num: p.recuNum || null, montant: delta, date: up.date || f.date, compte: p.payeCompte };
+      items.push(nr); apres.push(L(nr));
+    }
+  } else {
+    var aRetirer = -delta;
+    for (var j = items.length - 1; j >= 0 && aRetirer > 0; j--) {
+      var rj = items[j], x = Math.min(rj.montant || 0, aRetirer);
+      avant.push(L(rj));
+      if ((rj.montant || 0) - x > 0) { items[j] = Object.assign({}, rj, { montant: rj.montant - x, date: dateDe(rj) }); apres.push(L(items[j])); } else items.splice(j, 1);
+      aRetirer -= x;
+    }
+    if (aRetirer > 0) throw new Error("Une partie du montant payé vient d'un acompte : corrigez-la depuis la commande.");
+  }
+  Corr.postCash(tx, Corr.cashDelta(avant, apres), Object.assign({ doc: doc, recu: (items[items.length - 1] || {}).num || null, lib: req.motif, solde: delta < 0 }, meta));
+  up.recus = items.length ? Corr.clean(items) : null;
+  tx.inc('d/ventes/factures/' + p.id + '/paye', delta);
 };
 Corr.facPayload = function (f, id, h, lines, sansLignes, suit) {
   return { id: id, sig: Corr.sig(f), h: { client: h.client || null, clientNom: h.clientNom || null, date: h.date, echeance: h.echeance || null, notes: h.notes || null },
@@ -14567,8 +14678,10 @@ Corr.apply.fac = function (p, tx, req) {
     up.lignes = n.nl;
     if (f.statut === 'attente' && f.encaissementPrevu && f.encaissementPrevu.montant > n.net) up.encaissementPrevu = n.net > 0 ? Object.assign({}, f.encaissementPrevu, { montant: n.net }) : null;
   }
+  /* montant payé corrigé : les reçus suivent (le dernier d'abord) et l'argent entre ou sort de la caisse */
+  if (p.paye !== null && p.paye !== undefined) Corr.facPaye(f, p, up, n, tx, req, doc);
   /* vente comptant : le reçu suit le nouveau montant (et la nouvelle date s'il était du même jour) */
-  if (p.suit && Corr.suitFac(f) && (n.net !== (f.net || 0) || up.date !== f.date)) {
+  else if (p.suit && Corr.suitFac(f) && (n.net !== (f.net || 0) || up.date !== f.date)) {
     var r0 = f.recus[0], nd = r0.date === f.date ? up.date : r0.date, meta = Corr.kind('fac').meta(Object.assign({}, f, up));
     Corr.postCash(tx, Corr.cashDelta([{ compte: r0.compte, date: r0.date, cat: meta.cat, centre: meta.centre, m: r0.montant }], n.net > 0 ? [{ compte: r0.compte, date: nd, cat: meta.cat, centre: meta.centre, m: n.net }] : []),
       Object.assign({ doc: doc, recu: r0.num || null, lib: req.motif }, meta));
