@@ -894,7 +894,8 @@ button.cat-card { cursor: pointer; } button.cat-card:hover { border-color: var(-
 .obj-rap h3 { margin: 18px 0 6px; }
 .obj-rap h4 { margin: 12px 0 4px; font-size: .95rem; }
 .r-qu { display: flex; gap: 8px; } .r-qu input { flex: 1 1 auto; min-width: 0; } .r-qu select { flex: 0 0 auto; width: auto; }
-.reste-aff { font-weight: 700; background: var(--vat-50); }
+.reste-aff { font-weight: 700; color: var(--err) !important; background: var(--err-50) !important; border-color: var(--err) !important; -webkit-text-fill-color: var(--err); }
+.reste-aff.zero { color: var(--ok) !important; background: var(--ok-50) !important; border-color: var(--line) !important; -webkit-text-fill-color: var(--ok); }
 .tissu-eq { display: block; margin-top: 4px; color: var(--indigo-700); font-weight: 600; }
 .obj-rap .tot { margin: 8px 0 0 auto; width: min(100%, 520px); border-collapse: collapse; }
 .obj-rap .tot td { padding: 5px 8px; border-bottom: 1px solid var(--line); }
@@ -936,7 +937,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261105-1430';
+NERP.build = '20261105-1500';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -3770,7 +3771,8 @@ var NAV_PARTIES = {
       { r: 'bpalm', t: 'Palmarès', i: 'chart', mod: 'boutique', tabs: [['boutique/palmares', 'Palmarès'], ['boutique/rapport', 'Rapports'], ['boutique/recap', 'Récapitulatif annuel']] },
       { r: 'bdormant', t: 'Produits dormants', i: 'alert', mod: 'boutique', tabs: [['boutique/alertes', 'Produits dormants et alertes']] },
       fournisseursBloc('boutique'),
-      { r: 'boutique-clients', t: 'Clients et factures', i: 'users', mod: 'ventes', tabs: [['ventes/clients', 'Clients'], ['boutique/dettes', 'Dettes et factures dues'], ['ventes/creances', 'Créances et échéances'], ['boutique/versements', 'Versements']] }
+      { r: 'boutique-clients', t: 'Clients et factures', i: 'users', mod: 'ventes', tabs: [['ventes/clients', 'Clients'], ['boutique/dettes', 'Dettes et factures dues'], ['ventes/creances', 'Créances et échéances'], ['boutique/versements', 'Versements']] },
+      { r: 'boutique/vclients', t: 'Versements des clients', i: 'wallet', mod: 'ventes' }
     ] },
     { g: 'Caisse et vitrine', items: [
       { r: 'boutique-caisse', t: 'Caisse et dépenses', i: 'wallet', mod: 'finances', tabs: [['boutique/caisse', 'Caisse'], ['boutique/depenses', 'Dépenses'], ['boutique/journalier', 'Historique journalier'], ['boutique/mensuel', 'Caisse mois par mois'], ['boutique/repartition', 'Répartition des fonds']] },
@@ -6114,7 +6116,7 @@ var Pt = {
         '<label class="fld"><span>' + (vente ? 'Prix de vente unitaire (GNF)' : "Prix d'achat unitaire (GNF)") + ' *</span><input inputmode="numeric" data-rf="pu" value="' + attr(pu === null || pu === undefined ? '' : String(pu)) + '" placeholder="0"></label>' +
         (vente ? '<label class="fld"><span>Client</span><select data-rf="client"><option value="">Client de passage</option>' + Opt.clients().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === f.client ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
           '<label class="fld"><span>Montant payé (GNF)</span><input inputmode="numeric" data-rf="paye" value="' + attr(String(paye || '')) + '"><small class="muted">Se met au total ; tapez le montant réellement payé.</small></label>' +
-          '<label class="fld"><span>Reste à payer (GNF)</span><input data-rf-reste readonly tabindex="-1" class="reste-aff" value="' + attr(tot ? fmtMoney(Math.max(0, tot - (paye || 0))) : '') + '"><small class="muted" data-rf-reste-h>' + esc(Pt.resteTxt(tot, paye || 0, c)) + '</small></label>'
+          '<label class="fld"><span>Reste à payer (GNF)</span><input data-rf-reste readonly tabindex="-1" class="reste-aff' + (tot - (paye || 0) > 0 ? '' : ' zero') + '" value="' + attr(tot ? fmtMoney(Math.max(0, tot - (paye || 0))) : '') + '"><small class="muted" data-rf-reste-h>' + esc(Pt.resteTxt(tot, paye || 0, c)) + '</small></label>'
           : '<label class="fld"><span>Fournisseur</span><select data-rf="four"><option value="">Autre ou aucun</option>' + Opt.fournisseurs().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === f.four ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
             (!f.four ? '<label class="fld"><span>Nom du fournisseur</span><input data-rf="fourNom" value="' + attr(f.fourNom || '') + '" placeholder="facultatif"></label>' : '') +
             '<label class="fld"><span>Paiement</span><select data-rf="paiement">' + [['comptant', 'Payé maintenant'], ['credit', 'À crédit (dette fournisseur)'], ['aucun', 'Sans achat (don, retour, reprise…) — validé par un responsable']].map(function (o) { return '<option value="' + o[0] + '"' + ((f.paiement || 'comptant') === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
@@ -6152,7 +6154,7 @@ var Pt = {
     var R = ptState(p).rapide, f = R.f, a = f.art ? articleOf(f.art) : null, z = $('[data-rf-reste]', el), hz = $('[data-rf-reste-h]', el); if (!z) return;
     var tot = a && f.q && f.pu && !isNaN(f.q) && !isNaN(f.pu) ? Math.round(fromQ(f.q) * f.pu) : 0;
     var paye = f.paye === null || f.paye === undefined || isNaN(f.paye) ? tot : f.paye, c = f.client ? clientOf(f.client) : null;
-    z.value = tot ? fmtMoney(Math.max(0, tot - paye)) : '';
+    z.value = tot ? fmtMoney(Math.max(0, tot - paye)) : ''; z.classList.toggle('zero', !(tot - paye > 0));
     if (hz) { hz.textContent = Pt.resteTxt(tot, paye, c); hz.classList.toggle('tx-warn', tot > 0 && (paye > tot || (paye < tot && !(c && c.plafond > 0)))); }
   },
   rapideBind: function (p, el) {
@@ -10041,7 +10043,7 @@ var Ventes = {
           else if (reste > 0) { h = 'Reste ' + fmtGNF(reste) + ' : ' + (c ? 'ce client n\'a pas de plafond de crédit (fiche du client). Encaissez le total, ou donnez-lui un plafond.' : 'un client de passage paie le total ; pour une vente à crédit, choisissez le client.'); bad = true; }
           else h = du ? 'Payé en totalité.' + (credit ? ' Crédit possible : encours ' + fmtGNF(encoursClient(c.id)) + ' sur un plafond de ' + fmtGNF(c.plafond) + '.' : '') : '';
           var rz = $('[data-reste]', m.el), sm = $('[data-reste-h]', m.el);
-          if (rz) rz.value = du ? fmtMoney(Math.max(0, reste)) : '';
+          if (rz) { rz.value = du ? fmtMoney(Math.max(0, reste)) : ''; rz.classList.toggle('zero', !(reste > 0)); }
           if (sm) { sm.textContent = h; sm.classList.toggle('tx-warn', bad); }
         };
         cs.addEventListener('change', sync);
@@ -10154,7 +10156,7 @@ var Ventes = {
     var corrRc = f.statut === 'validee' && Corr.peut('ventes');
     var m = detailModal('Facture ' + f.num,
       '<div class="two">' + UI.kv([['Client', esc(clientName(f.client, f))], ['Date', fmtDate(f.date)], ['Échéance', fmtDate(f.echeance)], ['État', statutBadge(facEtat(f))], f.cmdNum ? ['Commande', '<span class="code">' + esc(f.cmdNum) + '</span>'] : null, ['Vendeur', esc(f.parNom || '')]]) +
-      UI.kv([['Total brut', fmtGNF(f.total)], ['Remise', fmtGNF(f.remise || 0)], ['Net', fmtGNF(f.net)], f.avoirs ? ['Avoirs', fmtGNF(f.avoirs)] : null, ['Encaissé', fmtGNF((f.paye || 0) - (f.rembourse || 0))], ['Reste dû', reste < 0 ? 'Avoir client ' + fmtGNF(-reste) : fmtGNF(reste)], mm && f.cout !== undefined ? ['Coût de revient', fmtGNF(f.cout)] : null, mm && f.cout !== undefined ? ['Marge brute', fmtGNF(facDu(f) - f.cout) + ' (' + fmtPct((facDu(f) - f.cout) / Math.max(1, facDu(f))) + ')'] : null]) + '</div>' +
+      UI.kv([['Total brut', fmtGNF(f.total)], ['Remise', fmtGNF(f.remise || 0)], ['Net', fmtGNF(f.net)], f.avoirs ? ['Avoirs', fmtGNF(f.avoirs)] : null, ['Encaissé', fmtGNF((f.paye || 0) - (f.rembourse || 0))], ['Reste dû', reste < 0 ? 'Avoir client ' + fmtGNF(-reste) : reste > 0 ? '<strong class="tx-err">' + fmtGNF(reste) + '</strong>' : fmtGNF(reste)], mm && f.cout !== undefined ? ['Coût de revient', fmtGNF(f.cout)] : null, mm && f.cout !== undefined ? ['Marge brute', fmtGNF(facDu(f) - f.cout) + ' (' + fmtPct((facDu(f) - f.cout) / Math.max(1, facDu(f))) + ')'] : null]) + '</div>' +
       (f.exceptions ? '<p class="note warn">' + icon('alert') + '<span>' + esc(f.exceptions.join(' ; ')) + '</span></p>' : '') +
       '<table class="grid"><thead><tr><th>Produit</th><th>Pièce</th><th class="num">Quantité</th><th class="num">Prix unitaire</th><th class="num">Remise</th><th class="num">Net</th>' + (mm ? '<th class="num">Coût</th>' : '') + '</tr></thead><tbody>' +
       (f.lignes || []).map(function (l) { return '<tr><td>' + esc(artName(l.art)) + '</td><td class="code">' + esc(l.lot !== '_' ? lotNum(l.lot) : '') + '</td><td class="num">' + (l.mode === 'piece' ? '1 pièce (' + fmtQ(l.q, 'm') + ')' : fmtQ(l.q, artUnit(l.art))) + (l.retourne ? '<br><small class="tx-err">retourné ' + fmtQ(l.retourne) + '</small>' : '') + '</td><td class="num">' + fmtMoney(l.pu) + (l.prixTarif && l.pu !== l.prixTarif ? '<br><small class="muted">tarif ' + fmtMoney(l.prixTarif) + '</small>' : '') + '</td><td class="num">' + (l.remise ? l.remise + ' %' : '') + '</td><td class="num">' + fmtMoney(l.net) + '</td>' + (mm ? '<td class="num">' + (l.cout !== undefined ? fmtMoney(l.cout) : '') + '</td>' : '') + '</tr>'; }).join('') + '</tbody></table>' +
@@ -14563,7 +14565,7 @@ Corr.facture = function (id) {
           if (auto0 && !corrige) py.value = String(Math.max(0, du));
           var pv = toMoney(py.value); if (isNaN(pv)) pv = 0;
           var reste = du - pv, z = $('[data-reste]', m.el), hz = $('[data-reste-h]', m.el);
-          if (z) z.value = fmtMoney(Math.max(0, reste));
+          if (z) { z.value = fmtMoney(Math.max(0, reste)); z.classList.toggle('zero', !(reste > 0)); }
           if (hz) {
             hz.textContent = reste < 0 ? 'Le montant payé dépasse le total de ' + fmtGNF(-reste) + '.' : reste > 0 ? 'Restera dû par le client.' : 'Payé en totalité.';
             hz.classList.toggle('tx-warn', reste < 0);
@@ -20858,6 +20860,136 @@ view('ouvriers/previsions', {
     }
   }
 });
+
+
+/* ===== 34-versements-clients.js ===== */
+/* =====================================================================
+   Versements des clients : chaque fois qu'un client paie sur sa dette.
+   Les clients qui doivent (reste dû en rouge), un versement en deux
+   gestes (il solde d'abord les factures les plus anciennes, l'argent
+   entre dans la caisse choisie, un reçu est édité — par le versement
+   existant du bloc), et l'historique des versements reçus, mois par mois.
+   Rien de nouveau n'est enregistré : les versements restent les reçus
+   des factures, comme avant.
+   ===================================================================== */
+var VersC = {
+  st: {},
+  s: function (p) { return VersC.st[p] || (VersC.st[p] = { q: '', mois: monthOf(today()), nat: '' }); },
+  /* dettes par client (et, à part, les factures de clients de passage) */
+  dettes: function (p) {
+    var g = {};
+    list('ventes/factures', function (f) { return facPartie(f) === p && facReste(f) > 0; }).forEach(function (f) {
+      var k = f.client ? 'c|' + f.client : 'n|' + f.id, c = f.client ? clientOf(f.client) : null;
+      var x = g[k] || (g[k] = { id: k, client: f.client || null, fac: f.client ? null : f.id, nom: clientName(f.client, f), tel: (c && c.tel) || '', n: 0, du: 0, achete: 0, verse: 0, ech: null, nums: [] });
+      x.n++; x.du += facReste(f); x.achete += facDu(f); x.verse += (f.paye || 0) - (f.rembourse || 0); x.nums.push(f.num);
+      var e = f.echeance || f.date; if (!x.ech || e < x.ech) x.ech = e;
+    });
+    return Object.keys(g).map(function (k) { return g[k]; });
+  },
+  /* reçus des factures sur une période, un par numéro de reçu (un versement peut solder plusieurs factures) */
+  recus: function (p, d1, d2) {
+    var g = {};
+    list('ventes/factures', function (f) { return facPartie(f) === p && f.statut !== 'annulee'; }).forEach(function (f) {
+      (f.recus || []).forEach(function (r, i) {
+        if (!r || !r.date || r.date < d1 || r.date > d2) return;
+        var aLaVente = i === 0 && r.date === f.date, k = r.num || ('_' + f.id + '_' + i);
+        var x = g[k] || (g[k] = { id: k, num: r.num || '', date: r.date, compte: r.compte, client: f.client || null, nom: clientName(f.client, f), montant: 0, lignes: [], nature: 'vente' });
+        x.montant += Number(r.montant) || 0; x.lignes.push({ num: f.num, part: Number(r.montant) || 0, reste: facReste(f) });
+        if (!aLaVente) x.nature = 'versement';
+      });
+    });
+    return Object.keys(g).map(function (k) { return g[k]; }).sort(function (a, b) { return String(b.date + b.num).localeCompare(a.date + a.num); });
+  },
+  verser: function (p, key) {
+    if (String(key).indexOf('n|') === 0) Ventes.encaisser(String(key).slice(2));
+    else Pt.verser(p, key);
+  },
+  /* nouveau versement : choisir le client, puis le versement habituel */
+  nouveau: function (p) {
+    var ds = VersC.dettes(p).sort(function (a, b) { return a.nom.localeCompare(b.nom, 'fr'); });
+    if (!ds.length) { UI.toast('Aucun client ne doit de l\'argent : rien à verser.', 'info'); return; }
+    UI.formModal({
+      title: 'Nouveau versement d\'un client', size: 's',
+      fields: [{ k: 'qui', t: 'Client', type: 'select', req: true, opts: ds.map(function (d) { return [d.id, d.nom + (d.client ? '' : ' (client de passage, ' + d.nums[0] + ')') + ' — doit ' + fmtGNF(d.du)]; }) }],
+      ok: 'Continuer'
+    }).then(function (v) { if (v) setTimeout(function () { VersC.verser(p, v.qui); }, 50); });
+  },
+  imprimerRecu: function (p, key) {
+    var r = VersC.recus(p, '0000-01-01', '9999-12-31').filter(function (x) { return x.id === key; })[0];
+    if (!r) return;
+    UI.print({ title: 'Reçu ' + (r.num || ''), docTitle: r.nature === 'versement' ? 'Reçu de versement (duplicata)' : 'Reçu de paiement (duplicata)', docMeta: '<div>N° ' + esc(r.num || '—') + '</div><div>Date : ' + fmtDate(r.date) + '</div><div>' + esc(partieNom(p)) + '</div>',
+      body: '<div class="box"><strong>Versé par</strong><br>' + esc(r.nom) + '</div><div class="box">Montant : <strong>' + fmtGNF(r.montant) + '</strong> (' + esc(majuscule(enLettres(r.montant))) + ' francs guinéens) — ' + esc(compteName(r.compte)) + '</div>' +
+        printLines([{ t: 'Facture', k: 'num' }, { t: 'Réglé', n: 1, f: function (x) { return fmtMoney(x.part); } }, { t: "Reste dû aujourd'hui", n: 1, f: function (x) { return fmtMoney(Math.max(0, x.reste)); } }], r.lignes) +
+        '<div class="sig"><div>Le client</div><div>Pour ' + esc(partieNom(p)) + '</div></div>' });
+  },
+  imprimer: function (p) {
+    var s = VersC.s(p), ds = VersC.dettes(p).sort(function (a, b) { return b.du - a.du; }), rs = VersC.recus(p, s.mois + '-01', s.mois + '-31').filter(function (r) { return !s.nat || r.nature === s.nat; });
+    UI.print({ title: 'Versements des clients', docTitle: 'Versements des clients', docMeta: '<div>' + esc(partieNom(p)) + '</div><div>' + esc(fmtMois(s.mois)) + '</div>',
+      body: '<h3>Clients qui doivent</h3>' + printLines([{ t: 'Client', f: function (d) { return esc(d.nom) + (d.tel ? ' — ' + esc(d.tel) : ''); } }, { t: 'Factures', n: 1, k: 'n' }, { t: 'Acheté', n: 1, f: function (d) { return fmtMoney(d.achete); } }, { t: 'Déjà versé', n: 1, f: function (d) { return fmtMoney(d.verse); } }, { t: 'Reste dû', n: 1, f: function (d) { return '<strong style="color:#b23a3a">' + fmtMoney(d.du) + '</strong>'; } }], ds,
+        '<tr><td>Total</td><td class="n">' + sum(ds, function (d) { return d.n; }) + '</td><td class="n">' + fmtMoney(sum(ds, function (d) { return d.achete; })) + '</td><td class="n">' + fmtMoney(sum(ds, function (d) { return d.verse; })) + '</td><td class="n" style="color:#b23a3a">' + fmtMoney(sum(ds, function (d) { return d.du; })) + '</td></tr>') +
+        '<h3>Versements reçus — ' + esc(fmtMois(s.mois)) + '</h3>' + printLines([{ t: 'Date', f: function (r) { return fmtDate(r.date); } }, { t: 'Reçu', f: function (r) { return esc(r.num); } }, { t: 'Client', f: function (r) { return esc(r.nom); } }, { t: 'Factures', f: function (r) { return esc(r.lignes.map(function (l) { return l.num; }).join(', ')); } }, { t: 'Caisse', f: function (r) { return esc(compteName(r.compte)); } }, { t: 'Montant', n: 1, f: function (r) { return fmtMoney(r.montant); } }], rs,
+          '<tr><td colspan="5">Total</td><td class="n">' + fmtMoney(sum(rs, function (r) { return r.montant; })) + '</td></tr>') +
+        '<div class="sig"><div>Établi par</div><div>Visa du responsable</div></div>' });
+  }
+};
+
+function vclientsView(p) {
+  var route = p + '/vclients';
+  view(route, {
+    mod: 'ventes', title: 'Versements des clients',
+    check: function () { return can('ventes') || can(partieOf(p).mod); },
+    need: ['ventes/clients', 'ventes/factures', 'finances/comptes', 'finances/soldes', 'finances/clotures'],
+    render: function () {
+      var s = VersC.s(p), q = norm(s.q || ''), t = today(), cv = can('ventes', 'creer');
+      var toutes = VersC.dettes(p), ds = toutes.filter(function (d) { return !q || norm(d.nom + ' ' + d.tel + ' ' + d.nums.join(' ')).indexOf(q) >= 0; });
+      var rs = VersC.recus(p, s.mois + '-01', s.mois + '-31'), vers = rs.filter(function (r) { return r.nature === 'versement'; });
+      var vJ = VersC.recus(p, t, t).filter(function (r) { return r.nature === 'versement'; });
+      var rsF = rs.filter(function (r) { return !s.nat || r.nature === s.nat; });
+      var du = sum(toutes, function (d) { return d.du; });
+      return pageHead('Versements des clients', 'Chaque fois qu\'un client paie sur sa dette : cherchez-le, touchez « Faire un versement ». Le versement solde d\'abord ses factures les plus anciennes, l\'argent entre dans la caisse choisie et un reçu est édité.',
+        (cv ? UI.btn(icon('plus') + ' Nouveau versement', 'nouveau', 'primary', ' data-needs-net') : '') + UI.btn(icon('print') + ' Imprimer', 'imprimer', 'ghost')) +
+        tiles([{ t: 'Dettes des clients', v: '<span class="tx-err">' + money(du) + '</span>', s: plural(toutes.length, 'client') + ' doi' + (toutes.length > 1 ? 'vent' : 't') },
+          { t: 'Versements du jour', v: money(sum(vJ, function (r) { return r.montant; })), s: plural(vJ.length, 'versement') },
+          { t: 'Versements de ' + fmtMois(s.mois), v: money(sum(vers, function (r) { return r.montant; })), s: plural(vers.length, 'versement') },
+          { t: 'Échéances dépassées', v: toutes.filter(function (d) { return d.ech && d.ech < t; }).length, tone: toutes.some(function (d) { return d.ech && d.ech < t; }) ? 'warn' : '' }]) +
+        '<h2>Clients qui doivent</h2>' +
+        '<label class="tsearch big">' + icon('search') + '<input type="search" data-chg="vq" placeholder="Nom, téléphone du client ou numéro de facture" value="' + attr(s.q || '') + '" aria-label="Rechercher un client"></label>' +
+        UI.table({
+          id: p + '-vcl', rows: ds, sort: 'du', dir: -1, search: false,
+          cols: [{ k: 'nom', t: 'Client', f: function (d) { return '<strong>' + esc(d.nom) + '</strong>' + (d.tel ? '<br><small class="muted">' + esc(d.tel) + '</small>' : '') + (d.client ? '' : '<br><small class="muted">client de passage — ' + esc(d.nums[0]) + '</small>'); } },
+            { k: 'n', t: 'Factures', num: true }, { k: 'achete', t: 'Acheté', num: true, f: function (d) { return moneyN(d.achete); } }, { k: 'verse', t: 'Déjà versé', num: true, f: function (d) { return moneyN(d.verse); } },
+            { k: 'du', t: 'Reste dû', num: true, f: function (d) { return '<strong class="tx-err">' + moneyN(d.du) + '</strong>'; } },
+            { k: 'ech', t: 'Échéance', f: function (d) { return d.ech ? fmtDate(d.ech) + (d.ech < t ? ' ' + UI.badge('Dépassée', 'err') : '') : ''; } }],
+          actions: function (d) { return cv ? UI.btn(icon('wallet') + ' Faire un versement', 'verser', 'primary sm', ' data-id="' + attr(d.id) + '" data-needs-net') : ''; },
+          empty: q ? 'Aucun client ne correspond à cette recherche.' : 'Aucune dette en cours : tous les clients sont à jour.'
+        }) +
+        '<h2 class="mt">Versements reçus</h2>' +
+        '<div class="seg" role="group" aria-label="Période"><span class="seg-sel"><input type="month" data-chg="mois" value="' + attr(s.mois) + '" aria-label="Mois"></span>' +
+        '<span class="seg-sel"><select data-chg="nat" aria-label="Nature"><option value="">Tous les encaissements</option><option value="versement"' + (s.nat === 'versement' ? ' selected' : '') + '>Versements sur dette</option><option value="vente"' + (s.nat === 'vente' ? ' selected' : '') + '>Payé à la vente</option></select></span></div>' +
+        UI.table({
+          id: p + '-vhist', rows: rsF, sort: 'date', dir: -1, search: rsF.length > 10,
+          text: function (r) { return [r.num, r.nom, r.lignes.map(function (l) { return l.num; }).join(' ')].join(' '); },
+          cols: [{ k: 'date', t: 'Date', f: function (r) { return fmtDate(r.date); } }, { k: 'num', t: 'Reçu', f: function (r) { return '<span class="code">' + esc(r.num || '') + '</span>'; } },
+            { k: 'nom', t: 'Client' }, { k: 'f', t: 'Factures', nosort: true, f: function (r) { return esc(r.lignes.map(function (l) { return l.num; }).join(', ')); } },
+            { k: 'compte', t: 'Caisse', f: function (r) { return esc(compteName(r.compte)); } }, { k: 'nature', t: 'Nature', f: function (r) { return UI.badge(r.nature === 'versement' ? 'Versement' : 'À la vente', r.nature === 'versement' ? 'ok' : ''); } },
+            { k: 'montant', t: 'Montant', num: true, f: function (r) { return '<strong>' + moneyN(r.montant) + '</strong>'; } }],
+          foot: function (rows) { return '<tr><td colspan="6">Total</td><td class="num">' + moneyN(sum(rows, function (r) { return r.montant; })) + '</td><td></td></tr>'; },
+          actions: function (r) { return UI.ibtn('print', 'recu', r.id, 'Réimprimer le reçu'); },
+          empty: 'Aucun encaissement en ' + fmtMois(s.mois) + '.'
+        });
+    },
+    acts: {
+      vq: function (v) { VersC.s(p).q = v; App.render(true); },
+      mois: function (v) { if (/^\d{4}-\d{2}$/.test(v || '')) { VersC.s(p).mois = v; App.render(true); } },
+      nat: function (v) { VersC.s(p).nat = v; App.render(true); },
+      nouveau: function () { VersC.nouveau(p); },
+      verser: function (k) { VersC.verser(p, k); },
+      recu: function (k) { VersC.imprimerRecu(p, k); },
+      imprimer: function () { VersC.imprimer(p); }
+    }
+  });
+}
+vclientsView('boutique');
 
 
 /* ===== 99-boot.js ===== */
