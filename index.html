@@ -935,7 +935,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261104-2355';
+NERP.build = '20261105-1300';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -3725,8 +3725,8 @@ var NAV_PARTIES = {
     { g: 'Mes déclarations', items: [{ r: 'moi', t: 'Mes déclarations', i: 'clip', mod: '*', tabs: [['ouvriers/moi', 'Mes déclarations'], ['ouvriers/mapaie', 'Ma paie']] }] },
     { g: 'Producteurs', items: [
       { r: 'prod-decl', t: 'Déclarations de production', i: 'bolt', mod: 'ouvriers', tabs: [['production/rapide', 'Déclaration rapide'], ['ouvriers/declarations', 'À valider et historique'], ['production/producteurs', 'Producteurs']] },
-      { r: 'prod-paie', t: 'Versements et paie', i: 'wallet', mod: 'paie', tabs: [['ouvriers/paie', 'Versements aux producteurs'], ['ouvriers/rapports', 'Rapports par producteur'], ['parametres/personnel', 'Fiches du personnel']] },
-      { r: 'ouvriers/objectifs', t: 'Objectifs de production', i: 'chart', mod: 'ouvriers' }
+      { r: 'prod-paie', t: 'Versements et paie', i: 'wallet', mod: 'paie', tabs: [['ouvriers/salaires', 'Salaires du mois'], ['ouvriers/paie', 'Versements aux producteurs'], ['ouvriers/rapports', 'Rapports par producteur'], ['parametres/personnel', 'Fiches du personnel']] },
+      { r: 'prod-obj', t: 'Objectifs et prévisions', i: 'chart', mod: 'ouvriers', tabs: [['ouvriers/objectifs', 'Objectifs de chaque travailleur'], ['ouvriers/previsions', 'Prévision mensuelle']] }
     ] },
     { g: 'Production', items: [
       { r: 'prod-suivi', t: 'Suivi de la production', i: 'chart', mod: 'production', tabs: [['production/mensuel', 'Production mensuelle'], ['production/inventaire', 'Inventaire de production'], ['production/sorties', 'Sorties mensuelles'], ['production/transferts', 'Transferts']] },
@@ -3785,7 +3785,8 @@ var NAV_PARTIES = {
     { g: 'Tisserands', items: [
       { r: 'tisserand/nouveau', t: 'Nouveau tisserand', i: 'plus', mod: 'ouvriers' },
       { r: 'tisserand/liste', t: 'Liste des tisserands', i: 'users', mod: 'ouvriers' },
-      { r: 'ouvriers/objectifs', t: 'Objectifs de production', i: 'chart', mod: 'ouvriers' }
+      { r: 'tis-sal', t: 'Salaires', i: 'wallet', mod: 'paie', tabs: [['ouvriers/salaires', 'Salaires du mois'], ['ouvriers/rapports', 'Rapports journaliers et mensuels'], ['ouvriers/paie', 'Versements et avances']] },
+      { r: 'tis-obj', t: 'Objectifs et prévisions', i: 'chart', mod: 'ouvriers', tabs: [['ouvriers/objectifs', 'Objectifs de chaque travailleur'], ['ouvriers/previsions', 'Prévision mensuelle']] }
     ] }
   ],
   /* Distributeur : fils remis aux tisserands (sous-traitance) et commerce des fils */
@@ -3842,7 +3843,7 @@ var NAV_ADMIN = [
   ] },
   { g: 'Les personnes', items: [
     { r: 'gerants', t: 'Gérants et rôles', i: 'users', mod: 'utilisateurs', tabs: [['parametres/utilisateurs', 'Gérants et accès'], ['parametres/roles', 'Rôles et autorisations']] },
-    { r: 'ouvriers', t: 'Personnel et paie', i: 'clip', mod: 'ouvriers', tabs: [['parametres/personnel', 'Personnel'], ['ouvriers/declarations', 'Déclarations'], ['ouvriers/paie', 'Paie'], ['ouvriers/rapports', 'Rapports par personne'], ['ouvriers/objectifs', 'Objectifs']] }
+    { r: 'ouvriers', t: 'Personnel et paie', i: 'clip', mod: 'ouvriers', tabs: [['parametres/personnel', 'Personnel'], ['ouvriers/declarations', 'Déclarations'], ['ouvriers/salaires', 'Salaires du mois'], ['ouvriers/paie', 'Paie'], ['ouvriers/rapports', 'Rapports par personne'], ['ouvriers/objectifs', 'Objectifs'], ['ouvriers/previsions', 'Prévisions']] }
   ] },
   { g: 'Le contrôle', items: [
     { r: 'admin', t: 'Contrôle', i: 'audit', mod: 'admin', tabs: [['admin/audit', "Journal d'audit"], ['admin/reinit', 'Réinitialisation'], ['admin/sauvegarde', 'Sauvegarde']] }
@@ -11857,9 +11858,9 @@ var Reinit = {
    Données du bloc : ouvriers/decl/<personne>/<id>, paie/fiches/<personne>/<id>.
    ===================================================================== */
 
-var PAIE_MODES = [['jour', 'À la journée'], ['tache', 'Au métrage (par mètre tissé)'], ['piece', 'À la pièce'], ['heure', "À l'heure"], ['mois', 'Salaire mensuel']];
+var PAIE_MODES = [['jour', 'À la journée'], ['tache', 'Au métrage (par mètre tissé)'], ['complet', 'Au complet (tissu : 3 pagnes = 1 complet)'], ['pagne', 'Au pagne (tissu : 8 m = 1 pagne)'], ['piece', 'À la pièce'], ['heure', "À l'heure"], ['mois', 'Salaire mensuel']];
 function modeNom(m) { return (PAIE_MODES.filter(function (x) { return x[0] === m; })[0] || [m, m || '—'])[1]; }
-function tauxUnite(m) { return { jour: 'par journée', tache: 'par mètre', piece: 'par pièce', heure: 'par heure', mois: 'par mois' }[m] || ''; }
+function tauxUnite(m) { return { jour: 'par journée', tache: 'par mètre', complet: 'par complet', pagne: 'par pagne', piece: 'par pièce', heure: 'par heure', mois: 'par mois' }[m] || ''; }
 var PRESENCES = [['1', 'Journée complète'], ['0.5', 'Demi-journée'], ['0', 'Absent (production seule)']];
 
 var Ouv = {
@@ -11889,7 +11890,10 @@ var Ouv = {
     pers = pers || {}; var t = Number(pers.taux) || 0;
     switch (pers.mode) {
       case 'jour': return Math.round((d.jours === undefined || d.jours === null ? 1 : Number(d.jours)) * t);
-      case 'tache': return Math.round(fromQ(d.metres || 0) * t);
+      case 'tache': return Math.round((d.metres ? fromQ(d.metres) : declTissuM(d)) * t);
+      /* tissu déclaré en mètres, pagnes ou complets : 8 m = 1 pagne, 3 pagnes = 1 complet */
+      case 'complet': return Math.round(declTissuM(d) / tissuMComplet() * t);
+      case 'pagne': return Math.round(declTissuM(d) / tissuMPagne() * t);
       case 'piece': return Math.round((Number(d.pieces) || 0) * t);
       case 'heure': return Math.round((Number(d.heures) || 0) * t);
       default: return 0;
@@ -11947,8 +11951,8 @@ var Ouv = {
     var opsOpts = function () { return list('production/ordres', function (o) { return ['validee', 'preparation', 'production'].indexOf(o.statut) >= 0; }).map(function (o) { return [o.id, o.num + ' — ' + ((modeleOf(o.modele) || {}).nom || '') + (o.metier ? ' — ' + ((get('production/metiers', o.metier) || {}).code || '') : '')]; }); };
     var fields = [
       { k: 'date', t: 'Date du travail', type: 'date', req: true, dflt: today(), valid: function (v) { return v > today() ? 'La date ne peut pas être dans le futur.' : null; } },
-      { k: 'jours', t: 'Présence', type: 'select', req: true, empty: false, opts: PRESENCES, dflt: mode === 'tache' || mode === 'piece' ? '0' : '1', help: mode === 'jour' ? 'Payé à la journée : la présence fait la paie.' : '' },
-      { k: 'metres', t: 'Tissu produit' + (mode === 'tache' ? '' : ' (facultatif)'), type: 'qty', req: mode === 'tache' },
+      { k: 'jours', t: 'Présence', type: 'select', req: true, empty: false, opts: PRESENCES, dflt: modeProduction(mode) ? '0' : '1', help: mode === 'jour' ? 'Payé à la journée : la présence fait la paie.' : mode === 'complet' || mode === 'pagne' ? 'Payé ' + tauxUnite(mode) + ' : le tissu produit fait la paie.' : '' },
+      { k: 'metres', t: 'Tissu produit' + (mode === 'tache' || mode === 'complet' || mode === 'pagne' ? '' : ' (facultatif)'), type: 'qty', req: mode === 'tache' },
       { k: 'uMetres', t: 'Compté en', type: 'select', req: true, empty: false, opts: TISSU_UNITES, dflt: 'm' },
       { k: 'eqMetres', type: 'html', span: 2, html: '<p class="small tissu-eq" data-tissu-eq>' + esc(tissuRegle()) + '</p>' },
       { k: 'pieces', t: 'Pièces terminées' + (mode === 'piece' ? '' : ' (facultatif)'), type: 'number', min: 0, req: mode === 'piece' },
@@ -11971,6 +11975,7 @@ var Ouv = {
         var j = Number(v.jours || 0);
         if (!(j > 0) && !(v.metres > 0) && !(v.pieces > 0) && !(v.heures > 0)) return 'Indiquez une présence, des mètres, des pièces ou des heures.';
         if (v.pieces && Math.round(v.pieces) !== v.pieces) return 'Le nombre de pièces est un nombre entier.';
+        if ((mode === 'complet' || mode === 'pagne') && !(declTissuM({ art: v.art, metres: v.metres ? Math.round(v.metres * tissuFacteurU(v.uMetres || 'm')) : null, pieces: v.pieces }) > 0)) return pers.nom + ' est payé ' + tauxUnite(mode) + ' : indiquez le tissu produit (mètres, pagnes ou complets).';
       },
       save: function (v) {
         var nid = id || FB.newId(), tx = new Tx('déclaration');
@@ -12100,7 +12105,8 @@ var Ouv = {
       return true;
     });
   },
-  payer: function (p) {
+  payer: function (p, opts) {
+    opts = opts || {};
     var pers = get('parametres/personnel', p); if (!pers) return;
     var mode = pers.mode || 'jour', b = Ouv.bilan(p), fixe = mode === 'mois';
     var portees = fixe ? [['mois', 'Salaire du mois']] : [['tout', mode === 'tache' ? 'Tout le métrage validé non payé' : 'Tout ce qui est validé et non payé'], ['jour', 'Une journée'], ['mois', 'Un mois']];
@@ -12118,9 +12124,9 @@ var Ouv = {
       title: 'Payer ' + pers.nom, size: 'm',
       intro: modeNom(mode) + ' — ' + fmtGNF(pers.taux || 0) + ' ' + tauxUnite(mode) + '. Validé non payé : <strong>' + fmtGNF(b.nonPaye) + '</strong>' + (b.avances ? ' — avances à déduire : <strong>' + fmtGNF(b.avances) + '</strong>' : '') + (b.attente ? ' — ' + plural(b.attente, 'déclaration') + ' en attente de validation (non comptées)' : '') + '.',
       fields: [
-        { k: 'portee', t: 'Payer', type: 'select', req: true, empty: false, opts: portees, dflt: fixe ? 'mois' : 'tout' },
+        { k: 'portee', t: 'Payer', type: 'select', req: true, empty: false, opts: portees, dflt: opts.portee || (fixe ? 'mois' : 'tout') },
         { k: 'jour', t: 'Journée', type: 'date', dflt: today() },
-        { k: 'mois', t: 'Mois', type: 'month', dflt: monthOf(today()), valid: function (v, o) { return o.portee === 'mois' && !/^\d{4}-\d{2}$/.test(v || '') ? 'Mois au format AAAA-MM.' : null; } },
+        { k: 'mois', t: 'Mois', type: 'month', dflt: opts.mois || monthOf(today()), valid: function (v, o) { return o.portee === 'mois' && !/^\d{4}-\d{2}$/.test(v || '') ? 'Mois au format AAAA-MM.' : null; } },
         fixe ? { k: 'brut', t: 'Salaire brut du mois (GNF)', type: 'money', dflt: pers.taux || 0, help: 'À ajuster en cas d\'absence ou de prime ; le motif est alors demandé.' } : null,
         { k: 'avanceDeduite', t: 'Avance déduite (GNF)', type: 'money', dflt: b.avances || null, help: b.avances ? 'Avances versées et pas encore déduites : ' + fmtGNF(b.avances) + '.' : 'Aucune avance en cours.' },
         { k: 'calc', type: 'html', span: 2, html: '<div class="paie-calc" id="py-calc"></div>' },
@@ -12222,7 +12228,7 @@ var Ouv = {
         '<h3>Production déclarée</h3>' + printLines([{ t: 'Date', f: function (d) { return fmtDate(d.date); } }, { t: 'Présence', f: function (d) { return d.jours ? (Number(d.jours) === 1 ? 'Journée' : Number(d.jours) === 0.5 ? 'Demi-journée' : fmtN(d.jours, 1)) : ''; } }, { t: 'Mètres', n: 1, f: function (d) { return d.metres ? fmtQ(d.metres) : ''; } }, { t: 'Pièces', n: 1, f: function (d) { return d.pieces || ''; } }, { t: 'Heures', n: 1, f: function (d) { return d.heures ? fmtN(d.heures, 1) : ''; } }, { t: 'État', f: function (d) { return d.statut === 'validee' ? (b.cov.decl[d.id] ? 'Validée, payée' : 'Validée') : 'En attente'; } }, { t: 'Montant', n: 1, f: function (d) { return d.statut === 'validee' ? fmtMoney(d.montant || 0) : ''; } }], ds,
           '<tr><td colspan="2">Total validé</td><td class="n">' + fmtQ(sum(val, function (d) { return d.metres || 0; })) + '</td><td class="n">' + sum(val, function (d) { return d.pieces || 0; }) + '</td><td class="n">' + fmtN(sum(val, function (d) { return d.heures || 0; }), 1) + '</td><td></td><td class="n">' + fmtMoney(sum(val, function (d) { return d.montant || 0; })) + '</td></tr>') +
         '<h3>Paiements du mois</h3>' + printLines([{ t: 'Date', f: function (f) { return fmtDate(f.date); } }, { t: 'N°', f: function (f) { return esc(f.num || f.refNum || ''); } }, { t: 'Nature', f: function (f) { return f.type === 'avance' ? 'Avance' : f.type === 'annulation' ? 'Annulation de ' + esc(f.refNum || '') : 'Paie — ' + esc(f.label || ''); } }, { t: 'Avance déduite', n: 1, f: function (f) { return f.avanceDeduite ? fmtMoney(f.avanceDeduite) : ''; } }, { t: 'Versé', n: 1, f: function (f) { return f.type === 'annulation' ? '' : fmtMoney(f.montant || 0); } }], fs) +
-        printTotals([['Dû pour le mois', fmtGNF(duMois)], ['Versé dans le mois', fmtGNF(sum(fs.filter(function (f) { return f.type !== 'annulation' && !b.cov.annul[f.id]; }), function (f) { return f.montant || 0; }))], ['Reste à payer à ce jour (tous mois)', fmtGNF(Math.max(0, b.aPayer)), true], b.avances ? ['Avances non encore déduites', fmtGNF(b.avances)] : null]) +
+        printTotals([['Jours travaillés', String(joursTravailles(val))], ['Dû pour le mois' + (pers.mode === 'mois' ? ' (salaire fixe)' : ' (somme des jours travaillés)'), fmtGNF(duMois)], ['Versé dans le mois', fmtGNF(sum(fs.filter(function (f) { return f.type !== 'annulation' && !b.cov.annul[f.id]; }), function (f) { return f.montant || 0; }))], ['Reste à payer à ce jour (tous mois)', fmtGNF(Math.max(0, b.aPayer)), true], b.avances ? ['Avances non encore déduites', fmtGNF(b.avances)] : null]) +
         '<div class="sig"><div>L\'ouvrier</div><div>Le responsable</div></div>'
     });
   },
@@ -12432,15 +12438,23 @@ var OuvRap = {
       var ds = Ouv.declsDe(p.id).filter(function (d) { return d.date >= b.d1 && d.date <= b.d2; }), val = ds.filter(function (d) { return d.statut === 'validee'; });
       var fs = Ouv.fiches(p.id), cov = Ouv.couverture(fs);
       var payes = fs.filter(function (f) { return f.type !== 'annulation' && !cov.annul[f.id] && f.date >= b.d1 && f.date <= b.d2; });
-      return { id: p.id, nom: p.nom, fonction: p.fonction || '', mode: p.mode, jours: sum(val, function (d) { return Number(d.jours) || 0; }), metres: sum(val, function (d) { return d.metres || 0; }), pieces: sum(val, function (d) { return d.pieces || 0; }), heures: sum(val, function (d) { return d.heures || 0; }),
-        du: sum(val, function (d) { return Number(d.montant) || 0; }), att: ds.filter(function (d) { return d.statut === 'attente'; }).length, paye: sum(payes, function (f) { return f.montant || 0; }), n: val.length };
+      var att = ds.filter(function (d) { return d.statut === 'attente'; }), fixeMois = p.mode === 'mois' && OuvRap.st.k === 'mois';
+      return { id: p.id, nom: p.nom, fonction: p.fonction || '', mode: p.mode, jT: joursTravailles(val), tissu: sum(val, declTissuM), estime: sum(att, function (d) { return Ouv.montant(d, p); }), fixe: fixeMois, taux: Number(p.taux) || 0, jours: sum(val, function (d) { return Number(d.jours) || 0; }), metres: sum(val, function (d) { return d.metres || 0; }), pieces: sum(val, function (d) { return d.pieces || 0; }), heures: sum(val, function (d) { return d.heures || 0; }),
+        du: fixeMois ? (Number(p.taux) || 0) : sum(val, function (d) { return Number(d.montant) || 0; }), att: att.length, paye: sum(payes, function (f) { return f.montant || 0; }), n: val.length };
     }).filter(function (r) { return r.n || r.att || r.paye || OuvRap.st.p; });
   },
   table: function (rows, print) {
-    var n = print ? 'n' : 'num', mm = canMoney();
-    return '<div class="tscroll"><table class="grid"><thead><tr><th>Personne</th><th class="' + n + '">Jours</th><th class="' + n + '">Mètres</th><th class="' + n + '">Pièces</th><th class="' + n + '">Heures</th>' + (mm ? '<th class="' + n + '">Dû (validé)</th><th class="' + n + '">Payé</th>' : '') + '<th class="' + n + '">En attente</th></tr></thead><tbody>' +
-      rows.map(function (r) { return '<tr' + (print ? '' : ' class="clk" data-act="detail" data-id="' + attr(r.id) + '"') + '><td><strong>' + esc(r.nom) + '</strong>' + (r.fonction ? '<br><small class="muted">' + esc(r.fonction) + '</small>' : '') + '</td><td class="' + n + '">' + fmtN(r.jours, 1) + '</td><td class="' + n + '">' + fmtQ(r.metres) + '</td><td class="' + n + '">' + r.pieces + '</td><td class="' + n + '">' + fmtN(r.heures, 1) + '</td>' + (mm ? '<td class="' + n + '">' + fmtMoney(r.du) + '</td><td class="' + n + '">' + fmtMoney(r.paye) + '</td>' : '') + '<td class="' + n + '">' + (r.att || '') + '</td></tr>'; }).join('') +
-      '</tbody><tfoot><tr><td>Total</td><td class="' + n + '">' + fmtN(sum(rows, function (r) { return r.jours; }), 1) + '</td><td class="' + n + '">' + fmtQ(sum(rows, function (r) { return r.metres; })) + '</td><td class="' + n + '">' + sum(rows, function (r) { return r.pieces; }) + '</td><td class="' + n + '">' + fmtN(sum(rows, function (r) { return r.heures; }), 1) + '</td>' + (mm ? '<td class="' + n + '">' + fmtMoney(sum(rows, function (r) { return r.du; })) + '</td><td class="' + n + '">' + fmtMoney(sum(rows, function (r) { return r.paye; })) + '</td>' : '') + '<td class="' + n + '">' + (sum(rows, function (r) { return r.att; }) || '') + '</td></tr></tfoot></table></div>';
+    var n = print ? 'n' : 'num', mm = canMoney(), k = OuvRap.st.k;
+    var tDu = k === 'jour' ? 'Montant du jour' : k === 'mois' ? 'Salaire du mois' : "Dû sur l'année";
+    var td = function (v) { return '<td class="' + n + '">' + v + '</td>'; };
+    return '<div class="tscroll"><table class="grid"><thead><tr><th>Personne</th><th class="' + n + '">Jours travaillés</th><th class="' + n + '">Tissu (complets)</th><th class="' + n + '">Mètres</th><th class="' + n + '">Pièces</th><th class="' + n + '">Heures</th>' + (mm ? '<th class="' + n + '">' + tDu + ' (validé)</th><th class="' + n + '">En attente (estimé)</th><th class="' + n + '">Payé</th>' : '<th class="' + n + '">En attente</th>') + '</tr></thead><tbody>' +
+      rows.map(function (r) {
+        return '<tr' + (print ? '' : ' class="clk" data-act="detail" data-id="' + attr(r.id) + '"') + '><td><strong>' + esc(r.nom) + '</strong>' + (r.fonction ? '<br><small class="muted">' + esc(r.fonction) + '</small>' : '') + (mm ? '<br><small class="muted">' + esc(modeNom(r.mode)) + ' — ' + fmtMoney(r.taux) + ' ' + esc(tauxUnite(r.mode)) + '</small>' : '') + '</td>' +
+          td(String(r.jT)) + td(r.tissu ? esc(tissuComplets(r.tissu)) + '<br><small class="muted">' + esc(tissuPagnes(r.tissu)) + '</small>' : '') + td(fmtQ(r.metres)) + td(String(r.pieces)) + td(fmtN(r.heures, 1)) +
+          (mm ? td('<strong>' + fmtMoney(r.du) + '</strong>' + (r.fixe ? '<br><small class="muted">salaire fixe</small>' : '')) + td(r.estime ? '≈ ' + fmtMoney(r.estime) + '<br><small class="muted">' + plural(r.att, 'déclaration') + '</small>' : (r.att ? plural(r.att, 'déclaration') : '')) + td(fmtMoney(r.paye)) : td(r.att || '')) + '</tr>';
+      }).join('') +
+      '</tbody><tfoot><tr><td>Total</td>' + td(String(sum(rows, function (r) { return r.jT; }))) + td(esc(tissuComplets(sum(rows, function (r) { return r.tissu; })))) + td(fmtQ(sum(rows, function (r) { return r.metres; }))) + td(String(sum(rows, function (r) { return r.pieces; }))) + td(fmtN(sum(rows, function (r) { return r.heures; }), 1)) +
+      (mm ? td(fmtMoney(sum(rows, function (r) { return r.du; }))) + td(sum(rows, function (r) { return r.estime; }) ? '≈ ' + fmtMoney(sum(rows, function (r) { return r.estime; })) : '') + td(fmtMoney(sum(rows, function (r) { return r.paye; }))) : td(sum(rows, function (r) { return r.att; }) || '')) + '</tr></tfoot></table></div>';
   },
   detailHtml: function (p, b, print) {
     var ds = Ouv.declsDe(p).filter(function (d) { return d.date >= b.d1 && d.date <= b.d2 && d.statut !== 'rejetee'; }).sort(byKey('date'));
@@ -12449,7 +12463,11 @@ var OuvRap = {
       var parM = moisDe(OuvRap.st.an).map(function (m) { var x = ds.filter(function (d) { return monthOf(d.date) === m && d.statut === 'validee'; }); return [m, sum(x, function (d) { return Number(d.jours) || 0; }), sum(x, function (d) { return d.metres || 0; }), sum(x, function (d) { return d.pieces || 0; }), sum(x, function (d) { return Number(d.montant) || 0; })]; });
       return '<table class="grid"><thead><tr><th>Mois</th><th class="' + n + '">Jours</th><th class="' + n + '">Mètres</th><th class="' + n + '">Pièces</th>' + (mm ? '<th class="' + n + '">Dû</th>' : '') + '</tr></thead><tbody>' + parM.map(function (r) { return '<tr><td>' + esc(fmtMois(r[0])) + '</td><td class="' + n + '">' + fmtN(r[1], 1) + '</td><td class="' + n + '">' + fmtQ(r[2]) + '</td><td class="' + n + '">' + r[3] + '</td>' + (mm ? '<td class="' + n + '">' + fmtMoney(r[4]) + '</td>' : '') + '</tr>'; }).join('') + '</tbody></table>';
     }
-    return ds.length ? '<table class="grid"><thead><tr><th>Date</th><th>Travail</th><th>État</th>' + (mm ? '<th class="' + n + '">Montant</th>' : '') + '</tr></thead><tbody>' + ds.map(function (d) { return '<tr><td>' + fmtDate(d.date) + '</td><td>' + esc(Ouv.resume(d)) + '</td><td>' + esc(statutLabel(d.statut)) + '</td>' + (mm ? '<td class="' + n + '">' + (d.statut === 'validee' ? fmtMoney(d.montant || 0) : '') + '</td>' : '') + '</tr>'; }).join('') + '</tbody></table>' : '<p class="muted">Aucune déclaration sur la période.</p>';
+    var pers = get('parametres/personnel', p) || {}, val = ds.filter(function (d) { return d.statut === 'validee'; }), att = ds.filter(function (d) { return d.statut === 'attente'; });
+    var fixe = pers.mode === 'mois' && OuvRap.st.k === 'mois', duV = fixe ? (Number(pers.taux) || 0) : sum(val, function (d) { return Number(d.montant) || 0; }), est = sum(att, function (d) { return Ouv.montant(d, pers); });
+    return ds.length ? '<table class="grid"><thead><tr><th>Date</th><th>Travail</th><th>État</th>' + (mm ? '<th class="' + n + '">Montant à payer</th>' : '') + '</tr></thead><tbody>' + ds.map(function (d) { return '<tr><td>' + fmtDate(d.date) + '</td><td>' + esc(Ouv.resume(d)) + '</td><td>' + esc(statutLabel(d.statut)) + '</td>' + (mm ? '<td class="' + n + '">' + (d.statut === 'validee' ? fmtMoney(d.montant || 0) : '<small class="muted">≈ ' + fmtMoney(Ouv.montant(d, pers)) + '</small>') + '</td>' : '') + '</tr>'; }).join('') + '</tbody>' +
+      '<tfoot><tr><td colspan="3">' + (fixe ? 'Salaire mensuel fixe' : (OuvRap.st.k === 'mois' ? 'Salaire du mois — ' : 'Total — ') + plural(joursTravailles(val), 'jour travaillé', 'jours travaillés') + ' (validé)') + '</td>' + (mm ? '<td class="' + n + '">' + fmtMoney(duV) + '</td>' : '') + '</tr>' +
+      (att.length && mm ? '<tr><td colspan="3">En attente de validation (' + plural(att.length, 'déclaration') + ')</td><td class="' + n + '">≈ ' + fmtMoney(est) + '</td></tr>' : '') + '</tfoot></table>' : '<p class="muted">Aucune déclaration sur la période.</p>';
   }
 };
 view('ouvriers/rapports', {
@@ -12458,7 +12476,7 @@ view('ouvriers/rapports', {
   render: function () {
     var s = OuvRap.st, b = OuvRap.borne(), rows = OuvRap.lignes(b);
     var sel = s.k === 'jour' ? '<input type="date" data-chg="jour" value="' + attr(s.jour) + '">' : s.k === 'mois' ? '<input type="month" data-chg="mois" value="' + attr(s.mois) + '">' : '<select data-chg="an">' + anneesOpts().map(function (o) { return '<option' + (o[0] === s.an ? ' selected' : '') + '>' + o[0] + '</option>'; }).join('') + '</select>';
-    return pageHead('Rapports par personne', 'Production validée, montant dû et payé, pour chaque ouvrier ou producteur : à la journée, au mois ou à l\'année. Touchez une personne pour le détail.', UI.btn(icon('print') + ' Imprimer', 'imprimer', 'ghost')) +
+    return pageHead('Rapports par personne', 'Pour chaque ouvrier ou producteur : ses jours travaillés, sa production (en complets, pagnes et mètres pour le tissu), le montant à payer de chaque travail journalier et, au mois, son salaire (somme des montants des jours travaillés). Touchez une personne pour le détail de chaque jour.', UI.btn(icon('print') + ' Imprimer', 'imprimer', 'ghost')) +
       '<div class="seg" role="group" aria-label="Période">' + [['jour', 'Journalier'], ['mois', 'Mensuel'], ['an', 'Annuel']].map(function (x) { return '<button type="button" data-act="k" data-id="' + x[0] + '" class="' + (s.k === x[0] ? 'on' : '') + '">' + x[1] + '</button>'; }).join('') +
       '<span class="seg-sel">' + sel + '</span><span class="seg-sel"><select data-chg="pers" aria-label="Personne"><option value="">Toutes les personnes</option>' + Opt.personnel().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (s.p === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></span></div>' +
       '<h2>' + esc(b.label) + '</h2>' + (rows.length ? OuvRap.table(rows, false) : UI.empty('Aucune production sur cette période', 'Les déclarations validées apparaissent ici.')) +
@@ -12576,10 +12594,10 @@ view('production/rapide', {
       (pers ? '<div class="prod-sel">' + photoPers(pers, 'ps-ph') + '<div><strong>' + esc(pers.nom) + '</strong><br><small class="muted">' + esc(pers.fonction || 'Producteur') + (pers.matricule ? ' — matricule ' + esc(pers.matricule) : '') + (pers.tel ? ' — ' + esc(pers.tel) : '') + '</small><br><small>' + esc(modeNom(pers.mode)) + ' : ' + moneyN(pers.taux || 0) + ' ' + esc(tauxUnite(pers.mode)) + '</small></div>' + UI.btn('Changer de producteur', 'autre', 'ghost sm') + '</div>' +
         '<div class="fgrid r-grid">' +
           '<label class="fld span2"><span>Référence du produit</span><input list="dl-prod-decl" data-pf="art" value="' + attr(a ? ptLabel(a) : (f.artTxt || '')) + '" placeholder="Tapez la désignation ou la référence…" autocomplete="off"><datalist id="dl-prod-decl">' + prods.map(function (o) { return '<option value="' + attr(o[1]) + '">'; }).join('') + '</datalist><small class="muted">' + (a ? 'Désignation : <strong>' + esc(a.nom) + '</strong>' + (a.code ? ' — référence ' + esc(a.code) : '') : 'Facultatif pour une simple journée de présence.') + '</small></label>' +
-          '<label class="fld"><span>Quantité produite (' + esc(uTis ? 'mètres, pagnes ou complets' : uArt === 'pagne' ? 'pagnes' : uArt === 'complet' ? 'complets' : unite) + ')' + (pers.mode === 'tache' || pers.mode === 'piece' ? ' *' : '') + '</span><span class="r-qu"><input inputmode="decimal" data-pf="q" value="' + attr(f.q !== undefined && f.q !== null ? String(f.q).replace('.', ',') : '') + '" placeholder="0">' +
+          '<label class="fld"><span>Quantité produite (' + esc(uTis ? 'mètres, pagnes ou complets' : uArt === 'pagne' ? 'pagnes' : uArt === 'complet' ? 'complets' : unite) + ')' + (modeProduction(pers.mode) ? ' *' : '') + '</span><span class="r-qu"><input inputmode="decimal" data-pf="q" value="' + attr(f.q !== undefined && f.q !== null ? String(f.q).replace('.', ',') : '') + '" placeholder="0">' +
             (uTis ? '<select data-pf="u" aria-label="Compté en">' + TISSU_UNITES.map(function (o) { return '<option value="' + o[0] + '"' + ((f.u || 'm') === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>' : '') + '</span>' +
             '<small class="tissu-eq" data-tissu-eq>' + esc(ProdR.eqTxt(a, f.q, f.u)) + '</small></label>' +
-          '<label class="fld"><span>Présence</span><select data-pf="jours">' + PRESENCES.map(function (o) { return '<option value="' + o[0] + '"' + (String(f.jours !== undefined ? f.jours : (pers.mode === 'tache' || pers.mode === 'piece' ? '0' : '1')) === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
+          '<label class="fld"><span>Présence</span><select data-pf="jours">' + PRESENCES.map(function (o) { return '<option value="' + o[0] + '"' + (String(f.jours !== undefined ? f.jours : (modeProduction(pers.mode) ? '0' : '1')) === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
           '<label class="fld"><span>Date du travail</span><input type="date" data-pf="date" value="' + attr(f.date || t) + '"></label>' +
           '<label class="fld"><span>Métier</span><select data-pf="metier"><option value="">—</option>' + Opt.metiers().map(function (o) { return '<option value="' + attr(o[0]) + '"' + (o[0] === f.metier ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label>' +
           '<label class="fld span2"><span>Observation</span><input data-pf="obs" value="' + attr(f.obs || '') + '" placeholder="Défauts, arrêts, motif inhabituel…"></label>' +
@@ -12641,13 +12659,14 @@ ProdR.enregistrer = function (btn) {
   var qn = f.q === null || f.q === undefined || f.q === '' ? null : parseNum(f.q);
   if (qn !== null && (isNaN(qn) || qn < 0)) { UI.toast('Quantité invalide.', 'err'); return; }
   var date = f.date || today(); if (date > today()) { UI.toast('La date ne peut pas être dans le futur.', 'err'); return; }
-  var jours = Number(f.jours !== undefined && f.jours !== null ? f.jours : (pers.mode === 'tache' || pers.mode === 'piece' ? 0 : 1));
+  var jours = Number(f.jours !== undefined && f.jours !== null ? f.jours : (modeProduction(pers.mode) ? 0 : 1));
   var enPieces = a && a.unite !== 'm';
   var metres = !enPieces && qn ? Math.round(qn * tissuFacteurU(ProdR.uTissu(a) ? (f.u || 'm') : 'm') * 1000) : null, pieces = enPieces && qn ? Math.round(qn) : null;
   if (enPieces && qn && pieces !== qn) { UI.toast('Le nombre de pièces est un nombre entier.', 'err'); return; }
   if (!(jours > 0) && !metres && !pieces) { UI.toast('Indiquez la quantité produite ou une présence.', 'err'); return; }
   if (pers.mode === 'tache' && !metres) { UI.toast(pers.nom + ' est payé au métrage : indiquez les mètres produits.', 'err'); return; }
   if (pers.mode === 'piece' && !pieces && !(metres && !a)) { UI.toast(pers.nom + ' est payé à la pièce : indiquez le nombre de pièces.', 'err'); return; }
+  if ((pers.mode === 'complet' || pers.mode === 'pagne') && !(declTissuM({ art: a ? a.id : null, metres: metres, pieces: pieces }) > 0)) { UI.toast(pers.nom + ' est payé ' + tauxUnite(pers.mode) + ' : indiquez le tissu produit (mètres, pagnes ou complets).', 'err'); return; }
   var moi = Ouv.monProfil(), soi = !!(moi && moi.id === p);
   var valider = f.valider !== false && can('ouvriers', 'valider') && !soi;
   runOp(btn, function () {
@@ -19918,6 +19937,8 @@ var Obj = {
     if (has(d.montant)) return { libelle: d.libelle, pu: d.montant, q: 1, reel: d.reel };
     return { libelle: d.libelle, reel: d.reel };
   },
+  /* prix d'un complet tiré du taux de la personne (payée au complet, au pagne ou à la pièce) */
+  prixDe: function (pers) { var t = Number(pers && pers.taux) || 0; if (!t) return null; if (pers.mode === 'complet' || pers.mode === 'piece') return t; if (pers.mode === 'pagne') return Math.round(t * tissuPagnesComplet()); return null; },
   depTot: function (d) { return Math.round((Number(d && d.pu) || 0) * (Number(d && d.q) || 0)); },
   qTxt: function (o, n, dec) { return fmtN(n, dec === undefined ? 1 : dec) + ' ' + Obj.uTxt(o, n); },
   jTxt: function (n) { return fmtN(n, 1) + (Math.abs(Number(n) || 0) >= 2 ? ' jours' : ' jour'); },
@@ -20032,11 +20053,9 @@ var Obj = {
     var mm = canMoney();
     var o0 = cur ? Obj.rec(clone(cur)) : modele ? clone(modele) : { portee: 'semaine', debut: today(), unite: 'complet', compte: 'tissu', joursSemaine: 6, joursMois: 26, matieres: [{ nom: 'Bobinage' }, {}], depenses: [{}] };
     if (!cur && p0) o0.p = p0;
-    if (!cur && !modele) {
-      o0.fin = Obj.finDe(o0.portee, o0.debut, o0.joursProd); o0.joursPeriode = Obj.joursDefaut(o0.portee, o0);
-      var pers0 = p0 ? get('parametres/personnel', p0) : null;
-      if (pers0 && pers0.mode === 'piece' && pers0.taux) o0.prixComplet = Number(pers0.taux) || null;
-    }
+    if (!cur && !modele) { o0.fin = Obj.finDe(o0.portee, o0.debut, o0.joursProd); o0.joursPeriode = Obj.joursDefaut(o0.portee, o0); }
+    var pers0 = !cur && p0 ? get('parametres/personnel', p0) : null;
+    if (pers0 && !o0.prixComplet && Obj.prixDe(pers0)) o0.prixComplet = Obj.prixDe(pers0);
     var persF = cur ? { k: 'pinfo', type: 'html', span: 2, html: '<p class="obj-who"><strong>' + esc(personneName(p0)) + '</strong>' + ((get('parametres/personnel', p0) || {}).fonction ? ' — ' + esc(get('parametres/personnel', p0).fonction) : '') + '</p>' }
       : { k: 'p', t: 'Personne (tisserand, ouvrier ou employé)', type: 'select', req: true, span: 2, opts: function () { return Opt.personnel(function (x) { return x.actif !== false; }); } };
     var fA = [
@@ -20117,7 +20136,7 @@ var Obj = {
           el.addEventListener('change', function (e) {
             var k = e.target && e.target.dataset ? e.target.dataset.k : null;
             if (k === 'portee' || k === 'debut' || k === 'joursProd' || k === 'joursSemaine' || k === 'joursMois') auto(k);
-            if (k === 'p' && mm && !cur) { var ps = get('parametres/personnel', e.target.value); if (ps && ps.mode === 'piece' && ps.taux && !E('prixComplet').value) E('prixComplet').value = String(ps.taux); }
+            if (k === 'p' && mm && !cur) { var ps = get('parametres/personnel', e.target.value); if (ps && Obj.prixDe(ps) && !E('prixComplet').value) E('prixComplet').value = String(Obj.prixDe(ps)); }
             if (k === 'art' && mm && e.target.value && !E('prixVente').value) { var pt = typeof prixTarif === 'function' ? prixTarif(e.target.value, 'detail', 'piece') : null; if (pt) E('prixVente').value = String(pt); }
             montrer();
           });
@@ -20482,6 +20501,224 @@ function tissuTile(t, m, go, extra) { return { t: t, v: esc(tissuComplets(m)), s
 function tissuSomme(arts, q) { return sum(arts, function (a) { var m = tissuMetresArt(a, q(a)); return m === null ? 0 : m; }); }
 /* équivalence d'une saisie : quantité tapée, unité choisie */
 function tissuEqSaisie(qRaw, u) { var n = parseNum(qRaw); return n > 0 ? '= ' + tissuTxt(n * tissuFacteurU(u || 'm')) : tissuRegle(); }
+
+
+/* ===== 33-salaires.js ===== */
+/* =====================================================================
+   Salaires du mois et prévision mensuelle de chaque travailleur.
+   Chaque travail journalier (déclaration) porte son montant, calculé
+   selon le mode de paie de la personne : journée, mètre, pagne, complet,
+   pièce ou heure. Le salaire du mois est la somme des montants de ses
+   jours travaillés (un salaire mensuel fixe reste fixe). Il se verse par
+   la paie existante : « Payer le mois », avances, bulletin.
+   Prévision : l'objectif de chaque travailleur donne sa production d'un
+   mois, les paquets, les dépenses et le salaire prévus ; on les compare
+   au réalisé du mois.
+   Ces écrans ne font que lire : seule la paie existante écrit.
+   ===================================================================== */
+function modeProduction(m) { return m === 'tache' || m === 'piece' || m === 'complet' || m === 'pagne'; }
+/* jours travaillés : les dates distinctes des déclarations */
+function joursTravailles(ds) { var o = {}; (ds || []).forEach(function (d) { if (d && d.date) o[d.date] = true; }); return Object.keys(o).length; }
+/* montant d'un travail journalier : figé à la validation, estimé avant */
+function montantTravail(d, pers) { return d.statut === 'validee' ? Number(d.montant) || 0 : Ouv.montant(d, pers || get('parametres/personnel', d.p)); }
+/* pièces qui ne sont pas déjà comptées comme tissu (article en pagnes ou en complets) */
+function piecesHorsTissu(d) { var u = d.art ? tissuUniteArt(articleOf(d.art)) : null; return u === 'pagne' || u === 'complet' ? 0 : Number(d.pieces) || 0; }
+
+var Sal = {
+  st: { mois: monthOf(today()) },
+  need: function () {
+    var n = ['parametres/personnel', 'ouvriers/decl', 'stock/articles'];
+    if (can('paie')) n.push('paie/fiches', 'finances/comptes', 'finances/soldes', 'finances/clotures');
+    return n;
+  },
+  /* le salaire d'une personne pour un mois */
+  calc: function (p, mois) {
+    var pers = get('parametres/personnel', p) || {}, fixe = pers.mode === 'mois';
+    var ds = Ouv.declsDe(p).filter(function (d) { return monthOf(d.date) === mois && d.statut !== 'rejetee'; }).sort(byKey('date'));
+    var val = ds.filter(function (d) { return d.statut === 'validee'; }), att = ds.filter(function (d) { return d.statut === 'attente'; });
+    var fs = Ouv.fiches(p), cov = Ouv.couverture(fs), b = Ouv.bilan(p);
+    var du = fixe ? (Number(pers.taux) || 0) : sum(val, function (d) { return Number(d.montant) || 0; });
+    var estime = fixe ? 0 : sum(att, function (d) { return Ouv.montant(d, pers); });
+    var paye;
+    if (fixe) { var fid = cov.mois[mois], f = fid ? fs.filter(function (x) { return x.id === fid; })[0] : null; paye = f ? (Number(f.brut) || Number(f.montant) || 0) : 0; }
+    else paye = sum(val.filter(function (d) { return cov.decl[d.id]; }), function (d) { return Number(d.montant) || 0; });
+    var jT = joursTravailles(val);
+    return { p: p, pers: pers, fixe: fixe, ds: ds, val: val, att: att, du: du, estime: estime, paye: paye, reste: Math.max(0, du - paye), avances: b.avances,
+      jours: jT, presence: sum(val, function (d) { return Number(d.jours) || 0; }), tissu: sum(val, declTissuM), pieces: sum(val, piecesHorsTissu), heures: sum(val, function (d) { return Number(d.heures) || 0; }),
+      parJour: jT && !fixe ? du / jT : 0, cov: cov };
+  },
+  lignes: function (mois) {
+    return list('parametres/personnel', function (x) { return !x.archive; }).map(function (x) { var c = Sal.calc(x.id, mois); c.id = x.id; c.nom = x.nom; return c; })
+      .filter(function (c) { return c.pers.actif !== false || c.ds.length || c.paye; });
+  },
+  prodTxt: function (c) {
+    var t = [];
+    if (c.tissu > 0) t.push(tissuTxt(c.tissu));
+    if (c.pieces) t.push(plural(c.pieces, 'pièce'));
+    if (c.heures) t.push(fmtN(c.heures, 1) + ' h');
+    return t.join(' · ');
+  },
+  /* détail d'un mois : chaque jour travaillé et son montant */
+  detailHtml: function (c, mois, print) {
+    var n = print ? 'n' : 'num', mm = canMoney();
+    var lignes = c.ds.map(function (d) {
+      var m = montantTravail(d, c.pers), paye = d.statut === 'validee' && c.cov.decl[d.id];
+      return '<tr><td>' + fmtDate(d.date) + '</td><td>' + esc(Ouv.resume(d)) + '</td><td>' + (d.statut === 'validee' ? 'Validée' + (paye ? ' · payée' : '') : 'En attente') + '</td>' +
+        (mm ? '<td class="' + n + '">' + (c.fixe ? '' : d.statut === 'validee' ? fmtMoney(m) : '<small class="muted">≈ ' + fmtMoney(m) + '</small>') + '</td>' : '') + '</tr>';
+    });
+    return '<div class="tscroll"><table class="grid"><thead><tr><th>Date</th><th>Travail de la journée</th><th>État</th>' + (mm ? '<th class="' + n + '">Montant à payer</th>' : '') + '</tr></thead><tbody>' +
+      (lignes.join('') || '<tr><td colspan="' + (mm ? 4 : 3) + '" class="muted">Aucun travail déclaré en ' + esc(fmtMois(mois)) + '.</td></tr>') + '</tbody>' +
+      '<tfoot><tr><td colspan="3">' + (c.fixe ? 'Salaire mensuel fixe' : 'Salaire du mois — ' + plural(c.jours, 'jour travaillé', 'jours travaillés')) + '</td>' + (mm ? '<td class="' + n + '">' + fmtMoney(c.du) + '</td>' : '') + '</tr>' +
+      (c.estime && mm ? '<tr><td colspan="3">En attente de validation (' + plural(c.att.length, 'déclaration') + ')</td><td class="' + n + '">≈ ' + fmtMoney(c.estime) + '</td></tr>' : '') + '</tfoot></table></div>';
+  },
+  resumeHtml: function (c, mois) {
+    var mm = canMoney();
+    return UI.kv([['Mois', esc(fmtMois(mois))], ['Rémunération', esc(modeNom(c.pers.mode)) + (mm ? ' — ' + fmtGNF(c.pers.taux || 0) + ' ' + esc(tauxUnite(c.pers.mode)) : '')],
+      ['Jours travaillés', String(c.jours) + (c.presence && c.pers.mode === 'jour' ? ' (présence : ' + fmtN(c.presence, 1) + ' j)' : '')], ['Production validée', esc(Sal.prodTxt(c) || '—')],
+      mm ? ['Salaire du mois', '<strong>' + fmtGNF(c.du) + '</strong>' + (c.fixe ? ' <small class="muted">(fixe)</small>' : c.jours ? ' <small class="muted">(' + fmtGNF(c.parJour) + ' par jour en moyenne)</small>' : '')] : null,
+      mm && c.estime ? ['En attente de validation', '≈ ' + fmtGNF(c.estime)] : null,
+      mm ? ['Déjà payé pour ce mois', fmtGNF(c.paye)] : null, mm ? ['Reste à payer', '<strong>' + fmtGNF(c.reste) + '</strong>'] : null,
+      mm && c.avances ? ['Avances à déduire au paiement', fmtGNF(c.avances)] : null]);
+  },
+  fiche: function (p, mois) {
+    var c = Sal.calc(p, mois), acts = [{ t: icon('print') + ' Imprimer', act: 'print', cls: 'ghost' }, { t: icon('print') + ' Bulletin de paie', act: 'bul', cls: 'ghost' }];
+    if (can('paie', 'creer') && canMoney() && c.reste > 0) acts.push({ t: icon('wallet') + ' Payer le mois', act: 'payer', cls: 'primary' });
+    detailModal('Salaire de ' + (c.pers.nom || '') + ' — ' + fmtMois(mois), '<div class="obj-rap">' + Sal.resumeHtml(c, mois) + '<h3>Chaque jour travaillé</h3>' + Sal.detailHtml(c, mois, false) + '</div>', acts, function (a, b, m) {
+      if (a === 'print') Sal.imprimerUn(p, mois);
+      if (a === 'bul') Ouv.bulletin(p, mois);
+      if (a === 'payer') { m.close(); Ouv.payer(p, { portee: 'mois', mois: mois }); }
+    }, 'l');
+  },
+  imprimerUn: function (p, mois) {
+    var c = Sal.calc(p, mois);
+    UI.print({ title: 'Salaire ' + (c.pers.nom || '') + ' ' + mois, docTitle: 'Salaire du mois', docMeta: '<div>' + esc(fmtMois(mois)) + '</div><div>' + esc(blocLabel(S.bloc)) + '</div>',
+      body: '<div class="box"><strong>' + esc(c.pers.nom || '') + '</strong>' + (c.pers.fonction ? ' — ' + esc(c.pers.fonction) : '') + (c.pers.matricule ? ' — matricule ' + esc(c.pers.matricule) : '') + '</div>' +
+        Sal.resumeHtml(c, mois) + '<h3>Chaque jour travaillé</h3>' + Sal.detailHtml(c, mois, true) + '<div class="sig"><div>Le travailleur</div><div>Le responsable</div></div>' });
+  },
+  tableHtml: function (rows, mois, print) {
+    var n = print ? 'n' : 'num', mm = canMoney(), cp = !print && can('paie', 'creer') && mm;
+    var th = '<th>Personne</th><th>Rémunération</th><th class="' + n + '">Jours travaillés</th><th>Production du mois</th>' + (mm ? '<th class="' + n + '">Par jour</th><th class="' + n + '">Salaire du mois</th><th class="' + n + '">En attente</th><th class="' + n + '">Payé</th><th class="' + n + '">Reste à payer</th>' : '') + (print ? '' : '<th class="act"><span class="sr">Actions</span></th>');
+    var body = rows.map(function (c) {
+      return '<tr' + (print ? '' : ' class="clk" data-act="fiche" data-id="' + attr(c.id) + '"') + '><td>' + (print ? '' : '<span class="pers">' + photoPers(c.pers) + '<span>') + '<strong>' + esc(c.nom) + '</strong>' + (c.pers.fonction ? '<br><small class="muted">' + esc(c.pers.fonction) + '</small>' : '') + (print ? '' : '</span></span>') + '</td>' +
+        '<td>' + esc(modeNom(c.pers.mode)) + (mm ? '<br><small class="muted">' + fmtMoney(c.pers.taux || 0) + ' ' + esc(tauxUnite(c.pers.mode)) + '</small>' : '') + '</td>' +
+        '<td class="' + n + '">' + c.jours + '</td><td>' + esc(Sal.prodTxt(c)) + '</td>' +
+        (mm ? '<td class="' + n + '">' + (c.fixe ? '<small class="muted">fixe</small>' : c.jours ? fmtMoney(c.parJour) : '') + '</td><td class="' + n + '"><strong>' + fmtMoney(c.du) + '</strong></td><td class="' + n + '">' + (c.estime ? '≈ ' + fmtMoney(c.estime) : '') + '</td><td class="' + n + '">' + (c.paye ? fmtMoney(c.paye) : '') + '</td><td class="' + n + '">' + (c.reste ? '<strong class="tx-warn">' + fmtMoney(c.reste) + '</strong>' : '<span class="tx-ok">0</span>') + '</td>' : '') +
+        (print ? '' : '<td class="act">' + (cp && c.reste > 0 ? UI.btn('Payer', 'payer', 'primary sm', ' data-id="' + attr(c.id) + '" data-needs-net') : '') + UI.ibtn('print', 'bul', c.id, 'Bulletin de paie du mois') + '</td>') + '</tr>';
+    }).join('');
+    var foot = '<tr><td colspan="2">Total</td><td class="' + n + '">' + sum(rows, function (c) { return c.jours; }) + '</td><td>' + esc(sum(rows, function (c) { return c.tissu; }) ? tissuTxt(sum(rows, function (c) { return c.tissu; })) : '') + '</td>' +
+      (mm ? '<td></td><td class="' + n + '">' + fmtMoney(sum(rows, function (c) { return c.du; })) + '</td><td class="' + n + '">' + (sum(rows, function (c) { return c.estime; }) ? '≈ ' + fmtMoney(sum(rows, function (c) { return c.estime; })) : '') + '</td><td class="' + n + '">' + fmtMoney(sum(rows, function (c) { return c.paye; })) + '</td><td class="' + n + '">' + fmtMoney(sum(rows, function (c) { return c.reste; })) + '</td>' : '') + (print ? '' : '<td></td>') + '</tr>';
+    return '<div class="tscroll"><table class="grid"><thead><tr>' + th + '</tr></thead><tbody>' + (body || '<tr><td class="empty" colspan="10">Personne à payer pour ce mois.</td></tr>') + '</tbody><tfoot>' + foot + '</tfoot></table></div>';
+  }
+};
+
+view('ouvriers/salaires', {
+  mod: 'paie', title: 'Salaires du mois',
+  check: function () { return can('paie') || can('ouvriers'); },
+  need: function () { return Sal.need(); },
+  render: function () {
+    var mois = Sal.st.mois, mm = canMoney(), rows = Sal.lignes(mois);
+    return pageHead('Salaires du mois', "Chaque travail journalier a son montant, calculé selon le mode de paie de la personne (journée, mètre, pagne, complet, pièce, heure). Le salaire du mois est la somme des montants de ses jours travaillés ; un salaire mensuel fixe reste fixe. Touchez une personne pour le détail de chaque jour.",
+      '<label class="inline">Mois <input type="month" data-chg="mois" value="' + attr(mois) + '"></label>' + UI.btn(icon('print') + ' Imprimer', 'imprimer', 'ghost')) +
+      tiles([{ t: 'Travailleurs avec un salaire ce mois', v: rows.filter(function (c) { return c.du > 0; }).length + ' / ' + rows.length }, { t: 'Jours travaillés', v: sum(rows, function (c) { return c.jours; }) },
+        mm ? { t: 'Salaires du mois (validés)', v: fmtGNF(sum(rows, function (c) { return c.du; })) } : null,
+        mm ? { t: 'En attente de validation', v: '≈ ' + fmtGNF(sum(rows, function (c) { return c.estime; })), tone: sum(rows, function (c) { return c.att.length; }) ? 'warn' : '', go: 'ouvriers/declarations' } : null,
+        mm ? { t: 'Déjà payé', v: fmtGNF(sum(rows, function (c) { return c.paye; })) } : null,
+        mm ? { t: 'Reste à payer', v: fmtGNF(sum(rows, function (c) { return c.reste; })), tone: 'gold' } : null]) +
+      Sal.tableHtml(rows, mois, false) +
+      '<p class="small muted">Montants en GNF. « En attente » : déclarations pas encore validées (montant estimé, pas encore dû). Le paiement passe par la paie : les avances sont déduites et un bulletin est édité.</p>';
+  },
+  acts: {
+    mois: function (v) { if (/^\d{4}-\d{2}$/.test(v || '')) { Sal.st.mois = v; App.render(true); } },
+    fiche: function (p) { Sal.fiche(p, Sal.st.mois); },
+    payer: function (p) { Ouv.payer(p, { portee: 'mois', mois: Sal.st.mois }); },
+    bul: function (p) { Ouv.bulletin(p, Sal.st.mois); },
+    imprimer: function () {
+      var mois = Sal.st.mois;
+      UI.print({ title: 'Salaires ' + mois, docTitle: 'État des salaires', docMeta: '<div>' + esc(fmtMois(mois)) + '</div><div>' + esc(blocLabel(S.bloc)) + '</div>', landscape: true,
+        body: Sal.tableHtml(Sal.lignes(mois), mois, true) + '<p class="small muted">Salaire du mois = somme des montants des jours travaillés (salaire mensuel fixe à part).</p><div class="sig"><div>Établi par</div><div>Visa du responsable</div></div>' });
+    }
+  }
+});
+
+/* ---------- prévision mensuelle de chaque travailleur ---------- */
+var Prev = {
+  st: { mois: monthOf(today()) },
+  /* objectif qui sert de référence pour le mois : celui qui couvre le mois (le plus récent), sinon le dernier fixé avant */
+  ref: function (p, mois) {
+    var d1 = mois + '-01', d2 = mois + '-31';
+    var os = Obj.tous(function (o) { return o.p === p && o.debut <= d2; }).sort(function (a, b) { return String(b.debut).localeCompare(String(a.debut)); });
+    return os.filter(function (o) { return o.fin >= d1; })[0] || os[0] || null;
+  },
+  lignes: function (mois) {
+    var d1 = mois + '-01', d2 = mois + '-31';
+    return list('parametres/personnel', function (x) { return !x.archive && x.actif !== false; }).sort(byKey('nom')).map(function (x) {
+      var o = Prev.ref(x.id, mois), r = { id: x.id, nom: x.nom, pers: x, o: o, sal: Sal.calc(x.id, mois) };
+      if (o) { r.k = Obj.calc(o); r.H = r.k.H.mois; r.reel = Obj.produit(o, d1, d2); r.taux = r.H.complets > 0 ? r.reel / r.H.complets : null; }
+      return r;
+    }).sort(function (a, b) { return (a.o ? 0 : 1) - (b.o ? 0 : 1); });
+  },
+  /* paquets à prévoir pour le mois, regroupés par matière */
+  paquets: function (rows) {
+    var g = {}, ord = [];
+    rows.forEach(function (r) { if (!r.o) return; r.k.mats.forEach(function (m, i) { var k = norm(m.nom || 'matière').trim(); if (!g[k]) { g[k] = { nom: m.nom || 'Matière', q: 0 }; ord.push(k); } g[k].q += r.H.paquets[i] || 0; }); });
+    return ord.map(function (k) { return g[k]; });
+  },
+  tableHtml: function (rows, print) {
+    var n = print ? 'n' : 'num', mm = canMoney();
+    var th = '<th>Personne</th><th>Objectif de référence</th><th class="' + n + '">Production prévue du mois</th><th class="' + n + '">Réalisé du mois</th><th>Paquets à prévoir</th>' + (mm ? '<th class="' + n + '">Dépenses prévues</th><th class="' + n + '">Salaire prévu</th><th class="' + n + '">Salaire calculé (jours travaillés)</th>' : '') + (print ? '' : '<th class="act"><span class="sr">Actions</span></th>');
+    var body = rows.map(function (r) {
+      var o = r.o;
+      if (!o) return '<tr><td><strong>' + esc(r.nom) + '</strong>' + (r.pers.fonction ? '<br><small class="muted">' + esc(r.pers.fonction) + '</small>' : '') + '</td><td colspan="' + (mm ? 7 : 4) + '" class="muted">Aucun objectif fixé.' + (r.sal.jours ? ' Ce mois : ' + plural(r.sal.jours, 'jour travaillé', 'jours travaillés') + (mm ? ', salaire calculé ' + fmtGNF(r.sal.du) : '') + '.' : '') + '</td>' +
+        (print ? '' : '<td class="act">' + (can('ouvriers', 'creer') ? UI.btn('Fixer un objectif', 'objectif', 'ghost sm', ' data-id="' + attr(r.id) + '"') : '') + '</td>') + '</tr>';
+      return '<tr' + (print ? '' : ' class="clk" data-act="obj" data-id="' + attr(o.p + '|' + o.id) + '"') + '><td><strong>' + esc(r.nom) + '</strong>' + (r.pers.fonction ? '<br><small class="muted">' + esc(r.pers.fonction) + '</small>' : '') + '</td>' +
+        '<td>' + esc(objPorteeNom(o.portee)) + ' ' + esc(Obj.periodeTxt(o)) + '<br><small class="muted">1 production : ' + esc(Obj.qTxt(o, r.k.N)) + ' en ' + esc(Obj.jTxt(r.k.D)) + '</small></td>' +
+        '<td class="' + n + '"><strong>' + esc(Obj.qTxt(o, r.H.complets)) + '</strong><br><small class="muted">' + fmtN(r.H.nb, 1) + ' productions · ' + fmtN(r.k.jm, 1) + ' j</small></td>' +
+        '<td class="' + n + '">' + fmtN(r.reel, 1) + (print ? (r.taux === null ? '' : ' (' + Math.round(r.taux * 100) + ' %)') : ' ' + Obj.tauxBadge(r.taux)) + '</td>' +
+        '<td>' + esc(r.k.mats.map(function (m, i) { return Obj.paqPrevoir(r.H.paquets[i] || 0) + ' ' + (m.nom || 'matière'); }).join(' · ')) + '</td>' +
+        (mm ? '<td class="' + n + '">' + fmtMoney(r.H.dep) + '</td><td class="' + n + '">' + fmtMoney(r.H.salaire) + '</td><td class="' + n + '">' + fmtMoney(r.sal.du) + (r.sal.jours ? '<br><small class="muted">' + plural(r.sal.jours, 'jour') + '</small>' : '') + '</td>' : '') +
+        (print ? '' : '<td class="act">' + UI.ibtn('print', 'rap', o.p + '|' + o.id, 'Rapport de production') + '</td>') + '</tr>';
+    }).join('');
+    var avec = rows.filter(function (r) { return r.o; });
+    var foot = '<tr><td colspan="2">Total (' + avec.length + ' avec objectif)</td><td class="' + n + '">' + fmtN(sum(avec, function (r) { return r.H.complets; }), 1) + '</td><td class="' + n + '">' + fmtN(sum(avec, function (r) { return r.reel; }), 1) + '</td><td>' + esc(Prev.paquets(rows).map(function (g) { return Obj.paqPrevoir(g.q) + ' ' + g.nom; }).join(' · ')) + '</td>' +
+      (mm ? '<td class="' + n + '">' + fmtMoney(sum(avec, function (r) { return r.H.dep; })) + '</td><td class="' + n + '">' + fmtMoney(sum(avec, function (r) { return r.H.salaire; })) + '</td><td class="' + n + '">' + fmtMoney(sum(rows, function (r) { return r.sal.du; })) + '</td>' : '') + (print ? '' : '<td></td>') + '</tr>';
+    return '<div class="tscroll"><table class="grid"><thead><tr>' + th + '</tr></thead><tbody>' + (body || '<tr><td class="empty" colspan="9">Aucun travailleur actif.</td></tr>') + '</tbody><tfoot>' + foot + '</tfoot></table></div>';
+  },
+  /* un objectif mensuel pour le mois choisi */
+  nouveau: function (p) {
+    var d1 = Prev.st.mois + '-01';
+    Obj.edit(p || null, null, { portee: 'mois', debut: d1, fin: Obj.finDe('mois', d1), joursPeriode: 26, unite: 'complet', compte: 'tissu', joursSemaine: 6, joursMois: 26, matieres: [{ nom: 'Bobinage' }, {}], depenses: [{}] });
+  }
+};
+
+view('ouvriers/previsions', {
+  mod: 'ouvriers', title: 'Prévision mensuelle',
+  check: function () { return can('ouvriers') || can('paie'); },
+  need: function () { return Obj.need().concat(['stock/articles']); },
+  render: function () {
+    var mois = Prev.st.mois, mm = canMoney(), rows = Prev.lignes(mois), avec = rows.filter(function (r) { return r.o; });
+    var prevu = sum(avec, function (r) { return r.H.complets; }), reel = sum(avec, function (r) { return r.reel; });
+    return pageHead('Prévision mensuelle', "Pour chaque travailleur, son objectif donne la production d'un mois (à son rythme : unités par production, jours pour la finir, jours de travail du mois), les paquets de matières à prévoir, les dépenses et le salaire prévus. Le réalisé vient de ses déclarations validées du mois. Touchez une ligne pour le rapport de l'objectif.",
+      '<label class="inline">Mois <input type="month" data-chg="mois" value="' + attr(mois) + '"></label>' + (can('ouvriers', 'creer') ? UI.btn(icon('plus') + ' Objectif du mois', 'nouveau', 'primary') : '') + UI.btn(icon('print') + ' Imprimer', 'imprimer', 'ghost')) +
+      tiles([{ t: 'Travailleurs avec objectif', v: avec.length + ' / ' + rows.length, go: 'ouvriers/objectifs' }, { t: 'Production prévue du mois', v: fmtN(prevu, 1), s: avec.length ? esc(Obj.uTxt(avec[0].o, 2)) : '' },
+        { t: 'Réalisé du mois', v: fmtN(reel, 1), s: prevu > 0 ? Math.round(reel / prevu * 100) + ' % du prévu' : '' },
+        { t: 'Paquets à prévoir', v: esc(Prev.paquets(rows).map(function (g) { return Obj.paqPrevoir(g.q) + ' ' + g.nom; }).join(' · ') || '—') },
+        mm ? { t: 'Salaires prévus du mois', v: fmtGNF(sum(avec, function (r) { return r.H.salaire; })), s: 'calculés : ' + fmtGNF(sum(rows, function (r) { return r.sal.du; })) } : null]) +
+      Prev.tableHtml(rows, false) +
+      '<p class="small muted">Production en unités de chaque objectif (complets, sauf autre unité choisie). Paquets arrondis au paquet supérieur.' + (mm ? ' Montants en GNF.' : '') + '</p>';
+  },
+  acts: {
+    mois: function (v) { if (/^\d{4}-\d{2}$/.test(v || '')) { Prev.st.mois = v; App.render(true); } },
+    obj: function (k) { var x = String(k).split('|'); Obj.fiche(x[0], x[1]); },
+    rap: function (k) { var x = String(k).split('|'); Obj.imprimer(x[0], x[1]); },
+    objectif: function (p) { Prev.nouveau(p); },
+    nouveau: function () { Prev.nouveau(null); },
+    imprimer: function () {
+      var mois = Prev.st.mois;
+      UI.print({ title: 'Prévision ' + mois, docTitle: 'Prévision de production', docMeta: '<div>' + esc(fmtMois(mois)) + '</div><div>' + esc(blocLabel(S.bloc)) + '</div>', landscape: true,
+        body: Prev.tableHtml(Prev.lignes(mois), true) + '<div class="sig"><div>Établi par</div><div>Visa du responsable</div></div>' });
+    }
+  }
+});
 
 
 /* ===== 99-boot.js ===== */
