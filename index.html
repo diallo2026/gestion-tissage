@@ -935,7 +935,7 @@ var NERP = window.NERP = window.NERP || {};
 /* nom de l'application affiché partout */
 var APP = { nom: 'AGAT', long: 'Application de gestion des ateliers de tissage' };
 NERP.version = '1.0.0';
-NERP.build = '20261105-1300';
+NERP.build = '20261105-1400';
 
 /* ---------- sélecteurs ---------- */
 function $(s, el) { return (el || document).querySelector(s); }
@@ -1291,7 +1291,8 @@ function memberParties(m) {
 var UNITES_DEFAUT = [
   { id: 'kg', nom: 'kilogramme' }, { id: 'g', nom: 'gramme' }, { id: 'bobine', nom: 'bobine' },
   { id: 'rouleau', nom: 'rouleau' }, { id: 'm', nom: 'mètre' }, { id: 'piece', nom: 'pièce' },
-  { id: 'l', nom: 'litre' }, { id: 'sachet', nom: 'sachet' }
+  { id: 'l', nom: 'litre' }, { id: 'sachet', nom: 'sachet' },
+  { id: 'complet', nom: 'complet (3 pagnes)' }, { id: 'pagne', nom: 'pagne (8 m)' }
 ];
 var NATURES = [
   { k: 'fil_brut', n: 'Fil brut' }, { k: 'fil_teint', n: 'Fil teint' }, { k: 'colorant', n: 'Colorant ou produit de teinture' },
@@ -1597,6 +1598,16 @@ function defCompte() {
   return 'caisse';
 }
 function couleurName(id) { return pname('couleurs', id, COULEURS_DEFAUT); }
+/* couleurs d'un article : plusieurs (couleurs), sinon la couleur unique d'avant (couleur) */
+function couleursArt(a) {
+  if (!a) return [];
+  var c = a.couleurs && typeof a.couleurs === 'object' ? Object.keys(a.couleurs).filter(function (k) { return a.couleurs[k]; }) : [];
+  return c.length ? c : (a.couleur ? [a.couleur] : []);
+}
+function couleursCoches(a) { var o = {}; couleursArt(a).forEach(function (c) { o[c] = true; }); return o; }
+function couleursSw(a) { return couleursArt(a).map(function (c) { return '<span class="sw" style="background:' + attr(couleurHex(c)) + '" title="' + attr(couleurName(c)) + '"></span>'; }).join(''); }
+/* enregistrement : toutes les couleurs cochées, et la première reste la couleur principale */
+function couleursRec(v) { var ks = v && typeof v === 'object' ? Object.keys(v).filter(function (k) { return v[k]; }) : []; var o = null; ks.forEach(function (k) { (o = o || {})[k] = true; }); return { couleurs: o, couleur: ks[0] || null }; }
 function couleurHex(id) {
   var o = (S.params && S.params.couleurs && S.params.couleurs[id]) || COULEURS_DEFAUT.filter(function (x) { return x.id === id; })[0];
   return o && o.hex ? o.hex : '#999';
@@ -4536,7 +4547,11 @@ var Opt = {
     return Opt.emplacements(function (e) { return (!p || empOuvert(e.id, p)) && (!filter || filter(e)); });
   },
   couleurs: function () { return plist('couleurs', COULEURS_DEFAUT).map(function (c) { return [c.id, c.nom]; }); },
-  unites: function () { return plist('unites', UNITES_DEFAUT).map(function (u) { return [u.id, u.id + ' — ' + u.nom]; }); },
+  unites: function () {
+    /* le tissu se compte en complets, pagnes et mètres : toujours proposés, en tête, avec les autres unités de l'atelier */
+    var tete = [['complet', 'complet — ' + fmtN(tissuPagnesComplet(), 2) + ' pagnes (' + fmtN(tissuMComplet(), 2) + ' m)'], ['pagne', 'pagne — ' + fmtN(tissuMPagne(), 2) + ' m'], ['m', 'm — mètre']];
+    return tete.concat(plist('unites', UNITES_DEFAUT).filter(function (u) { return ['complet', 'pagne', 'm'].indexOf(u.id) < 0; }).map(function (u) { return [u.id, u.id + ' — ' + u.nom]; }));
+  },
   categories: function () { return plist('categories', CATEGORIES_DEFAUT).map(function (c) { return [c.id, c.nom]; }); },
   /* caisses et comptes de l'espace ouvert (boutique ou atelier) ; tous avec all = true */
   comptes: function (all) {
@@ -5453,7 +5468,7 @@ function ptViews(p) {
           filters: [{ k: 'categorie', t: 'Catégorie', opts: Opt.categories() }, { k: '_etat', t: 'Stock', opts: [['1', 'En stock'], ['s', 'Sous le seuil'], ['0', 'En rupture']] }],
           text: function (a) { return [a.code, a.nom, a.categorie].join(' '); },
           cols: [{ k: 'code', t: 'Référence', f: function (a) { return '<span class="code">' + esc(a.code || '') + '</span>'; } },
-            { k: 'nom', t: 'Désignation', f: function (a) { return '<strong>' + esc(a.nom) + '</strong><br><small class="muted">' + esc(pname('categories', a.categorie, CATEGORIES_DEFAUT) === '—' ? '' : pname('categories', a.categorie, CATEGORIES_DEFAUT)) + '</small>'; } },
+            { k: 'nom', t: 'Désignation', f: function (a) { return '<strong>' + esc(a.nom) + '</strong>' + (couleursArt(a).length ? ' ' + couleursSw(a) : '') + '<br><small class="muted">' + esc(pname('categories', a.categorie, CATEGORIES_DEFAUT) === '—' ? '' : pname('categories', a.categorie, CATEGORIES_DEFAUT)) + '</small>'; } },
             { k: '_q', t: 'Quantité', num: true, f: function (a) { return a._q > 0 ? (tissuFacteur(a) !== null ? tissuHtml(tissuMetresArt(a, a._q)) : fmtQ(a._q, a.unite)) + (a._sc ? '<br><small class="muted">dont second choix ' + fmtQ(a._sc) + '</small>' : '') + (a._lots ? '<br><small class="muted">' + plural(a._lots, 'pièce ou lot', 'pièces ou lots') + '</small>' : '') : '<span class="tx-err">rupture</span>'; } },
             mm ? { k: '_pa', t: 'Prix unitaire (achat)', num: true, f: function (a) { return a._pa ? fmtMoney(a._pa) : ''; } } : null,
             { k: '_init', t: 'Stock initial', num: true, f: function (a) { return a._init ? fmtQ(a._init, a.unite) : ''; } },
@@ -6157,7 +6172,7 @@ var Pt = {
     bloc.forEach(function (a) { ids[a.id] = true; });
     return { bloc: bloc, autres: vente ? [] : list('stock/articles', function (a) { return !a.archive && !ids[a.id]; }) };
   },
-  acTexte: function (a) { return norm([a.nom, a.code, pname('categories', a.categorie, CATEGORIES_DEFAUT), a.couleur ? couleurName(a.couleur) : '', (NATURES.filter(function (n) { return n.k === a.nature; })[0] || {}).n || ''].join(' ')); },
+  acTexte: function (a) { return norm([a.nom, a.code, pname('categories', a.categorie, CATEGORIES_DEFAUT), couleursArt(a).map(couleurName).join(' '), (NATURES.filter(function (n) { return n.k === a.nature; })[0] || {}).n || ''].join(' ')); },
   acCherche: function (arts, q) {
     var ws = norm(q || '').split(/\s+/).filter(Boolean), nq = norm(q || '').trim();
     var r = arts.filter(function (a) { var t = Pt.acTexte(a); return ws.every(function (w) { return t.indexOf(w) >= 0; }); });
@@ -6339,12 +6354,12 @@ var Pt = {
   produit: function (p, id) {
     var P = partieOf(p), a = id ? articleOf(id) : null, cur = a ? strip(a) : { nature: P.nature || 'produit', unite: P.nature === 'tissu' ? 'm' : P.nature === 'fil_brut' ? 'kg' : 'piece', suiviLot: P.nature === 'fil_brut' || P.nature === 'tissu' };
     var si = id ? ptStockInit(p, id) : null, pv0 = id ? ptPrixVente(id) : null;
-    var vals0 = Object.assign({}, cur, { pv: pv0 || null, seuil: id ? ptSeuil(p, id) || null : null });
+    var vals0 = Object.assign({}, cur, { pv: pv0 || null, seuil: id ? ptSeuil(p, id) || null : null, couleurs: couleursCoches(cur) });
     var canPrix = can('ventes', 'modifier');
     var fields = [
       { k: 'code', t: 'Référence', req: true, max: 20 }, { k: 'nom', t: 'Désignation', req: true, max: 80 },
       { k: 'nature', t: 'Nature', type: 'select', req: true, opts: Opt.natures }, { k: 'categorie', t: 'Catégorie', type: 'select', opts: Opt.categories },
-      { k: 'unite', t: 'Unité', type: 'select', req: true, opts: Opt.unites }, { k: 'couleur', t: 'Couleur', type: 'select', opts: Opt.couleurs },
+      { k: 'unite', t: 'Unité', type: 'select', req: true, opts: Opt.unites }, { k: 'couleurs', t: 'Couleurs', type: 'checks', opts: Opt.couleurs, help: 'Cochez une ou plusieurs couleurs.' },
       { k: 'prixRef', t: "Prix unitaire d'achat (GNF)", type: 'money' },
       { k: 'pv', t: 'Prix de vente (GNF)', type: 'money', readonly: !canPrix, help: canPrix ? (pv0 ? 'Un changement de prix est historisé et validé.' : '') : 'Le prix de vente se règle par une personne qui a le droit de modifier les ventes.' },
       { k: 'seuil', t: "Seuil d'alerte", type: 'qty', help: 'Alerte quand le stock ' + P.de + ' descend à ce niveau.' },
@@ -6355,7 +6370,7 @@ var Pt = {
     return UI.formModal({
       title: id ? 'Produit ' + (a.code || '') : 'Nouveau produit — ' + P.nom, size: 'l', values: vals0, fields: fields,
       intro: si ? 'Stock initial enregistré le ' + fmtDate(si.date) + ' : ' + fmtQ(si.q, cur.unite) + '.' : '',
-      onOpen: function (m) { var nat = $('[data-k="nature"]', m.el), code = $('[data-k="code"]', m.el), un = $('[data-k="unite"]', m.el), lot = $('[data-k="suiviLot"]', m.el); if (!id) { if (!code.value) code.value = Stock.suggestCode(nat.value); nat.addEventListener('change', function () { code.value = Stock.suggestCode(nat.value); lot.checked = ['fil_brut', 'fil_teint', 'tissu'].indexOf(nat.value) >= 0; if (nat.value === 'tissu') un.value = 'm'; }); } },
+      onOpen: function (m) { var nat = $('[data-k="nature"]', m.el), code = $('[data-k="code"]', m.el), un = $('[data-k="unite"]', m.el), lot = $('[data-k="suiviLot"]', m.el); if (!id) { if (!code.value) code.value = Stock.suggestCode(nat.value); nat.addEventListener('change', function () { code.value = Stock.suggestCode(nat.value); lot.checked = ['fil_brut', 'fil_teint', 'tissu'].indexOf(nat.value) >= 0; if (nat.value === 'tissu' && ['complet', 'pagne', 'm'].indexOf(un.value) < 0) un.value = 'm'; }); } },
       check: function (v) {
         var dup = list('stock/articles', function (x) { return x.code && x.code.toUpperCase() === String(v.code).toUpperCase() && x.id !== id; });
         if (dup.length) return 'Cette référence est déjà utilisée par « ' + dup[0].nom + ' ».';
@@ -6363,7 +6378,7 @@ var Pt = {
       },
       save: function (v) {
         var nid = id || FB.newId(), tx = new Tx('produit');
-        var rec = Object.assign({}, cur, { code: String(v.code).toUpperCase(), nom: v.nom, nature: v.nature, categorie: v.categorie || null, unite: v.unite, couleur: v.couleur || null, prixRef: v.prixRef || null, suiviLot: !!v.suiviLot, description: v.description || null });
+        var rec = Object.assign({}, cur, { code: String(v.code).toUpperCase(), nom: v.nom, nature: v.nature, categorie: v.categorie || null, unite: v.unite, couleur: couleursRec(v.couleurs).couleur, couleurs: couleursRec(v.couleurs).couleurs, prixRef: v.prixRef || null, suiviLot: !!v.suiviLot, description: v.description || null });
         if (!id) { rec.creeLe = today(); rec.partie = p; rec.empDefaut = partiePrincipal(p); }
         tx.doc('stock/articles', nid, rec);
         if ((v.seuil || 0) !== (id ? ptSeuil(p, id) : 0) && can(P.mod, 'modifier') || (!id && v.seuil)) tx.doc(p + '/seuils', nid, { q: v.seuil || 0, par: S.member.nom });
@@ -7715,7 +7730,7 @@ var ART_FIELDS = [
   { k: 'nature', t: 'Nature', type: 'select', req: true, opts: Opt.natures },
   { k: 'categorie', t: 'Catégorie', type: 'select', opts: Opt.categories },
   { k: 'unite', t: 'Unité de stock', type: 'select', req: true, opts: Opt.unites },
-  { k: 'couleur', t: 'Couleur', type: 'select', opts: Opt.couleurs },
+  { k: 'couleurs', t: 'Couleurs', type: 'checks', opts: Opt.couleurs, help: 'Cochez une ou plusieurs couleurs.' },
   { k: 'suiviLot', t: 'Suivi par lot (traçabilité)', type: 'checkbox', help: 'Recommandé pour les fils et les tissus.' },
   { k: 'seuil', t: "Seuil d'alerte (stock disponible)", type: 'qty' },
   { k: 'empDefaut', t: 'Emplacement habituel', type: 'select', opts: function () { return Opt.emplacements(); } },
@@ -7739,7 +7754,7 @@ view('stock/articles', {
         filters: [{ k: 'nature', t: 'Nature', opts: Opt.natures() }, { k: 'categorie', t: 'Catégorie', opts: Opt.categories() }, { k: '_alert', t: 'Alerte', opts: [['1', 'Sous le seuil']], test: function (r) { return !!r._alert; } }],
         cols: [
           { k: 'code', t: 'Code', f: function (a) { return '<span class="code">' + esc(a.code) + '</span>'; } },
-          { k: 'nom', t: 'Désignation', f: function (a) { return '<strong>' + esc(a.nom) + '</strong>' + (a.couleur ? ' <span class="sw" style="background:' + attr(couleurHex(a.couleur)) + '"></span>' : ''); } },
+          { k: 'nom', t: 'Désignation', f: function (a) { return '<strong>' + esc(a.nom) + '</strong>' + (couleursArt(a).length ? ' ' + couleursSw(a) : ''); } },
           { k: 'nature', t: 'Nature', f: function (a) { return esc((NATURES.filter(function (n) { return n.k === a.nature; })[0] || {}).n || ''); } },
           { k: 'unite', t: 'Unité' },
           { k: '_q', t: 'Stock total', num: true, f: function (a) { return fmtQ(a._q); } },
@@ -7909,6 +7924,7 @@ view('stock/inventaires', {
 var Stock = {
   editArticle: function (id, preset) {
     var cur = id ? strip(get('stock/articles', id)) : Object.assign({ suiviLot: false, unite: 'kg' }, preset || {});
+    cur.couleurs = couleursCoches(cur);
     var fields = ART_FIELDS.slice();
     if (isOwnerRole()) fields.push({ k: 'negOk', t: 'Autoriser le stock négatif (exception)', type: 'checkbox', span: 2, help: 'À éviter : à réserver à un article dont la sortie doit pouvoir précéder la saisie de l\'entrée. Chaque usage reste tracé.' });
     return UI.formModal({
@@ -7916,7 +7932,7 @@ var Stock = {
       onOpen: function (m) {
         var nat = $('[data-k="nature"]', m.el), lot = $('[data-k="suiviLot"]', m.el), un = $('[data-k="unite"]', m.el), code = $('[data-k="code"]', m.el);
         nat.addEventListener('change', function () {
-          if (!id) { lot.checked = ['fil_brut', 'fil_teint', 'tissu'].indexOf(nat.value) >= 0; if (nat.value === 'tissu') un.value = 'm'; }
+          if (!id) { lot.checked = ['fil_brut', 'fil_teint', 'tissu'].indexOf(nat.value) >= 0; if (nat.value === 'tissu' && ['complet', 'pagne', 'm'].indexOf(un.value) < 0) un.value = 'm'; }
           if (!id && !code.value) code.value = Stock.suggestCode(nat.value);
         });
       },
@@ -7927,7 +7943,7 @@ var Stock = {
       save: function (v) {
         v.code = String(v.code).toUpperCase();
         var nid = id || FB.newId();
-        var rec = Object.assign({}, cur, v);
+        var rec = Object.assign({}, cur, v, couleursRec(v.couleurs));
         if (!id) rec.creeLe = today();
         var tx = new Tx('article');
         tx.doc('stock/articles', nid, rec);
@@ -9986,16 +10002,25 @@ var Ventes = {
       onOpen: function (m, l) {
         mm = m; lid = l;
         var cs = $('[data-k="client"]', m.el), paye = $('[data-k="paye"]', m.el), ech = $('[data-k="echeance"]', m.el);
+        /* le montant encaissé suit le total tant qu'on ne l'a pas corrigé ; une fois corrigé, il reste tel quel */
+        var corrige = false, acompte0 = fromCmd ? (fromCmd.acompte || 0) : 0;
+        paye.addEventListener('input', function () { corrige = true; sync(); });
         var sync = function () {
           var c = clientOf(cs.value);
           var credit = c && c.plafond > 0;
-          paye.readOnly = !credit;
-          ech.closest('.fld').hidden = !credit;
-          if (!credit) { var t = $('#vt-total', m.el); paye.value = t ? Math.max(0, Number(t.dataset.v) - (fromCmd ? (fromCmd.acompte || 0) : 0)) : ''; }
+          var t = $('#vt-total', m.el), du = t ? Math.max(0, Number(t.dataset.v) - acompte0) : 0;
+          paye.readOnly = false;
+          if (!corrige) paye.value = du ? String(du) : '';
+          var pv = toMoney(paye.value); if (isNaN(pv)) pv = 0;
+          var reste = du - pv;
+          ech.closest('.fld').hidden = !(credit || reste > 0);
           if (c && !ech.value) ech.value = addDays(today(), c.delai || (S.params.regles || {}).delaiPaiement || 30);
-          var hint = $('.muted', paye.closest('.fld'));
-          var h = c ? (credit ? 'Crédit autorisé : encours ' + fmtGNF(encoursClient(c.id)) + ' sur un plafond de ' + fmtGNF(c.plafond) + '.' : 'Ce client n\'a pas de plafond de crédit : paiement complet.') : 'Client de passage : paiement complet.';
-          var sm = paye.closest('.fld').querySelector('small.muted'); if (!sm) { sm = document.createElement('small'); sm.className = 'muted'; paye.closest('.fld').insertBefore(sm, paye.closest('.fld').querySelector('.ferr')); } sm.textContent = h;
+          var h, bad = false;
+          if (reste < 0) { h = 'Le montant encaissé dépasse le total de ' + fmtGNF(-reste) + '.'; bad = true; }
+          else if (reste > 0 && credit) h = 'Reste ' + fmtGNF(reste) + ' à crédit — encours ' + fmtGNF(encoursClient(c.id)) + ' sur un plafond de ' + fmtGNF(c.plafond) + '.';
+          else if (reste > 0) { h = 'Reste ' + fmtGNF(reste) + ' : ' + (c ? 'ce client n\'a pas de plafond de crédit (fiche du client). Encaissez le total, ou donnez-lui un plafond.' : 'un client de passage paie le total ; pour une vente à crédit, choisissez le client.'); bad = true; }
+          else h = du ? 'Payé en totalité.' + (credit ? ' Crédit possible : encours ' + fmtGNF(encoursClient(c.id)) + ' sur un plafond de ' + fmtGNF(c.plafond) + '.' : '') : '';
+          var sm = paye.closest('.fld').querySelector('small.muted'); if (!sm) { sm = document.createElement('small'); sm.className = 'muted'; paye.closest('.fld').insertBefore(sm, paye.closest('.fld').querySelector('.ferr')); } sm.textContent = h; sm.classList.toggle('tx-warn', bad);
         };
         cs.addEventListener('change', sync);
         m.el.addEventListener('input', function (e) { if (e.target.closest('[data-lines]')) setTimeout(sync, 0); });
@@ -16782,7 +16807,7 @@ var Retouche = {
     return '<div class="rt"><div class="rt-v">' +
       '<div class="rt-stage" id="rt-stage"><canvas id="rt-cv" aria-label="Aperçu de la photo retouchée"></canvas><div class="mc-vide" id="rt-vide">' + icon('image') + '<span>Choisissez une photo du modèle ou chargez-en une depuis le téléphone.</span></div>' +
         '<div class="rt-gen"><button type="button" class="btn rt-ia" data-rta="ia1">' + icon('sparkle') + ' Photo réaliste (personnes)</button><button type="button" class="btn primary" data-rta="gen">' + icon('magic') + ' Visuel du tissu</button><button type="button" class="btn rt-vid" data-rta="video">' + icon('play') + ' Créer la vidéo</button><button type="button" class="btn rt-fb" data-rta="pack">' + icon('play') + ' 5 vidéos Facebook</button></div></div>' +
-      '<div class="rt-nat" id="rt-nat"><span class="small">Photo de :</span><div class="rt-seg" role="group" aria-label="Type de photo">' + NATURES.map(function (n) { return '<button type="button" data-rta="nat" data-id="' + n[0] + '"' + (rt.nature.type === n[0] ? ' class="on"' : '') + '>' + esc(n[1]) + '</button>'; }).join('') + '</div><small class="muted" id="rt-natx"></small></div>' +
+      '<div class="rt-nat" id="rt-nat"><span class="small">Photo de :</span><div class="rt-seg" role="group" aria-label="Type de photo">' + NATURES_PHOTO.map(function (n) { return '<button type="button" data-rta="nat" data-id="' + n[0] + '"' + (rt.nature.type === n[0] ? ' class="on"' : '') + '>' + esc(n[1]) + '</button>'; }).join('') + '</div><small class="muted" id="rt-natx"></small></div>' +
       '<div class="rt-histo" id="rt-histo" hidden></div>' +
       '<p class="muted small rt-hint" id="rt-dim"></p>' +
       '<div class="row wrap mc-src">' + ph.map(function (pid, i) { return '<button type="button" class="cat-th" data-rta="ph" data-id="' + attr(pid) + '" aria-label="Photo ' + (i + 1) + '"><span class="spin"></span></button>'; }).join('') +
@@ -17795,7 +17820,8 @@ var TissuHD = {
    (une chaîne tendue : des fils parallèles ; des écheveaux : des fils courbes dans tous les sens),
    couleurs vives et fond. Avec la clé IA, le service d'IA regarde la photo et tranche ; on peut
    toujours corriger d'un geste. */
-var NATURES = [['fini', 'Tissu fini'], ['tissage', 'Tissage'], ['teinture', 'Teinture']];
+/* (nom propre à ce module : « NATURES » est la liste des natures de produits) */
+var NATURES_PHOTO = [['fini', 'Tissu fini'], ['tissage', 'Tissage'], ['teinture', 'Teinture']];
 var Nature = {
   /* empreinte d'une photo (16 × 16 en gris) : retrouver la même photo, qu'elle vienne d'une fiche ou d'un fichier */
   empreinte: function (src) {
@@ -17810,13 +17836,13 @@ var Nature = {
   /* la correction faite à la main est retenue sur ce téléphone seulement (rien dans la base) */
   cleMemo: function () { return 'agat-nat-' + ((window.S && S.tid) || 'x'); },
   memos: function () { try { return JSON.parse(localStorage.getItem(Nature.cleMemo()) || '{}') || {}; } catch (e) { return {}; } },
-  memo: function (emp) { if (!emp) return null; var t = Nature.memos()[emp]; return t && NATURES.some(function (n) { return n[0] === t; }) ? t : null; },
+  memo: function (emp) { if (!emp) return null; var t = Nature.memos()[emp]; return t && NATURES_PHOTO.some(function (n) { return n[0] === t; }) ? t : null; },
   retenir: function (emp, type) {
     if (!emp) return; var o = Nature.memos(); delete o[emp]; o[emp] = type;
     var k = Object.keys(o); while (k.length > 300) { delete o[k.shift()]; }
     try { localStorage.setItem(Nature.cleMemo(), JSON.stringify(o)); } catch (e) {}
   },
-  nom: function (k) { return (NATURES.filter(function (n) { return n[0] === k; })[0] || NATURES[0])[1]; },
+  nom: function (k) { return (NATURES_PHOTO.filter(function (n) { return n[0] === k; })[0] || NATURES_PHOTO[0])[1]; },
   mesures: function (src) {
     var red = TissuHD.redresse(src), img = red.img, D = TissuHD.donnees(img, 256), w = D.width, h = D.height, d = D.data, N = w * h, i;
     var a = null; try { a = Analyse.analyser(D, {}); } catch (e) { a = null; }
