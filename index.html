@@ -914,7 +914,7 @@ p.note { display: block; }
 <div id="modals"></div>
 <div id="toasts" aria-live="polite"></div>
 <noscript><p style="padding:20px">AGAT a besoin de JavaScript pour fonctionner.</p></noscript>
-<script>"use strict";var NERP=window.NERP=window.NERP||{};var APP={nom:"AGAT",long:"Application de gestion des ateliers de tissage"};NERP.version="1.0.0";NERP.build="20261105-2330";function $(s,el){return(el||document).querySelector(s)}function $$(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))}function esc(v){if(v===null||v===undefined)return"";return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function attr(v){return esc(v)}var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}},json:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},setJson:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};function parseNum(v){if(v===null||v===undefined||v==="")return NaN;if(typeof v==="number")return v;var s=String(v).replace(/\s| | /g,"").replace(",",".");if(!/^-?\d*\.?\d+$/.test(s)&&!/^-?\d+\.?$/.test(s))return NaN;return parseFloat(s)}function toQ(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n*1e3)}function fromQ(q){return(Number(q)||0)/1e3}function toMoney(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n)}function grp(intStr){return intStr.replace(/\B(?=(\d{3})+(?!\d))/g," ")}function fmtN(n,dec){n=Number(n)||0;dec=dec===undefined?0:dec;var neg=n<0;n=Math.abs(n);var s=n.toFixed(dec);var p=s.split(".");var out=grp(p[0]);if(dec>0){var d=p[1].replace(/0+$/,"");if(d)out+=","+d}return(neg?"−":"")+out}function fmtGNF(n){return fmtN(Math.round(Number(n)||0))+" GNF"}function fmtMoney(n){return fmtN(Math.round(Number(n)||0))}function fmtQ(q,unite){var s=fmtN(fromQ(q),3);return unite?s+" "+unite:s}function enLettres(n){n=Math.round(Math.abs(Number(n)||0));if(!n)return"zéro"
+<script>"use strict";var NERP=window.NERP=window.NERP||{};var APP={nom:"AGAT",long:"Application de gestion des ateliers de tissage"};NERP.version="1.0.0";NERP.build="20261112-1330";function $(s,el){return(el||document).querySelector(s)}function $$(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))}function esc(v){if(v===null||v===undefined)return"";return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function attr(v){return esc(v)}var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}},json:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},setJson:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};function parseNum(v){if(v===null||v===undefined||v==="")return NaN;if(typeof v==="number")return v;var s=String(v).replace(/\s| | /g,"").replace(",",".");if(!/^-?\d*\.?\d+$/.test(s)&&!/^-?\d+\.?$/.test(s))return NaN;return parseFloat(s)}function toQ(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n*1e3)}function fromQ(q){return(Number(q)||0)/1e3}function toMoney(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n)}function grp(intStr){return intStr.replace(/\B(?=(\d{3})+(?!\d))/g," ")}function fmtN(n,dec){n=Number(n)||0;dec=dec===undefined?0:dec;var neg=n<0;n=Math.abs(n);var s=n.toFixed(dec);var p=s.split(".");var out=grp(p[0]);if(dec>0){var d=p[1].replace(/0+$/,"");if(d)out+=","+d}return(neg?"−":"")+out}function fmtGNF(n){return fmtN(Math.round(Number(n)||0))+" GNF"}function fmtMoney(n){return fmtN(Math.round(Number(n)||0))}function fmtQ(q,unite){var s=fmtN(fromQ(q),3);return unite?s+" "+unite:s}function enLettres(n){n=Math.round(Math.abs(Number(n)||0));if(!n)return"zéro"
 ;var U=["","un","deux","trois","quatre","cinq","six","sept","huit","neuf","dix","onze","douze","treize","quatorze","quinze","seize","dix-sept","dix-huit","dix-neuf"];var D=["","dix","vingt","trente","quarante","cinquante","soixante","soixante","quatre-vingt","quatre-vingt"];var deux=function(x,fin){if(x<20)return U[x];var d=Math.floor(x/10),u=x%10;if(d===7||d===9){var r=x-(d===7?60:80);return D[d]+(d===7&&r===11?" et ":"-")+U[r]}if(!u)return d===8?fin?"quatre-vingts":"quatre-vingt":D[d];if(u===1&&d!==8)return D[d]+" et un";return D[d]+"-"+U[u]};var trois=function(x,fin){var c=Math.floor(x/100),r=x%100,s="";if(c)s=(c>1?U[c]+" ":"")+"cent"+(c>1&&!r&&fin?"s":"");if(r)s+=(s?" ":"")+deux(r,fin);return s};var mds=Math.floor(n/1e9),mns=Math.floor(n%1e9/1e6),mls=Math.floor(n%1e6/1e3),r=n%1e3,out=[];if(mds)out.push(trois(mds,true)+" milliard"+(mds>1?"s":""));if(mns)out.push(trois(mns,true)+" million"+(mns>1?"s":""));if(mls)out.push(mls===1?"mille":trois(mls,false)+" mille");if(r)out.push(trois(r,true));return out.join(" ")}function majuscule(s){s=String(s||"");return s.charAt(0).toUpperCase()+s.slice(1)}function fmtPct(x,dec){if(!isFinite(x))return"—";return fmtN(x*100,dec===undefined?1:dec)+" %"}function qInput(q){return q===null||q===undefined||q===""?"":String(fromQ(q)).replace(".",",")}function pad2(n){return(n<10?"0":"")+n}function isoDate(d){d=d||new Date;return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate())}function today(){return isoDate(new Date)}function monthOf(iso){return String(iso||"").slice(0,7)}function yearOf(iso){return String(iso||"").slice(0,4)}function addDays(iso,n){var d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);return isoDate(d)}function daysBetween(a,b){return Math.round((new Date(b+"T12:00:00")-new Date(a+"T12:00:00"))/864e5)}function fmtDate(iso){if(!iso)return"—";if(typeof iso==="number")return new Date(iso).toLocaleDateString("fr-FR");var p=String(iso).slice(0,10).split("-")
 ;return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:esc(iso)}function fmtDateTime(ts){if(!ts)return"—";var d=new Date(ts);return d.toLocaleDateString("fr-FR")+" "+pad2(d.getHours())+":"+pad2(d.getMinutes())}var MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];function fmtMois(ym){var p=String(ym).split("-");return MOIS[Number(p[1])-1]+" "+p[0]}function startOfMonth(iso){return monthOf(iso||today())+"-01"}function startOfYear(iso){return yearOf(iso||today())+"-01-01"}function debounce(fn,ms){var t;return function(){var a=arguments,c=this;clearTimeout(t);t=setTimeout((function(){fn.apply(c,a)}),ms)}}function vals(obj){return obj?Object.keys(obj).map((function(k){var v=obj[k];if(v&&typeof v==="object"&&!v.id)v.id=k;return v})):[]}function byKey(k,dir){dir=dir||1;return function(a,b){var x=a[k],y=b[k];if(x===y)return 0;if(x===undefined||x===null)return 1;if(y===undefined||y===null)return-1;return(x>y?1:-1)*dir}}function sum(arr,f){var s=0;(arr||[]).forEach((function(x){s+=Number(f?f(x):x)||0}));return s}function groupBy(arr,f){var o={};(arr||[]).forEach((function(x){var k=f(x);(o[k]=o[k]||[]).push(x)}));return o}function clone(o){return o===undefined?undefined:JSON.parse(JSON.stringify(o))}function norm(s){s=String(s||"").toLowerCase();try{s=s.normalize("NFD").replace(/[̀-ͯ]/g,"")}catch(e){}return s}function normIdent(t){return norm(t).trim().replace(/\s+/g,".").replace(/[^a-z0-9._-]/g,"").slice(0,30)}function randomCode(n){var c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",r="";var a=new Uint32Array(n);(window.crypto||{}).getRandomValues?crypto.getRandomValues(a):a.forEach((function(_,i){a[i]=Math.random()*1e9}));for(var i=0;i<n;i++)r+=c[a[i]%c.length];return r}function strip(o){var r={};Object.keys(o||{}).forEach((function(k){if(k!=="id"&&k.charAt(0)!=="_")r[k]=o[k]}));return r}function initials(n){var p=String(n||"?").trim().split(/\s+/);return((p[0]||"?")[0]+(p[1]?p[1][0]:"")).toUpperCase()}function plural(n,s,p){
 return n+" "+(Math.abs(n)>1?p||s+"s":s)}var Bus={h:{},on:function(e,f){(this.h[e]=this.h[e]||[]).push(f)},emit:function(e,d){(this.h[e]||[]).forEach((function(f){try{f(d)}catch(x){console.error("[NERP]",e,x)}}))}};var S={tid:null,code:null,user:null,member:null,role:null,tenant:null,info:{},params:{},roles:{},members:{},blocs:{},bloc:"A",mode:"gestion",d:{},loaded:{},online:true,admin:false};var MODULES=[{k:"tableau",n:"Tableau de bord"},{k:"tissage",n:"Tissage (matières premières)"},{k:"distributeur",n:"Distributeur (fils remis aux tisserands)"},{k:"achats",n:"Achats"},{k:"stock",n:"Stock"},{k:"teinture",n:"Teinture"},{k:"production",n:"Production"},{k:"qualite",n:"Qualité"},{k:"ouvriers",n:"Ouvriers et déclarations"},{k:"paie",n:"Paie des ouvriers"},{k:"ventes",n:"Ventes"},{k:"boutique",n:"Boutique (stock et caisse)"},{k:"formation",n:"Formation"},{k:"catalogue",n:"Catalogue des modèles"},{k:"finances",n:"Finances"},{k:"rapports",n:"Rapports"},{k:"parametres",n:"Paramètres"},{k:"utilisateurs",n:"Utilisateurs et rôles"},{k:"admin",n:"Audit et validations"}];var ACTIONS=[{k:"consulter",n:"Consulter"},{k:"creer",n:"Créer"},{k:"modifier",n:"Modifier"},{k:"supprimer",n:"Supprimer"},{k:"valider",n:"Valider"},{k:"annuler",n:"Annuler"},{k:"exporter",n:"Exporter"},{k:"livrer",n:"Livrer",only:["ventes"]}];var WRITE_ACTIONS=["creer","modifier","supprimer","valider","annuler","livrer"];function actionFor(mod,a){return!a.only||a.only.indexOf(mod)>=0}var BLOC_IDS=["A","B","C","D","E","F","G","H","I","J"];var BLOCS_INCLUS=3;var EMPLACEMENTS_DEFAUT=[{id:"MAG-MP",nom:"Magasin des matières",type:"matieres",dispo:true,ordre:1},{id:"ENC-TEI",nom:"Encours teinture",type:"encours",dispo:false,ordre:2},{id:"QUAR",nom:"Quarantaine (à contrôler)",type:"quarantaine",dispo:false,ordre:3},{id:"MAG-FT",nom:"Magasin des fils teints",type:"fils_teints",dispo:true,ordre:4},{id:"ENC-PROD",nom:"Encours métiers",type:"encours",dispo:false,ordre:5},{id:"PF",nom:"Produits finis",
@@ -992,9 +992,9 @@ UI.toast("Autorisez les fenêtres pour imprimer.","err");return}w.document.write
 tabs:[["tissage/produits","Produits"],["tissage/entrees","Entrées mensuelles"],["tissage/sorties","Sorties mensuelles"],["tissage/inventaire","Inventaire"],["tissage/transferts","Transferts"],["tissage/alertes","Stock disponible et dormant"]]},{r:"stock",t:"Magasin détaillé",i:"clip",mod:"stock",tabs:[["stock/etat","État du stock"],["stock/articles","Articles"],["stock/lots","Lots"],["stock/mouvements","Mouvements"],["stock/inventaires","Inventaires"]]}]},{g:"Fournisseurs",items:[FOURNISSEURS_ITEM]}],production:[{g:"Pilotage",items:[{r:"production/tableau",t:"Tableau de bord",i:"home",mod:"production"}]},{g:"Mes déclarations",items:[{r:"moi",t:"Mes déclarations",i:"clip",mod:"*",tabs:[["ouvriers/moi","Mes déclarations"],["ouvriers/mapaie","Ma paie"]]}]},{g:"Producteurs",items:[{r:"prod-decl",t:"Déclarations de production",i:"bolt",mod:"ouvriers",tabs:[["production/rapide","Déclaration rapide"],["ouvriers/declarations","À valider et historique"],["production/producteurs","Producteurs"]]},{r:"prod-paie",t:"Versements et paie",i:"wallet",mod:"paie",tabs:[["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/paie","Versements aux producteurs"],["ouvriers/rapports","Rapports par producteur"],["parametres/personnel","Fiches du personnel"]]},{r:"prod-obj",t:"Objectifs et prévisions",i:"chart",mod:"ouvriers",tabs:[["ouvriers/objectifs","Objectifs de chaque travailleur"],["ouvriers/previsions","Prévision mensuelle"]]},{r:"prod-badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]},{g:"Production",items:[{r:"prod-suivi",t:"Suivi de la production",i:"chart",mod:"production",tabs:[["production/mensuel","Production mensuelle"],["production/inventaire","Inventaire de production"],["production/sorties","Sorties mensuelles"],["production/transferts","Transferts"]]},{r:"prod-stock",
 t:"Stock produit",i:"box",mod:"production",tabs:[["production/produits","Produits"],["production/entrees","Entrées mensuelles"],["production/inventaire-stock","Comptage du stock"],["production/alertes","Stock disponible et dormant"]]},{r:"prod-fab",t:"Ordres et métiers",i:"loom",mod:"production",tabs:[["production/ordres","Ordres de production"],["production/suivi","Suivi du jour"],["production/metiers","Métiers à tisser"],["production/modeles","Modèles de tissu"],["qualite/controles","Contrôles qualité"],["qualite/nc","Non-conformités"]]}]},{g:"Ventes",items:[{r:"prod-ventes",t:"Ventes et facturation",i:"tag",mod:"production",tabs:[["production/vente","Vente rapide"],["production/ventes","Ventes"],["ventes/factures","Facturation"]]}]},{g:"Fournisseurs",items:[FOURNISSEURS_ITEM]}],teinture:[{g:"Pilotage",items:[{r:"teinture/tableau",t:"Tableau de bord",i:"home",mod:"teinture"}]},{g:"Saisie",items:[{r:"teinture-saisie",t:"Saisie rapide",i:"bolt",mod:"teinture",tabs:[["teinture/rapide","Entrée ou vente rapide"],["teinture/ventes","Ventes"],["ventes/factures","Facturation client"]]}]},{g:"Teinture",items:[{r:"teinture",t:"Lots et recettes",i:"drop",mod:"teinture",tabs:[["teinture/lots","Lots de teinture"],["teinture/recettes","Recettes"],["qualite/controles","Contrôles qualité"]]},{r:"teinture-stock",t:"Produits et stock",i:"box",mod:"teinture",tabs:[["teinture/produits","Produits"],["teinture/entrees","Entrées mensuelles"],["teinture/sorties","Sorties mensuelles"],["teinture/inventaire","Inventaire"],["teinture/transferts","Transferts"],["teinture/alertes","Stock disponible et dormant"]]}]},{g:"Fournisseurs",items:[FOURNISSEURS_ITEM]}],boutique:[{g:"Boutique",items:[{r:"boutique/tableau",t:"Tableau de bord",i:"home",mod:"boutique"},{r:"bstock",t:"Produits",i:"box",mod:"boutique",tabs:[["boutique/produits","Produits en boutique"],["boutique/appro","Approvisionnement"],["boutique/transferts","Transferts"]]},{r:"binv",t:"Inventaire",i:"clip",mod:"boutique",
 tabs:[["boutique/inventaire","Inventaire"],["boutique/corrections","Corrections du stock"]]},{r:"ventes",t:"Ventes",i:"tag",mod:"ventes",tabs:[["boutique/rapide","Vente rapide"],["ventes/caisse","Vente avec facture"],["boutique/ventes","Ventes"],["ventes/devis","Devis et commandes"],["ventes/livraisons","Livraisons"],["ventes/tarifs","Prix de vente"]]},{r:"bsorties",t:"Sorties mensuelles",i:"upload",mod:"boutique",tabs:[["boutique/sorties","Sorties mensuelles"]]},{r:"bentrees",t:"Entrées mensuelles",i:"download",mod:"boutique",tabs:[["boutique/entrees","Entrées mensuelles"]]},{r:"bfact",t:"Facturation",i:"audit",mod:"ventes",tabs:[["ventes/factures","Facturation"]]},{r:"bpalm",t:"Palmarès",i:"chart",mod:"boutique",tabs:[["boutique/palmares","Palmarès"],["boutique/rapport","Rapports"],["boutique/recap","Récapitulatif annuel"]]},{r:"bdormant",t:"Produits dormants",i:"alert",mod:"boutique",tabs:[["boutique/alertes","Produits dormants et alertes"]]},fournisseursBloc("boutique"),{r:"boutique-clients",t:"Clients et factures",i:"users",mod:"ventes",tabs:[["ventes/clients","Clients"],["boutique/dettes","Dettes et factures dues"],["ventes/creances","Créances et échéances"],["boutique/versements","Versements"]]},{r:"boutique/vclients",t:"Versements des clients",i:"wallet",mod:"ventes"}]},{g:"Caisse et vitrine",items:[{r:"boutique-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["boutique/caisse","Caisse"],["boutique/depenses","Dépenses"],["boutique/journalier","Historique journalier"],["boutique/mensuel","Caisse mois par mois"],["boutique/repartition","Répartition des fonds"]]},{r:"boutique-vitrine",t:"Catalogue des modèles",i:"image",mod:"catalogue",tabs:[["catalogue/modeles","Catalogue"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],formation:[{g:"Formation",items:[{r:"formation/tableau",t:"Tableau de bord",i:"home",mod:"formation"},{r:"form-new",t:"Enregistrer une formation",i:"plus",
-mod:"formation",tabs:[["formation/nouvelle","Enregistrer une formation"],["formation/registre","Formations enregistrées"]]},{r:"form-etud",t:"Liste des étudiants",i:"users",mod:"formation",tabs:[["formation/apprenants","Liste des étudiants"]]},{r:"form-fact",t:"Factures de formation",i:"audit",mod:"formation",tabs:[["formation/factures","Factures de formation"]]},{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]}]},{g:"Organisation et caisse",items:[{r:"formation",t:"Sessions et paiements",i:"grad",mod:"formation",tabs:[["formation/sessions","Sessions"],["formation/paiements","Paiements et impayés"],["formation/catalogue","Catalogue des formations"]]},{r:"formation-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["formation/caisse","Caisse"],["formation/depenses","Dépenses"],["formation/journalier","Historique journalier"],["formation/mensuel","Caisse mois par mois"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],tisserand:[{g:"Tisserands",items:[{r:"tisserand/nouveau",t:"Nouveau tisserand",i:"plus",mod:"ouvriers"},{r:"tisserand/liste",t:"Liste des tisserands",i:"users",mod:"ouvriers"},{r:"tis-sal",t:"Salaires",i:"wallet",mod:"paie",tabs:[["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/rapports","Rapports journaliers et mensuels"],["ouvriers/paie","Versements et avances"]]},{r:"tis-obj",t:"Objectifs et prévisions",i:"chart",mod:"ouvriers",tabs:[["ouvriers/objectifs","Objectifs de chaque travailleur"],["ouvriers/previsions","Prévision mensuelle"]]},{r:"tis-badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",
+mod:"formation",tabs:[["formation/nouvelle","Enregistrer une formation"],["formation/registre","Formations enregistrées"]]},{r:"form-etud",t:"Liste des étudiants",i:"users",mod:"formation",tabs:[["formation/apprenants","Liste des étudiants"]]},{r:"form-fact",t:"Factures de formation",i:"audit",mod:"formation",tabs:[["formation/factures","Factures de formation"]]},{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]},{r:"form-om",t:"Ordres de mission",i:"truck",mod:"formation",tabs:[["formation/missions","Ordres de mission"]]}]},{g:"Organisation et caisse",items:[{r:"formation",t:"Sessions et paiements",i:"grad",mod:"formation",tabs:[["formation/sessions","Sessions"],["formation/paiements","Paiements et impayés"],["formation/catalogue","Catalogue des formations"]]},{r:"formation-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["formation/caisse","Caisse"],["formation/depenses","Dépenses"],["formation/journalier","Historique journalier"],["formation/mensuel","Caisse mois par mois"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],tisserand:[{g:"Tisserands",items:[{r:"tisserand/nouveau",t:"Nouveau tisserand",i:"plus",mod:"ouvriers"},{r:"tisserand/liste",t:"Liste des tisserands",i:"users",mod:"ouvriers"},{r:"tis-sal",t:"Salaires",i:"wallet",mod:"paie",tabs:[["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/rapports","Rapports journaliers et mensuels"],["ouvriers/paie","Versements et avances"]]},{r:"tis-obj",t:"Objectifs et prévisions",i:"chart",mod:"ouvriers",tabs:[["ouvriers/objectifs","Objectifs de chaque travailleur"],["ouvriers/previsions","Prévision mensuelle"]]},{r:"tis-badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",
 tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]}],distributeur:[{g:"Pilotage",items:[{r:"distributeur/tableau",t:"Tableau de bord",i:"home",mod:"distributeur"}]},{g:"Tisserands sous-traitants",items:[{r:"dist-remise",t:"Fils remis aux tisserands",i:"share",mod:"distributeur",tabs:[["distributeur/remise","Remettre des fils"],["distributeur/remises","Bons de fils remis"]]},{r:"dist-retours",t:"Remboursements",i:"download",mod:"distributeur",tabs:[["distributeur/retours","Remboursements"]]},{r:"dist-comptes",t:"Comptes des tisserands",i:"users",mod:"distributeur",tabs:[["distributeur/comptes","Comptes des tisserands"],["distributeur/distributeurs","Tisserands-distributeurs"]]}]},{g:"Distributeur",items:[{r:"dist-prod",t:"Produits",i:"box",mod:"distributeur",tabs:[["distributeur/produits","Produits"],["distributeur/alertes","Stock disponible et dormant"],["distributeur/transferts","Transferts"]]},{r:"dist-inv",t:"Inventaire",i:"clip",mod:"distributeur",tabs:[["distributeur/inventaire","Inventaire"]]},{r:"dist-ventes",t:"Ventes",i:"tag",mod:"distributeur",tabs:[["distributeur/rapide","Vente ou entrée rapide"],["distributeur/ventes","Ventes"]]},{r:"dist-sorties",t:"Sorties mensuelles",i:"upload",mod:"distributeur",tabs:[["distributeur/sorties","Sorties mensuelles"]]},{r:"dist-entrees",t:"Entrées mensuelles",i:"download",mod:"distributeur",tabs:[["distributeur/entrees","Entrées mensuelles"]]},{r:"dist-appro",t:"Approvisionnement",i:"cart",mod:"distributeur",tabs:[["distributeur/appro","Approvisionnement"]]},{r:"dist-dettes",t:"Gestion des dettes",i:"wallet",mod:"distributeur",tabs:[["distributeur/dettes","Clients et fournisseurs"],["distributeur/versements","Versements"]]},{r:"dist-fact",t:"Facturation",i:"audit",mod:"ventes",tabs:[["ventes/factures","Facturation"]]},{r:"dist-palm",t:"Palmarès",i:"chart",mod:"distributeur",tabs:[["distributeur/palmares","Palmarès"]]},{
-r:"dist-rap",t:"Rapports",i:"chart",mod:"distributeur",tabs:[["distributeur/rapport","Rapports"],["distributeur/recap","Récapitulatif annuel"]]},fournisseursBloc("distributeur"),{r:"dist-clients",t:"Clients",i:"users",mod:"ventes",tabs:[["ventes/clients","Clients"],["ventes/creances","Créances et échéances"]]}]},{g:"Caisse",items:[{r:"distributeur-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["distributeur/caisse","Caisse"],["distributeur/depenses","Dépenses"],["distributeur/journalier","Historique journalier"],["distributeur/mensuel","Caisse mois par mois"],["distributeur/repartition","Répartition des fonds"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],catalogue:[{g:"Catalogue",items:[{r:"catalogue",t:"Modèles de léppi",i:"image",mod:"catalogue",tabs:[["catalogue/modeles","Catalogue"],["production/modeles","Fiches techniques des modèles"]]}]}]};["tissage","production","teinture"].forEach((function(p){var P=partieOf(p);NAV_PARTIES[p]=NAV_PARTIES[p].concat(navCommun(p,P,P.mod,{}))}));var NAV=[{g:"Pilotage",items:[{r:"tableau",t:"Tableau de bord",i:"home",mod:"tableau"}]},{g:"Gestion générale",items:[{r:"finances",t:"Caisse principale et finances",i:"wallet",mod:"finances",tabs:[["finances/tresorerie","Trésorerie"],["finances/depenses","Dépenses"],["finances/journal","Journal de caisse"],["finances/clotures","Clôtures"]]},{r:"rapports",t:"Rapports généraux",i:"chart",mod:"rapports"}]},{g:"Formation",items:[{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations et audit",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"],["admin/audit","Journal d'audit"],["admin/sauvegarde","Sauvegarde"]]}]}]
+r:"dist-rap",t:"Rapports",i:"chart",mod:"distributeur",tabs:[["distributeur/rapport","Rapports"],["distributeur/recap","Récapitulatif annuel"]]},fournisseursBloc("distributeur"),{r:"dist-clients",t:"Clients",i:"users",mod:"ventes",tabs:[["ventes/clients","Clients"],["ventes/creances","Créances et échéances"]]}]},{g:"Caisse",items:[{r:"distributeur-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["distributeur/caisse","Caisse"],["distributeur/depenses","Dépenses"],["distributeur/journalier","Historique journalier"],["distributeur/mensuel","Caisse mois par mois"],["distributeur/repartition","Répartition des fonds"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],catalogue:[{g:"Catalogue",items:[{r:"catalogue",t:"Modèles de léppi",i:"image",mod:"catalogue",tabs:[["catalogue/modeles","Catalogue"],["production/modeles","Fiches techniques des modèles"]]}]}]};["tissage","production","teinture"].forEach((function(p){var P=partieOf(p);NAV_PARTIES[p]=NAV_PARTIES[p].concat(navCommun(p,P,P.mod,{}))}));var NAV=[{g:"Pilotage",items:[{r:"tableau",t:"Tableau de bord",i:"home",mod:"tableau"}]},{g:"Gestion générale",items:[{r:"finances",t:"Caisse principale et finances",i:"wallet",mod:"finances",tabs:[["finances/tresorerie","Trésorerie"],["finances/depenses","Dépenses"],["finances/journal","Journal de caisse"],["finances/clotures","Clôtures"]]},{r:"rapports",t:"Rapports généraux",i:"chart",mod:"rapports"}]},{g:"Formation",items:[{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]},{r:"form-om",t:"Ordres de mission",i:"truck",mod:"formation",tabs:[["formation/missions","Ordres de mission"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations et audit",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"],["admin/audit","Journal d'audit"],["admin/sauvegarde","Sauvegarde"]]}]}]
 ;var NAV_BOUTIQUE=NAV_PARTIES.boutique;var NAV_ADMIN=[{g:"Administration",items:[{r:"admin/accueil",t:"Accueil",i:"gear",mod:"*"}]},{g:"L'atelier",items:[{r:"parametres",t:"Atelier et BLOCS",i:"home",mod:"parametres",tabs:[["parametres/entreprise","Informations"],["parametres/blocs","Ateliers (BLOCS)"],["parametres/reglages","Réglages"],["parametres/listes","Listes"],["parametres/signature","Signature et cachet"],["parametres/abonnement","Licence et abonnement"]]}]},{g:"Les personnes",items:[{r:"gerants",t:"Gérants et rôles",i:"users",mod:"utilisateurs",tabs:[["parametres/utilisateurs","Gérants et accès"],["parametres/roles","Rôles et autorisations"]]},{r:"ouvriers",t:"Personnel et paie",i:"clip",mod:"ouvriers",tabs:[["parametres/personnel","Personnel"],["ouvriers/declarations","Déclarations"],["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/paie","Paie"],["ouvriers/rapports","Rapports par personne"],["ouvriers/objectifs","Objectifs"],["ouvriers/previsions","Prévisions"]]},{r:"badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]},{g:"Le contrôle",items:[{r:"admin",t:"Contrôle",i:"audit",mod:"admin",tabs:[["admin/audit","Journal d'audit"],["admin/reinit","Réinitialisation"],["admin/sauvegarde","Sauvegarde"]]}]}];var ESPACES=PARTIE_KEYS.concat(["gestion"]);function navList(mode){mode=mode||S.mode;if(mode==="admin")return NAV_ADMIN;if(mode==="bloc")mode="gestion";return NAV_PARTIES[mode]||NAV}var TAB_MOD={"parametres/utilisateurs":"utilisateurs","parametres/roles":"utilisateurs","parametres/abonnement":"parametres","parametres/blocs":"parametres","parametres/reglages":"parametres","admin/accueil":"*","ouvriers/paie":"paie"};var TAB_CHECK={"ventes/caisse":function(){return can("ventes","creer")},"ventes/livraisons":function(){return can("ventes","livrer")||can("ventes","creer")},
 "boutique/envois":function(){return can("stock")},"parametres/personnel":function(){return can("parametres")||can("ouvriers")},"ouvriers/rapports":function(){return can("ouvriers")||can("paie")},"ouvriers/declarations":function(){return can("ouvriers")},"ouvriers/moi":function(){return Ouv.estOuvrier()},"ouvriers/mapaie":function(){return Ouv.estOuvrier()},"tisserand/nouveau":function(){return Perso.peut()},"tisserand/liste":function(){return can("ouvriers")||can("parametres")},"achats/fournisseurs":function(){var P=curPartie()&&partieOf(curPartie());return can("achats")||!!(P&&P.pre&&can(P.mod))},"ventes/clients":function(){var P=curPartie()&&partieOf(curPartie());return can("ventes")||!!(P&&P.pre&&can(P.mod))},"admin/reinit":function(){return isOwnerRole()},"parametres/signature":function(){return isOwnerRole()},"admin/validations":function(){return isOwnerRole()||can("admin")||MODULES.some((function(m){return canWrite(m.k)}))}};var ADMIN_ROUTES=["parametres/entreprise","parametres/blocs","parametres/listes","parametres/reglages","parametres/abonnement","parametres/signature","parametres/utilisateurs","parametres/roles","admin/accueil","admin/reinit"];function navItemFor(route,mode){var pv=Views[route];if(pv&&pv.parent)route=pv.parent;var top=route.split("/")[0],found=null;navList(mode).forEach((function(g){g.items.forEach((function(it){if(!found&&(it.r===route||it.tabs&&it.tabs.some((function(t){return t[0]===route}))))found=it}))}));if(!found)navList(mode).forEach((function(g){g.items.forEach((function(it){if(!found&&it.r===top)found=it}))}));return found}function inMenu(route,mode){var v=Views[route];if(v&&v.parent)route=v.parent;var ok=false;navList(mode).forEach((function(g){g.items.forEach((function(it){if(it.r===route||it.tabs&&it.tabs.some((function(t){return t[0]===route})))ok=true}))}));return ok}function tabAllowed(route,mode){mode=mode||S.mode;var v=Views[route];if(!(v&&v.free)&&!inMenu(route,mode))return false
 ;if(mode!=="admin"&&ADMIN_ROUTES.indexOf(route)>=0)return false;var need=TAB_MOD[route];if(need==="*")return true;if(TAB_CHECK[route])return TAB_CHECK[route]();if(v&&v.check)return!!v.check();return can(need||v&&v.mod||route.split("/")[0],"consulter")}function itemAllowed(it,mode){if(it.tabs)return it.tabs.some((function(t){return tabAllowed(t[0],mode)}));if(it.mod==="*")return true;return tabAllowed(it.r,mode)}var ROUTE_ESPACE={tisserand:"tisserand",distributeur:"distributeur",ventes:"boutique",boutique:"boutique",achats:"tissage",stock:"tissage",tissage:"tissage",teinture:"teinture",production:"production",qualite:"production",ouvriers:"production",paie:"production",formation:"formation",catalogue:"catalogue",finances:"gestion",rapports:"gestion",admin:"gestion",tableau:"gestion"};var ESPACE_MODS={tisserand:["ouvriers","parametres"],distributeur:["distributeur"],tissage:["tissage"],production:["production","ouvriers","paie"],teinture:["teinture"],boutique:["boutique","ventes"],formation:["formation"],catalogue:["catalogue"]};var Espace={est:function(mode){return ESPACES.indexOf(mode)>=0},affecte:function(mode){return mode==="gestion"||memberParties(S.member).indexOf(mode)>=0},droit:function(mode){var ms=ESPACE_MODS[mode];return!ms||ms.some((function(m){return can(m)&&moduleOn(m)}))||mode==="production"&&Ouv.estOuvrier()},can:function(mode){if(mode==="bloc")mode="gestion";if(mode!=="admin"&&!Espace.affecte(mode))return false;if(!Espace.droit(mode))return false;return navList(mode).some((function(g){return g.items.some((function(it){return!/(^|\/)tableau$/.test(it.r)&&it.r!=="admin"&&moduleOn(it.mod)&&itemAllowed(it,mode)}))}))},liste:function(){return ESPACES.filter((function(e){return Espace.can(e)}))},defaut:function(){var pref=["boutique","production","distributeur","tisserand","tissage","teinture","formation","catalogue","gestion"];return pref.filter((function(e){return Espace.can(e)}))[0]||"gestion"},nom:function(mode){
@@ -1753,7 +1753,709 @@ encre:"stylo",epais:false,fin:false,hauteur:260},o||{});return Sig.charger(src).
 ;return pageHead("Signature et cachet","Envoyez une photo ou un scan de la signature du fondateur, et du cachet de l'entreprise, faits sur une feuille blanche. AGAT ne garde que le tracé : le papier, les ombres et tout le reste de la photo disparaissent. La signature devient bleue, comme à l'encre ; le cachet garde sa couleur. Ils n'apparaissent que sur les documents que vous cochez.")+'<div class="sig-grid">'+carte("signature","Signature du fondateur",info.signature,"Le Fondateur")+carte("cachet","Cachet de l'entreprise",info.cachet)+"</div>"+'<section class="card pad"><div class="row between wrap"><h3>Documents signés et cachetés</h3><span class="row">'+UI.btn("Tout cocher","tout","ghost sm")+UI.btn("Tout décocher","rien","ghost sm")+"</span></div>"+'<p class="muted small">Cochez, document par document, la signature et le cachet. Une case non cochée : rien n\'apparaît sur ce document.</p>'+'<table class="grid sig-tab"><thead><tr><th>Document</th><th class="num">Signature</th><th class="num">Cachet</th></tr></thead><tbody>'+SIG_DOCS.map((function(d){return"<tr><td><strong>"+esc(d[1])+'</strong><br><small class="muted">'+esc(d[2])+'</small></td><td class="num"><input type="checkbox" data-sigdoc="'+d[0]+'"'+(sd[d[0]]?" checked":"")+' aria-label="Signature — '+attr(d[1])+'"></td><td class="num"><input type="checkbox" data-cacdoc="'+d[0]+'"'+(cd[d[0]]?" checked":"")+' aria-label="Cachet — '+attr(d[1])+'"></td></tr>'
 })).join("")+"</tbody></table>"+(!info.signature||!info.cachet?'<p class="note warn small">'+icon("alert")+" "+(!info.signature&&!info.cachet?"Ajoutez la signature et le cachet":!info.signature?"Ajoutez la signature":"Ajoutez le cachet")+" : les cases s'appliquent dès qu'ils existent.</p>":"")+'<div class="row end">'+UI.btn(icon("check")+" Enregistrer le choix","docs","primary"," data-needs-net")+"</div></section>"+'<section class="card pad" id="sig-nouveau"><div class="row between wrap"><h3>'+(cachet?"Nouveau cachet":"Nouvelle signature")+'</h3><span class="seg">'+UI.btn("Signature","mode",k==="signature"?"sm":"ghost sm",' data-id="signature"')+UI.btn("Cachet","mode",cachet?"sm":"ghost sm",' data-id="cachet"')+"</span></div>"+'<label class="btn ghost sig-up">'+icon("upload")+(cachet?" Choisir la photo du cachet":" Choisir la photo de la signature")+'<input type="file" accept="image/*" id="sig-file" hidden></label>'+(SigUI.src?'<div class="sig-reglages"><label class="fld"><span>Sensibilité (traits pâles)</span><input type="range" min="0" max="100" step="1" data-sig="sens" value="'+Math.round(o.sens*100)+'"></label>'+'<label class="fld"><span>Encre</span><select data-sig="encre">'+(cachet?CACHET_ENCRES:SIG_ENCRES).map((function(e){return'<option value="'+e[0]+'"'+(o.encre===e[0]?" selected":"")+">"+esc(e[1])+"</option>"
 })).join("")+"</select></label>"+'<label class="chk"><input type="checkbox" data-sig="epais"'+(o.epais?" checked":"")+"><span>Épaissir le trait</span></label></div>"+'<div class="sig-comp"><figure><img src="'+attr(SigUI.src)+'" alt="Photo envoyée"><figcaption>Photo envoyée</figcaption></figure><figure>'+(SigUI.enCours?'<p class="muted"><span class="spin"></span> Extraction du tracé…</p>':SigUI.err?'<p class="note err">'+icon("alert")+" "+esc(SigUI.err)+"</p>":cachet?'<div class="sig-doc cachet"><div class="sig-zone">'+(SigUI.res?'<img src="'+attr(SigUI.res.png)+'" alt="">':"")+"</div></div>":Sig.apercu(SigUI.res&&SigUI.res.png,"Le Fondateur"))+"<figcaption>"+(cachet?"Cachet obtenu (seul le tampon est gardé)":"Signature bleue obtenue (seul le tracé est gardé)")+"</figcaption></figure></div>"+'<div class="row end">'+UI.btn("Annuler","annuler","ghost")+(SigUI.res&&!SigUI.err?UI.btn(icon("check")+(cachet?" Enregistrer ce cachet":" Enregistrer cette signature"),"save","primary"," data-needs-net"):"")+"</div>":'<p class="muted small">'+(cachet?"Conseil : tamponnez le cachet sur une feuille blanche, bien encré, et photographiez-le de face, bien éclairé.":"Conseil : signez à l'encre foncée sur une feuille blanche, photographiez-la de face, bien éclairée, sans autre écriture autour.")+"</p>")+"</section>"},after:function(a,el){var fi=$("#sig-file",el);if(fi)fi.addEventListener("change",(function(){var f=fi.files&&fi.files[0];if(!f)return;UI.resizeImage(f,1800,.92).then((function(url){SigUI.src=url;SigUI.res=null;SigUI.err=null;Views["parametres/signature"].calc()}))}));$$("[data-sig]",el).forEach((function(i){i.addEventListener("change",(function(){var k=i.dataset.sig,o=SigUI.o[SigUI.mode];o[k]=k==="sens"?Number(i.value)/100:k==="epais"?i.checked:i.value;Views["parametres/signature"].calc()}))}))},calc:function(){if(!SigUI.src)return;SigUI.enCours=true;App.render(true);setTimeout((function(){Sig.traiter(SigUI.src,SigUI.o[SigUI.mode]).then((function(r){SigUI.res=r
-;SigUI.err=null}),(function(e){SigUI.res=null;SigUI.err=e.message})).then((function(){SigUI.enCours=false;if(App.route==="parametres/signature")App.render(true)}))}),30)},acts:{mode:function(k){if(SigUI.mode!==k){SigUI.mode=k;SigUI.src=null;SigUI.res=null;SigUI.err=null}App.render(true);setTimeout((function(){var z=$("#sig-nouveau");if(z)z.scrollIntoView({behavior:"smooth",block:"start"})}),50)},save:function(x,b){if(!SigUI.res)return;Sig.enregistrer(SigUI.mode,SigUI.res.png,b).then((function(ok){if(ok){SigUI.src=null;SigUI.res=null;App.render(true)}}))},annuler:function(){SigUI.src=null;SigUI.res=null;SigUI.err=null;App.render(true)},retirer:function(k){UI.confirm({title:k==="cachet"?"Retirer le cachet":"Retirer la signature",message:(k==="cachet"?"Le cachet":"La signature")+" n'apparaîtra plus sur aucun document. Vous pourrez en enregistrer un"+(k==="cachet"?" autre":"e autre")+".",ok:"Retirer",danger:true}).then((function(r){if(r.ok)Sig.enregistrer(k,null,null).then((function(){App.render(true)}))}))},tout:function(){$$("[data-sigdoc],[data-cacdoc]").forEach((function(c){c.checked=true}))},rien:function(){$$("[data-sigdoc],[data-cacdoc]").forEach((function(c){c.checked=false}))},docs:function(x,b){var d={},c={};$$("[data-sigdoc]").forEach((function(i){if(i.checked)d[i.dataset.sigdoc]=true}));$$("[data-cacdoc]").forEach((function(i){if(i.checked)c[i.dataset.cacdoc]=true}));Sig.enregistrerDocs(d,c,b).then((function(){App.render(true)}))}}});(function(){if(typeof window==="undefined"||!window.fetch||location.protocol==="file:")return;setTimeout((function(){var url=location.pathname+(location.pathname.slice(-1)==="/"?"":"")+"?maj="+Date.now();fetch(url,{cache:"no-store"}).then((function(r){return r.ok?r.text():""})).then((function(t){var m=/NERP\.build\s*=\s*["']([0-9]{8}-[0-9]{4})["']/.exec(t||"");if(!m||!(m[1]>NERP.build))return;var deja=null;try{deja=sessionStorage.getItem("agat_maj_vers")}catch(e){}if(deja===m[1])return;try{
+;SigUI.err=null}),(function(e){SigUI.res=null;SigUI.err=e.message})).then((function(){SigUI.enCours=false;if(App.route==="parametres/signature")App.render(true)}))}),30)},acts:{mode:function(k){if(SigUI.mode!==k){SigUI.mode=k;SigUI.src=null;SigUI.res=null;SigUI.err=null}App.render(true);setTimeout((function(){var z=$("#sig-nouveau");if(z)z.scrollIntoView({behavior:"smooth",block:"start"})}),50)},save:function(x,b){if(!SigUI.res)return;Sig.enregistrer(SigUI.mode,SigUI.res.png,b).then((function(ok){if(ok){SigUI.src=null;SigUI.res=null;App.render(true)}}))},annuler:function(){SigUI.src=null;SigUI.res=null;SigUI.err=null;App.render(true)},retirer:function(k){UI.confirm({title:k==="cachet"?"Retirer le cachet":"Retirer la signature",message:(k==="cachet"?"Le cachet":"La signature")+" n'apparaîtra plus sur aucun document. Vous pourrez en enregistrer un"+(k==="cachet"?" autre":"e autre")+".",ok:"Retirer",danger:true}).then((function(r){if(r.ok)Sig.enregistrer(k,null,null).then((function(){App.render(true)}))}))},tout:function(){$$("[data-sigdoc],[data-cacdoc]").forEach((function(c){c.checked=true}))},rien:function(){$$("[data-sigdoc],[data-cacdoc]").forEach((function(c){c.checked=false}))},docs:function(x,b){var d={},c={};$$("[data-sigdoc]").forEach((function(i){if(i.checked)d[i.dataset.sigdoc]=true}));$$("[data-cacdoc]").forEach((function(i){if(i.checked)c[i.dataset.cacdoc]=true}));Sig.enregistrerDocs(d,c,b).then((function(){App.render(true)}))}}});;var OM_TRANSPORTS = ["Véhicule de l'entreprise", "Véhicule personnel", "Transport en commun (minibus, taxi-brousse)", "Taxi", "Moto", "Bus", "Avion"];
+var OM_MENTION = "Les autorités civiles et militaires sont priées de bien vouloir faciliter à l'intéressé(e) l'accomplissement de sa mission.";
+var OM_PERSONNE = ["perso", "nom", "prenom", "fonction", "tel", "email", "om"];
+var OM = {
+  cle: function (k) {
+    return "agat_om_" + (k || "liste") + "_" + (S.tid || "x") + (k === "pref" ? "" : "_" + (S.bloc || ""));
+  },
+  liste: function () {
+    var a = LS.json(OM.cle(), []);
+    return Array.isArray(a)
+      ? a.filter(function (o) {
+          return o && o.id && o.v;
+        })
+      : [];
+  },
+  get: function (id) {
+    return (
+      OM.liste().filter(function (o) {
+        return o.id === id;
+      })[0] || null
+    );
+  },
+  garder: function (a) {
+    a = a
+      .slice()
+      .sort(function (x, y) {
+        return (y.maj || 0) - (x.maj || 0);
+      })
+      .slice(0, 150);
+    var s = JSON.stringify(a);
+    LS.set(OM.cle(), s);
+    return LS.get(OM.cle(), "") === s;
+  },
+  prefs: function () {
+    var p = LS.json(OM.cle("pref"), {});
+    return p && typeof p === "object" ? p : {};
+  },
+  peut: function () {
+    return can("formation", "creer") || can("formation", "modifier");
+  },
+  prochainNum: function (dateIso) {
+    var y = yearOf(dateIso || today()),
+      max = Number((LS.json(OM.cle("cpt"), {}) || {})[y]) || 0;
+    OM.liste().forEach(function (o) {
+      var m = /^OM-(\d{4})-(\d+)$/.exec(o.num || "");
+      if (m && m[1] === y && Number(m[2]) > max) max = Number(m[2]);
+    });
+    return "OM-" + y + "-" + String(max + 1).padStart(4, "0");
+  },
+  noter: function (num) {
+    var m = /^OM-(\d{4})-(\d+)$/.exec(num || "");
+    if (!m) return;
+    var c = LS.json(OM.cle("cpt"), {}) || {};
+    if (!(Number(c[m[1]]) >= Number(m[2]))) {
+      c[m[1]] = Number(m[2]);
+      LS.setJson(OM.cle("cpt"), c);
+    }
+  },
+  formations: function () {
+    var rows = list("formation/registre", function (r) {
+      return !r.archive && r.statut !== "annulee";
+    }).map(function (r) {
+      return { id: r.id, intitule: r.intitule || "", debut: r.debut || "", fin: r.fin || "", lieu: r.lieu || "", _e: regEtat(r) };
+    });
+    list("formation/sessions", function (x) {
+      return !x.registre && x.statut !== "annulee";
+    }).forEach(function (x) {
+      var s = Cert.src("S-" + x.id);
+      rows.push({
+        id: "S-" + x.id,
+        intitule: (s.intitule || "Session") + (x.code ? " (" + x.code + ")" : ""),
+        debut: x.debut || "",
+        fin: x.fin || "",
+        lieu: x.lieu || "",
+        _e: x.statut || "planifiee",
+      });
+    });
+    return rows;
+  },
+  formationsOpts: function () {
+    return OM.formations()
+      .sort(byKey("debut", -1))
+      .map(function (r) {
+        return [r.id, r.intitule + " — du " + fmtDate(r.debut) + " au " + fmtDate(r.fin)];
+      });
+  },
+  coupeNom: function (full) {
+    var w = String(full || "")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+    if (!w.length) return { nom: "", prenom: "" };
+    if (w.length === 1) return { nom: w[0], prenom: "" };
+    var up = w.filter(function (x) {
+      return x.length > 1 && x === x.toUpperCase() && /[A-ZÀ-Ý]/.test(x);
+    });
+    if (up.length && up.length < w.length)
+      return {
+        nom: up.join(" "),
+        prenom: w
+          .filter(function (x) {
+            return up.indexOf(x) < 0;
+          })
+          .join(" "),
+      };
+    return { nom: w[w.length - 1], prenom: w.slice(0, -1).join(" ") };
+  },
+  periode: function (d1, d2) {
+    if (!d1) return "";
+    if (!d2 || d2 === d1) return "le " + dateLongue(d1);
+    return "du " + dateLongue(d1) + " au " + dateLongue(d2);
+  },
+  objetDe: function (r) {
+    var t = "Animation de la formation « " + (r.intitule || "") + " »";
+    if (r.lieu) t += " organisée à " + r.lieu;
+    var p = OM.periode(r.debut, r.fin);
+    if (p) t += ", " + p;
+    return t + ".";
+  },
+  depuisPerso: function (vals, pid) {
+    var p = get("parametres/personnel", pid);
+    if (!p) return vals;
+    var n = OM.coupeNom(p.nom);
+    vals.perso = pid;
+    vals.nom = n.nom;
+    vals.prenom = n.prenom;
+    vals.fonction = p.fonction || "";
+    vals.tel = p.tel || "";
+    vals.email = p.email || "";
+    vals.om = p.tel || "";
+    return vals;
+  },
+  depuisSource: function (vals, key) {
+    var r = Cert.src(key);
+    if (!r || (!r.intitule && !r.debut)) return vals;
+    vals.source = key;
+    vals.objet = OM.objetDe(r);
+    if (r.lieu) vals.destination = r.lieu;
+    if (r.debut) vals.dateDepart = r.debut;
+    if (r.fin) vals.dateRetour = r.fin;
+    if (r.formateur && get("parametres/personnel", r.formateur)) OM.depuisPerso(vals, r.formateur);
+    return vals;
+  },
+  defauts: function () {
+    var info = S.info || {},
+      pr = OM.prefs(),
+      t = today();
+    return {
+      num: OM.prochainNum(t),
+      faitLe: t,
+      faitA: pr.faitA || info.ville || "",
+      depart: pr.depart || info.ville || "",
+      dateDepart: t,
+      dateRetour: t,
+      signTitre: pr.signTitre || "Le Dirigeant",
+      signNom: pr.signNom || "",
+      avecSig: !!info.signature,
+      avecCachet: !!info.cachet,
+      visa: pr.visa === undefined ? true : !!pr.visa,
+      mention: pr.mention || OM_MENTION,
+    };
+  },
+  champs: function () {
+    var info = S.info || {},
+      telOk = function (v) {
+        return v && !/^\+?[0-9][0-9 .()\/,+\-]{5,}$/.test(v) ? "Numéro invalide : chiffres, espaces et + seulement." : null;
+      },
+      ou = "le propriétaire du compte l'ajoute dans Administration → Atelier et BLOCS → Signature et cachet.";
+    return [
+      { type: "section", t: "La personne envoyée en mission" },
+      {
+        k: "perso",
+        t: "Reprendre une personne du personnel (facultatif)",
+        type: "select",
+        span: 2,
+        opts: function () {
+          return Opt.personnel(function (p) {
+            return p.actif !== false;
+          });
+        },
+        emptyLabel: "— Saisie libre —",
+        help: "Remplit le nom, le prénom, la fonction, l'e-mail et le téléphone : tout reste modifiable.",
+      },
+      { k: "nom", t: "Nom", req: true },
+      { k: "prenom", t: "Prénom(s)", req: true },
+      { k: "fonction", t: "Fonction ou qualité", ph: "Formateur, encadreur, assistant…" },
+      { k: "email", t: "E-mail", type: "email", ph: "nom@exemple.com" },
+      { k: "tel", t: "Téléphone", type: "tel", req: true, valid: telOk },
+      {
+        k: "om",
+        t: "Numéro Orange Money",
+        type: "tel",
+        valid: telOk,
+        help: "Le numéro qui dispose d'un compte Orange Money. Il reprend le téléphone tant que vous ne le changez pas.",
+      },
+      { type: "section", t: "La mission" },
+      {
+        k: "source",
+        t: "Formation concernée",
+        type: "select",
+        span: 2,
+        opts: OM.formationsOpts,
+        emptyLabel: "— Mission sans formation enregistrée —",
+        help: "Choisir une formation remplit l'objet, le lieu et les dates (et le formateur principal si la personne n'est pas encore saisie).",
+      },
+      { k: "objet", t: "Objet de la mission", type: "textarea", rows: 3, span: 2, req: true },
+      { k: "depart", t: "Lieu de départ", req: true },
+      { k: "destination", t: "Lieu de la mission (destination)", ph: "Ville, quartier, centre de formation…" },
+      { k: "dateDepart", t: "Date de départ", type: "date", req: true },
+      { k: "dateRetour", t: "Date de retour", type: "date", req: true },
+      { k: "transport", t: "Moyen de transport", req: true, list: OM_TRANSPORTS, ph: "Choisissez ou écrivez (ex. véhicule RC-1234-A)", span: 2 },
+      { k: "obs", t: "Observations (facultatif)", type: "textarea", rows: 2, span: 2, ph: "Prise en charge des frais, personnes qui accompagnent, matériel emporté…" },
+      { type: "section", t: "Délivrance, signature et cachet" },
+      { k: "num", t: "N° de l'ordre de mission", req: true, help: "Proposé à la suite des ordres faits sur cet appareil ; modifiable." },
+      { k: "faitLe", t: "Fait le", type: "date", req: true },
+      { k: "faitA", t: "Fait à", req: true },
+      { k: "signTitre", t: "Qualité du signataire", req: true, ph: "Le Dirigeant" },
+      { k: "signNom", t: "Nom du dirigeant (signataire)", span: 2 },
+      {
+        k: "avecSig",
+        t: "Apposer la signature du dirigeant",
+        type: "checkbox",
+        help: info.signature ? "La signature enregistrée de l'atelier." : "Aucune signature enregistrée : " + ou,
+      },
+      {
+        k: "avecCachet",
+        t: "Apposer le cachet de l'entreprise",
+        type: "checkbox",
+        help: info.cachet ? "Le cachet enregistré de l'atelier." : "Aucun cachet enregistré : " + ou,
+      },
+      { k: "visa", t: "Ajouter le cadre « Visa à l'arrivée et au départ »", type: "checkbox", span: 2, help: "Pour la date, le cachet et la signature du lieu de mission." },
+      { k: "mention", t: "Formule finale", type: "textarea", rows: 2, span: 2 },
+    ];
+  },
+  lier: function (el) {
+    var q = function (k) {
+      return $('[data-k="' + k + '"]', el);
+    };
+    var tel = q("tel"),
+      om = q("om");
+    var suivi = function () {
+      if (tel && om) om.dataset.suit = !om.value || om.value === tel.value ? "1" : "";
+    };
+    suivi();
+    if (tel && om) {
+      tel.addEventListener("input", function () {
+        if (om.dataset.suit) om.value = tel.value;
+      });
+      om.addEventListener("input", suivi);
+    }
+    var mettre = function (o) {
+      Object.keys(o).forEach(function (k) {
+        var x = q(k);
+        if (x && o[k] !== undefined && o[k] !== null) x.value = o[k];
+      });
+      suivi();
+    };
+    var ps = q("perso");
+    if (ps)
+      ps.addEventListener("change", function () {
+        if (!ps.value) return;
+        var o = OM.depuisPerso({}, ps.value);
+        delete o.perso;
+        mettre(o);
+      });
+    var sc = q("source");
+    if (sc)
+      sc.addEventListener("change", function () {
+        if (!sc.value) return;
+        var o = OM.depuisSource({}, sc.value);
+        delete o.source;
+        var dejaSaisi = ["nom", "prenom", "tel"].some(function (k) {
+          return q(k) && q(k).value;
+        });
+        if (dejaSaisi || !o.perso)
+          OM_PERSONNE.forEach(function (k) {
+            delete o[k];
+          });
+        mettre(o);
+      });
+  },
+  editer: function (id, preset, base) {
+    if (!OM.peut()) {
+      UI.toast("Votre rôle ne permet pas de préparer les ordres de mission.", "err");
+      return;
+    }
+    var cur = id ? OM.get(id) : null;
+    if (id && !cur) {
+      UI.toast("Cet ordre de mission n'est plus dans la liste de cet appareil.", "err");
+      return;
+    }
+    var vals = cur ? Object.assign({}, cur.v, { num: cur.num }) : Object.assign(OM.defauts(), base || {});
+    if (!cur && !base && preset && preset.source) OM.depuisSource(vals, preset.source);
+    var fields = OM.champs();
+    var m = UI.modal({
+      title: cur ? "Ordre de mission " + cur.num : "Nouvel ordre de mission",
+      size: "l",
+      body:
+        '<p class="muted">Reprenez une personne du personnel et la formation pour pré-remplir, puis complétez. Rien n\'est écrit dans la base de l\'atelier : l\'ordre de mission est imprimé (A4, ou PDF depuis la fenêtre d\'impression) et gardé dans la liste de cet appareil pour être réimprimé.</p>' +
+        '<form class="mform" novalidate>' +
+        UI.fields(fields, vals) +
+        "</form>",
+      actions: [
+        { t: "Annuler", act: "__close", cls: "ghost" },
+        { t: icon("print") + (cur ? " Enregistrer et imprimer" : " Imprimer l'ordre de mission"), act: "print", cls: "primary" },
+      ],
+      onOpen: function (mm) {
+        OM.lier(mm.el);
+        $("form", mm.el).addEventListener("submit", function (e) {
+          e.preventDefault();
+        });
+      },
+      onAct: function (act) {
+        if (act !== "print") return;
+        var v = UI.readFields(m.el, fields);
+        if (!v) {
+          UI.toast("Complétez les champs signalés.", "err");
+          return;
+        }
+        if (v.dateRetour < v.dateDepart) {
+          UI.toast("La date de retour précède la date de départ.", "err");
+          return;
+        }
+        var num = String(v.num || "").trim();
+        delete v.num;
+        var doublon = OM.liste().some(function (x) {
+          return x.num === num && (!cur || x.id !== cur.id);
+        });
+        if (doublon) {
+          UI.toast("Le numéro " + num + " est déjà pris par un autre ordre de mission de cet appareil.", "err");
+          return;
+        }
+        v.formation = v.source ? Cert.src(v.source).intitule || "" : "";
+        var o = { num: num, v: v };
+        OM.imprimer(o);
+        var garde = OM.memoriser(cur ? cur.id : null, num, v);
+        m.close();
+        if (!garde) UI.toast("Ordre de mission imprimé, mais ce navigateur n'a pas pu le garder dans sa liste (mémoire pleine ou bloquée).", "err", 8e3);
+        if (App.route === "formation/missions") App.render(true);
+      },
+    });
+    return m;
+  },
+  memoriser: function (id, num, v) {
+    var a = OM.liste(),
+      now = Date.now(),
+      qui = S.member ? S.member.nom : "",
+      e = id
+        ? a.filter(function (o) {
+            return o.id === id;
+          })[0]
+        : null;
+    if (e) {
+      e.num = num;
+      e.v = v;
+      e.maj = now;
+      e.majPar = qui;
+    } else a.unshift({ id: "om" + now.toString(36) + Math.random().toString(36).slice(2, 6), num: num, v: v, cree: now, maj: now, par: qui });
+    OM.noter(num);
+    var p = OM.prefs();
+    ["faitA", "depart", "signTitre", "signNom", "mention", "visa"].forEach(function (k) {
+      p[k] = v[k];
+    });
+    LS.setJson(OM.cle("pref"), p);
+    return OM.garder(a);
+  },
+  copier: function (id) {
+    var o = OM.get(id);
+    if (!o) return;
+    var b = Object.assign({}, o.v);
+    OM_PERSONNE.forEach(function (k) {
+      delete b[k];
+    });
+    b.num = OM.prochainNum(today());
+    b.faitLe = today();
+    OM.editer(null, null, b);
+  },
+  retirer: function (id) {
+    var o = OM.get(id);
+    if (!o) return;
+    UI.confirm({
+      title: "Retirer l'ordre de mission " + o.num,
+      message: "Il ne sera plus dans la liste de cet appareil. Les documents déjà imprimés ne sont pas concernés.",
+      ok: "Retirer",
+      danger: true,
+    }).then(function (c) {
+      if (!c.ok) return;
+      OM.garder(
+        OM.liste().filter(function (x) {
+          return x.id !== id;
+        }),
+      );
+      App.render(true);
+    });
+  },
+  imprimer: function (o) {
+    if (!o || !o.v) return;
+    UI.print({
+      title: "Ordre de mission " + o.num + " — " + [o.v.prenom, o.v.nom].filter(Boolean).join(" "),
+      docTitle: "Ordre de mission",
+      docMeta: "<div>N° " + esc(o.num) + "</div>",
+      signer: "ordre_mission",
+      body: OM.html(o),
+    });
+  },
+  html: function (o) {
+    var v = o.v,
+      info = S.info || {},
+      col = info.couleur || "#22306b",
+      org = info.raisonSociale || (S.tenant && S.tenant.nom) || "";
+    var sg = v.avecSig && info.signature ? info.signature : "",
+      cc = v.avecCachet && info.cachet ? info.cachet : "";
+    var jours = v.dateDepart && v.dateRetour && v.dateRetour >= v.dateDepart ? daysBetween(v.dateDepart, v.dateRetour) + 1 : 0;
+    var cell = function (lbl, val, large) {
+      return (
+        "<div" +
+        (large ? ' class="w"' : "") +
+        "><span>" +
+        esc(lbl) +
+        "</span>" +
+        (val ? "<strong>" + esc(val).replace(/\n/g, "<br>") + "</strong>" : '<strong class="vide">……………………………………</strong>') +
+        "</div>"
+      );
+    };
+    var css =
+      "<style>.ph .dt{display:none}" +
+      ".om-t{text-align:center;margin:0 0 4mm}.om-t h1{margin:0;font-size:24px;letter-spacing:.16em;color:" +
+      col +
+      "}.om-t div{margin-top:2px;font-size:12.5px}" +
+      ".om-in{margin:0 0 3.5mm}" +
+      ".om-s{border:1px solid #d9dce6;border-radius:6px;margin:0 0 3.5mm;overflow:hidden;break-inside:avoid}" +
+      ".om-s h3{margin:0;padding:5px 11px;background:" +
+      col +
+      ";color:#fff;font-size:11px;letter-spacing:.08em;text-transform:uppercase}" +
+      ".om-g{display:grid;grid-template-columns:1fr 1fr}.om-g>div{padding:5px 11px;border-top:1px solid #eceef4}.om-g>div.w{grid-column:1/-1}" +
+      ".om-g span{display:block;font-size:10px;color:#4a536b;text-transform:uppercase;letter-spacing:.04em}.om-g strong{font-size:13px;font-weight:600}.om-g strong.vide{color:#9aa1b5;font-weight:400}" +
+      ".om-m{font-style:italic;margin:1mm 0 0}" +
+      ".om-b{display:grid;grid-template-columns:1fr 86mm;gap:8mm;align-items:end;margin-top:3mm;break-inside:avoid}.om-sg{text-align:center}.om-sg .q{font-weight:700;margin-top:1mm}" +
+      ".om-sg .z{position:relative;height:25mm}.om-sg .z img{position:absolute;left:50%;object-fit:contain;pointer-events:none}" +
+      ".om-sg .z .cci{top:0;height:26mm;max-width:48mm;transform:translateX(" +
+      (sg ? "-92%" : "-50%") +
+      ") rotate(-9deg);opacity:.92;mix-blend-mode:multiply}" +
+      ".om-sg .z .sgi{top:4mm;height:18mm;max-width:64mm;transform:translateX(" +
+      (cc ? "-30%" : "-50%") +
+      ")}" +
+      ".om-sg .z i{position:absolute;left:0;right:0;bottom:1mm;font-size:10px;color:#9aa1b5}.om-sg .n{border-top:1px solid #8b93a8;padding-top:3px;font-weight:600}" +
+      ".om-vt{margin:0 0 1.5mm;font-size:10.5px;color:#4a536b;text-transform:uppercase;letter-spacing:.06em}" +
+      ".om-v{display:grid;grid-template-columns:1fr 1fr;gap:4mm}.om-v>div{border:1px dashed #9aa1b5;border-radius:6px;padding:5px 8px;min-height:34mm;font-size:10.5px;color:#4a536b;line-height:1.7}.om-v b{display:block;color:#1b2238;font-size:11.5px;margin-bottom:1.5mm}" +
+      "</style>";
+    var personne =
+      cell("Nom", v.nom) +
+      cell("Prénom(s)", v.prenom) +
+      cell("Téléphone", v.tel) +
+      cell("Numéro Orange Money", v.om) +
+      cell("E-mail", v.email, !v.fonction) +
+      (v.fonction ? cell("Fonction", v.fonction) : "");
+    var mission =
+      cell("Objet de la mission", v.objet, true) +
+      (v.formation ? cell("Formation concernée", v.formation, true) : "") +
+      cell("Lieu de départ", v.depart, !v.destination) +
+      (v.destination ? cell("Lieu de la mission", v.destination) : "") +
+      cell("Date de départ", dateLongue(v.dateDepart)) +
+      cell("Date de retour", dateLongue(v.dateRetour)) +
+      cell("Moyen de transport", v.transport) +
+      cell("Durée de la mission", jours ? plural(jours, "jour") : "") +
+      (v.obs ? cell("Observations", v.obs, true) : "");
+    return (
+      css +
+      '<div class="om-t"><h1>ORDRE DE MISSION</h1><div>N° <strong>' +
+      esc(o.num) +
+      "</strong></div></div>" +
+      '<p class="om-in">' +
+      esc(v.signTitre || "Le Dirigeant") +
+      (org ? " " + esc(deX(org)) : "") +
+      " donne ordre à la personne désignée ci-dessous d'effectuer la mission suivante.</p>" +
+      '<section class="om-s"><h3>La personne en mission</h3><div class="om-g">' +
+      personne +
+      "</div></section>" +
+      '<section class="om-s"><h3>La mission</h3><div class="om-g">' +
+      mission +
+      "</div></section>" +
+      (v.mention ? '<p class="om-m">' + esc(v.mention).replace(/\n/g, "<br>") + "</p>" : "") +
+      '<div class="om-b"><div>' +
+      (v.visa
+        ? '<div class="om-vt">Visa du lieu de mission</div><div class="om-v"><div><b>Arrivée</b>Date : ……………………<br>Heure : ………………<br>Cachet et signature :</div><div><b>Départ</b>Date : ……………………<br>Heure : ………………<br>Cachet et signature :</div></div>'
+        : "") +
+      '</div><div class="om-sg"><div>Fait à ' +
+      esc(v.faitA || "……………") +
+      ", le " +
+      (v.faitLe ? esc(dateLongue(v.faitLe)) : "……………………") +
+      '</div><div class="q">' +
+      esc(v.signTitre || "Le Dirigeant") +
+      '</div><div class="z">' +
+      (cc ? '<img class="cci" src="' + attr(cc) + '" alt="">' : "") +
+      (sg ? '<img class="sgi" src="' + attr(sg) + '" alt="">' : "") +
+      (!sg && !cc ? "<i>(Signature et cachet)</i>" : "") +
+      "</div>" +
+      (v.signNom ? '<div class="n">' + esc(v.signNom) + "</div>" : "") +
+      "</div></div>"
+    );
+  },
+};
+view("formation/missions", {
+  mod: "formation",
+  title: "Ordres de mission",
+  need: ["formation/registre", "formation/sessions", "formation/formations", "parametres/personnel"],
+  render: function () {
+    var ed = OM.peut(),
+      info = S.info || {},
+      t = today();
+    var faits = OM.liste().map(function (o) {
+      var v = o.v;
+      return {
+        id: o.id,
+        num: o.num,
+        _p: [v.prenom, v.nom].filter(Boolean).join(" "),
+        _o: v.objet || "",
+        _f: v.fonction || "",
+        dateDepart: v.dateDepart || "",
+        dateRetour: v.dateRetour || "",
+        transport: v.transport || "",
+        source: v.source || "",
+        maj: o.maj || 0,
+      };
+    });
+    var parSrc = {};
+    faits.forEach(function (o) {
+      if (o.source) parSrc[o.source] = (parSrc[o.source] || 0) + 1;
+    });
+    var rows = OM.formations()
+      .sort(byKey("debut", -1))
+      .map(function (r) {
+        r._om = parSrc[r.id] || 0;
+        return r;
+      });
+    var manque = [!info.signature ? "la signature du dirigeant" : "", !info.cachet ? "le cachet de l'entreprise" : ""].filter(Boolean);
+    return (
+      pageHead(
+        "Ordres de mission",
+        "Pour chaque formation, l'ordre de mission de la personne envoyée (formateur, encadreur…) : nom et prénom, e-mail, téléphone et numéro Orange Money, objet de la mission, dates de départ et de retour, moyen de transport et lieu de départ. Le document imprimé (A4, ou PDF depuis la fenêtre d'impression) porte la signature du dirigeant et le cachet de l'entreprise.",
+        ed ? UI.btn(icon("plus") + " Nouvel ordre de mission", "nouveau", "primary") : "",
+      ) +
+      (manque.length
+        ? '<p class="note warn small">' +
+          icon("alert") +
+          "<span>" +
+          (manque.length > 1 ? "Pour les apposer" : "Pour l'apposer") +
+          " sur les ordres de mission, ajoutez " +
+          manque.join(" et ") +
+          " dans Administration → Atelier et BLOCS → Signature et cachet (propriétaire du compte).</span></p>"
+        : "") +
+      tiles([
+        { t: "Formations", v: rows.length },
+        { t: "Ordres de mission sur cet appareil", v: faits.length },
+        {
+          t: "Missions en cours",
+          v: faits.filter(function (o) {
+            return o.dateDepart && o.dateDepart <= t && (!o.dateRetour || o.dateRetour >= t);
+          }).length,
+        },
+      ]) +
+      '<h2 class="sec">Formations</h2>' +
+      UI.table({
+        id: "om-formations",
+        rows: rows,
+        text: function (r) {
+          return [r.intitule, r.lieu].join(" ");
+        },
+        cols: [
+          {
+            k: "intitule",
+            t: "Formation",
+            f: function (r) {
+              return (
+                "<strong>" +
+                esc(r.intitule) +
+                '</strong><br><small class="muted">' +
+                fmtDate(r.debut) +
+                " — " +
+                fmtDate(r.fin) +
+                (r.lieu ? " — " + esc(r.lieu) : "") +
+                "</small>"
+              );
+            },
+          },
+          {
+            k: "_e",
+            t: "État",
+            f: function (r) {
+              return statutBadge(r._e);
+            },
+          },
+          {
+            k: "_om",
+            t: "Ordres de mission",
+            num: true,
+            f: function (r) {
+              return r._om ? "<strong>" + r._om + "</strong>" : '<span class="muted">—</span>';
+            },
+          },
+        ],
+        actions: function (r) {
+          return ed ? UI.btn(icon("truck") + " Ordre de mission", "pour", r._om ? "ghost sm" : "sm", ' data-id="' + attr(r.id) + '"') : "";
+        },
+        empty: "Aucune formation enregistrée : utilisez « Nouvel ordre de mission » pour une mission hors registre.",
+      }) +
+      '<h2 class="sec">Ordres de mission préparés sur cet appareil</h2>' +
+      '<p class="muted small">Cette liste est gardée dans ce navigateur seulement : rien n\'est écrit dans la base de l\'atelier. Réimprimez un ordre, corrigez-le, ou copiez-le pour une autre personne envoyée sur la même mission.</p>' +
+      UI.table({
+        id: "om-liste",
+        rows: faits,
+        sort: "maj",
+        dir: -1,
+        text: function (o) {
+          return [o.num, o._p, o._f, o._o, o.transport].join(" ");
+        },
+        cols: [
+          {
+            k: "num",
+            t: "N°",
+            f: function (o) {
+              return '<span class="code" style="white-space:nowrap">' + esc(o.num) + "</span>";
+            },
+          },
+          {
+            k: "_p",
+            t: "Personne et objet",
+            f: function (o) {
+              return (
+                "<strong>" +
+                esc(o._p) +
+                "</strong>" +
+                (o._f ? " — " + esc(o._f) : "") +
+                '<br><small class="muted">' +
+                esc(o._o.length > 120 ? o._o.slice(0, 117) + "…" : o._o) +
+                "</small>"
+              );
+            },
+          },
+          {
+            k: "dateDepart",
+            t: "Départ",
+            f: function (o) {
+              return fmtDate(o.dateDepart);
+            },
+          },
+          {
+            k: "dateRetour",
+            t: "Retour",
+            f: function (o) {
+              return fmtDate(o.dateRetour);
+            },
+          },
+          { k: "transport", t: "Transport" },
+          {
+            k: "maj",
+            t: "Préparé le",
+            f: function (o) {
+              return fmtDateTime(o.maj);
+            },
+          },
+        ],
+        actions: function (o) {
+          var a = ' data-id="' + attr(o.id) + '"';
+          return (
+            UI.btn(icon("print") + " Imprimer", "imp", "ghost sm", a) +
+            (ed
+              ? " " +
+                UI.btn(icon("edit") + " Modifier", "modif", "ghost sm", a) +
+                " " +
+                UI.btn(icon("users") + " Copier pour une autre personne", "copie", "ghost sm", a)
+              : "") +
+            " " +
+            UI.btn(icon("trash") + " Retirer", "retirer", "ghost sm del", a)
+          );
+        },
+        empty: "Aucun ordre de mission préparé sur cet appareil pour le moment.",
+      })
+    );
+  },
+  acts: {
+    nouveau: function () {
+      OM.editer(null);
+    },
+    pour: function (id) {
+      OM.editer(null, { source: id });
+    },
+    imp: function (id) {
+      var o = OM.get(id);
+      if (o) OM.imprimer(o);
+    },
+    modif: function (id) {
+      OM.editer(id);
+    },
+    copie: function (id) {
+      OM.copier(id);
+    },
+    retirer: function (id) {
+      OM.retirer(id);
+    },
+  },
+});
+(function(){if(typeof window==="undefined"||!window.fetch||location.protocol==="file:")return;setTimeout((function(){var url=location.pathname+(location.pathname.slice(-1)==="/"?"":"")+"?maj="+Date.now();fetch(url,{cache:"no-store"}).then((function(r){return r.ok?r.text():""})).then((function(t){var m=/NERP\.build\s*=\s*["']([0-9]{8}-[0-9]{4})["']/.exec(t||"");if(!m||!(m[1]>NERP.build))return;var deja=null;try{deja=sessionStorage.getItem("agat_maj_vers")}catch(e){}if(deja===m[1])return;try{
 sessionStorage.setItem("agat_maj_vers",m[1])}catch(e){}var p=[];if(window.caches&&caches.keys)p.push(caches.keys().then((function(ks){return Promise.all(ks.map((function(k){return caches.delete(k)})))})));if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)p.push(navigator.serviceWorker.getRegistrations().then((function(rs){return Promise.all(rs.map((function(r){return r.update().catch((function(){}))})))})));Promise.all(p).catch((function(){})).then((function(){location.reload()}))})).catch((function(){}))}),3500)})();(function(){var booted=false;function configScreen(){var el=$("#scr-config");el.innerHTML='<div class="blocked">'+Brand.mark(44)+"<h1>Configuration à terminer</h1>"+"<p class=\"lead\">L'application n'est pas encore reliée à sa base de données.</p>"+'<p>Ouvrez le fichier <span class="code">config.js</span> déployé à côté de <span class="code">index.html</span> et collez-y la configuration Web de votre projet Firebase (voir le guide de déploiement, étape 4), puis redéployez.</p></div>';Screens.show("scr-config")}function sdkError(){var el=$("#scr-boot");el.innerHTML='<div class="blocked">'+Brand.mark(44)+'<h1>Connexion impossible</h1><p class="lead">Les composants de l\'application n\'ont pas pu être chargés. Vérifiez la connexion Internet de cet appareil.</p><button type="button" class="btn primary" onclick="location.reload()">Réessayer</button></div>';Screens.show("scr-boot")}function route(user){var params=new URLSearchParams(location.search);var code=cleanCode(params.get("e")||params.get("shop")||"");var mode=sessionStorage.getItem("nerp_mode");var sess=Device.session();if(user&&mode==="concepteur"){FB.get("platform/admins/"+user.uid).then((function(a){if(a)Concepteur.start(user,a);else{sessionStorage.removeItem("nerp_mode");FB.auth.signOut();Landing.render()}})).catch((function(){Landing.render()}));return}if(user&&sess&&sess.uid===user.uid&&sess.tid){if(code&&sess.code&&code!==sess.code){FB.auth.signOut().then((function(){
 Device.clearSession();Landing.render();Landing.go(code)}));return}App.enter(sess.tid,sess.code);return}if(user){FB.auth.signOut()}Landing.render();if(code)Landing.go(code)}function start(n){n=n||0;if(!FB.configOk()){configScreen();return}if(typeof firebase==="undefined"||!firebase.auth||!firebase.database){if(n>150){sdkError();return}setTimeout((function(){start(n+1)}),100);return}try{FB.init()}catch(e){console.error(e);sdkError();return}Platform.load().then((function(){if(document.body.dataset.screen==="scr-landing")Landing.render(($(".home-msg")||{}).textContent)}));FB.auth.onAuthStateChanged((function(user){if(!booted){booted=true;route(user);return}if(!user&&/scr-app|scr-concepteur|scr-blocked/.test(document.body.dataset.screen||"")){Data.stopAll();UI.closeAll();Concepteur.stop();Landing.render()}}))}Install.init();document.addEventListener("DOMContentLoaded",(function(){Screens.show("scr-boot");start(0)}));window.addEventListener("offline",(function(){S.online=false;Bus.emit("online",false)}))})();</script>
 </body>
