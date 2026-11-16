@@ -914,7 +914,7 @@ p.note { display: block; }
 <div id="modals"></div>
 <div id="toasts" aria-live="polite"></div>
 <noscript><p style="padding:20px">AGAT a besoin de JavaScript pour fonctionner.</p></noscript>
-<script>"use strict";var NERP=window.NERP=window.NERP||{};var APP={nom:"AGAT",long:"Application de gestion des ateliers de tissage"};NERP.version="1.0.0";NERP.build="20261112-1330";function $(s,el){return(el||document).querySelector(s)}function $$(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))}function esc(v){if(v===null||v===undefined)return"";return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function attr(v){return esc(v)}var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}},json:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},setJson:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};function parseNum(v){if(v===null||v===undefined||v==="")return NaN;if(typeof v==="number")return v;var s=String(v).replace(/\s| | /g,"").replace(",",".");if(!/^-?\d*\.?\d+$/.test(s)&&!/^-?\d+\.?$/.test(s))return NaN;return parseFloat(s)}function toQ(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n*1e3)}function fromQ(q){return(Number(q)||0)/1e3}function toMoney(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n)}function grp(intStr){return intStr.replace(/\B(?=(\d{3})+(?!\d))/g," ")}function fmtN(n,dec){n=Number(n)||0;dec=dec===undefined?0:dec;var neg=n<0;n=Math.abs(n);var s=n.toFixed(dec);var p=s.split(".");var out=grp(p[0]);if(dec>0){var d=p[1].replace(/0+$/,"");if(d)out+=","+d}return(neg?"−":"")+out}function fmtGNF(n){return fmtN(Math.round(Number(n)||0))+" GNF"}function fmtMoney(n){return fmtN(Math.round(Number(n)||0))}function fmtQ(q,unite){var s=fmtN(fromQ(q),3);return unite?s+" "+unite:s}function enLettres(n){n=Math.round(Math.abs(Number(n)||0));if(!n)return"zéro"
+<script>"use strict";var NERP=window.NERP=window.NERP||{};var APP={nom:"AGAT",long:"Application de gestion des ateliers de tissage"};NERP.version="1.0.0";NERP.build="20261116-1130";function $(s,el){return(el||document).querySelector(s)}function $$(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))}function esc(v){if(v===null||v===undefined)return"";return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function attr(v){return esc(v)}var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}},json:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},setJson:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};function parseNum(v){if(v===null||v===undefined||v==="")return NaN;if(typeof v==="number")return v;var s=String(v).replace(/\s| | /g,"").replace(",",".");if(!/^-?\d*\.?\d+$/.test(s)&&!/^-?\d+\.?$/.test(s))return NaN;return parseFloat(s)}function toQ(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n*1e3)}function fromQ(q){return(Number(q)||0)/1e3}function toMoney(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n)}function grp(intStr){return intStr.replace(/\B(?=(\d{3})+(?!\d))/g," ")}function fmtN(n,dec){n=Number(n)||0;dec=dec===undefined?0:dec;var neg=n<0;n=Math.abs(n);var s=n.toFixed(dec);var p=s.split(".");var out=grp(p[0]);if(dec>0){var d=p[1].replace(/0+$/,"");if(d)out+=","+d}return(neg?"−":"")+out}function fmtGNF(n){return fmtN(Math.round(Number(n)||0))+" GNF"}function fmtMoney(n){return fmtN(Math.round(Number(n)||0))}function fmtQ(q,unite){var s=fmtN(fromQ(q),3);return unite?s+" "+unite:s}function enLettres(n){n=Math.round(Math.abs(Number(n)||0));if(!n)return"zéro"
 ;var U=["","un","deux","trois","quatre","cinq","six","sept","huit","neuf","dix","onze","douze","treize","quatorze","quinze","seize","dix-sept","dix-huit","dix-neuf"];var D=["","dix","vingt","trente","quarante","cinquante","soixante","soixante","quatre-vingt","quatre-vingt"];var deux=function(x,fin){if(x<20)return U[x];var d=Math.floor(x/10),u=x%10;if(d===7||d===9){var r=x-(d===7?60:80);return D[d]+(d===7&&r===11?" et ":"-")+U[r]}if(!u)return d===8?fin?"quatre-vingts":"quatre-vingt":D[d];if(u===1&&d!==8)return D[d]+" et un";return D[d]+"-"+U[u]};var trois=function(x,fin){var c=Math.floor(x/100),r=x%100,s="";if(c)s=(c>1?U[c]+" ":"")+"cent"+(c>1&&!r&&fin?"s":"");if(r)s+=(s?" ":"")+deux(r,fin);return s};var mds=Math.floor(n/1e9),mns=Math.floor(n%1e9/1e6),mls=Math.floor(n%1e6/1e3),r=n%1e3,out=[];if(mds)out.push(trois(mds,true)+" milliard"+(mds>1?"s":""));if(mns)out.push(trois(mns,true)+" million"+(mns>1?"s":""));if(mls)out.push(mls===1?"mille":trois(mls,false)+" mille");if(r)out.push(trois(r,true));return out.join(" ")}function majuscule(s){s=String(s||"");return s.charAt(0).toUpperCase()+s.slice(1)}function fmtPct(x,dec){if(!isFinite(x))return"—";return fmtN(x*100,dec===undefined?1:dec)+" %"}function qInput(q){return q===null||q===undefined||q===""?"":String(fromQ(q)).replace(".",",")}function pad2(n){return(n<10?"0":"")+n}function isoDate(d){d=d||new Date;return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate())}function today(){return isoDate(new Date)}function monthOf(iso){return String(iso||"").slice(0,7)}function yearOf(iso){return String(iso||"").slice(0,4)}function addDays(iso,n){var d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);return isoDate(d)}function daysBetween(a,b){return Math.round((new Date(b+"T12:00:00")-new Date(a+"T12:00:00"))/864e5)}function fmtDate(iso){if(!iso)return"—";if(typeof iso==="number")return new Date(iso).toLocaleDateString("fr-FR");var p=String(iso).slice(0,10).split("-")
 ;return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:esc(iso)}function fmtDateTime(ts){if(!ts)return"—";var d=new Date(ts);return d.toLocaleDateString("fr-FR")+" "+pad2(d.getHours())+":"+pad2(d.getMinutes())}var MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];function fmtMois(ym){var p=String(ym).split("-");return MOIS[Number(p[1])-1]+" "+p[0]}function startOfMonth(iso){return monthOf(iso||today())+"-01"}function startOfYear(iso){return yearOf(iso||today())+"-01-01"}function debounce(fn,ms){var t;return function(){var a=arguments,c=this;clearTimeout(t);t=setTimeout((function(){fn.apply(c,a)}),ms)}}function vals(obj){return obj?Object.keys(obj).map((function(k){var v=obj[k];if(v&&typeof v==="object"&&!v.id)v.id=k;return v})):[]}function byKey(k,dir){dir=dir||1;return function(a,b){var x=a[k],y=b[k];if(x===y)return 0;if(x===undefined||x===null)return 1;if(y===undefined||y===null)return-1;return(x>y?1:-1)*dir}}function sum(arr,f){var s=0;(arr||[]).forEach((function(x){s+=Number(f?f(x):x)||0}));return s}function groupBy(arr,f){var o={};(arr||[]).forEach((function(x){var k=f(x);(o[k]=o[k]||[]).push(x)}));return o}function clone(o){return o===undefined?undefined:JSON.parse(JSON.stringify(o))}function norm(s){s=String(s||"").toLowerCase();try{s=s.normalize("NFD").replace(/[̀-ͯ]/g,"")}catch(e){}return s}function normIdent(t){return norm(t).trim().replace(/\s+/g,".").replace(/[^a-z0-9._-]/g,"").slice(0,30)}function randomCode(n){var c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",r="";var a=new Uint32Array(n);(window.crypto||{}).getRandomValues?crypto.getRandomValues(a):a.forEach((function(_,i){a[i]=Math.random()*1e9}));for(var i=0;i<n;i++)r+=c[a[i]%c.length];return r}function strip(o){var r={};Object.keys(o||{}).forEach((function(k){if(k!=="id"&&k.charAt(0)!=="_")r[k]=o[k]}));return r}function initials(n){var p=String(n||"?").trim().split(/\s+/);return((p[0]||"?")[0]+(p[1]?p[1][0]:"")).toUpperCase()}function plural(n,s,p){
 return n+" "+(Math.abs(n)>1?p||s+"s":s)}var Bus={h:{},on:function(e,f){(this.h[e]=this.h[e]||[]).push(f)},emit:function(e,d){(this.h[e]||[]).forEach((function(f){try{f(d)}catch(x){console.error("[NERP]",e,x)}}))}};var S={tid:null,code:null,user:null,member:null,role:null,tenant:null,info:{},params:{},roles:{},members:{},blocs:{},bloc:"A",mode:"gestion",d:{},loaded:{},online:true,admin:false};var MODULES=[{k:"tableau",n:"Tableau de bord"},{k:"tissage",n:"Tissage (matières premières)"},{k:"distributeur",n:"Distributeur (fils remis aux tisserands)"},{k:"achats",n:"Achats"},{k:"stock",n:"Stock"},{k:"teinture",n:"Teinture"},{k:"production",n:"Production"},{k:"qualite",n:"Qualité"},{k:"ouvriers",n:"Ouvriers et déclarations"},{k:"paie",n:"Paie des ouvriers"},{k:"ventes",n:"Ventes"},{k:"boutique",n:"Boutique (stock et caisse)"},{k:"formation",n:"Formation"},{k:"catalogue",n:"Catalogue des modèles"},{k:"finances",n:"Finances"},{k:"rapports",n:"Rapports"},{k:"parametres",n:"Paramètres"},{k:"utilisateurs",n:"Utilisateurs et rôles"},{k:"admin",n:"Audit et validations"}];var ACTIONS=[{k:"consulter",n:"Consulter"},{k:"creer",n:"Créer"},{k:"modifier",n:"Modifier"},{k:"supprimer",n:"Supprimer"},{k:"valider",n:"Valider"},{k:"annuler",n:"Annuler"},{k:"exporter",n:"Exporter"},{k:"livrer",n:"Livrer",only:["ventes"]}];var WRITE_ACTIONS=["creer","modifier","supprimer","valider","annuler","livrer"];function actionFor(mod,a){return!a.only||a.only.indexOf(mod)>=0}var BLOC_IDS=["A","B","C","D","E","F","G","H","I","J"];var BLOCS_INCLUS=3;var EMPLACEMENTS_DEFAUT=[{id:"MAG-MP",nom:"Magasin des matières",type:"matieres",dispo:true,ordre:1},{id:"ENC-TEI",nom:"Encours teinture",type:"encours",dispo:false,ordre:2},{id:"QUAR",nom:"Quarantaine (à contrôler)",type:"quarantaine",dispo:false,ordre:3},{id:"MAG-FT",nom:"Magasin des fils teints",type:"fils_teints",dispo:true,ordre:4},{id:"ENC-PROD",nom:"Encours métiers",type:"encours",dispo:false,ordre:5},{id:"PF",nom:"Produits finis",
@@ -992,9 +992,9 @@ UI.toast("Autorisez les fenêtres pour imprimer.","err");return}w.document.write
 tabs:[["tissage/produits","Produits"],["tissage/entrees","Entrées mensuelles"],["tissage/sorties","Sorties mensuelles"],["tissage/inventaire","Inventaire"],["tissage/transferts","Transferts"],["tissage/alertes","Stock disponible et dormant"]]},{r:"stock",t:"Magasin détaillé",i:"clip",mod:"stock",tabs:[["stock/etat","État du stock"],["stock/articles","Articles"],["stock/lots","Lots"],["stock/mouvements","Mouvements"],["stock/inventaires","Inventaires"]]}]},{g:"Fournisseurs",items:[FOURNISSEURS_ITEM]}],production:[{g:"Pilotage",items:[{r:"production/tableau",t:"Tableau de bord",i:"home",mod:"production"}]},{g:"Mes déclarations",items:[{r:"moi",t:"Mes déclarations",i:"clip",mod:"*",tabs:[["ouvriers/moi","Mes déclarations"],["ouvriers/mapaie","Ma paie"]]}]},{g:"Producteurs",items:[{r:"prod-decl",t:"Déclarations de production",i:"bolt",mod:"ouvriers",tabs:[["production/rapide","Déclaration rapide"],["ouvriers/declarations","À valider et historique"],["production/producteurs","Producteurs"]]},{r:"prod-paie",t:"Versements et paie",i:"wallet",mod:"paie",tabs:[["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/paie","Versements aux producteurs"],["ouvriers/rapports","Rapports par producteur"],["parametres/personnel","Fiches du personnel"]]},{r:"prod-obj",t:"Objectifs et prévisions",i:"chart",mod:"ouvriers",tabs:[["ouvriers/objectifs","Objectifs de chaque travailleur"],["ouvriers/previsions","Prévision mensuelle"]]},{r:"prod-badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]},{g:"Production",items:[{r:"prod-suivi",t:"Suivi de la production",i:"chart",mod:"production",tabs:[["production/mensuel","Production mensuelle"],["production/inventaire","Inventaire de production"],["production/sorties","Sorties mensuelles"],["production/transferts","Transferts"]]},{r:"prod-stock",
 t:"Stock produit",i:"box",mod:"production",tabs:[["production/produits","Produits"],["production/entrees","Entrées mensuelles"],["production/inventaire-stock","Comptage du stock"],["production/alertes","Stock disponible et dormant"]]},{r:"prod-fab",t:"Ordres et métiers",i:"loom",mod:"production",tabs:[["production/ordres","Ordres de production"],["production/suivi","Suivi du jour"],["production/metiers","Métiers à tisser"],["production/modeles","Modèles de tissu"],["qualite/controles","Contrôles qualité"],["qualite/nc","Non-conformités"]]}]},{g:"Ventes",items:[{r:"prod-ventes",t:"Ventes et facturation",i:"tag",mod:"production",tabs:[["production/vente","Vente rapide"],["production/ventes","Ventes"],["ventes/factures","Facturation"]]}]},{g:"Fournisseurs",items:[FOURNISSEURS_ITEM]}],teinture:[{g:"Pilotage",items:[{r:"teinture/tableau",t:"Tableau de bord",i:"home",mod:"teinture"}]},{g:"Saisie",items:[{r:"teinture-saisie",t:"Saisie rapide",i:"bolt",mod:"teinture",tabs:[["teinture/rapide","Entrée ou vente rapide"],["teinture/ventes","Ventes"],["ventes/factures","Facturation client"]]}]},{g:"Teinture",items:[{r:"teinture",t:"Lots et recettes",i:"drop",mod:"teinture",tabs:[["teinture/lots","Lots de teinture"],["teinture/recettes","Recettes"],["qualite/controles","Contrôles qualité"]]},{r:"teinture-stock",t:"Produits et stock",i:"box",mod:"teinture",tabs:[["teinture/produits","Produits"],["teinture/entrees","Entrées mensuelles"],["teinture/sorties","Sorties mensuelles"],["teinture/inventaire","Inventaire"],["teinture/transferts","Transferts"],["teinture/alertes","Stock disponible et dormant"]]}]},{g:"Fournisseurs",items:[FOURNISSEURS_ITEM]}],boutique:[{g:"Boutique",items:[{r:"boutique/tableau",t:"Tableau de bord",i:"home",mod:"boutique"},{r:"bstock",t:"Produits",i:"box",mod:"boutique",tabs:[["boutique/produits","Produits en boutique"],["boutique/appro","Approvisionnement"],["boutique/transferts","Transferts"]]},{r:"binv",t:"Inventaire",i:"clip",mod:"boutique",
 tabs:[["boutique/inventaire","Inventaire"],["boutique/corrections","Corrections du stock"]]},{r:"ventes",t:"Ventes",i:"tag",mod:"ventes",tabs:[["boutique/rapide","Vente rapide"],["ventes/caisse","Vente avec facture"],["boutique/ventes","Ventes"],["ventes/devis","Devis et commandes"],["ventes/livraisons","Livraisons"],["ventes/tarifs","Prix de vente"]]},{r:"bsorties",t:"Sorties mensuelles",i:"upload",mod:"boutique",tabs:[["boutique/sorties","Sorties mensuelles"]]},{r:"bentrees",t:"Entrées mensuelles",i:"download",mod:"boutique",tabs:[["boutique/entrees","Entrées mensuelles"]]},{r:"bfact",t:"Facturation",i:"audit",mod:"ventes",tabs:[["ventes/factures","Facturation"]]},{r:"bpalm",t:"Palmarès",i:"chart",mod:"boutique",tabs:[["boutique/palmares","Palmarès"],["boutique/rapport","Rapports"],["boutique/recap","Récapitulatif annuel"]]},{r:"bdormant",t:"Produits dormants",i:"alert",mod:"boutique",tabs:[["boutique/alertes","Produits dormants et alertes"]]},fournisseursBloc("boutique"),{r:"boutique-clients",t:"Clients et factures",i:"users",mod:"ventes",tabs:[["ventes/clients","Clients"],["boutique/dettes","Dettes et factures dues"],["ventes/creances","Créances et échéances"],["boutique/versements","Versements"]]},{r:"boutique/vclients",t:"Versements des clients",i:"wallet",mod:"ventes"}]},{g:"Caisse et vitrine",items:[{r:"boutique-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["boutique/caisse","Caisse"],["boutique/depenses","Dépenses"],["boutique/journalier","Historique journalier"],["boutique/mensuel","Caisse mois par mois"],["boutique/repartition","Répartition des fonds"]]},{r:"boutique-vitrine",t:"Catalogue des modèles",i:"image",mod:"catalogue",tabs:[["catalogue/modeles","Catalogue"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],formation:[{g:"Formation",items:[{r:"formation/tableau",t:"Tableau de bord",i:"home",mod:"formation"},{r:"form-new",t:"Enregistrer une formation",i:"plus",
-mod:"formation",tabs:[["formation/nouvelle","Enregistrer une formation"],["formation/registre","Formations enregistrées"]]},{r:"form-etud",t:"Liste des étudiants",i:"users",mod:"formation",tabs:[["formation/apprenants","Liste des étudiants"]]},{r:"form-fact",t:"Factures de formation",i:"audit",mod:"formation",tabs:[["formation/factures","Factures de formation"]]},{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]},{r:"form-om",t:"Ordres de mission",i:"truck",mod:"formation",tabs:[["formation/missions","Ordres de mission"]]}]},{g:"Organisation et caisse",items:[{r:"formation",t:"Sessions et paiements",i:"grad",mod:"formation",tabs:[["formation/sessions","Sessions"],["formation/paiements","Paiements et impayés"],["formation/catalogue","Catalogue des formations"]]},{r:"formation-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["formation/caisse","Caisse"],["formation/depenses","Dépenses"],["formation/journalier","Historique journalier"],["formation/mensuel","Caisse mois par mois"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],tisserand:[{g:"Tisserands",items:[{r:"tisserand/nouveau",t:"Nouveau tisserand",i:"plus",mod:"ouvriers"},{r:"tisserand/liste",t:"Liste des tisserands",i:"users",mod:"ouvriers"},{r:"tis-sal",t:"Salaires",i:"wallet",mod:"paie",tabs:[["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/rapports","Rapports journaliers et mensuels"],["ouvriers/paie","Versements et avances"]]},{r:"tis-obj",t:"Objectifs et prévisions",i:"chart",mod:"ouvriers",tabs:[["ouvriers/objectifs","Objectifs de chaque travailleur"],["ouvriers/previsions","Prévision mensuelle"]]},{r:"tis-badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",
+mod:"formation",tabs:[["formation/nouvelle","Enregistrer une formation"],["formation/registre","Formations enregistrées"]]},{r:"form-etud",t:"Liste des étudiants",i:"users",mod:"formation",tabs:[["formation/apprenants","Liste des étudiants"]]},{r:"form-eval",t:"Évaluation des élèves",i:"clip",mod:"formation",tabs:[["formation/evaleleves","Évaluation des élèves"]]},{r:"form-fact",t:"Factures de formation",i:"audit",mod:"formation",tabs:[["formation/factures","Factures de formation"]]},{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]},{r:"form-om",t:"Ordres de mission",i:"truck",mod:"formation",tabs:[["formation/missions","Ordres de mission"]]}]},{g:"Organisation et caisse",items:[{r:"formation",t:"Sessions et paiements",i:"grad",mod:"formation",tabs:[["formation/sessions","Sessions"],["formation/paiements","Paiements et impayés"],["formation/catalogue","Catalogue des formations"]]},{r:"formation-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["formation/caisse","Caisse"],["formation/depenses","Dépenses"],["formation/journalier","Historique journalier"],["formation/mensuel","Caisse mois par mois"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],tisserand:[{g:"Tisserands",items:[{r:"tisserand/nouveau",t:"Nouveau tisserand",i:"plus",mod:"ouvriers"},{r:"tisserand/liste",t:"Liste des tisserands",i:"users",mod:"ouvriers"},{r:"tis-sal",t:"Salaires",i:"wallet",mod:"paie",tabs:[["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/rapports","Rapports journaliers et mensuels"],["ouvriers/paie","Versements et avances"]]},{r:"tis-obj",t:"Objectifs et prévisions",i:"chart",mod:"ouvriers",tabs:[["ouvriers/objectifs","Objectifs de chaque travailleur"],["ouvriers/previsions","Prévision mensuelle"]]},{r:"tis-badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",
 tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]}],distributeur:[{g:"Pilotage",items:[{r:"distributeur/tableau",t:"Tableau de bord",i:"home",mod:"distributeur"}]},{g:"Tisserands sous-traitants",items:[{r:"dist-remise",t:"Fils remis aux tisserands",i:"share",mod:"distributeur",tabs:[["distributeur/remise","Remettre des fils"],["distributeur/remises","Bons de fils remis"]]},{r:"dist-retours",t:"Remboursements",i:"download",mod:"distributeur",tabs:[["distributeur/retours","Remboursements"]]},{r:"dist-comptes",t:"Comptes des tisserands",i:"users",mod:"distributeur",tabs:[["distributeur/comptes","Comptes des tisserands"],["distributeur/distributeurs","Tisserands-distributeurs"]]}]},{g:"Distributeur",items:[{r:"dist-prod",t:"Produits",i:"box",mod:"distributeur",tabs:[["distributeur/produits","Produits"],["distributeur/alertes","Stock disponible et dormant"],["distributeur/transferts","Transferts"]]},{r:"dist-inv",t:"Inventaire",i:"clip",mod:"distributeur",tabs:[["distributeur/inventaire","Inventaire"]]},{r:"dist-ventes",t:"Ventes",i:"tag",mod:"distributeur",tabs:[["distributeur/rapide","Vente ou entrée rapide"],["distributeur/ventes","Ventes"]]},{r:"dist-sorties",t:"Sorties mensuelles",i:"upload",mod:"distributeur",tabs:[["distributeur/sorties","Sorties mensuelles"]]},{r:"dist-entrees",t:"Entrées mensuelles",i:"download",mod:"distributeur",tabs:[["distributeur/entrees","Entrées mensuelles"]]},{r:"dist-appro",t:"Approvisionnement",i:"cart",mod:"distributeur",tabs:[["distributeur/appro","Approvisionnement"]]},{r:"dist-dettes",t:"Gestion des dettes",i:"wallet",mod:"distributeur",tabs:[["distributeur/dettes","Clients et fournisseurs"],["distributeur/versements","Versements"]]},{r:"dist-fact",t:"Facturation",i:"audit",mod:"ventes",tabs:[["ventes/factures","Facturation"]]},{r:"dist-palm",t:"Palmarès",i:"chart",mod:"distributeur",tabs:[["distributeur/palmares","Palmarès"]]},{
-r:"dist-rap",t:"Rapports",i:"chart",mod:"distributeur",tabs:[["distributeur/rapport","Rapports"],["distributeur/recap","Récapitulatif annuel"]]},fournisseursBloc("distributeur"),{r:"dist-clients",t:"Clients",i:"users",mod:"ventes",tabs:[["ventes/clients","Clients"],["ventes/creances","Créances et échéances"]]}]},{g:"Caisse",items:[{r:"distributeur-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["distributeur/caisse","Caisse"],["distributeur/depenses","Dépenses"],["distributeur/journalier","Historique journalier"],["distributeur/mensuel","Caisse mois par mois"],["distributeur/repartition","Répartition des fonds"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],catalogue:[{g:"Catalogue",items:[{r:"catalogue",t:"Modèles de léppi",i:"image",mod:"catalogue",tabs:[["catalogue/modeles","Catalogue"],["production/modeles","Fiches techniques des modèles"]]}]}]};["tissage","production","teinture"].forEach((function(p){var P=partieOf(p);NAV_PARTIES[p]=NAV_PARTIES[p].concat(navCommun(p,P,P.mod,{}))}));var NAV=[{g:"Pilotage",items:[{r:"tableau",t:"Tableau de bord",i:"home",mod:"tableau"}]},{g:"Gestion générale",items:[{r:"finances",t:"Caisse principale et finances",i:"wallet",mod:"finances",tabs:[["finances/tresorerie","Trésorerie"],["finances/depenses","Dépenses"],["finances/journal","Journal de caisse"],["finances/clotures","Clôtures"]]},{r:"rapports",t:"Rapports généraux",i:"chart",mod:"rapports"}]},{g:"Formation",items:[{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]},{r:"form-om",t:"Ordres de mission",i:"truck",mod:"formation",tabs:[["formation/missions","Ordres de mission"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations et audit",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"],["admin/audit","Journal d'audit"],["admin/sauvegarde","Sauvegarde"]]}]}]
+r:"dist-rap",t:"Rapports",i:"chart",mod:"distributeur",tabs:[["distributeur/rapport","Rapports"],["distributeur/recap","Récapitulatif annuel"]]},fournisseursBloc("distributeur"),{r:"dist-clients",t:"Clients",i:"users",mod:"ventes",tabs:[["ventes/clients","Clients"],["ventes/creances","Créances et échéances"]]}]},{g:"Caisse",items:[{r:"distributeur-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["distributeur/caisse","Caisse"],["distributeur/depenses","Dépenses"],["distributeur/journalier","Historique journalier"],["distributeur/mensuel","Caisse mois par mois"],["distributeur/repartition","Répartition des fonds"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],catalogue:[{g:"Catalogue",items:[{r:"catalogue",t:"Modèles de léppi",i:"image",mod:"catalogue",tabs:[["catalogue/modeles","Catalogue"],["production/modeles","Fiches techniques des modèles"]]}]}]};["tissage","production","teinture"].forEach((function(p){var P=partieOf(p);NAV_PARTIES[p]=NAV_PARTIES[p].concat(navCommun(p,P,P.mod,{}))}));var NAV=[{g:"Pilotage",items:[{r:"tableau",t:"Tableau de bord",i:"home",mod:"tableau"}]},{g:"Gestion générale",items:[{r:"finances",t:"Caisse principale et finances",i:"wallet",mod:"finances",tabs:[["finances/tresorerie","Trésorerie"],["finances/depenses","Dépenses"],["finances/journal","Journal de caisse"],["finances/clotures","Clôtures"]]},{r:"rapports",t:"Rapports généraux",i:"chart",mod:"rapports"}]},{g:"Formation",items:[{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]},{r:"form-om",t:"Ordres de mission",i:"truck",mod:"formation",tabs:[["formation/missions","Ordres de mission"]]},{r:"form-eval",t:"Évaluation des élèves",i:"clip",mod:"formation",tabs:[["formation/evaleleves","Évaluation des élèves"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations et audit",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"],["admin/audit","Journal d'audit"],["admin/sauvegarde","Sauvegarde"]]}]}]
 ;var NAV_BOUTIQUE=NAV_PARTIES.boutique;var NAV_ADMIN=[{g:"Administration",items:[{r:"admin/accueil",t:"Accueil",i:"gear",mod:"*"}]},{g:"L'atelier",items:[{r:"parametres",t:"Atelier et BLOCS",i:"home",mod:"parametres",tabs:[["parametres/entreprise","Informations"],["parametres/blocs","Ateliers (BLOCS)"],["parametres/reglages","Réglages"],["parametres/listes","Listes"],["parametres/signature","Signature et cachet"],["parametres/abonnement","Licence et abonnement"]]}]},{g:"Les personnes",items:[{r:"gerants",t:"Gérants et rôles",i:"users",mod:"utilisateurs",tabs:[["parametres/utilisateurs","Gérants et accès"],["parametres/roles","Rôles et autorisations"]]},{r:"ouvriers",t:"Personnel et paie",i:"clip",mod:"ouvriers",tabs:[["parametres/personnel","Personnel"],["ouvriers/declarations","Déclarations"],["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/paie","Paie"],["ouvriers/rapports","Rapports par personne"],["ouvriers/objectifs","Objectifs"],["ouvriers/previsions","Prévisions"]]},{r:"badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]},{g:"Le contrôle",items:[{r:"admin",t:"Contrôle",i:"audit",mod:"admin",tabs:[["admin/audit","Journal d'audit"],["admin/reinit","Réinitialisation"],["admin/sauvegarde","Sauvegarde"]]}]}];var ESPACES=PARTIE_KEYS.concat(["gestion"]);function navList(mode){mode=mode||S.mode;if(mode==="admin")return NAV_ADMIN;if(mode==="bloc")mode="gestion";return NAV_PARTIES[mode]||NAV}var TAB_MOD={"parametres/utilisateurs":"utilisateurs","parametres/roles":"utilisateurs","parametres/abonnement":"parametres","parametres/blocs":"parametres","parametres/reglages":"parametres","admin/accueil":"*","ouvriers/paie":"paie"};var TAB_CHECK={"ventes/caisse":function(){return can("ventes","creer")},"ventes/livraisons":function(){return can("ventes","livrer")||can("ventes","creer")},
 "boutique/envois":function(){return can("stock")},"parametres/personnel":function(){return can("parametres")||can("ouvriers")},"ouvriers/rapports":function(){return can("ouvriers")||can("paie")},"ouvriers/declarations":function(){return can("ouvriers")},"ouvriers/moi":function(){return Ouv.estOuvrier()},"ouvriers/mapaie":function(){return Ouv.estOuvrier()},"tisserand/nouveau":function(){return Perso.peut()},"tisserand/liste":function(){return can("ouvriers")||can("parametres")},"achats/fournisseurs":function(){var P=curPartie()&&partieOf(curPartie());return can("achats")||!!(P&&P.pre&&can(P.mod))},"ventes/clients":function(){var P=curPartie()&&partieOf(curPartie());return can("ventes")||!!(P&&P.pre&&can(P.mod))},"admin/reinit":function(){return isOwnerRole()},"parametres/signature":function(){return isOwnerRole()},"admin/validations":function(){return isOwnerRole()||can("admin")||MODULES.some((function(m){return canWrite(m.k)}))}};var ADMIN_ROUTES=["parametres/entreprise","parametres/blocs","parametres/listes","parametres/reglages","parametres/abonnement","parametres/signature","parametres/utilisateurs","parametres/roles","admin/accueil","admin/reinit"];function navItemFor(route,mode){var pv=Views[route];if(pv&&pv.parent)route=pv.parent;var top=route.split("/")[0],found=null;navList(mode).forEach((function(g){g.items.forEach((function(it){if(!found&&(it.r===route||it.tabs&&it.tabs.some((function(t){return t[0]===route}))))found=it}))}));if(!found)navList(mode).forEach((function(g){g.items.forEach((function(it){if(!found&&it.r===top)found=it}))}));return found}function inMenu(route,mode){var v=Views[route];if(v&&v.parent)route=v.parent;var ok=false;navList(mode).forEach((function(g){g.items.forEach((function(it){if(it.r===route||it.tabs&&it.tabs.some((function(t){return t[0]===route})))ok=true}))}));return ok}function tabAllowed(route,mode){mode=mode||S.mode;var v=Views[route];if(!(v&&v.free)&&!inMenu(route,mode))return false
 ;if(mode!=="admin"&&ADMIN_ROUTES.indexOf(route)>=0)return false;var need=TAB_MOD[route];if(need==="*")return true;if(TAB_CHECK[route])return TAB_CHECK[route]();if(v&&v.check)return!!v.check();return can(need||v&&v.mod||route.split("/")[0],"consulter")}function itemAllowed(it,mode){if(it.tabs)return it.tabs.some((function(t){return tabAllowed(t[0],mode)}));if(it.mod==="*")return true;return tabAllowed(it.r,mode)}var ROUTE_ESPACE={tisserand:"tisserand",distributeur:"distributeur",ventes:"boutique",boutique:"boutique",achats:"tissage",stock:"tissage",tissage:"tissage",teinture:"teinture",production:"production",qualite:"production",ouvriers:"production",paie:"production",formation:"formation",catalogue:"catalogue",finances:"gestion",rapports:"gestion",admin:"gestion",tableau:"gestion"};var ESPACE_MODS={tisserand:["ouvriers","parametres"],distributeur:["distributeur"],tissage:["tissage"],production:["production","ouvriers","paie"],teinture:["teinture"],boutique:["boutique","ventes"],formation:["formation"],catalogue:["catalogue"]};var Espace={est:function(mode){return ESPACES.indexOf(mode)>=0},affecte:function(mode){return mode==="gestion"||memberParties(S.member).indexOf(mode)>=0},droit:function(mode){var ms=ESPACE_MODS[mode];return!ms||ms.some((function(m){return can(m)&&moduleOn(m)}))||mode==="production"&&Ouv.estOuvrier()},can:function(mode){if(mode==="bloc")mode="gestion";if(mode!=="admin"&&!Espace.affecte(mode))return false;if(!Espace.droit(mode))return false;return navList(mode).some((function(g){return g.items.some((function(it){return!/(^|\/)tableau$/.test(it.r)&&it.r!=="admin"&&moduleOn(it.mod)&&itemAllowed(it,mode)}))}))},liste:function(){return ESPACES.filter((function(e){return Espace.can(e)}))},defaut:function(){var pref=["boutique","production","distributeur","tisserand","tissage","teinture","formation","catalogue","gestion"];return pref.filter((function(e){return Espace.can(e)}))[0]||"gestion"},nom:function(mode){
@@ -2452,6 +2452,1434 @@ view("formation/missions", {
     },
     retirer: function (id) {
       OM.retirer(id);
+    },
+  },
+});
+;var OEV_COL = "formation/evaluations";
+var OEV_NIV = [
+  [0, "Ne sait pas faire", "Ne sait pas encore faire ce geste, même avec de l'aide.", "#b23a3a"],
+  [1, "Notions", "Connaît le geste, le fait avec beaucoup d'aide.", "#cf6f2a"],
+  [2, "En progrès", "Fait le geste avec un peu d'aide ; résultat encore irrégulier.", "#c9932e"],
+  [3, "Acquis", "Fait seul, correctement, dans un temps raisonnable.", "#2f7d4f"],
+  [4, "Expert", "Maîtrise, travaille vite et proprement, crée et peut enseigner.", "#1f4fa8"],
+];
+var OEV_ETAPES = [
+  ["teinture", "Teinture des fils", "Teinture"],
+  ["bobinage", "Bobinage et canetage", "Bobinage"],
+  ["etalonnage", "Étalonnage (ourdissage de la chaîne)", "Étalonnage"],
+  ["montage", "Montage du métier", "Montage"],
+  ["tissage", "Tissage", "Tissage"],
+  ["echantillonnage", "Échantillonnage et calcul des modèles (expert créateur)", "Échantillonnage"],
+  ["finitions", "Finitions et qualité", "Finitions"],
+  ["autres", "Autres critères", "Autres"],
+  ["attitudes", "Attitudes professionnelles (après la formation)", "Attitudes"],
+];
+var OEV_CRIT = [
+  { id: "tei_bain", e: "teinture", n: "Préparer le bain de teinture", a: "Peser le colorant, doser l'eau, le sel ou le fixateur, chauffer à la bonne température." },
+  { id: "tei_fils", e: "teinture", n: "Teindre, rincer et sécher les écheveaux", a: "Couleur régulière, sans taches, bonne tenue au lavage." },
+  { id: "bob_fils", e: "bobinage", n: "Bobiner les fils", a: "Enroulement serré et régulier sur les bobines, sans casse ni nœuds inutiles." },
+  { id: "bob_canettes", e: "bobinage", n: "Remplir les canettes pour la trame", a: "Canettes bien formées qui se déroulent sans accroc dans la navette." },
+  { id: "eta_mesure", e: "etalonnage", n: "Étalonner la chaîne", a: "Mesurer la longueur et compter le nombre exact de fils de chaîne." },
+  { id: "eta_ordre", e: "etalonnage", n: "Garder l'ordre des fils (encroix) et préparer la chaîne", a: "Croisure conservée, fils ni mélangés ni emmêlés, chaîne prête au montage." },
+  { id: "mon_lisses", e: "montage", n: "Fabriquer les lisses", a: "Lisses de bonne longueur, régulières et solides." },
+  { id: "mon_rentrage", e: "montage", n: "Faire le rentrage dans les lisses", a: "Chaque fil passé dans la bonne lisse, selon le modèle." },
+  { id: "mon_piquage", e: "montage", n: "Faire le piquage dans le peigne", a: "Bon nombre de fils par dent, sans dent sautée." },
+  { id: "mon_nouage", e: "montage", n: "Nouer la chaîne et régler la tension", a: "Tension égale sur toute la largeur, métier prêt à tisser." },
+  { id: "tis_regulier", e: "tissage", n: "Tisser régulièrement", a: "Tassement égal, lisières droites, largeur constante." },
+  { id: "tis_motif", e: "tissage", n: "Reproduire un motif ou un modèle", a: "Léppi, motifs traditionnels ou Faso Dan Fani reproduits sans erreur." },
+  { id: "tis_defauts", e: "tissage", n: "Repérer et réparer les défauts", a: "Fils cassés renoués, erreurs de motif corrigées à temps." },
+  { id: "ech_chaine", e: "echantillonnage", n: "Calculer la chaîne d'un modèle", a: "Nombre de fils, longueur, peigne et largeur pour un tissu donné." },
+  { id: "ech_fil", e: "echantillonnage", n: "Calculer les quantités de fil et le coût d'un modèle", a: "Fil de chaîne et de trame par complet, prix de revient." },
+  { id: "ech_creer", e: "echantillonnage", n: "Créer un nouveau modèle et tisser son échantillon", a: "Dessiner le modèle, choisir les couleurs, réaliser un échantillon conforme." },
+  { id: "fin_finitions", e: "finitions", n: "Faire les finitions", a: "Coupe, franges ou ourlets, pliage du complet." },
+  { id: "fin_qualite", e: "finitions", n: "Contrôler la qualité du tissu", a: "Mesurer, repérer les défauts, classer en premier ou second choix." },
+  { id: "att_assiduite", e: "attitudes", n: "Assiduité et ponctualité", a: "Présent et à l'heure, suit les séances jusqu'au bout.", apres: true },
+  { id: "att_materiel", e: "attitudes", n: "Soin du matériel, hygiène et sécurité", a: "Range, entretient le métier et les outils, respecte les consignes.", apres: true },
+  { id: "att_autonomie", e: "attitudes", n: "Autonomie et esprit d'initiative", a: "Travaille sans attendre qu'on lui dise tout, propose des solutions.", apres: true },
+];
+var OEV_AVIS = [
+  ["competent", "Compétent", "ok"],
+  ["renforcer", "À renforcer", "warn"],
+  ["pas_encore", "Pas encore compétent", "err"],
+];
+var OEV = {
+  peut: function () {
+    return can("formation", "creer") || can("formation", "modifier");
+  },
+  peutRetirer: function () {
+    return can("formation", "supprimer") || can("formation", "modifier");
+  },
+  src: function (key) {
+    return key ? Cert.src(key) || {} : {};
+  },
+  etapeNom: function (e, court) {
+    var x = OEV_ETAPES.filter(function (t) {
+      return t[0] === e;
+    })[0];
+    return x ? x[court ? 2 : 1] : e;
+  },
+  hash: function (s) {
+    var h = 5381;
+    s = norm(s);
+    for (var i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
+    return (h >>> 0).toString(36);
+  },
+  grilleId: function (key) {
+    return "grille_" + String(key).replace(/[.#$\[\]\/]/g, "_");
+  },
+  grille: function (key) {
+    return get(OEV_COL, OEV.grilleId(key)) || {};
+  },
+  persoEtape: function (txt) {
+    var m = /^([^:]{2,60}):\s*(.+)$/.exec(String(txt || "").trim());
+    if (!m) return { e: "autres", n: String(txt || "").trim() };
+    var tete = norm(m[1]).trim(),
+      e = "autres";
+    OEV_ETAPES.forEach(function (t) {
+      var c = norm(t[2]);
+      if (e === "autres" && (tete === c || tete.indexOf(c) === 0 || c.indexOf(tete) === 0)) e = t[0];
+    });
+    return { e: e, n: e === "autres" ? String(txt).trim() : m[2].trim() };
+  },
+  crits: function (key) {
+    var g = OEV.grille(key),
+      off = g.off || {};
+    var base = OEV_CRIT.filter(function (c) {
+      return !off[c.id];
+    });
+    var perso = (g.perso || [])
+      .filter(function (p) {
+        return p && p.id && p.n;
+      })
+      .map(function (p) {
+        return { id: p.id, e: p.e || "autres", n: p.n, a: "", perso: true };
+      });
+    var all = base.concat(perso);
+    return OEV_ETAPES.reduce(function (acc, t) {
+      return acc.concat(
+        all.filter(function (c) {
+          return c.e === t[0];
+        }),
+      );
+    }, []);
+  },
+  tech: function (crits) {
+    return crits.filter(function (c) {
+      return c.e !== "attitudes";
+    });
+  },
+  eleves: function (key) {
+    return list(OEV_COL, function (e) {
+      return e.nature === "eval_eleve" && e.source === key;
+    }).sort(function (a, b) {
+      return String(a.nom || "").localeCompare(String(b.nom || ""), "fr") || String(a.prenom || "").localeCompare(String(b.prenom || ""), "fr");
+    });
+  },
+  nomComplet: function (r) {
+    return [r.prenom, r.nom].filter(Boolean).join(" ");
+  },
+  etudiants: function (key) {
+    if (!key) return [];
+    if (Cert.estSession(key))
+      return list("formation/inscriptions", function (i) {
+        return i.session === String(key).slice(2) && i.statut !== "annulee";
+      })
+        .map(function (i) {
+          return apprenantOf(i.apprenant);
+        })
+        .filter(Boolean);
+    return list("formation/apprenants", function (a) {
+      return a.registre === key && !a.archive;
+    });
+  },
+  res: function (notes, crits) {
+    var n = 0,
+      sum = 0,
+      parE = {};
+    notes = notes || {};
+    crits.forEach(function (c) {
+      var x = notes[c.id];
+      if (x === undefined || x === null || x === "" || isNaN(Number(x))) return;
+      x = Number(x);
+      n++;
+      sum += x;
+      var p = parE[c.e] || (parE[c.e] = { n: 0, sum: 0 });
+      p.n++;
+      p.sum += x;
+    });
+    Object.keys(parE).forEach(function (k) {
+      parE[k].moy = parE[k].sum / parE[k].n;
+    });
+    var pct = n ? sum / (4 * n) : null;
+    return { n: n, sum: sum, pct: pct, sur20: pct === null ? null : pct * 20, parE: parE };
+  },
+  phaseRes: function (r, phase, crits) {
+    return OEV.res((r[phase] || {}).notes, OEV.tech(crits));
+  },
+  mention: function (p) {
+    if (p === null || p === undefined) return "";
+    if (p >= 0.85) return "Excellent — niveau expert";
+    if (p >= 0.7) return "Très bien";
+    if (p >= 0.55) return "Bien";
+    if (p >= 0.4) return "Passable";
+    return "Insuffisant";
+  },
+  avisAuto: function (p) {
+    if (p === null || p === undefined) return "";
+    return p >= 0.6 ? "competent" : p >= 0.4 ? "renforcer" : "pas_encore";
+  },
+  avisDe: function (r, crits) {
+    if (r.avis) return r.avis;
+    return OEV.avisAuto(OEV.phaseRes(r, "apres", crits).pct);
+  },
+  avisNom: function (k) {
+    var x = OEV_AVIS.filter(function (a) {
+      return a[0] === k;
+    })[0];
+    return x ? x[1] : "";
+  },
+  avisBadge: function (k) {
+    var x = OEV_AVIS.filter(function (a) {
+      return a[0] === k;
+    })[0];
+    return x ? UI.badge(x[1], x[2]) : "";
+  },
+  pct: function (p) {
+    return p === null || p === undefined ? "—" : Math.round(p * 100) + " %";
+  },
+  s20: function (p) {
+    return p === null || p === undefined ? "—" : fmtN(p * 20, 1) + "/20";
+  },
+  prog: function (a, b) {
+    if (a === null || a === undefined || b === null || b === undefined) return null;
+    return Math.round((b - a) * 100);
+  },
+  progTxt: function (d) {
+    return d === null ? "—" : (d > 0 ? "+" : d < 0 ? "−" : "") + Math.abs(d) + " pts";
+  },
+  formateurNom: function (src) {
+    var p = src && src.formateur ? get("parametres/personnel", src.formateur) : null;
+    return p ? p.nom : "";
+  },
+  css: function () {
+    return (
+      "<style>" +
+      ".ev-leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink-2);margin:4px 0 10px}.ev-leg b{display:inline-flex;width:20px;height:20px;border-radius:5px;align-items:center;justify-content:center;color:#fff;margin-right:5px;font-size:11.5px}" +
+      ".ev-et{border:1px solid var(--line);border-radius:var(--r);margin:0 0 10px;overflow:hidden}.ev-et>h4{margin:0;padding:8px 12px;background:var(--vat-50);font-size:14px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}.ev-et>h4 small{font-weight:600;color:var(--ink-2);white-space:nowrap}" +
+      ".ev-c{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:center;padding:8px 12px;border-top:1px solid var(--line-2)}.ev-l strong{display:block;font-weight:600}.ev-l small{display:block;color:var(--ink-3);font-size:12px}" +
+      ".ev-av{display:inline-block;margin-top:3px;font-size:11.5px;color:var(--gold-ink);background:var(--gold-50);border-radius:4px;padding:0 6px}" +
+      ".ev-lv{display:flex;gap:4px}.ev-lv label{position:relative;cursor:pointer;margin:0}.ev-lv input{position:absolute;opacity:0;width:1px;height:1px}" +
+      ".ev-lv span{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--line);border-radius:7px;font-weight:700;background:#fff;color:var(--ink-2)}" +
+      ".ev-lv input:checked+span{color:#fff;border-color:transparent}.ev-lv input:focus-visible+span{outline:2px solid var(--vat);outline-offset:2px}.ev-lv input[value='']:checked+span{background:var(--ink-3)}" +
+      OEV_NIV.map(function (n) {
+        return ".ev-lv input[value='" + n[0] + "']:checked+span{background:" + n[3] + "}";
+      }).join("") +
+      ".ev-live{margin-right:auto;font-size:13.5px;align-self:center}.ev-live b{font-size:15px}" +
+      ".ev-bars{display:flex;flex-direction:column;gap:7px}.ev-b{display:grid;grid-template-columns:minmax(120px,30%) 1fr 92px;gap:10px;align-items:center;font-size:13px}" +
+      ".ev-bt{display:flex;flex-direction:column;gap:3px}.ev-bt i{display:block;height:9px;border-radius:5px;background:#c9cedb;min-width:2px}.ev-bt i.ap{background:var(--vat)}.ev-b .v{text-align:right;color:var(--ink-2);white-space:nowrap}" +
+      ".ev-k{display:flex;gap:14px;font-size:12px;color:var(--ink-2);margin:4px 0 8px}.ev-k i{display:inline-block;width:11px;height:11px;border-radius:3px;background:#c9cedb;margin-right:5px;vertical-align:-1px}.ev-k i.ap{background:var(--vat)}" +
+      ".ev-up{color:var(--ok);font-weight:700}.ev-down{color:var(--err);font-weight:700}" +
+      "@media (max-width:640px){.ev-c{grid-template-columns:1fr}.ev-lv span{width:40px;height:38px}.ev-b{grid-template-columns:1fr 80px}.ev-b .ev-bt{grid-column:1/-1;order:3}}" +
+      "</style>"
+    );
+  },
+  legende: function () {
+    return (
+      '<div class="ev-leg">' +
+      OEV_NIV.map(function (n) {
+        return '<span title="' + attr(n[2]) + '"><b style="background:' + n[3] + '">' + n[0] + "</b>" + esc(n[1]) + "</span>";
+      }).join("") +
+      "</div>"
+    );
+  },
+  grilleHtml: function (crits, notes, avant, phase) {
+    notes = notes || {};
+    var h = "";
+    OEV_ETAPES.forEach(function (t) {
+      var cs = crits.filter(function (c) {
+        return c.e === t[0];
+      });
+      if (!cs.length) return;
+      h +=
+        '<div class="ev-et' +
+        (t[0] === "attitudes" ? " ev-ap" : "") +
+        '"' +
+        (t[0] === "attitudes" && phase !== "apres" ? " hidden" : "") +
+        "><h4><span>" +
+        esc(t[1]) +
+        '</span><small data-em="' +
+        t[0] +
+        '"></small></h4>' +
+        cs
+          .map(function (c) {
+            var cur = notes[c.id],
+              av = avant ? avant[c.id] : undefined,
+              nm = "ev_" + c.id;
+            var opt = function (val, txt, tip) {
+              var on = val === "" ? cur === undefined || cur === null || cur === "" : String(cur) === String(val);
+              return (
+                '<label title="' +
+                attr(tip) +
+                '"><input type="radio" name="' +
+                nm +
+                '" value="' +
+                val +
+                '"' +
+                (on ? " checked" : "") +
+                ' aria-label="' +
+                attr(tip) +
+                '"><span>' +
+                txt +
+                "</span></label>"
+              );
+            };
+            return (
+              '<div class="ev-c"><div class="ev-l"><strong>' +
+              esc(c.n) +
+              "</strong>" +
+              (c.a ? "<small>" + esc(c.a) + "</small>" : "") +
+              (av !== undefined && av !== null
+                ? '<span class="ev-av">Avant la formation : ' + esc(av + " — " + OEV_NIV[av][1]) + "</span>"
+                : "") +
+              '</div><div class="ev-lv" role="radiogroup" aria-label="' +
+              attr(c.n) +
+              '">' +
+              opt("", "—", "Non évalué") +
+              OEV_NIV.map(function (n) {
+                return opt(n[0], String(n[0]), n[0] + " — " + n[1] + " : " + n[2]);
+              }).join("") +
+              "</div></div>"
+            );
+          })
+          .join("") +
+        "</div>";
+    });
+    return h;
+  },
+  lireNotes: function (el, crits, phase) {
+    var notes = {};
+    crits.forEach(function (c) {
+      if (c.e === "attitudes" && phase !== "apres") return;
+      var x = $('input[name="ev_' + c.id + '"]:checked', el);
+      if (x && x.value !== "") notes[c.id] = Number(x.value);
+    });
+    return notes;
+  },
+  evaluer: function (key, id, phase) {
+    if (!OEV.peut()) {
+      UI.toast("Votre rôle ne permet pas d'évaluer les élèves.", "err");
+      return;
+    }
+    var rec = id ? get(OEV_COL, id) : null;
+    if (id && !rec) {
+      UI.toast("Cet élève n'est plus dans la liste.", "err");
+      return;
+    }
+    if (rec) key = rec.source;
+    var src = OEV.src(key),
+      crits = OEV.crits(key),
+      nouveau = !rec;
+    phase = phase === "apres" ? "apres" : "avant";
+    var ph = (rec && rec[phase]) || {},
+      avant = rec && rec.avant ? rec.avant.notes || {} : null;
+    var deja = {};
+    OEV.eleves(key).forEach(function (r) {
+      if (r.apprenant) deja[r.apprenant] = true;
+    });
+    var dispo = OEV.etudiants(key).filter(function (a) {
+      return !deja[a.id];
+    });
+    var F1 = [{ type: "section", t: "L'élève" }];
+    if (nouveau && dispo.length)
+      F1.push({
+        k: "app",
+        t: "Reprendre un étudiant de la formation (facultatif)",
+        type: "select",
+        span: 2,
+        emptyLabel: "— Saisie libre du nom et du prénom —",
+        opts: dispo.sort(byKey("nom")).map(function (a) {
+          return [a.id, [a.prenom, a.nom].filter(Boolean).join(" ") + (a.matricule ? " (" + a.matricule + ")" : "")];
+        }),
+      });
+    F1.push({ k: "prenom", t: "Prénom(s)", req: true }, { k: "nom", t: "Nom", req: true });
+    F1.push({ type: "section", t: nouveau ? "L'évaluation" : phase === "avant" ? "Évaluation avant la formation" : "Évaluation après la formation" });
+    if (nouveau)
+      F1.push({
+        k: "phase",
+        t: "Moment de l'évaluation",
+        type: "select",
+        empty: false,
+        span: 2,
+        opts: [
+          ["avant", "Avant la formation — niveau de départ"],
+          ["apres", "Après la formation — niveau atteint"],
+        ],
+      });
+    F1.push({ k: "date", t: "Date de l'évaluation", type: "date", req: true }, { k: "par", t: "Évaluateur (formateur)", req: true });
+    var F2 = [{ k: "obs", t: "Observations sur cette évaluation (facultatif)", type: "textarea", rows: 2, span: 2 }];
+    var F3 = [
+      { type: "section", t: "Appréciation finale" },
+      {
+        k: "appreciation",
+        t: "Appréciation du formateur",
+        type: "textarea",
+        rows: 3,
+        span: 2,
+        ph: "Points forts, progrès réalisés, ce qu'il reste à travailler…",
+      },
+      {
+        k: "avis",
+        t: "Avis final",
+        type: "select",
+        empty: false,
+        span: 2,
+        opts: [["", "Automatique selon le score (60 % et plus : compétent ; 40 à 59 % : à renforcer)"]].concat(
+          OEV_AVIS.map(function (a) {
+            return [a[0], a[1]];
+          }),
+        ),
+      },
+    ];
+    var vals = {
+      prenom: rec ? rec.prenom : "",
+      nom: rec ? rec.nom : "",
+      phase: phase,
+      date: ph.date || today(),
+      par: ph.par || (rec && rec.avant && rec.avant.par) || OEV.formateurNom(src) || S.member.nom,
+      obs: ph.obs || "",
+      appreciation: rec ? rec.appreciation || "" : "",
+      avis: rec ? rec.avis || "" : "",
+    };
+    var titre = nouveau
+      ? "Évaluer un élève — " + (src.intitule || "")
+      : (phase === "avant" ? "Avant la formation — " : "Après la formation — ") + OEV.nomComplet(rec);
+    var m = UI.modal({
+      title: titre,
+      size: "l",
+      body:
+        OEV.css() +
+        '<form class="mform ev-form" novalidate>' +
+        UI.fields(F1, vals) +
+        '<h3 class="mt">Critères par étape</h3><p class="muted small">Pour chaque critère, touchez le niveau observé. « — » : non évalué (il ne compte pas dans le score).' +
+        (phase === "apres" || nouveau ? " Les attitudes professionnelles ne se notent qu'après la formation." : "") +
+        "</p>" +
+        OEV.legende() +
+        '<div class="ev-zone">' +
+        OEV.grilleHtml(crits, ph.notes, phase === "apres" ? avant : null, phase) +
+        "</div>" +
+        UI.fields(F2, vals) +
+        '<div class="ev-apx"' +
+        (phase === "apres" ? "" : " hidden") +
+        ">" +
+        UI.fields(F3, vals) +
+        "</div></form>",
+      actions: [
+        { t: "Annuler", act: "__close", cls: "ghost" },
+        { t: icon("check") + " Enregistrer l'évaluation", act: "save", cls: "primary" },
+      ],
+      onOpen: function (mm) {
+        var el = mm.el,
+          foot = $(".mfoot", el);
+        if (foot) foot.insertAdjacentHTML("afterbegin", '<span class="ev-live" aria-live="polite"></span>');
+        $("form", el).addEventListener("submit", function (e) {
+          e.preventDefault();
+        });
+        var cur = function () {
+          var p = $('[data-k="phase"]', el);
+          return p ? p.value : phase;
+        };
+        var live = function () {
+          var ps = cur(),
+            r = OEV.res(OEV.lireNotes(el, crits, ps), OEV.tech(crits)),
+            tot = OEV.tech(crits).length,
+            z = $(".ev-live", el);
+          var at = OEV.res(OEV.lireNotes(el, crits, ps), crits).parE.attitudes;
+          $$("[data-em]", el).forEach(function (s) {
+            var p = s.dataset.em === "attitudes" ? at : r.parE[s.dataset.em];
+            s.textContent = p ? "moyenne " + fmtN(p.moy, 1) + " / 4" : "";
+          });
+          if (z)
+            z.innerHTML = r.n
+              ? "Score <b>" + OEV.pct(r.pct) + "</b> · " + OEV.s20(r.pct) + " · " + esc(OEV.mention(r.pct)) + ' <span class="muted">(' + r.n + "/" + tot + " critères)</span>"
+              : '<span class="muted">Aucun critère noté</span>';
+        };
+        el.addEventListener("change", function (e) {
+          if (e.target && e.target.dataset && e.target.dataset.k === "phase") {
+            var ap = e.target.value === "apres";
+            $$(".ev-ap", el).forEach(function (x) {
+              x.hidden = !ap;
+            });
+            var ax = $(".ev-apx", el);
+            if (ax) ax.hidden = !ap;
+          }
+          if (e.target && e.target.dataset && e.target.dataset.k === "app" && e.target.value) {
+            var a = apprenantOf(e.target.value);
+            if (a) {
+              $('[data-k="prenom"]', el).value = a.prenom || "";
+              $('[data-k="nom"]', el).value = a.nom || "";
+            }
+          }
+          live();
+        });
+        live();
+      },
+      onAct: function (act, btn) {
+        if (act !== "save") return;
+        var F = F1.concat(F2, F3);
+        var v = UI.readFields(m.el, F);
+        if (!v) {
+          UI.toast("Complétez les champs signalés.", "err");
+          return;
+        }
+        var ps = nouveau ? (v.phase === "apres" ? "apres" : "avant") : phase;
+        if (v.date > today()) {
+          UI.toast("La date de l'évaluation ne peut pas être dans le futur.", "err");
+          return;
+        }
+        var notes = OEV.lireNotes(m.el, crits, ps);
+        if (!Object.keys(notes).length) {
+          UI.toast("Notez au moins un critère.", "err");
+          return;
+        }
+        var r = OEV.res(notes, OEV.tech(crits));
+        var bloc = { date: v.date, par: v.par, notes: notes, obs: v.obs || null, majLe: today(), majPar: S.member.nom };
+        var nid = id || FB.newId(),
+          tx = new Tx("évaluation d'élève"),
+          qui = [v.prenom, v.nom].join(" ");
+        if (nouveau) {
+          var doc = {
+            nature: "eval_eleve",
+            source: key,
+            intitule: src.intitule || "",
+            apprenant: v.app || null,
+            prenom: v.prenom,
+            nom: v.nom,
+            creeLe: today(),
+            par: S.user.uid,
+            parNom: S.member.nom,
+            majLe: today(),
+            majPar: S.member.nom,
+          };
+          doc[ps] = bloc;
+          if (ps === "apres") {
+            doc.appreciation = v.appreciation || null;
+            doc.avis = v.avis || null;
+          }
+          tx.doc(OEV_COL, nid, doc);
+        } else {
+          tx.field(OEV_COL, nid, "prenom", v.prenom);
+          tx.field(OEV_COL, nid, "nom", v.nom);
+          tx.field(OEV_COL, nid, ps, bloc);
+          if (ps === "apres") {
+            tx.field(OEV_COL, nid, "appreciation", v.appreciation || null);
+            tx.field(OEV_COL, nid, "avis", v.avis || null);
+          }
+          tx.field(OEV_COL, nid, "majLe", today());
+          tx.field(OEV_COL, nid, "majPar", S.member.nom);
+        }
+        tx.audit(
+          "Évaluation " + (ps === "avant" ? "avant" : "après") + " la formation de " + qui + " — « " + (src.intitule || "") + " » : " + OEV.pct(r.pct),
+          "formation",
+          nid,
+        );
+        runOp(
+          btn,
+          function () {
+            return tx.commit();
+          },
+          "Évaluation enregistrée.",
+        ).then(function (ok) {
+          if (!ok) return;
+          m.close();
+          App.render(true);
+        });
+      },
+    });
+    return m;
+  },
+  reprendre: function (key, btn) {
+    if (!OEV.peut()) return;
+    var deja = {};
+    OEV.eleves(key).forEach(function (r) {
+      if (r.apprenant) deja[r.apprenant] = true;
+    });
+    var aps = OEV.etudiants(key).filter(function (a) {
+      return !deja[a.id];
+    });
+    if (!aps.length) {
+      UI.toast("Tous les étudiants de la formation sont déjà dans la liste.", "info");
+      return;
+    }
+    var src = OEV.src(key);
+    UI.confirm({
+      title: "Reprendre les étudiants",
+      message: plural(aps.length, "étudiant") + " de la formation « " + (src.intitule || "") + " » vont être ajoutés à la liste d'évaluation, sans note. Vous les évaluerez ensuite un par un.",
+      ok: "Ajouter " + plural(aps.length, "étudiant"),
+    }).then(function (c) {
+      if (!c.ok) return;
+      var tx = new Tx("élèves à évaluer");
+      aps.forEach(function (a) {
+        tx.doc(OEV_COL, FB.newId(), {
+          nature: "eval_eleve",
+          source: key,
+          intitule: src.intitule || "",
+          apprenant: a.id,
+          prenom: a.prenom || "",
+          nom: a.nom || "",
+          creeLe: today(),
+          par: S.user.uid,
+          parNom: S.member.nom,
+          majLe: today(),
+          majPar: S.member.nom,
+        });
+      });
+      tx.audit(plural(aps.length, "élève ajouté", "élèves ajoutés") + " à l'évaluation de « " + (src.intitule || "") + " »", "formation", key);
+      runOp(
+        btn,
+        function () {
+          return tx.commit();
+        },
+        plural(aps.length, "étudiant ajouté", "étudiants ajoutés") + ".",
+      ).then(function (ok) {
+        if (ok) App.render(true);
+      });
+    });
+  },
+  editerGrille: function (key) {
+    if (!OEV.peut()) return;
+    var g = OEV.grille(key),
+      off = g.off || {},
+      src = OEV.src(key);
+    var fields = [];
+    OEV_ETAPES.forEach(function (t) {
+      var cs = OEV_CRIT.filter(function (c) {
+        return c.e === t[0];
+      });
+      if (!cs.length) return;
+      fields.push({
+        k: "g_" + t[0],
+        t: t[1],
+        type: "checks",
+        opts: cs.map(function (c) {
+          return [c.id, c.n, c.a];
+        }),
+      });
+    });
+    fields.push({
+      k: "perso",
+      t: "Critères ajoutés par le formateur (un par ligne)",
+      type: "textarea",
+      rows: 4,
+      span: 2,
+      ph: "Tissage : Tisser un pagne de 8 m en une journée\nTeinture : Réussir un dégradé de deux couleurs",
+      help: "Écrivez « Étape : critère ». Sans étape reconnue, le critère va dans « Autres critères ».",
+    });
+    var vals = { perso: (g.perso || []).map(function (p) {
+      return p.e && p.e !== "autres" ? OEV.etapeNom(p.e, true) + " : " + p.n : p.n;
+    }).join("\n") };
+    fields.forEach(function (f) {
+      if (f.type !== "checks") return;
+      var o = {};
+      f.opts.forEach(function (x) {
+        if (!off[x[0]]) o[x[0]] = true;
+      });
+      vals[f.k] = o;
+    });
+    UI.formModal({
+      title: "Critères d'évaluation — " + (src.intitule || ""),
+      size: "l",
+      intro:
+        "Cochez les critères qui comptent pour cette formation. Un critère décoché n'apparaît plus dans les évaluations et ne compte plus dans les scores ; les notes déjà données sont gardées et reviennent si vous le cochez à nouveau.",
+      fields: fields,
+      values: vals,
+      ok: "Enregistrer la grille",
+      save: function (v) {
+        var nOff = {};
+        fields.forEach(function (f) {
+          if (f.type !== "checks") return;
+          var on = v[f.k] || {};
+          f.opts.forEach(function (x) {
+            if (!on[x[0]]) nOff[x[0]] = true;
+          });
+        });
+        var vus = {},
+          perso = [];
+        String(v.perso || "")
+          .split("\n")
+          .map(function (l) {
+            return l.trim();
+          })
+          .filter(Boolean)
+          .forEach(function (l) {
+            var p = OEV.persoEtape(l),
+              pid = "p_" + OEV.hash(p.e + "|" + p.n);
+            if (vus[pid] || !p.n) return;
+            vus[pid] = true;
+            perso.push({ id: pid, e: p.e, n: p.n });
+          });
+        var actifs = OEV_CRIT.length - Object.keys(nOff).length + perso.length;
+        if (!actifs) throw new Error("Gardez au moins un critère.");
+        var tx = new Tx("grille d'évaluation");
+        tx.doc(OEV_COL, OEV.grilleId(key), {
+          nature: "grille_eleves",
+          source: key,
+          intitule: src.intitule || "",
+          off: Object.keys(nOff).length ? nOff : null,
+          perso: perso.length ? perso : null,
+          majLe: today(),
+          majPar: S.member.nom,
+        });
+        tx.audit("Grille d'évaluation des élèves de « " + (src.intitule || "") + " » : " + plural(actifs, "critère"), "formation", key);
+        return tx.commit();
+      },
+      okMsg: "Grille enregistrée.",
+    }).then(function (v) {
+      if (v) App.render(true);
+    });
+  },
+  retirer: function (id) {
+    var r = get(OEV_COL, id);
+    if (!r || !OEV.peutRetirer()) return;
+    UI.confirm({
+      title: "Retirer " + OEV.nomComplet(r),
+      message: "L'élève et ses évaluations (avant et après) seront retirés de cette liste. L'étudiant reste dans la liste des étudiants.",
+      ok: "Retirer",
+      danger: true,
+    }).then(function (c) {
+      if (!c.ok) return;
+      var tx = new Tx("retrait d'une évaluation");
+      tx.doc(OEV_COL, id, null);
+      tx.audit("Évaluation de " + OEV.nomComplet(r) + " retirée — « " + (r.intitule || "") + " »", "formation", id);
+      runOp(
+        null,
+        function () {
+          return tx.commit();
+        },
+        "Élève retiré de l'évaluation.",
+      ).then(function () {
+        App.render(true);
+      });
+    });
+  },
+  niv: function (x) {
+    return x === undefined || x === null ? '<span class="muted">—</span>' : '<b style="color:' + OEV_NIV[x][3] + '">' + x + "</b> " + esc(OEV_NIV[x][1]);
+  },
+  fiche: function (id) {
+    var r = get(OEV_COL, id);
+    if (!r) return;
+    var crits = OEV.crits(r.source),
+      a = OEV.phaseRes(r, "avant", crits),
+      b = OEV.phaseRes(r, "apres", crits),
+      d = OEV.prog(a.pct, b.pct),
+      ed = OEV.peut();
+    var av = (r.avant || {}).notes || {},
+      ap = (r.apres || {}).notes || {};
+    var acts = [];
+    if (ed) acts.push({ t: icon("edit") + " Avant la formation", act: "av", cls: "ghost" }, { t: icon("edit") + " Après la formation", act: "ap", cls: "ghost" });
+    acts.push({ t: icon("print") + " Imprimer la fiche", act: "print", cls: "primary" });
+    if (OEV.peutRetirer()) acts.unshift({ t: icon("trash") + " Retirer", act: "del", cls: "ghost del" });
+    detailModal(
+      OEV.nomComplet(r) + " — " + (r.intitule || ""),
+      OEV.css() +
+        UI.kv([
+          ["Avant la formation", r.avant ? fmtDate(r.avant.date) + " — " + esc(r.avant.par || "") + " — <strong>" + OEV.pct(a.pct) + "</strong> (" + OEV.s20(a.pct) + ")" : ""],
+          ["Après la formation", r.apres ? fmtDate(r.apres.date) + " — " + esc(r.apres.par || "") + " — <strong>" + OEV.pct(b.pct) + "</strong> (" + OEV.s20(b.pct) + ")" : ""],
+          ["Progression", d === null ? "" : '<span class="' + (d > 0 ? "ev-up" : d < 0 ? "ev-down" : "") + '">' + OEV.progTxt(d) + "</span>"],
+          ["Mention", esc(OEV.mention(b.pct))],
+          ["Avis final", OEV.avisBadge(OEV.avisDe(r, crits))],
+          r.appreciation ? ["Appréciation", esc(r.appreciation).replace(/\n/g, "<br>")] : null,
+        ]) +
+        "<h3>Résultats par étape</h3>" +
+        OEV.barres(crits, [a], [b]) +
+        '<h3>Détail par critère</h3><table class="grid"><thead><tr><th>Critère</th><th>Avant</th><th>Après</th></tr></thead><tbody>' +
+        OEV_ETAPES.map(function (t) {
+          var cs = crits.filter(function (c) {
+            return c.e === t[0];
+          });
+          if (!cs.length) return "";
+          return (
+            '<tr><td colspan="3"><strong>' +
+            esc(t[1]) +
+            "</strong></td></tr>" +
+            cs
+              .map(function (c) {
+                return "<tr><td>" + esc(c.n) + "</td><td>" + OEV.niv(av[c.id]) + "</td><td>" + OEV.niv(ap[c.id]) + "</td></tr>";
+              })
+              .join("")
+          );
+        }).join("") +
+        "</tbody></table>",
+      acts,
+      function (act, b2, mm) {
+        if (act === "av" || act === "ap") {
+          mm.close();
+          OEV.evaluer(r.source, id, act === "av" ? "avant" : "apres");
+        }
+        if (act === "print") OEV.imprimerFiches(r.source, [id]);
+        if (act === "del") {
+          mm.close();
+          OEV.retirer(id);
+        }
+      },
+    );
+  },
+  moyE: function (resList, e) {
+    var s = 0,
+      n = 0;
+    resList.forEach(function (x) {
+      var p = x && x.parE[e];
+      if (p) {
+        s += p.moy;
+        n++;
+      }
+    });
+    return n ? s / n : null;
+  },
+  barres: function (crits, avs, aps, print) {
+    var es = OEV_ETAPES.filter(function (t) {
+      return t[0] !== "attitudes" && crits.some(function (c) {
+        return c.e === t[0];
+      });
+    });
+    var h = print ? "" : '<div class="ev-k"><span><i></i>Avant la formation</span><span><i class="ap"></i>Après la formation</span></div>';
+    return (
+      h +
+      '<div class="ev-bars">' +
+      es
+        .map(function (t) {
+          var x = OEV.moyE(avs, t[0]),
+            y = OEV.moyE(aps, t[0]);
+          var w = function (v) {
+            return v === null ? 0 : Math.max(1, Math.round((v / 4) * 100));
+          };
+          return (
+            '<div class="ev-b"><span>' +
+            esc(t[2]) +
+            '</span><span class="ev-bt"><i style="width:' +
+            w(x) +
+            '%"></i><i class="ap" style="width:' +
+            w(y) +
+            '%"></i></span><span class="v">' +
+            (x === null ? "—" : fmtN(x, 1)) +
+            " → " +
+            (y === null ? "—" : fmtN(y, 1)) +
+            " /4</span></div>"
+          );
+        })
+        .join("") +
+      "</div>"
+    );
+  },
+  printCss: function () {
+    return (
+      "<style>@page{margin:10mm 11mm}body{font-size:11px;line-height:1.35}.ph{margin-bottom:8px;padding-bottom:6px}" +
+      "table{margin:4px 0}td,th{padding:1.6px 5px!important;font-size:10px;line-height:1.25}h3{margin:8px 0 3px!important;font-size:12px!important}" +
+      ".ev-2{display:grid;grid-template-columns:1.15fr 1fr;gap:10px}.ev-bx{border:1px solid #d9dce6;border-radius:6px;padding:6px 9px}" +
+      ".ev-2 dl.kv{gap:1px 10px;margin:0 0 5px}.ev-sc{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}.ev-sc div{border:1px solid #d9dce6;border-radius:6px;padding:4px}.ev-sc span{display:block;font-size:9.5px;color:#4a536b;text-transform:uppercase}.ev-sc strong{display:block;font-size:15px}.ev-sc small{display:block;color:#4a536b}" +
+      ".ev-bars{display:flex;flex-direction:column;gap:3px}.ev-b{display:grid;grid-template-columns:27% 1fr 64px;gap:6px;align-items:center;font-size:10px}.ev-bt{display:flex;flex-direction:column;gap:2px}.ev-bt i{display:block;height:6px;border-radius:3px;background:#c9cedb;min-width:2px}.ev-bt i.ap{background:#22306b}.ev-b .v{text-align:right;white-space:nowrap}" +
+      ".ev-k{display:flex;gap:12px;font-size:10px;color:#4a536b}.ev-k i{display:inline-block;width:9px;height:9px;border-radius:2px;background:#c9cedb;margin-right:4px}.ev-k i.ap{background:#22306b}" +
+      "tr.ev-et td{background:#eef1fa;font-weight:700}.ev-up{color:#2f7d4f;font-weight:700}.ev-down{color:#b23a3a;font-weight:700}" +
+      ".ev-leg{display:flex;flex-wrap:wrap;gap:2px 12px;font-size:9.5px;color:#4a536b;margin-top:4px}.ev-leg b{display:inline-block;width:13px;height:13px;border-radius:3px;color:#fff;text-align:center;font-size:9px;line-height:13px;margin-right:3px}" +
+      ".ev-ap{white-space:pre-line}.sig{margin-top:22px!important}.ev-pg+.ev-pg{break-before:page;page-break-before:always}" +
+      "</style>"
+    );
+  },
+  legendePrint: function (long) {
+    return (
+      '<div class="ev-leg">' +
+      OEV_NIV.map(function (n) {
+        return '<span><b style="background:' + n[3] + '">' + n[0] + "</b>" + esc(n[1]) + (long ? " : " + esc(n[2]) : "") + "</span>";
+      }).join("") +
+      "</div>"
+    );
+  },
+  nivP: function (x) {
+    return x === undefined || x === null ? '<span class="muted">—</span>' : '<b style="color:' + OEV_NIV[x][3] + '">' + x + "</b> " + esc(OEV_NIV[x][1]);
+  },
+  ficheHtml: function (r, crits, src) {
+    var a = OEV.phaseRes(r, "avant", crits),
+      b = OEV.phaseRes(r, "apres", crits),
+      d = OEV.prog(a.pct, b.pct),
+      av = (r.avant || {}).notes || {},
+      ap = (r.apres || {}).notes || {},
+      avis = OEV.avisDe(r, crits);
+    var fl = function (x, y) {
+      if (x === undefined || x === null || y === undefined || y === null) return "";
+      return y > x ? '<span class="ev-up">↑ +' + (y - x) + "</span>" : y < x ? '<span class="ev-down">↓ −' + (x - y) + "</span>" : "=";
+    };
+    var lignes = OEV_ETAPES.map(function (t) {
+      var cs = crits.filter(function (c) {
+        return c.e === t[0];
+      });
+      if (!cs.length) return "";
+      var ea = a.parE[t[0]],
+        eb = b.parE[t[0]];
+      if (t[0] === "attitudes") {
+        var at = OEV.res(ap, cs).parE.attitudes;
+        eb = at;
+      }
+      return (
+        '<tr class="ev-et"><td>' +
+        esc(t[1]) +
+        '</td><td class="num">' +
+        (ea ? fmtN(ea.moy, 1) + " /4" : "—") +
+        '</td><td class="num">' +
+        (eb ? fmtN(eb.moy, 1) + " /4" : "—") +
+        "</td><td></td></tr>" +
+        cs
+          .map(function (c) {
+            return "<tr><td>" + esc(c.n) + "</td><td>" + OEV.nivP(av[c.id]) + "</td><td>" + OEV.nivP(ap[c.id]) + "</td><td>" + fl(av[c.id], ap[c.id]) + "</td></tr>";
+          })
+          .join("")
+      );
+    }).join("");
+    var form = OEV.formateurNom(src);
+    return (
+      '<div class="ev-2"><div class="ev-bx">' +
+      '<dl class="kv"><dt>Élève</dt><dd>' +
+      esc(OEV.nomComplet(r)) +
+      "</dd><dt>Formation</dt><dd>" +
+      esc(r.intitule || src.intitule || "") +
+      "</dd>" +
+      (src.debut ? "<dt>Période</dt><dd>du " + fmtDate(src.debut) + " au " + fmtDate(src.fin) + "</dd>" : "") +
+      (src.lieu ? "<dt>Lieu</dt><dd>" + esc(src.lieu) + "</dd>" : "") +
+      "<dt>Avant</dt><dd>" +
+      (r.avant ? fmtDate(r.avant.date) + " — " + esc(r.avant.par || "") : "non évalué") +
+      "</dd><dt>Après</dt><dd>" +
+      (r.apres ? fmtDate(r.apres.date) + " — " + esc(r.apres.par || "") : "non évalué") +
+      "</dd></dl>" +
+      '<div class="ev-sc"><div><span>Avant</span><strong>' +
+      OEV.pct(a.pct) +
+      "</strong><small>" +
+      OEV.s20(a.pct) +
+      "</small></div><div><span>Après</span><strong>" +
+      OEV.pct(b.pct) +
+      "</strong><small>" +
+      OEV.s20(b.pct) +
+      "</small></div><div><span>Progression</span><strong" +
+      (d > 0 ? ' class="ev-up"' : d < 0 ? ' class="ev-down"' : "") +
+      ">" +
+      OEV.progTxt(d) +
+      "</strong><small>&nbsp;</small></div></div>" +
+      '<p style="margin:5px 0 0">Mention : <strong>' +
+      esc(OEV.mention(b.pct) || "—") +
+      "</strong> — Avis final : <strong>" +
+      esc(OEV.avisNom(avis) || "—") +
+      "</strong></p></div>" +
+      '<div class="ev-bx"><h3 style="margin-top:0!important">Résultats par étape du tissage</h3>' +
+      '<div class="ev-k"><span><i></i>Avant la formation</span><span><i class="ap"></i>Après la formation</span></div>' +
+      OEV.barres(crits, [a], [b], true) +
+      "</div></div>" +
+      "<h3>Détail par critère</h3>" +
+      '<table><thead><tr><th>Étape et critère</th><th style="width:20%">Avant</th><th style="width:20%">Après</th><th style="width:9%">Évolution</th></tr></thead><tbody>' +
+      lignes +
+      "</tbody></table>" +
+      OEV.legendePrint() +
+      (r.appreciation || (r.avant && r.avant.obs) || (r.apres && r.apres.obs)
+        ? "<h3>Appréciation du formateur</h3><div class=\"ev-bx ev-ap\">" +
+          esc(r.appreciation || "") +
+          (r.avant && r.avant.obs ? "\nAvant la formation : " + esc(r.avant.obs) : "") +
+          (r.apres && r.apres.obs ? "\nAprès la formation : " + esc(r.apres.obs) : "") +
+          "</div>"
+        : "") +
+      '<div class="sig"><div>Le formateur' +
+      (form || (r.apres && r.apres.par) ? " — " + esc((r.apres && r.apres.par) || form) : "") +
+      "</div><div>La Direction</div></div>"
+    );
+  },
+  imprimerFiches: function (key, ids) {
+    var src = OEV.src(key),
+      crits = OEV.crits(key);
+    var rs = (
+      ids
+        ? ids.map(function (i) {
+            return get(OEV_COL, i);
+          })
+        : OEV.eleves(key)
+    ).filter(function (r) {
+      return r && (r.avant || r.apres);
+    });
+    if (!rs.length) {
+      UI.toast("Aucune évaluation à imprimer.", "info");
+      return;
+    }
+    UI.print({
+      title: "Fiche d'évaluation " + (rs.length === 1 ? OEV.nomComplet(rs[0]) : src.intitule || ""),
+      docTitle: rs.length === 1 ? "Fiche d'évaluation" : "Fiches d'évaluation",
+      docMeta: "<div>" + esc(src.intitule || rs[0].intitule || "") + "</div><div>" + (rs.length === 1 ? esc(OEV.nomComplet(rs[0])) : plural(rs.length, "élève")) + "</div>",
+      body:
+        OEV.printCss() +
+        rs
+          .map(function (r) {
+            return '<div class="ev-pg">' + (rs.length > 1 ? '<h2 style="margin:0 0 6px">' + esc(OEV.nomComplet(r)) + "</h2>" : "") + OEV.ficheHtml(r, crits, src) + "</div>";
+          })
+          .join(""),
+    });
+  },
+  imprimerResultats: function (key) {
+    var src = OEV.src(key),
+      crits = OEV.crits(key),
+      rs = OEV.eleves(key);
+    if (!rs.length) {
+      UI.toast("Aucun élève dans cette évaluation.", "info");
+      return;
+    }
+    var es = OEV_ETAPES.filter(function (t) {
+      return crits.some(function (c) {
+        return c.e === t[0];
+      });
+    });
+    var A = rs.map(function (r) {
+        return OEV.phaseRes(r, "avant", crits);
+      }),
+      B = rs.map(function (r) {
+        return OEV.phaseRes(r, "apres", crits);
+      }),
+      ATT = rs.map(function (r) {
+        return OEV.res((r.apres || {}).notes, crits.filter(function (c) {
+          return c.e === "attitudes";
+        }));
+      });
+    var moy = function (L) {
+      var v = L.filter(function (x) {
+        return x.pct !== null;
+      });
+      return v.length ? sum(v, function (x) {
+        return x.pct;
+      }) / v.length : null;
+    };
+    var ma = moy(A),
+      mb = moy(B);
+    var cpt = {};
+    rs.forEach(function (r) {
+      var k = OEV.avisDe(r, crits);
+      if (k) cpt[k] = (cpt[k] || 0) + 1;
+    });
+    var corps =
+      OEV.printCss() +
+      "<style>.ev-t td,.ev-t th{font-size:10px}.ev-t td.c,.ev-t th.c{text-align:center;white-space:nowrap}</style>" +
+      '<div class="tiles"><div class="tile"><span>Élèves</span><strong>' +
+      rs.length +
+      "</strong><small>" +
+      A.filter(function (x) {
+        return x.n;
+      }).length +
+      " évalués avant, " +
+      B.filter(function (x) {
+        return x.n;
+      }).length +
+      ' après</small></div><div class="tile"><span>Moyenne avant</span><strong>' +
+      OEV.pct(ma) +
+      "</strong><small>" +
+      OEV.s20(ma) +
+      '</small></div><div class="tile"><span>Moyenne après</span><strong>' +
+      OEV.pct(mb) +
+      "</strong><small>" +
+      OEV.s20(mb) +
+      "</small></div>" +
+      '<div class="tile"><span>Avis final</span><strong>' +
+      (cpt.competent || 0) +
+      " compétent" +
+      ((cpt.competent || 0) > 1 ? "s" : "") +
+      "</strong><small>" +
+      (cpt.renforcer || 0) +
+      " à renforcer, " +
+      (cpt.pas_encore || 0) +
+      " pas encore</small></div></div>" +
+      "<h3>Résultats par étape (moyenne de la classe, niveau sur 4)</h3>" +
+      '<div class="ev-k"><span><i></i>Avant la formation</span><span><i class="ap"></i>Après la formation</span></div>' +
+      OEV.barres(crits, A, B, true) +
+      "<h3>Résultats par élève</h3>" +
+      '<table class="ev-t"><thead><tr><th>N°</th><th>Élève</th>' +
+      es
+        .map(function (t) {
+          return '<th class="c">' + esc(t[2]) + "</th>";
+        })
+        .join("") +
+      '<th class="c">Avant</th><th class="c">Après</th><th class="c">Progr.</th><th>Mention</th><th>Avis</th></tr></thead><tbody>' +
+      rs
+        .map(function (r, i) {
+          var a = A[i],
+            b = B[i],
+            d = OEV.prog(a.pct, b.pct);
+          return (
+            "<tr><td>" +
+            (i + 1) +
+            "</td><td><strong>" +
+            esc(OEV.nomComplet(r)) +
+            "</strong></td>" +
+            es
+              .map(function (t) {
+                var x = (t[0] === "attitudes" ? null : a.parE[t[0]]),
+                  y = t[0] === "attitudes" ? ATT[i].parE.attitudes : b.parE[t[0]];
+                return '<td class="c">' + (x ? fmtN(x.moy, 1) : "—") + " → " + (y ? "<b>" + fmtN(y.moy, 1) + "</b>" : "—") + "</td>";
+              })
+              .join("") +
+            '<td class="c">' +
+            OEV.s20(a.pct) +
+            '</td><td class="c"><b>' +
+            OEV.s20(b.pct) +
+            '</b></td><td class="c' +
+            (d > 0 ? " ev-up" : d < 0 ? " ev-down" : "") +
+            '">' +
+            OEV.progTxt(d) +
+            "</td><td>" +
+            esc(OEV.mention(b.pct)) +
+            "</td><td>" +
+            esc(OEV.avisNom(OEV.avisDe(r, crits))) +
+            "</td></tr>"
+          );
+        })
+        .join("") +
+      "</tbody></table>" +
+      '<p class="small muted">Chaque case d\'étape : niveau moyen avant → après (sur 4). Avant et Après : score des compétences techniques sur 20. Progr. : progression en points de pourcentage. Les attitudes ne se notent qu\'après la formation et ne comptent pas dans le score.</p>' +
+      OEV.legendePrint() +
+      '<div class="sig"><div>Le formateur' +
+      (OEV.formateurNom(src) ? " — " + esc(OEV.formateurNom(src)) : "") +
+      "</div><div>La Direction</div></div>";
+    UI.print({
+      title: "Résultats de l'évaluation — " + (src.intitule || ""),
+      docTitle: "Résultats de l'évaluation des élèves",
+      docMeta:
+        "<div>" + esc(src.intitule || "") + "</div>" + (src.debut ? "<div>du " + fmtDate(src.debut) + " au " + fmtDate(src.fin) + "</div>" : "") + (src.lieu ? "<div>" + esc(src.lieu) + "</div>" : ""),
+      landscape: true,
+      body: corps,
+    });
+  },
+  imprimerGrille: function (key) {
+    var src = OEV.src(key),
+      crits = OEV.crits(key);
+    var cases =
+      '<td class="c">' +
+      OEV_NIV.map(function (n) {
+        return '<span class="bx">' + n[0] + "</span>";
+      }).join("") +
+      "</td>";
+    var corps =
+      OEV.printCss() +
+      "<style>.ln{border-bottom:1px dotted #8b93a8;display:inline-block;min-width:60mm;height:13px}.ev-g td{padding:3px 5px!important}.ev-g td.c{white-space:nowrap;text-align:center}" +
+      ".ev-g td{padding:3.2px 5px!important;font-size:10.5px}.bx{display:inline-block;width:15px;height:15px;border:1px solid #8b93a8;border-radius:3px;margin:0 2px;font-size:8.5px;line-height:15px;text-align:center;color:#8b93a8}.ev-g small{color:#6b7390}</style>" +
+      '<div class="ev-bx" style="line-height:2">Prénom et nom de l\'élève : <span class="ln" style="min-width:95mm"></span><br>Formation : <strong>' +
+      esc(src.intitule || "") +
+      "</strong>" +
+      (src.debut ? " — du " + fmtDate(src.debut) + " au " + fmtDate(src.fin) : "") +
+      '<br>Date avant : <span class="ln" style="min-width:32mm"></span> Date après : <span class="ln" style="min-width:32mm"></span> Évaluateur : <span class="ln" style="min-width:45mm"></span></div>' +
+      OEV.legendePrint(true) +
+      '<table class="ev-g"><thead><tr><th>Étape et critère</th><th class="c">Avant la formation</th><th class="c">Après la formation</th></tr></thead><tbody>' +
+      OEV_ETAPES.map(function (t) {
+        var cs = crits.filter(function (c) {
+          return c.e === t[0];
+        });
+        if (!cs.length) return "";
+        return (
+          '<tr class="ev-et"><td colspan="3">' +
+          esc(t[1]) +
+          "</td></tr>" +
+          cs
+            .map(function (c) {
+              return (
+                "<tr><td>" +
+                esc(c.n) +
+                "</td>" +
+                (c.e === "attitudes" ? '<td class="c"><small>après seulement</small></td>' : cases) +
+                cases +
+                "</tr>"
+              );
+            })
+            .join("")
+        );
+      }).join("") +
+      "</tbody></table>" +
+      '<div class="ev-bx" style="line-height:2.1;margin-top:6px">Appréciation du formateur : <span class="ln" style="min-width:120mm"></span><br><span class="ln" style="min-width:178mm"></span><br>Avis final : ☐ Compétent &nbsp; ☐ À renforcer &nbsp; ☐ Pas encore compétent</div>' +
+      '<div class="sig"><div>Le formateur</div><div>La Direction</div></div>';
+    UI.print({
+      title: "Grille d'évaluation — " + (src.intitule || ""),
+      docTitle: "Grille d'évaluation de l'élève",
+      docMeta: "<div>" + esc(src.intitule || "") + "</div>",
+      signer: "grille_vierge",
+      body: corps,
+    });
+  },
+};
+view("formation/evaleleves", {
+  mod: "formation",
+  title: "Évaluation des élèves",
+  need: [
+    "formation/registre",
+    "formation/sessions",
+    "formation/formations",
+    "formation/apprenants",
+    "formation/inscriptions",
+    "formation/evaluations",
+    "parametres/personnel",
+  ],
+  render: function () {
+    var st = ptState("formation"),
+      key = st.evSrc || "",
+      ed = OEV.peut();
+    var forms = OM.formations().sort(byKey("debut", -1));
+    if (
+      key &&
+      !forms.some(function (f) {
+        return f.id === key;
+      }) &&
+      !OEV.eleves(key).length
+    )
+      key = st.evSrc = "";
+    var sel =
+      '<label class="inline">Formation <select data-chg="src"><option value="">— Toutes les formations —</option>' +
+      forms
+        .map(function (f) {
+          return '<option value="' + attr(f.id) + '"' + (f.id === key ? " selected" : "") + ">" + esc(f.intitule + " — " + fmtDate(f.debut)) + "</option>";
+        })
+        .join("") +
+      "</select></label>";
+    var head = pageHead(
+      "Évaluation des élèves",
+      "Le formateur évalue chaque élève avant la formation (niveau de départ) puis après (niveau atteint), critère par critère, sur les étapes du tissage : teinture, bobinage, étalonnage, montage du métier, tissage, échantillonnage et calcul des modèles, finitions. Chaque critère se note de 0 (ne sait pas faire) à 4 (expert). L'application calcule les résultats par étape, le score, la progression et l'avis final.",
+      key && ed ? UI.btn(icon("plus") + " Évaluer un élève", "evaluer", "primary", ' data-id="' + attr(key) + '"') : "",
+    );
+    if (!key) {
+      var rows = forms.map(function (f) {
+        var el = OEV.eleves(f.id);
+        return Object.assign({}, f, {
+          _n: el.length,
+          _a: el.filter(function (r) {
+            return r.avant;
+          }).length,
+          _b: el.filter(function (r) {
+            return r.apres;
+          }).length,
+        });
+      });
+      return (
+        head +
+        sel +
+        '<p class="note">' +
+        icon("clip") +
+        "<span>Choisissez une formation : ses élèves s'évaluent avant et après, et ses résultats s'impriment (fiche par élève, résultats de la classe, grille vierge à remplir à la main).</span></p>" +
+        UI.table({
+          id: "ev-formations",
+          rows: rows,
+          text: function (r) {
+            return [r.intitule, r.lieu].join(" ");
+          },
+          cols: [
+            {
+              k: "intitule",
+              t: "Formation",
+              f: function (r) {
+                return "<strong>" + esc(r.intitule) + '</strong><br><small class="muted">' + fmtDate(r.debut) + " — " + fmtDate(r.fin) + (r.lieu ? " — " + esc(r.lieu) : "") + "</small>";
+              },
+            },
+            {
+              k: "_e",
+              t: "État",
+              f: function (r) {
+                return statutBadge(r._e);
+              },
+            },
+            { k: "_n", t: "Élèves", num: true },
+            { k: "_a", t: "Évalués avant", num: true },
+            { k: "_b", t: "Évalués après", num: true },
+          ],
+          rowAct: "choisir",
+          actions: function (r) {
+            return UI.btn(icon("clip") + " Évaluer les élèves", "choisir", r._n ? "ghost sm" : "sm", ' data-id="' + attr(r.id) + '"');
+          },
+          empty: "Aucune formation enregistrée. Enregistrez d'abord une formation, puis évaluez ses élèves ici.",
+        })
+      );
+    }
+    var src = OEV.src(key),
+      crits = OEV.crits(key),
+      els = OEV.eleves(key);
+    var A = els.map(function (r) {
+        return OEV.phaseRes(r, "avant", crits);
+      }),
+      B = els.map(function (r) {
+        return OEV.phaseRes(r, "apres", crits);
+      });
+    var moy = function (L) {
+      var v = L.filter(function (x) {
+        return x.pct !== null;
+      });
+      return v.length
+        ? sum(v, function (x) {
+            return x.pct;
+          }) / v.length
+        : null;
+    };
+    var ma = moy(A),
+      mb = moy(B),
+      dm = OEV.prog(ma, mb);
+    var deja = {};
+    els.forEach(function (r) {
+      if (r.apprenant) deja[r.apprenant] = true;
+    });
+    var aReprendre = OEV.etudiants(key).filter(function (a) {
+      return !deja[a.id];
+    }).length;
+    var g = OEV.grille(key),
+      nbCrit = crits.length;
+    var rows2 = els.map(function (r, i) {
+      var a = A[i],
+        b = B[i];
+      return {
+        id: r.id,
+        _nom: OEV.nomComplet(r),
+        nom: r.nom || "",
+        _a: a.pct,
+        _b: b.pct,
+        _d: OEV.prog(a.pct, b.pct),
+        _m: OEV.mention(b.pct),
+        _v: OEV.avisDe(r, crits),
+        _ra: !!r.avant,
+        _rb: !!r.apres,
+        _da: r.avant ? r.avant.date : "",
+        _db: r.apres ? r.apres.date : "",
+      };
+    });
+    return (
+      OEV.css() +
+      head +
+      sel +
+      '<section class="card pad"><div class="row between wrap"><div><h2 style="margin:0">' +
+      esc(src.intitule || "") +
+      '</h2><p class="muted" style="margin:2px 0 0">' +
+      (src.debut ? "du " + fmtDate(src.debut) + " au " + fmtDate(src.fin) : "") +
+      (src.lieu ? " — " + esc(src.lieu) : "") +
+      (OEV.formateurNom(src) ? " — formateur : " + esc(OEV.formateurNom(src)) : "") +
+      " — " +
+      plural(nbCrit, "critère") +
+      (g.off || g.perso ? " (grille adaptée)" : "") +
+      '</p></div><div class="row wrap">' +
+      (ed && aReprendre ? UI.btn(icon("users") + " Reprendre les étudiants (" + aReprendre + ")", "reprendre", "ghost sm", ' data-id="' + attr(key) + '" data-needs-net') : "") +
+      (ed ? UI.btn(icon("gear") + " Critères de la grille", "grille", "ghost sm", ' data-id="' + attr(key) + '"') : "") +
+      UI.btn(icon("print") + " Grille vierge", "grilleVierge", "ghost sm", ' data-id="' + attr(key) + '"') +
+      (els.length ? UI.btn(icon("print") + " Résultats de la classe", "resultats", "ghost sm", ' data-id="' + attr(key) + '"') : "") +
+      (els.length ? UI.btn(icon("print") + " Toutes les fiches", "fiches", "ghost sm", ' data-id="' + attr(key) + '"') : "") +
+      "</div></div></section>" +
+      tiles([
+        { t: "Élèves", v: els.length, s: plural(A.filter(function (x) { return x.n; }).length, "évalué") + " avant, " + B.filter(function (x) { return x.n; }).length + " après" },
+        { t: "Moyenne avant", v: OEV.pct(ma), s: OEV.s20(ma) },
+        { t: "Moyenne après", v: OEV.pct(mb), s: OEV.s20(mb) },
+        { t: "Progression moyenne", v: OEV.progTxt(dm), tone: dm !== null && dm > 0 ? "ok" : "" },
+        {
+          t: "Compétents",
+          v: rows2.filter(function (r) {
+            return r._v === "competent";
+          }).length,
+          s:
+            rows2.filter(function (r) {
+              return r._v === "renforcer";
+            }).length + " à renforcer",
+        },
+      ]) +
+      (A.some(function (x) {
+        return x.n;
+      }) ||
+      B.some(function (x) {
+        return x.n;
+      })
+        ? '<section class="card pad"><h3 style="margin-top:0">Résultats par étape du tissage (moyenne de la classe, niveau sur 4)</h3>' + OEV.barres(crits, A, B) + "</section>"
+        : "") +
+      UI.table({
+        id: "ev-eleves",
+        rows: rows2,
+        sort: "nom",
+        text: function (r) {
+          return r._nom;
+        },
+        cols: [
+          {
+            k: "nom",
+            t: "Élève",
+            f: function (r) {
+              return "<strong>" + esc(r._nom) + "</strong>";
+            },
+          },
+          {
+            k: "_a",
+            t: "Avant",
+            num: true,
+            f: function (r) {
+              return r._ra ? "<strong>" + OEV.pct(r._a) + '</strong><br><small class="muted">' + OEV.s20(r._a) + " — " + fmtDate(r._da) + "</small>" : '<span class="muted">à évaluer</span>';
+            },
+          },
+          {
+            k: "_b",
+            t: "Après",
+            num: true,
+            f: function (r) {
+              return r._rb ? "<strong>" + OEV.pct(r._b) + '</strong><br><small class="muted">' + OEV.s20(r._b) + " — " + fmtDate(r._db) + "</small>" : '<span class="muted">à évaluer</span>';
+            },
+          },
+          {
+            k: "_d",
+            t: "Progression",
+            num: true,
+            f: function (r) {
+              return r._d === null ? "" : '<span class="' + (r._d > 0 ? "ev-up" : r._d < 0 ? "ev-down" : "") + '">' + OEV.progTxt(r._d) + "</span>";
+            },
+          },
+          { k: "_m", t: "Mention" },
+          {
+            k: "_v",
+            t: "Avis final",
+            f: function (r) {
+              return OEV.avisBadge(r._v);
+            },
+          },
+        ],
+        rowAct: "fiche",
+        actions: function (r) {
+          var a = ' data-id="' + attr(r.id) + '"';
+          return ed
+            ? UI.btn("Avant", "avant", r._ra ? "ghost sm" : "sm", a) + " " + UI.btn("Après", "apres", r._rb || !r._ra ? "ghost sm" : "sm", a)
+            : UI.btn(icon("eye") + " Voir", "fiche", "ghost sm", a);
+        },
+        empty: ed
+          ? "Aucun élève pour le moment : « Évaluer un élève » (nom et prénom), ou « Reprendre les étudiants » de la formation."
+          : "Aucun élève évalué pour cette formation.",
+      })
+    );
+  },
+  acts: {
+    src: function (v) {
+      ptState("formation").evSrc = v || "";
+      App.render(true);
+    },
+    choisir: function (id) {
+      ptState("formation").evSrc = id || "";
+      App.render(true);
+    },
+    evaluer: function (key) {
+      OEV.evaluer(key, null, "avant");
+    },
+    avant: function (id) {
+      OEV.evaluer(null, id, "avant");
+    },
+    apres: function (id) {
+      OEV.evaluer(null, id, "apres");
+    },
+    fiche: function (id) {
+      OEV.fiche(id);
+    },
+    reprendre: function (key, b) {
+      OEV.reprendre(key, b);
+    },
+    grille: function (key) {
+      OEV.editerGrille(key);
+    },
+    grilleVierge: function (key) {
+      OEV.imprimerGrille(key);
+    },
+    resultats: function (key) {
+      OEV.imprimerResultats(key);
+    },
+    fiches: function (key) {
+      OEV.imprimerFiches(key);
     },
   },
 });
