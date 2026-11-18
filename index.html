@@ -914,7 +914,7 @@ p.note { display: block; }
 <div id="modals"></div>
 <div id="toasts" aria-live="polite"></div>
 <noscript><p style="padding:20px">AGAT a besoin de JavaScript pour fonctionner.</p></noscript>
-<script>"use strict";var NERP=window.NERP=window.NERP||{};var APP={nom:"AGAT",long:"Application de gestion des ateliers de tissage"};NERP.version="1.0.0";NERP.build="20261118-1230";function $(s,el){return(el||document).querySelector(s)}function $$(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))}function esc(v){if(v===null||v===undefined)return"";return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function attr(v){return esc(v)}var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}},json:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},setJson:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};function parseNum(v){if(v===null||v===undefined||v==="")return NaN;if(typeof v==="number")return v;var s=String(v).replace(/\s| | /g,"").replace(",",".");if(!/^-?\d*\.?\d+$/.test(s)&&!/^-?\d+\.?$/.test(s))return NaN;return parseFloat(s)}function toQ(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n*1e3)}function fromQ(q){return(Number(q)||0)/1e3}function toMoney(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n)}function grp(intStr){return intStr.replace(/\B(?=(\d{3})+(?!\d))/g," ")}function fmtN(n,dec){n=Number(n)||0;dec=dec===undefined?0:dec;var neg=n<0;n=Math.abs(n);var s=n.toFixed(dec);var p=s.split(".");var out=grp(p[0]);if(dec>0){var d=p[1].replace(/0+$/,"");if(d)out+=","+d}return(neg?"−":"")+out}function fmtGNF(n){return fmtN(Math.round(Number(n)||0))+" GNF"}function fmtMoney(n){return fmtN(Math.round(Number(n)||0))}function fmtQ(q,unite){var s=fmtN(fromQ(q),3);return unite?s+" "+unite:s}function enLettres(n){n=Math.round(Math.abs(Number(n)||0));if(!n)return"zéro"
+<script>"use strict";var NERP=window.NERP=window.NERP||{};var APP={nom:"AGAT",long:"Application de gestion des ateliers de tissage"};NERP.version="1.0.0";NERP.build="20261118-1300";function $(s,el){return(el||document).querySelector(s)}function $$(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))}function esc(v){if(v===null||v===undefined)return"";return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function attr(v){return esc(v)}var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}},json:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},setJson:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};function parseNum(v){if(v===null||v===undefined||v==="")return NaN;if(typeof v==="number")return v;var s=String(v).replace(/\s| | /g,"").replace(",",".");if(!/^-?\d*\.?\d+$/.test(s)&&!/^-?\d+\.?$/.test(s))return NaN;return parseFloat(s)}function toQ(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n*1e3)}function fromQ(q){return(Number(q)||0)/1e3}function toMoney(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n)}function grp(intStr){return intStr.replace(/\B(?=(\d{3})+(?!\d))/g," ")}function fmtN(n,dec){n=Number(n)||0;dec=dec===undefined?0:dec;var neg=n<0;n=Math.abs(n);var s=n.toFixed(dec);var p=s.split(".");var out=grp(p[0]);if(dec>0){var d=p[1].replace(/0+$/,"");if(d)out+=","+d}return(neg?"−":"")+out}function fmtGNF(n){return fmtN(Math.round(Number(n)||0))+" GNF"}function fmtMoney(n){return fmtN(Math.round(Number(n)||0))}function fmtQ(q,unite){var s=fmtN(fromQ(q),3);return unite?s+" "+unite:s}function enLettres(n){n=Math.round(Math.abs(Number(n)||0));if(!n)return"zéro"
 ;var U=["","un","deux","trois","quatre","cinq","six","sept","huit","neuf","dix","onze","douze","treize","quatorze","quinze","seize","dix-sept","dix-huit","dix-neuf"];var D=["","dix","vingt","trente","quarante","cinquante","soixante","soixante","quatre-vingt","quatre-vingt"];var deux=function(x,fin){if(x<20)return U[x];var d=Math.floor(x/10),u=x%10;if(d===7||d===9){var r=x-(d===7?60:80);return D[d]+(d===7&&r===11?" et ":"-")+U[r]}if(!u)return d===8?fin?"quatre-vingts":"quatre-vingt":D[d];if(u===1&&d!==8)return D[d]+" et un";return D[d]+"-"+U[u]};var trois=function(x,fin){var c=Math.floor(x/100),r=x%100,s="";if(c)s=(c>1?U[c]+" ":"")+"cent"+(c>1&&!r&&fin?"s":"");if(r)s+=(s?" ":"")+deux(r,fin);return s};var mds=Math.floor(n/1e9),mns=Math.floor(n%1e9/1e6),mls=Math.floor(n%1e6/1e3),r=n%1e3,out=[];if(mds)out.push(trois(mds,true)+" milliard"+(mds>1?"s":""));if(mns)out.push(trois(mns,true)+" million"+(mns>1?"s":""));if(mls)out.push(mls===1?"mille":trois(mls,false)+" mille");if(r)out.push(trois(r,true));return out.join(" ")}function majuscule(s){s=String(s||"");return s.charAt(0).toUpperCase()+s.slice(1)}function fmtPct(x,dec){if(!isFinite(x))return"—";return fmtN(x*100,dec===undefined?1:dec)+" %"}function qInput(q){return q===null||q===undefined||q===""?"":String(fromQ(q)).replace(".",",")}function pad2(n){return(n<10?"0":"")+n}function isoDate(d){d=d||new Date;return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate())}function today(){return isoDate(new Date)}function monthOf(iso){return String(iso||"").slice(0,7)}function yearOf(iso){return String(iso||"").slice(0,4)}function addDays(iso,n){var d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);return isoDate(d)}function daysBetween(a,b){return Math.round((new Date(b+"T12:00:00")-new Date(a+"T12:00:00"))/864e5)}function fmtDate(iso){if(!iso)return"—";if(typeof iso==="number")return new Date(iso).toLocaleDateString("fr-FR");var p=String(iso).slice(0,10).split("-")
 ;return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:esc(iso)}function fmtDateTime(ts){if(!ts)return"—";var d=new Date(ts);return d.toLocaleDateString("fr-FR")+" "+pad2(d.getHours())+":"+pad2(d.getMinutes())}var MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];function fmtMois(ym){var p=String(ym).split("-");return MOIS[Number(p[1])-1]+" "+p[0]}function startOfMonth(iso){return monthOf(iso||today())+"-01"}function startOfYear(iso){return yearOf(iso||today())+"-01-01"}function debounce(fn,ms){var t;return function(){var a=arguments,c=this;clearTimeout(t);t=setTimeout((function(){fn.apply(c,a)}),ms)}}function vals(obj){return obj?Object.keys(obj).map((function(k){var v=obj[k];if(v&&typeof v==="object"&&!v.id)v.id=k;return v})):[]}function byKey(k,dir){dir=dir||1;return function(a,b){var x=a[k],y=b[k];if(x===y)return 0;if(x===undefined||x===null)return 1;if(y===undefined||y===null)return-1;return(x>y?1:-1)*dir}}function sum(arr,f){var s=0;(arr||[]).forEach((function(x){s+=Number(f?f(x):x)||0}));return s}function groupBy(arr,f){var o={};(arr||[]).forEach((function(x){var k=f(x);(o[k]=o[k]||[]).push(x)}));return o}function clone(o){return o===undefined?undefined:JSON.parse(JSON.stringify(o))}function norm(s){s=String(s||"").toLowerCase();try{s=s.normalize("NFD").replace(/[̀-ͯ]/g,"")}catch(e){}return s}function normIdent(t){return norm(t).trim().replace(/\s+/g,".").replace(/[^a-z0-9._-]/g,"").slice(0,30)}function randomCode(n){var c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",r="";var a=new Uint32Array(n);(window.crypto||{}).getRandomValues?crypto.getRandomValues(a):a.forEach((function(_,i){a[i]=Math.random()*1e9}));for(var i=0;i<n;i++)r+=c[a[i]%c.length];return r}function strip(o){var r={};Object.keys(o||{}).forEach((function(k){if(k!=="id"&&k.charAt(0)!=="_")r[k]=o[k]}));return r}function initials(n){var p=String(n||"?").trim().split(/\s+/);return((p[0]||"?")[0]+(p[1]?p[1][0]:"")).toUpperCase()}function plural(n,s,p){
 return n+" "+(Math.abs(n)>1?p||s+"s":s)}var Bus={h:{},on:function(e,f){(this.h[e]=this.h[e]||[]).push(f)},emit:function(e,d){(this.h[e]||[]).forEach((function(f){try{f(d)}catch(x){console.error("[NERP]",e,x)}}))}};var S={tid:null,code:null,user:null,member:null,role:null,tenant:null,info:{},params:{},roles:{},members:{},blocs:{},bloc:"A",mode:"gestion",d:{},loaded:{},online:true,admin:false};var MODULES=[{k:"tableau",n:"Tableau de bord"},{k:"tissage",n:"Tissage (matières premières)"},{k:"distributeur",n:"Distributeur (fils remis aux tisserands)"},{k:"achats",n:"Achats"},{k:"stock",n:"Stock"},{k:"teinture",n:"Teinture"},{k:"production",n:"Production"},{k:"qualite",n:"Qualité"},{k:"ouvriers",n:"Ouvriers et déclarations"},{k:"paie",n:"Paie des ouvriers"},{k:"ventes",n:"Ventes"},{k:"boutique",n:"Boutique (stock et caisse)"},{k:"formation",n:"Formation"},{k:"catalogue",n:"Catalogue des modèles"},{k:"finances",n:"Finances"},{k:"rapports",n:"Rapports"},{k:"parametres",n:"Paramètres"},{k:"utilisateurs",n:"Utilisateurs et rôles"},{k:"admin",n:"Audit et validations"}];var ACTIONS=[{k:"consulter",n:"Consulter"},{k:"creer",n:"Créer"},{k:"modifier",n:"Modifier"},{k:"supprimer",n:"Supprimer"},{k:"valider",n:"Valider"},{k:"annuler",n:"Annuler"},{k:"exporter",n:"Exporter"},{k:"livrer",n:"Livrer",only:["ventes"]}];var WRITE_ACTIONS=["creer","modifier","supprimer","valider","annuler","livrer"];function actionFor(mod,a){return!a.only||a.only.indexOf(mod)>=0}var BLOC_IDS=["A","B","C","D","E","F","G","H","I","J"];var BLOCS_INCLUS=3;var EMPLACEMENTS_DEFAUT=[{id:"MAG-MP",nom:"Magasin des matières",type:"matieres",dispo:true,ordre:1},{id:"ENC-TEI",nom:"Encours teinture",type:"encours",dispo:false,ordre:2},{id:"QUAR",nom:"Quarantaine (à contrôler)",type:"quarantaine",dispo:false,ordre:3},{id:"MAG-FT",nom:"Magasin des fils teints",type:"fils_teints",dispo:true,ordre:4},{id:"ENC-PROD",nom:"Encours métiers",type:"encours",dispo:false,ordre:5},{id:"PF",nom:"Produits finis",
@@ -1721,7 +1721,7 @@ conclusion:"La formation « "+(reg.intitule||"")+" » s'est déroulée "+(aLieu?
 return'@import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@500;600;700&display=swap");'+"@page{size:A4 portrait;margin:0}:root{--fs:10.5pt;--ph:50mm;--sp:1;--p:"+pal.p+";--d:"+pal.d+";--s:"+pal.s+";--l:"+pal.l+"}"+"*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}html,body{margin:0;background:#e9ebf1}"+'body{font-family:"Source Serif 4",Georgia,"Times New Roman",serif;color:#1b2238;font-size:var(--fs);line-height:1.42}'+'.barre{position:sticky;top:0;z-index:9;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 16px;background:#141b3d;color:#fff;font:14px "IBM Plex Sans",Arial,sans-serif}.barre button{font:inherit;font-weight:600;border:0;border-radius:8px;padding:9px 16px;background:#c9932e;color:#141b3d;cursor:pointer}.barre .warn{color:#ffb4b4}'+"#src{display:none}.page{width:210mm;height:297mm;margin:14px auto;background:#fff;position:relative;overflow:hidden;box-shadow:0 2px 14px rgba(20,27,61,.18);padding:17mm 18mm 0}"+".page.first{padding-top:12mm}.content{height:calc(297mm - 17mm - 19mm);overflow:hidden}.page.first .content{height:calc(297mm - 12mm - 19mm)}"+'.hdr{position:absolute;top:8mm;left:18mm;right:18mm;font:8pt "IBM Plex Sans",Arial,sans-serif;color:#6b7390;text-align:center;border-bottom:.3mm solid #c9cedb;padding-bottom:1.6mm;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'+'.ftr{position:absolute;bottom:8mm;left:18mm;right:18mm;font:8pt "IBM Plex Sans",Arial,sans-serif;color:#6b7390;text-align:center;border-top:.3mm solid #c9cedb;padding-top:1.6mm}'+".cv-rep{text-align:center;font-weight:700;letter-spacing:.06em;font-size:calc(var(--fs) + .5pt)}.cv-rep i{display:block;font-weight:400;letter-spacing:0;font-size:calc(var(--fs) - .5pt)}"+".cv-logos{display:flex;margin:calc(4mm * var(--sp)) 0;height:calc(34mm + 6mm * var(--sp));border:.3mm solid #c9cedb}.cv-logos div{flex:1;display:flex;align-items:center;justify-content:center;padding:3mm}.cv-logos div+div{border-left:.3mm solid #c9cedb;background:var(--l)}.cv-logos img{max-width:100%;max-height:100%;object-fit:contain}"+".cv-logos.seul div{background:linear-gradient(90deg,#fff,var(--l),#fff)}"+".cv-titre{text-align:center;font-weight:700;font-size:calc(var(--fs) * 2.05);letter-spacing:.04em;color:var(--d);margin-top:calc(3mm * var(--sp))}"+'.cv-sous{text-align:center;font:700 calc(var(--fs) * 1.18) "IBM Plex Sans",Arial,sans-serif;letter-spacing:.02em;color:var(--p);text-transform:uppercase;margin:1mm 6mm 0}'+".cv-acc{text-align:center;font-style:italic;border-top:.4mm solid var(--p);border-bottom:.4mm solid var(--p);padding:1.2mm 0;margin:calc(2.5mm * var(--sp)) 0 calc(4mm * var(--sp))}"+"table{border-collapse:collapse;width:100%}.kv{margin:0}.kv th,.kv td{border:.3mm solid #9aa2b8;padding:1.1mm 2.2mm;vertical-align:top;text-align:left;font-size:calc(var(--fs) - .4pt)}.kv th{width:34%;background:var(--l);font-weight:700}.kv+.kv th,.kv+.kv td{border-top:0}"+'.sec{font:700 calc(var(--fs) + 2pt) "IBM Plex Sans",Arial,sans-serif;color:var(--d);text-transform:uppercase;border-bottom:.45mm solid var(--p);padding-bottom:.8mm;margin:calc(5mm * var(--sp)) 0 calc(2mm * var(--sp))}'+'.sub{font:700 calc(var(--fs) + .4pt) "IBM Plex Sans",Arial,sans-serif;color:var(--p);margin:calc(3mm * var(--sp)) 0 calc(1.2mm * var(--sp))}'+".p{margin:0 0 calc(2mm * var(--sp));text-align:justify;hyphens:auto}.p.coupe{margin-bottom:0;text-align-last:justify}.p.suite{margin-top:0}"+'.li{padding-left:5mm;text-indent:-3.2mm;margin:0 0 calc(.6mm * var(--sp));text-align:justify}.li:before{content:"•";color:var(--s);font-weight:700;display:inline-block;width:3.2mm;text-indent:0}'+'.flux{text-align:center;font:700 calc(var(--fs) - .6pt) "IBM Plex Sans",Arial,sans-serif;letter-spacing:.02em;color:var(--d);margin:calc(1.5mm * var(--sp)) 0 calc(2.5mm * var(--sp))}'+'.et th,.et td{border:.3mm solid #9aa2b8;padding:1mm 2mm;font-size:calc(var(--fs) - .5pt)}.et th{background:var(--d);color:#fff;font-family:"IBM Plex Sans",Arial,sans-serif}.et td:first-child,.et th:first-child{width:14mm;text-align:center}.et+.et th,.et+.et td{border-top:0}'+".note{font-style:italic;font-size:calc(var(--fs) - 1.2pt);color:#4a536b;margin:1mm 0 calc(2mm * var(--sp))}"+".photos{display:flex;gap:2.5mm;justify-content:center;margin:calc(1.5mm * var(--sp)) 0 calc(3mm * var(--sp))}.photos figure{margin:0;flex:0 0 calc((100% - 5mm) / 3)}"+".photos img{display:block;width:100%;height:var(--ph);object-fit:cover;border:.3mm solid #c9cedb}.photos figcaption{font-style:italic;font-size:calc(var(--fs) - 1.8pt);color:#4a536b;text-align:center;margin-top:.8mm}"+".sign{margin-top:calc(5mm * var(--sp));text-align:right}.sign b{display:block;margin-top:2mm}.sign i{display:block;font-size:calc(var(--fs) - 1pt);color:#4a536b}.sign .visa{position:relative;display:block;height:24mm;width:80mm;margin:1mm 0 0 auto}.sign .visa .sgi{position:absolute;right:4mm;bottom:2mm;height:17mm;max-width:62mm;object-fit:contain}.sign .visa .cci{position:absolute;right:36mm;bottom:-1mm;height:25mm;object-fit:contain;transform:rotate(-9deg);opacity:.92;mix-blend-mode:multiply}"+"@media print{html,body{background:#fff}.barre{display:none}.page{margin:0;box-shadow:none;break-after:page}.page:last-child{break-after:auto}}"
 },ROM:["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"],blocs:function(v,phases,photos,logo,regId){var h=[],n=0,P=function(t){lignesBrutes(t).forEach((function(x){h.push('<p class="p">'+esc(x)+"</p>")}))};var lignesBrutes=function(t){return String(t||"").split(/\n+/).map((function(x){return x.trim()})).filter(Boolean)};var L=function(t){lignesDe(t).forEach((function(x){h.push('<div class="li">'+esc(x)+"</div>")}))};var SEC=function(t){h.push('<h2 class="sec keep">'+RapF.ROM[n++]+". "+esc(t)+"</h2>")};var SUB=function(t){h.push('<h3 class="sub keep">'+esc(t)+"</h3>")};var KV=function(k,val){if(val)h.push('<table class="kv"><tr><th>'+esc(k)+"</th><td>"+esc(val)+"</td></tr></table>")};var PH=function(sec){var ps=(photos||[]).filter((function(p){return(p.sec||"ann")===sec}));for(var i=0;i<ps.length;i+=3){var g=ps.slice(i,i+3);h.push('<div class="photos n'+g.length+'">'+g.map((function(p){return'<figure><img src="'+attr(p.img)+'" alt=""><figcaption>'+(p.leg?"Photo : "+esc(p.leg):"")+"</figcaption></figure>"})).join("")+"</div>")}};if(v.pays||v.devise)h.push('<div class="cv-rep">'+esc(v.pays||"")+(v.devise?"<i>"+esc(v.devise)+"</i>":"")+"</div>");h.push(v.logoPartenaire?'<div class="cv-logos"><div><img src="'+attr(logo)+'" alt=""></div><div><img src="'+attr(v.logoPartenaire)+'" alt=""></div></div>':'<div class="cv-logos seul"><div><img src="'+attr(logo)+'" alt=""></div></div>');h.push('<div class="cv-titre keep">'+esc(v.titre||"RAPPORT DE FORMATION")+"</div>");h.push('<div class="cv-sous keep">'+esc(v.sousTitre||"")+"</div>");if(v.accroche)h.push('<div class="cv-acc keep">'+esc(v.accroche)+"</div>");KV("Organisme de formation",v.organisme);KV("Formateur",v.formateurTxt);KV("Durée",v.duree);KV("Période",v.periode);KV("Lieu",v.lieu);KV("Cadre de référence",v.cadre);KV("Destinataire",v.destinataire);if(v.intro){SEC("Introduction");P(v.intro)}if(v.contexte){SEC("Contexte et justification");P(v.contexte)}SEC("Présentation de la formation");KV("Intitulé",v.sousTitre)
 ;KV("Organisme de formation",v.organisme);KV("Formateur",v.formateurTxt);KV("Lieu",v.lieu);KV("Durée effectivement réalisée",[v.duree,v.periode].filter(Boolean).join(" — "));if(v.dureePrevue||v.periodePrevue)KV("Durée prévue",[v.dureePrevue,v.periodePrevue].filter(Boolean).join(" — "));KV("Public bénéficiaire",v.public);var eff=[];if(v.inscrits)eff.push(plural(Number(v.inscrits),"inscrit"));if(v.formes)eff.push(plural(Number(v.formes),"participant","participants")+" ayant terminé");if(v.femmes||v.hommes)eff.push(plural(Number(v.femmes)||0,"femme")+", "+plural(Number(v.hommes)||0,"homme"));KV("Effectif",eff.join(" — "));KV("Cadre institutionnel",v.cadreInst);KV("Financement",v.financement);if(v.observation){SUB("Observation relative à la durée");P(v.observation)}if(v.objectifGeneral||v.objectifsSpec){SEC("Objectifs de la formation");if(v.objectifGeneral){SUB(n+".1. Objectif général");P(v.objectifGeneral)}if(v.objectifsSpec){SUB(n+".2. Objectifs spécifiques");h.push('<p class="p">La formation visait à rendre les participants capables de :</p>');L(v.objectifsSpec)}if(v.objectifsPlus)P(v.objectifsPlus)}var ets=lignesDe(v.etapes);if(ets.length||phases.some((function(p){return p.titre||p.texte}))){SEC("Déroulement et contenu de la formation");h.push('<p class="p">La formation a été conduite selon une progression logique, de la préparation de la matière première jusqu\'à la réalisation des articles finis :</p>');if(v.progression)h.push('<div class="flux">'+esc(v.progression)+"</div>");if(ets.length){h.push('<table class="et keep"><tr><th>Étape</th><th>Contenu pratique</th></tr></table>');ets.forEach((function(e,i){h.push('<table class="et"><tr><td>'+(i+1)+"</td><td>"+esc(e)+"</td></tr></table>")}));h.push('<p class="note">Le tableau présente la progression pédagogique par grandes étapes ; il ne correspond pas à un découpage hebdomadaire strict.</p>')}var num=n;phases.forEach((function(ph,i){if(!ph.titre&&!ph.texte){PH("p"+i);return}
-SUB(num+"."+(i+1)+". Phase "+(i+1)+(ph.titre?" : "+ph.titre.charAt(0).toLowerCase()+ph.titre.slice(1):""));P(ph.texte);PH("p"+i)}))}if(v.methodoTexte||v.methodologie){SEC("Méthodologie");P(v.methodoTexte);L(v.methodologie)}if(v.resultats||v.resultatsTexte){SEC("Résultats et productions réalisées");if(v.resultats){h.push('<p class="p">À l\'issue de la formation, les participants sont en mesure de :</p>');L(v.resultats)}P(v.resultatsTexte)}var EVR=regId&&typeof OEV!=="undefined"?OEV.rapport(regId):null;if(EVR){h.push(EVR.css);SEC(EVR.titre);EVR.blocs(n).forEach(function(x){h.push(x)})}if(v.difficultes){SEC("Difficultés et enseignements");P(v.difficultes)}if(v.recommandations){SEC("Recommandations");L(v.recommandations)}if(v.conclusion){SEC("Conclusion");P(v.conclusion)}h.push('<div class="sign">Fait à '+esc(v.villeSignature||"……………")+", le "+(v.dateRapport?esc(dateLongue(v.dateRapport)):"……………………")+"<b>"+esc(v.signataire||"")+"</b>"+Sig.visa("rapports")+"<i>(Signature et cachet)</i></div>");if((photos||[]).some((function(p){return(p.sec||"ann")==="ann"||!/^p\d+$/.test(p.sec)||Number(p.sec.slice(1))>=phases.length}))){h.push('<h2 class="sec keep">Annexes photographiques</h2>');PH("ann");var orph=(photos||[]).filter((function(p){return/^p\d+$/.test(p.sec||"")&&Number(p.sec.slice(1))>=phases.length}));if(orph.length){var keep=photos;photos=orph.map((function(p){return Object.assign({},p,{sec:"x"})}));PH("x");photos=keep}}return h.join("\n")},paginer:function(opts){var src=document.getElementById("src"),out=document.getElementById("pages"),info=document.getElementById("pinfo");var polices=[[11,1],[10.5,.9],[10,.8],[9.6,.72],[9.2,.64],[8.8,.56],[8.4,.5]],hauteurs=[56,48,41,35,30,26];var blocs=Array.prototype.slice.call(src.children);var page=function(n){var pg=document.createElement("section");pg.className="page"+(n===0?" first":"");pg.innerHTML=(n?'<div class="hdr"></div>':"")+'<div class="content"></div><div class="ftr"></div>';if(n)pg.querySelector(".hdr").textContent=opts.entete;out.appendChild(pg);return pg.querySelector(".content")};var deborde=function(c){return c.scrollHeight>c.clientHeight}
+SUB(num+"."+(i+1)+". Phase "+(i+1)+(ph.titre?" : "+ph.titre.charAt(0).toLowerCase()+ph.titre.slice(1):""));P(ph.texte);PH("p"+i)}))}if(v.methodoTexte||v.methodologie){SEC("Méthodologie");P(v.methodoTexte);L(v.methodologie)}if(v.resultats||v.resultatsTexte){SEC("Résultats et productions réalisées");if(v.resultats){h.push('<p class="p">À l\'issue de la formation, les participants sont en mesure de :</p>');L(v.resultats)}P(v.resultatsTexte)}var EVR=regId&&typeof OEV!=="undefined"?OEV.rapport(regId,v):null;if(EVR){h.push(EVR.css);SEC(EVR.titre);EVR.blocs(n).forEach(function(x){h.push(x)})}if(v.difficultes){SEC("Difficultés et enseignements");P(v.difficultes)}if(v.recommandations){SEC("Recommandations");L(v.recommandations)}if(v.conclusion){SEC("Conclusion");P(v.conclusion)}h.push('<div class="sign">Fait à '+esc(v.villeSignature||"……………")+", le "+(v.dateRapport?esc(dateLongue(v.dateRapport)):"……………………")+"<b>"+esc(v.signataire||"")+"</b>"+Sig.visa("rapports")+"<i>(Signature et cachet)</i></div>");if((photos||[]).some((function(p){return(p.sec||"ann")==="ann"||!/^p\d+$/.test(p.sec)||Number(p.sec.slice(1))>=phases.length}))){h.push('<h2 class="sec keep">Annexes photographiques</h2>');PH("ann");var orph=(photos||[]).filter((function(p){return/^p\d+$/.test(p.sec||"")&&Number(p.sec.slice(1))>=phases.length}));if(orph.length){var keep=photos;photos=orph.map((function(p){return Object.assign({},p,{sec:"x"})}));PH("x");photos=keep}}return h.join("\n")},paginer:function(opts){var src=document.getElementById("src"),out=document.getElementById("pages"),info=document.getElementById("pinfo");var polices=[[11,1],[10.5,.9],[10,.8],[9.6,.72],[9.2,.64],[8.8,.56],[8.4,.5]],hauteurs=[56,48,41,35,30,26];var blocs=Array.prototype.slice.call(src.children);var page=function(n){var pg=document.createElement("section");pg.className="page"+(n===0?" first":"");pg.innerHTML=(n?'<div class="hdr"></div>':"")+'<div class="content"></div><div class="ftr"></div>';if(n)pg.querySelector(".hdr").textContent=opts.entete;out.appendChild(pg);return pg.querySelector(".content")};var deborde=function(c){return c.scrollHeight>c.clientHeight}
 ;var couper=function(c,el){var mots=el.textContent.split(" "),lo=0,hi=mots.length-1,essai=el.cloneNode(false);c.appendChild(essai);while(lo<hi){var mid=Math.ceil((lo+hi)/2);essai.textContent=mots.slice(0,mid).join(" ");if(deborde(c))hi=mid-1;else lo=mid}if(lo<4){c.removeChild(essai);return null}essai.textContent=mots.slice(0,lo).join(" ");essai.classList.add("coupe");var reste=el.cloneNode(false);reste.classList.remove("coupe");reste.classList.add("suite");reste.textContent=mots.slice(lo).join(" ");return reste};var mettre=function(niv){var r=document.documentElement.style;r.setProperty("--fs",niv[0]+"pt");r.setProperty("--ph",niv[1]+"mm");r.setProperty("--sp",String(niv[2]));cur=niv;out.innerHTML="";var n=0,c=page(n),i,el,garde;for(i=0;i<blocs.length;i++){el=blocs[i].cloneNode(true);c.appendChild(el);if(!deborde(c))continue;c.removeChild(el);if(el.classList.contains("p")){var reste=couper(c,el);if(!reste){if(!c.children.length){c.appendChild(el);continue}garde=[];while(c.lastElementChild&&c.lastElementChild.classList.contains("keep"))garde.unshift(c.removeChild(c.lastElementChild));if(!c.children.length){garde.forEach((function(g){c.appendChild(g)}));c.appendChild(el);continue}n++;c=page(n);garde.forEach((function(g){c.appendChild(g)}));c.appendChild(el);if(deborde(c)){c.removeChild(el);var r2=couper(c,el);if(r2){n++;c=page(n);c.appendChild(r2)}else c.appendChild(el)}continue}n++;c=page(n);c.appendChild(reste);var garde2=0;while(deborde(c)&&garde2++<6){c.removeChild(reste);var r3=couper(c,reste);if(!r3){c.appendChild(reste);break}n++;c=page(n);c.appendChild(r3);reste=r3}continue}garde=[];while(c.lastElementChild&&c.lastElementChild.classList.contains("keep"))garde.unshift(c.removeChild(c.lastElementChild));if(!c.children.length){garde.forEach((function(g){c.appendChild(g)}));c.appendChild(el);continue}n++;c=page(n);garde.forEach((function(g){c.appendChild(g)}));c.appendChild(el)}var pages=out.querySelectorAll(".page")
 ;for(var k=0;k<pages.length;k++)pages[k].querySelector(".ftr").textContent=opts.pied+"  |  Page "+(k+1)+" sur "+pages.length;return pages.length};var cur=null,avecPhotos=!!src.querySelector(".photos");var essai=function(max,nPolices){for(var f=0;f<nPolices;f++){var hs=avecPhotos?hauteurs:[hauteurs[0]];for(var h=0;h<hs.length;h++){var nb=mettre([polices[f][0],hs[h],polices[f][1]]);if(nb<=max)return nb}}return null};var go=function(){var nb=null,bo=opts.bonus||0;if(opts.cible==="auto"){nb=essai(3+bo,4);if(nb===null)nb=essai(4+bo,polices.length)}else nb=essai((Number(opts.cible)||4)+bo,polices.length);var trop=nb===null;if(trop)nb=mettre([polices[polices.length-1][0],hauteurs[hauteurs.length-1],polices[polices.length-1][1]]);info.innerHTML="<strong>"+nb+" page"+(nb>1?"s":"")+"</strong> — texte "+String(cur[0]).replace(".",",")+" pt"+(avecPhotos?", photos de "+cur[1]+" mm":"")+(trop?' <span class="warn">— le contenu dépasse '+((opts.cible==="auto"?4:Number(opts.cible))+(opts.bonus||0))+" pages : raccourcissez les textes ou retirez des photos.</span>":"")};var imgs=Array.prototype.slice.call(src.querySelectorAll("img"));var attente=imgs.map((function(im){return new Promise((function(res){if(im.complete)res();else{im.onload=res;im.onerror=res}}))}));var fontes=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();Promise.all(attente.concat([fontes])).then((function(){setTimeout(go,60)}))},imprimer:function(id){var st=RapF.etat(id),reg=get("formation/registre",id)||{};return OEV.charger().then(function(){return RapF.chargerPhotos(id)}).then((function(photos){return Coul.atelier().then((function(pal){var v=st.v,logo=LogoGen.pourDocument(pal),info=S.info||{}
 ;var html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>'+esc((v.titre||"Rapport")+" — "+(v.sousTitre||reg.intitule||""))+"</title><style>"+RapF.css(pal)+"</style></head><body>"+'<div class="barre"><span><strong>'+esc(v.titre||"Rapport de formation")+'</strong> — <span id="pinfo">mise en page…</span></span><button type="button" onclick="window.print()">Imprimer ou enregistrer en PDF</button></div>'+'<div id="src">'+RapF.blocs(v,st.phases,photos||[],logo,id)+'</div><div id="pages"></div>'+"<script>("+RapF.paginer.toString()+")("+JSON.stringify({cible:v.pages||"auto",bonus:OEV.rapport(id)?1:0,entete:(v.titre?v.titre.charAt(0)+v.titre.slice(1).toLowerCase():"Rapport de formation")+" — "+(v.sousTitre||"")+" — "+(v.organisme||info.raisonSociale||""),pied:[v.lieu||info.ville||"",String(v.pays||"").toLowerCase().replace(/(^|[\s'’-])([a-zà-ÿ])/g,(function(m,a,c){return a+c.toUpperCase()})).replace(/ (De|Du|Des|La|Le|Les|Et) /g,(function(m){return m.toLowerCase()}))].filter(Boolean).join(" – ")}).replace(/</g,"\\u003c")+");<\/script></body></html>";var w=window.open("","_blank");if(!w){UI.toast("Le navigateur a bloqué la fenêtre d'impression. Autorisez les fenêtres pour ce site.","err");return}w.document.open();w.document.write(html);w.document.close()}))}))}};view("formation/rapports",{mod:"formation",title:"Rapports de formation",need:["formation/registre","formation/rapports","formation/apprenants","parametres/personnel"],render:function(){var rows=list("formation/registre",(function(r){return!r.archive&&r.statut!=="annulee"})).map((function(r){var d=get("formation/rapports",r.id);return Object.assign({},r,{_e:regEtat(r),_r:d||null,_rs:d?"ok":"non"})}));var faits=rows.filter((function(r){return r._r}))
@@ -2475,27 +2475,27 @@ var OEV_ETAPES = [
   ["attitudes", "Attitudes professionnelles (après la formation)", "Attitudes"],
 ];
 var OEV_CRIT = [
-  { id: "tei_bain", e: "teinture", n: "Préparer le bain de teinture", a: "Peser le colorant, doser l'eau, le sel ou le fixateur, chauffer à la bonne température." },
-  { id: "tei_fils", e: "teinture", n: "Teindre, rincer et sécher les écheveaux", a: "Couleur régulière, sans taches, bonne tenue au lavage." },
-  { id: "bob_fils", e: "bobinage", n: "Bobiner les fils", a: "Enroulement serré et régulier sur les bobines, sans casse ni nœuds inutiles." },
-  { id: "bob_canettes", e: "bobinage", n: "Remplir les canettes pour la trame", a: "Canettes bien formées qui se déroulent sans accroc dans la navette." },
-  { id: "eta_mesure", e: "etalonnage", n: "Étalonner la chaîne", a: "Mesurer la longueur et compter le nombre exact de fils de chaîne." },
-  { id: "eta_ordre", e: "etalonnage", n: "Garder l'ordre des fils (encroix) et préparer la chaîne", a: "Croisure conservée, fils ni mélangés ni emmêlés, chaîne prête au montage." },
-  { id: "mon_lisses", e: "montage", n: "Fabriquer les lisses", a: "Lisses de bonne longueur, régulières et solides." },
-  { id: "mon_rentrage", e: "montage", n: "Faire le rentrage dans les lisses", a: "Chaque fil passé dans la bonne lisse, selon le modèle." },
-  { id: "mon_piquage", e: "montage", n: "Faire le piquage dans le peigne", a: "Bon nombre de fils par dent, sans dent sautée." },
-  { id: "mon_nouage", e: "montage", n: "Nouer la chaîne et régler la tension", a: "Tension égale sur toute la largeur, métier prêt à tisser." },
-  { id: "tis_regulier", e: "tissage", n: "Tisser régulièrement", a: "Tassement égal, lisières droites, largeur constante." },
-  { id: "tis_motif", e: "tissage", n: "Reproduire un motif ou un modèle", a: "Léppi, motifs traditionnels ou Faso Dan Fani reproduits sans erreur." },
-  { id: "tis_defauts", e: "tissage", n: "Repérer et réparer les défauts", a: "Fils cassés renoués, erreurs de motif corrigées à temps." },
-  { id: "ech_chaine", e: "echantillonnage", n: "Calculer la chaîne d'un modèle", a: "Nombre de fils, longueur, peigne et largeur pour un tissu donné." },
-  { id: "ech_fil", e: "echantillonnage", n: "Calculer les quantités de fil et le coût d'un modèle", a: "Fil de chaîne et de trame par complet, prix de revient." },
-  { id: "ech_creer", e: "echantillonnage", n: "Créer un nouveau modèle et tisser son échantillon", a: "Dessiner le modèle, choisir les couleurs, réaliser un échantillon conforme." },
-  { id: "fin_finitions", e: "finitions", n: "Faire les finitions", a: "Coupe, franges ou ourlets, pliage du complet." },
-  { id: "fin_qualite", e: "finitions", n: "Contrôler la qualité du tissu", a: "Mesurer, repérer les défauts, classer en premier ou second choix." },
-  { id: "att_assiduite", e: "attitudes", n: "Assiduité et ponctualité", a: "Présent et à l'heure, suit les séances jusqu'au bout.", apres: true },
-  { id: "att_materiel", e: "attitudes", n: "Soin du matériel, hygiène et sécurité", a: "Range, entretient le métier et les outils, respecte les consignes.", apres: true },
-  { id: "att_autonomie", e: "attitudes", n: "Autonomie et esprit d'initiative", a: "Travaille sans attendre qu'on lui dise tout, propose des solutions.", apres: true },
+  { id: "tei_bain", s: "Bain", e: "teinture", n: "Préparer le bain de teinture", a: "Peser le colorant, doser l'eau, le sel ou le fixateur, chauffer à la bonne température." },
+  { id: "tei_fils", s: "Teindre", e: "teinture", n: "Teindre, rincer et sécher les écheveaux", a: "Couleur régulière, sans taches, bonne tenue au lavage." },
+  { id: "bob_fils", s: "Bobines", e: "bobinage", n: "Bobiner les fils", a: "Enroulement serré et régulier sur les bobines, sans casse ni nœuds inutiles." },
+  { id: "bob_canettes", s: "Canettes", e: "bobinage", n: "Remplir les canettes pour la trame", a: "Canettes bien formées qui se déroulent sans accroc dans la navette." },
+  { id: "eta_mesure", s: "Étalonner", e: "etalonnage", n: "Étalonner la chaîne", a: "Mesurer la longueur et compter le nombre exact de fils de chaîne." },
+  { id: "eta_ordre", s: "Encroix", e: "etalonnage", n: "Garder l'ordre des fils (encroix) et préparer la chaîne", a: "Croisure conservée, fils ni mélangés ni emmêlés, chaîne prête au montage." },
+  { id: "mon_lisses", s: "Lisses", e: "montage", n: "Fabriquer les lisses", a: "Lisses de bonne longueur, régulières et solides." },
+  { id: "mon_rentrage", s: "Rentrage", e: "montage", n: "Faire le rentrage dans les lisses", a: "Chaque fil passé dans la bonne lisse, selon le modèle." },
+  { id: "mon_piquage", s: "Piquage", e: "montage", n: "Faire le piquage dans le peigne", a: "Bon nombre de fils par dent, sans dent sautée." },
+  { id: "mon_nouage", s: "Nouage", e: "montage", n: "Nouer la chaîne et régler la tension", a: "Tension égale sur toute la largeur, métier prêt à tisser." },
+  { id: "tis_regulier", s: "Régularité", e: "tissage", n: "Tisser régulièrement", a: "Tassement égal, lisières droites, largeur constante." },
+  { id: "tis_motif", s: "Motifs", e: "tissage", n: "Reproduire un motif ou un modèle", a: "Léppi, motifs traditionnels ou Faso Dan Fani reproduits sans erreur." },
+  { id: "tis_defauts", s: "Défauts", e: "tissage", n: "Repérer et réparer les défauts", a: "Fils cassés renoués, erreurs de motif corrigées à temps." },
+  { id: "ech_chaine", s: "Calcul chaîne", e: "echantillonnage", n: "Calculer la chaîne d'un modèle", a: "Nombre de fils, longueur, peigne et largeur pour un tissu donné." },
+  { id: "ech_fil", s: "Calcul fil", e: "echantillonnage", n: "Calculer les quantités de fil et le coût d'un modèle", a: "Fil de chaîne et de trame par complet, prix de revient." },
+  { id: "ech_creer", s: "Création", e: "echantillonnage", n: "Créer un nouveau modèle et tisser son échantillon", a: "Dessiner le modèle, choisir les couleurs, réaliser un échantillon conforme." },
+  { id: "fin_finitions", s: "Finitions", e: "finitions", n: "Faire les finitions", a: "Coupe, franges ou ourlets, pliage du complet." },
+  { id: "fin_qualite", s: "Qualité", e: "finitions", n: "Contrôler la qualité du tissu", a: "Mesurer, repérer les défauts, classer en premier ou second choix." },
+  { id: "att_assiduite", s: "Assiduité", e: "attitudes", n: "Assiduité et ponctualité", a: "Présent et à l'heure, suit les séances jusqu'au bout.", apres: true },
+  { id: "att_materiel", s: "Matériel", e: "attitudes", n: "Soin du matériel, hygiène et sécurité", a: "Range, entretient le métier et les outils, respecte les consignes.", apres: true },
+  { id: "att_autonomie", s: "Autonomie", e: "attitudes", n: "Autonomie et esprit d'initiative", a: "Travaille sans attendre qu'on lui dise tout, propose des solutions.", apres: true },
 ];
 var OEV_ART = {
   teinture: ["en teinture", "la teinture"],
@@ -2562,7 +2562,7 @@ var OEV = {
         return p && p.id && p.n;
       })
       .map(function (p) {
-        return { id: p.id, e: p.e || "autres", n: p.n, a: "", perso: true };
+        return { id: p.id, e: p.e || "autres", n: p.n, s: p.n.length > 14 ? p.n.slice(0, 13) + "…" : p.n, a: "", perso: true };
       });
     var all = base.concat(perso);
     return OEV_ETAPES.reduce(function (acc, t) {
@@ -2776,6 +2776,196 @@ var OEV = {
         return { r: x.r, moy: x[ph][e].moy };
       });
   },
+  couleur: function () {
+    return (S.info && S.info.couleur) || "#22306b";
+  },
+  f1: function (x) {
+    return Math.round(x * 10) / 10;
+  },
+  axesEtapes: function (crits) {
+    return OEV_ETAPES.filter(function (t) {
+      return (
+        t[0] !== "attitudes" &&
+        crits.some(function (c) {
+          return c.e === t[0];
+        })
+      );
+    }).map(function (t) {
+      return { k: t[0], l: t[2] };
+    });
+  },
+  valsEtapes: function (axes, notes, crits) {
+    var p = OEV.res(notes, crits).parE;
+    return axes.map(function (a) {
+      return p[a.k] ? p[a.k].moy : null;
+    });
+  },
+  valsCrit: function (cs, notes) {
+    notes = notes || {};
+    return cs.map(function (c) {
+      var x = notes[c.id];
+      return x === undefined || x === null || x === "" ? null : Number(x);
+    });
+  },
+  radar: function (axes, A, B, o) {
+    o = o || {};
+    var W = o.w || 300,
+      lab = o.labels !== false,
+      cx = W / 2,
+      cy = W / 2,
+      R = W / 2 - (lab ? W * (o.marge || 0.2) : 3),
+      n = axes.length,
+      F = OEV.f1,
+      colB = o.col || OEV.couleur(),
+      fs = o.fs || W * 0.04;
+    if (n < 3) return OEV.barresMini(axes, A, B, o);
+    var pt = function (i, v) {
+      var a = -Math.PI / 2 + (2 * Math.PI * i) / n,
+        r = (R * Math.max(0, Math.min(4, v))) / 4;
+      return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+    };
+    var poly = function (vals) {
+      return vals
+        .map(function (v, i) {
+          return v === null || v === undefined ? null : pt(i, v);
+        })
+        .filter(Boolean)
+        .map(function (p) {
+          return F(p[0]) + "," + F(p[1]);
+        })
+        .join(" ");
+    };
+    var has = function (L) {
+      return (L || []).some(function (v) {
+        return v !== null && v !== undefined;
+      });
+    };
+    var g = '<svg class="ev-radar" viewBox="0 0 ' + W + " " + W + '" role="img" aria-label="' + attr(o.titre || "Profil de compétences, avant et après la formation") + '">';
+    for (var l = 1; l <= 4; l++)
+      g +=
+        '<polygon points="' +
+        axes
+          .map(function (a, i) {
+            var p = pt(i, l);
+            return F(p[0]) + "," + F(p[1]);
+          })
+          .join(" ") +
+        '" fill="' +
+        (l === 4 ? "#f6f7fb" : "none") +
+        '" stroke="' +
+        (l === 3 ? "#c9932e" : "#d5d9e4") +
+        '" stroke-width="' +
+        (l === 3 ? 0.9 : 0.7) +
+        '"' +
+        (l === 3 ? ' stroke-dasharray="3 2"' : "") +
+        "/>";
+    axes.forEach(function (a, i) {
+      var p = pt(i, 4);
+      g += '<line x1="' + cx + '" y1="' + cy + '" x2="' + F(p[0]) + '" y2="' + F(p[1]) + '" stroke="#dde1ec" stroke-width=".7"/>';
+    });
+    if (lab && o.niveaux !== false)
+      for (var k = 1; k <= 4; k++) g += '<text x="' + F(cx + 2) + '" y="' + F(cy - (R * k) / 4 - 1) + '" font-size="' + F(fs * 0.78) + '" fill="#8b93a8" font-family="IBM Plex Sans,Arial,sans-serif">' + k + "</text>";
+    if (has(A))
+      g += '<polygon points="' + poly(A) + '" fill="#8b93a8" fill-opacity=".16" stroke="#8b93a8" stroke-width="' + (o.trait || 1.2) + '" stroke-dasharray="4 3" stroke-linejoin="round"/>';
+    if (has(B)) {
+      g += '<polygon points="' + poly(B) + '" fill="' + colB + '" fill-opacity=".22" stroke="' + colB + '" stroke-width="' + (o.trait ? o.trait * 1.4 : 1.8) + '" stroke-linejoin="round"/>';
+      if (o.points !== false)
+        B.forEach(function (v, i) {
+          if (v === null || v === undefined) return;
+          var p = pt(i, v);
+          g += '<circle cx="' + F(p[0]) + '" cy="' + F(p[1]) + '" r="' + F(W * 0.011) + '" fill="' + colB + '"/>';
+        });
+    }
+    if (lab)
+      axes.forEach(function (a, i) {
+        var ang = -Math.PI / 2 + (2 * Math.PI * i) / n,
+          c = Math.cos(ang),
+          s = Math.sin(ang),
+          x = cx + (R + fs * 0.6) * c,
+          y = cy + (R + fs * 0.6) * s + fs * 0.35 + s * fs * 0.45;
+        var anc = c > 0.06 ? "start" : c < -0.06 ? "end" : "middle";
+        var vb = B && B[i] !== null && B[i] !== undefined ? B[i] : null;
+        g +=
+          '<text x="' +
+          F(x) +
+          '" y="' +
+          F(y) +
+          '" text-anchor="' +
+          anc +
+          '" font-size="' +
+          F(fs) +
+          '" fill="#1b2238" font-family="IBM Plex Sans,Arial,sans-serif">' +
+          esc(a.l) +
+          (o.valeurs && vb !== null ? '<tspan fill="' + colB + '" font-weight="700"> ' + fmtN(vb, 1) + "</tspan>" : "") +
+          "</text>";
+      });
+    return g + "</svg>";
+  },
+  barresMini: function (axes, A, B, o) {
+    o = o || {};
+    var W = o.w || 300,
+      H = Math.round(W * 0.62),
+      n = Math.max(1, axes.length),
+      F = OEV.f1,
+      colB = o.col || OEV.couleur(),
+      lab = o.labels !== false,
+      fs = o.fs || W * 0.045,
+      bas = lab ? H - fs * 2 : H - 2,
+      haut = 4,
+      gw = (W - 8) / n,
+      bw = Math.min(gw * 0.3, W * 0.12);
+    var y = function (v) {
+      return bas - ((bas - haut) * Math.max(0, Math.min(4, v || 0))) / 4;
+    };
+    var g = '<svg class="ev-radar" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Niveaux avant et après la formation">';
+    g += '<line x1="4" x2="' + (W - 4) + '" y1="' + F(y(3)) + '" y2="' + F(y(3)) + '" stroke="#c9932e" stroke-width=".8" stroke-dasharray="3 2"/>';
+    g += '<line x1="4" x2="' + (W - 4) + '" y1="' + F(bas) + '" y2="' + F(bas) + '" stroke="#c9cedb" stroke-width=".8"/>';
+    axes.forEach(function (a, i) {
+      var x0 = 4 + gw * i + gw / 2;
+      if (A && A[i] !== null && A[i] !== undefined)
+        g += '<rect x="' + F(x0 - bw - 1) + '" y="' + F(y(A[i])) + '" width="' + F(bw) + '" height="' + F(bas - y(A[i])) + '" rx="1.5" fill="#b9bfce"/>';
+      if (B && B[i] !== null && B[i] !== undefined)
+        g += '<rect x="' + F(x0 + 1) + '" y="' + F(y(B[i])) + '" width="' + F(bw) + '" height="' + F(bas - y(B[i])) + '" rx="1.5" fill="' + colB + '"/>';
+      if (lab)
+        g +=
+          '<text x="' +
+          F(x0) +
+          '" y="' +
+          F(H - fs * 0.6) +
+          '" text-anchor="middle" font-size="' +
+          F(fs) +
+          '" fill="#1b2238" font-family="IBM Plex Sans,Arial,sans-serif">' +
+          esc(a.l) +
+          "</text>";
+    });
+    return g + "</svg>";
+  },
+  profilEtapes: function (r, crits, o) {
+    var axes = OEV.axesEtapes(crits);
+    return OEV.radar(axes, OEV.valsEtapes(axes, (r.avant || {}).notes, crits), OEV.valsEtapes(axes, (r.apres || {}).notes, crits), o);
+  },
+  profilCrit: function (r, crits, o) {
+    var av = (r.avant || {}).notes || {},
+      ap = (r.apres || {}).notes || {};
+    var cs = crits.filter(function (c) {
+      var a = av[c.id],
+        b = ap[c.id];
+      return (a !== undefined && a !== null) || (b !== undefined && b !== null);
+    });
+    return OEV.radar(
+      cs.map(function (c) {
+        return { k: c.id, l: c.s || c.n };
+      }),
+      OEV.valsCrit(cs, av),
+      OEV.valsCrit(cs, ap),
+      o,
+    );
+  },
+  legendeRadar: function () {
+    return (
+      '<div class="ev-k"><span><i class="av"></i>Avant la formation</span><span><i class="ap"></i>Après la formation</span><span><i class="ac"></i>Niveau « Acquis » (3)</span></div>'
+    );
+  },
   rangTxt: function (n) {
     return n === null || n === undefined ? "—" : n === 1 ? "1er" : n + "e";
   },
@@ -2834,6 +3024,9 @@ var OEV = {
       ".ev-tops{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}.ev-top{border:1px solid var(--line);border-radius:var(--r);padding:8px 10px;background:var(--surface)}.ev-top h4{margin:0 0 6px;font-size:13.5px}" +
       ".ev-chip{display:flex;gap:9px;align-items:center;padding:3px 0}.ev-chip b{display:block;font-size:13px;font-weight:600}.ev-chip small{display:block;color:var(--ink-3);font-size:12px}.ev-chip i{font-style:normal;font-weight:700}" +
       ".ev-phfld{display:flex;gap:12px;align-items:center}" +
+      ".ev-radar{display:block;width:100%;height:auto}.ev-mini{width:84px}.ev-k i.av{background:#b9bfce}.ev-k i.ac{background:none;border-top:2px dashed #c9932e;height:0;width:14px;vertical-align:3px;border-radius:0}" +
+      ".ev-fh{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}.ev-fh .ev-rbox{border:1px solid var(--line);border-radius:var(--r);padding:8px 10px}.ev-fh .ev-rbox h4{margin:0 0 4px;font-size:13.5px}.ev-rbox .ev-k{flex-wrap:wrap;gap:2px 10px;font-size:11.5px}" +
+      "@media (max-width:760px){.ev-fh{grid-template-columns:1fr}}" +
       "@media (max-width:640px){.ev-c{grid-template-columns:1fr}.ev-lv span{width:40px;height:38px}.ev-b{grid-template-columns:1fr 80px}.ev-b .ev-bt{grid-column:1/-1;order:3}}" +
       "</style>"
     );
@@ -3296,6 +3489,104 @@ var OEV = {
       if (v) App.render(true);
     });
   },
+  mentionAtt: function (p) {
+    if (p === null || p === undefined) return "";
+    return p >= 0.85 ? "Excellent" : p >= 0.7 ? "Très bien" : p >= 0.55 ? "Bien" : p >= 0.4 ? "Passable" : "";
+  },
+  attestations: function (key) {
+    if (!OEV.peut()) {
+      UI.toast("Votre rôle ne permet pas de préparer les attestations.", "err");
+      return;
+    }
+    var C = OEV.classe(key),
+      crits = C.crits,
+      src = OEV.src(key),
+      cur = Cert.de(key, "attestation");
+    if (!C.rows.length) {
+      UI.toast("Aucun élève dans cette évaluation.", "info");
+      return;
+    }
+    var groupe = function (x) {
+      return x.b.n ? OEV.avisDe(x.r, crits) || "competent" : "non";
+    };
+    var cpt = { competent: 0, renforcer: 0, pas_encore: 0, non: 0 };
+    C.rows.forEach(function (x) {
+      cpt[groupe(x)]++;
+    });
+    var deja = {};
+    ((cur && cur.personnes) || []).forEach(function (p) {
+      deja[norm(p.nom).trim()] = true;
+    });
+    var opts = [
+      ["competent", "Compétents"],
+      ["renforcer", "À renforcer"],
+      ["pas_encore", "Pas encore compétents"],
+      ["non", "Pas encore évalués après la formation"],
+    ]
+      .filter(function (o) {
+        return cpt[o[0]];
+      })
+      .map(function (o) {
+        return [o[0], o[1] + " (" + cpt[o[0]] + ")"];
+      });
+    UI.formModal({
+      title: "Attestations — " + (src.intitule || ""),
+      size: "m",
+      intro: cur
+        ? "La liste d'attestations " +
+          esc(cur.num || "") +
+          " existe déjà pour cette formation (" +
+          plural((cur.personnes || []).length, "personne") +
+          "). Les élèves cochés qui n'y figurent pas encore y sont ajoutés ; les personnes déjà inscrites ne sont pas modifiées."
+        : "Les attestations de formation sont créées à partir de l'évaluation : prénom et nom, civilité et date de naissance (liste des étudiants), et mention selon le score après la formation. Elles s'impriment aussitôt et restent dans « Attestations et satisfecit », où elles se corrigent et se réimpriment.",
+      fields: [
+        { k: "qui", t: "Élèves à qui délivrer l'attestation", type: "checks", req: true, opts: opts },
+        { k: "mention", t: "Reprendre la mention de l'évaluation (Excellent, Très bien, Bien, Passable)", type: "checkbox", span: 2 },
+      ],
+      values: { qui: { competent: true, renforcer: true }, mention: true },
+      ok: icon("grad") + " Générer et imprimer",
+      save: function (v) {
+        var L = ((cur && cur.personnes) || []).map(function (p) {
+            return Object.assign({}, p);
+          }),
+          ajout = 0,
+          qui = v.qui || {};
+        C.rows
+          .slice()
+          .sort(function (x, y) {
+            return String(x.r.nom || "").localeCompare(String(y.r.nom || ""), "fr") || String(x.r.prenom || "").localeCompare(String(y.r.prenom || ""), "fr");
+          })
+          .forEach(function (x) {
+            if (!qui[groupe(x)]) return;
+            var nomC = OEV.nomComplet(x.r),
+              k = norm(nomC).trim();
+            if (!nomC || deja[k]) return;
+            deja[k] = true;
+            var a = x.r.apprenant ? apprenantOf(x.r.apprenant) : null;
+            L.push({
+              civ: a && a.sexe === "F" ? "Mme" : a && a.sexe === "M" ? "M" : "",
+              nom: nomC,
+              naissance: a && a.naissance ? fmtDate(a.naissance) : "",
+              lieuNaissance: "",
+              mention: v.mention ? OEV.mentionAtt(x.b.pct) : "",
+            });
+            ajout++;
+          });
+        if (!ajout) throw new Error(cur ? "Tous les élèves choisis ont déjà leur attestation dans la liste " + (cur.num || "") + "." : "Aucun élève à qui délivrer une attestation.");
+        OEV._ajout = ajout;
+        return Cert.enregistrer(key, "attestation", Cert.id(key, "attestation"), cur || null, cur ? strip(cur) : Cert.defauts(key, "attestation"), L);
+      },
+      okMsg: function () {
+        return plural(OEV._ajout || 0, "attestation préparée", "attestations préparées") + ".";
+      },
+    }).then(function (v) {
+      if (!v) return;
+      App.render(true);
+      setTimeout(function () {
+        Cert.imprimer(Cert.id(key, "attestation"));
+      }, 250);
+    });
+  },
   champPhoto: function (rec) {
     var deListe = rec && !rec.photo && OEV.photo(rec);
     return {
@@ -3380,6 +3671,7 @@ var OEV = {
     detailModal(
       OEV.nomComplet(r) + " — " + (r.intitule || ""),
       OEV.css() +
+        '<div class="ev-fh"><div>' +
         '<div class="ev-who" style="margin-bottom:8px">' +
         OEV.avatar(r, 64) +
         "<div><strong>" +
@@ -3395,6 +3687,10 @@ var OEV = {
           ["Avis final", OEV.avisBadge(OEV.avisDe(r, crits))],
           r.appreciation ? ["Appréciation", esc(r.appreciation).replace(/\n/g, "<br>")] : null,
         ]) +
+        '</div><div class="ev-rbox"><h4>Profil de compétences</h4>' +
+        OEV.legendeRadar() +
+        OEV.profilCrit(r, crits, { w: 360, fs: 12, marge: 0.17 }) +
+        "</div></div>" +
         "<h3>Résultats par étape</h3>" +
         OEV.barres(crits, [a], [b]) +
         '<h3>Détail par critère</h3><table class="grid"><thead><tr><th>Critère</th><th>Avant</th><th>Après</th></tr></thead><tbody>' +
@@ -3483,7 +3779,7 @@ var OEV = {
   printCss: function () {
     return (
       "<style>@page{margin:10mm 11mm}body{font-size:11px;line-height:1.35}.ph{margin-bottom:8px;padding-bottom:6px}" +
-      "table{margin:4px 0}td,th{padding:1.6px 5px!important;font-size:10px;line-height:1.25}h3{margin:8px 0 3px!important;font-size:12px!important}" +
+      "table{margin:4px 0}td,th{padding:1.1px 5px!important;font-size:9.6px;line-height:1.18}h3{margin:7px 0 3px!important;font-size:12px!important}" +
       ".ev-2{display:grid;grid-template-columns:1.15fr 1fr;gap:10px}.ev-bx{border:1px solid #d9dce6;border-radius:6px;padding:6px 9px}" +
       ".ev-2 dl.kv{gap:1px 10px;margin:0 0 5px}.ev-sc{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}.ev-sc div{border:1px solid #d9dce6;border-radius:6px;padding:4px}.ev-sc span{display:block;font-size:9.5px;color:#4a536b;text-transform:uppercase}.ev-sc strong{display:block;font-size:15px}.ev-sc small{display:block;color:#4a536b}" +
       ".ev-bars{display:flex;flex-direction:column;gap:3px}.ev-b{display:grid;grid-template-columns:27% 1fr 64px;gap:6px;align-items:center;font-size:10px}.ev-bt{display:flex;flex-direction:column;gap:2px}.ev-bt i{display:block;height:6px;border-radius:3px;background:#c9cedb;min-width:2px}.ev-bt i.ap{background:#22306b}.ev-b .v{text-align:right;white-space:nowrap}" +
@@ -3493,6 +3789,8 @@ var OEV = {
       ".ev-ap{white-space:pre-line}.sig{margin-top:22px!important}.ev-pg+.ev-pg{break-before:page;page-break-before:always}" +
       ".ev-ph{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;object-fit:cover;flex:none;vertical-align:middle;background:#e6e9f3;color:#22306b;font-weight:700;border:1px solid #c9cedb}" +
       ".ev-id{display:flex;gap:9px;align-items:flex-start}.ev-id .ev-ph{border-radius:6px}.ev-who{display:flex;gap:6px;align-items:center}" +
+      ".ev-radar{display:block;width:100%;height:auto}.ev-k i.av{background:#b9bfce}.ev-k i.ac{background:none;border-top:1.5px dashed #c9932e;height:0;width:12px;vertical-align:2px;border-radius:0}.ev-mini{width:12mm;margin:0 auto}" +
+      ".ev-fb .ev-bars{gap:1.5px}.ev-fb .ev-b{font-size:9.5px}.ev-fb .ev-bt{gap:1px}.ev-fb .ev-bt i{height:4.5px}" +
       ".ev-tops{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}.ev-top{border:1px solid #d9dce6;border-radius:6px;padding:4px 6px;break-inside:avoid}.ev-top h4{margin:0 0 3px;font-size:10.5px;color:#22306b}" +
       ".ev-chip{display:flex;gap:5px;align-items:center;padding:1.5px 0;font-size:9.5px;line-height:1.2}.ev-chip b{display:block;font-size:10px}.ev-chip small{display:block;color:#4a536b;font-size:9px}.ev-chip i{font-style:normal;font-weight:700}" +
       "</style>"
@@ -3556,8 +3854,9 @@ var OEV = {
       "</dd><dt>Formation</dt><dd>" +
       esc(r.intitule || src.intitule || "") +
       "</dd>" +
-      (src.debut ? "<dt>Période</dt><dd>du " + fmtDate(src.debut) + " au " + fmtDate(src.fin) + "</dd>" : "") +
-      (src.lieu ? "<dt>Lieu</dt><dd>" + esc(src.lieu) + "</dd>" : "") +
+      (src.debut || src.lieu
+        ? "<dt>Période</dt><dd>" + (src.debut ? "du " + fmtDate(src.debut) + " au " + fmtDate(src.fin) : "") + (src.lieu ? (src.debut ? " — " : "") + esc(src.lieu) : "") + "</dd>"
+        : "") +
       "<dt>Avant</dt><dd>" +
       (r.avant ? fmtDate(r.avant.date) + " — " + esc(r.avant.par || "") : "non évalué") +
       "</dd><dt>Après</dt><dd>" +
@@ -3580,16 +3879,22 @@ var OEV = {
       esc(OEV.mention(b.pct) || "—") +
       "</strong> — Avis final : <strong>" +
       esc(OEV.avisNom(avis) || "—") +
-      "</strong></p></div>" +
-      '<div class="ev-bx"><h3 style="margin-top:0!important">Résultats par étape du tissage</h3>' +
-      '<div class="ev-k"><span><i></i>Avant la formation</span><span><i class="ap"></i>Après la formation</span></div>' +
+      "</strong></p>" +
+      '<h3 style="margin:6px 0 2px!important">Résultats par étape du tissage</h3>' +
+      '<div class="ev-fb">' +
       OEV.barres(crits, [a], [b], true) +
       "</div></div>" +
+      '<div class="ev-bx"><h3 style="margin-top:0!important">Profil de compétences — synthèse critère par critère</h3>' +
+      OEV.legendeRadar() +
+      '<div style="max-width:76mm;margin:0 auto">' +
+      OEV.profilCrit(r, crits, { w: 360, fs: 11.5, marge: 0.17, valeurs: false }) +
+      "</div></div></div>" +
       "<h3>Détail par critère</h3>" +
       '<table><thead><tr><th>Étape et critère</th><th style="width:20%">Avant</th><th style="width:20%">Après</th><th style="width:9%">Évolution</th></tr></thead><tbody>' +
       lignes +
       "</tbody></table>" +
       OEV.legendePrint() +
+      '<div style="break-inside:avoid;page-break-inside:avoid">' +
       (r.appreciation || (r.avant && r.avant.obs) || (r.apres && r.apres.obs)
         ? "<h3>Appréciation du formateur</h3><div class=\"ev-bx ev-ap\">" +
           esc(r.appreciation || "") +
@@ -3599,7 +3904,7 @@ var OEV = {
         : "") +
       '<div class="sig"><div>Le formateur' +
       (form || (r.apres && r.apres.par) ? " — " + esc((r.apres && r.apres.par) || form) : "") +
-      "</div><div>La Direction</div></div>"
+      "</div><div>La Direction</div></div></div>"
     );
   },
   imprimerFiches: function (key, ids) {
@@ -3737,10 +4042,24 @@ var OEV = {
     var fl = function (x, y) {
       return (x === undefined || x === null ? "—" : x) + " → " + (y === undefined || y === null ? "—" : "<b>" + y + "</b>");
     };
+    var axesP = une
+      ? cu.map(function (c) {
+          return { k: c.id, l: c.s || c.n };
+        })
+      : OEV.axesEtapes(C.cs);
+    var profil = function (r) {
+      var av = (r.avant || {}).notes,
+        ap = (r.apres || {}).notes;
+      if (!axesP.length || (!r.avant && !r.apres)) return '<td class="c"></td>';
+      var A = une ? OEV.valsCrit(cu, av) : OEV.valsEtapes(axesP, av, C.cs),
+        B = une ? OEV.valsCrit(cu, ap) : OEV.valsEtapes(axesP, ap, C.cs);
+      return '<td class="c"><div class="ev-mini">' + OEV.radar(axesP, A, B, { w: 120, labels: false, points: false, trait: 1.6 }) + "</div></td>";
+    };
     var tete =
       "<th>Rang</th>" +
       (avecPh ? '<th class="c">Photo</th>' : "") +
       "<th>Élève</th>" +
+      (axesP.length ? '<th class="c">Profil</th>' : "") +
       (une
         ? cu
             .map(function (c) {
@@ -3782,6 +4101,7 @@ var OEV = {
           "<td><strong>" +
           esc(OEV.nomComplet(r)) +
           "</strong></td>" +
+          (axesP.length ? profil(r) : "") +
           cases +
           '<td class="c">' +
           OEV.s20(x.a.pct) +
@@ -3871,7 +4191,8 @@ var OEV = {
       (tous ? "de toutes les étapes" : "des étapes imprimées") +
       " ; à égalité, la plus forte progression passe devant. " +
       (une ? "Chaque case : niveau avant → après (sur 4)." : "Chaque case d'étape : niveau moyen avant → après (sur 4).") +
-      " Avant et Après : score sur 20." +
+      " Avant et Après : score sur 20. Profil : en gris pointillé avant la formation, en couleur après" +
+      (une ? ", un axe par critère." : ", un axe par étape.") +
       (tous ? " Les attitudes ne comptent pas dans le score." : "") +
       "</p>" +
       '<section style="break-inside:avoid;page-break-inside:avoid"><h3>Les plus compétents par étape</h3>' +
@@ -3896,7 +4217,150 @@ var OEV = {
       body: corps,
     });
   },
-  rapport: function (regId) {
+  OBJ_MOTS: {
+    teinture: /teint|teind|colorant|bain/,
+    bobinage: /bobin|canet/,
+    etalonnage: /etalon|ourdi|chaine/,
+    montage: /montage|monter|lisse|rentr|piqu|noua|noue/,
+    tissage: /tiss|motif|leppi|dan fani|pagne/,
+    echantillonnage: /calcul|echantillon|cree|creer|creation|concev|dessin/,
+    finitions: /finition|qualit|plia|frange|ourlet/,
+    attitudes: /assidu|ponctu|autonom|hygien|securit|disciplin|comportement/,
+  },
+  etapesObjectif: function (txt) {
+    var t = norm(txt);
+    return Object.keys(OEV.OBJ_MOTS).filter(function (e) {
+      return OEV.OBJ_MOTS[e].test(t);
+    });
+  },
+  colTaux: function (p) {
+    return p === null || p === undefined ? "#9aa2b8" : p >= 0.8 ? "#2f7d4f" : p >= 0.6 ? "var(--p)" : p >= 0.4 ? "#c9932e" : "#b23a3a";
+  },
+  donut: function (p, col) {
+    var F = OEV.f1,
+      c = 2 * Math.PI * 40,
+      v = p === null || p === undefined ? 0 : Math.max(0, Math.min(1, p));
+    return (
+      '<svg class="evr-dn" viewBox="0 0 100 100" role="img" aria-label="' +
+      (p === null || p === undefined ? "non mesuré" : Math.round(v * 100) + " %") +
+      '"><circle cx="50" cy="50" r="40" fill="none" stroke="#e6e9f1" stroke-width="10"/>' +
+      (v > 0
+        ? '<circle cx="50" cy="50" r="40" fill="none" style="stroke:' +
+          (col || OEV.colTaux(p)) +
+          '" stroke-width="10" stroke-linecap="round" stroke-dasharray="' +
+          F(c * v) +
+          " " +
+          F(c) +
+          '" transform="rotate(-90 50 50)"/>'
+        : "") +
+      '<text x="50" y="57" text-anchor="middle" font-size="21" font-weight="700" fill="#1b2238" font-family="IBM Plex Sans,Arial,sans-serif">' +
+      (p === null || p === undefined ? "—" : Math.round(v * 100) + "%") +
+      "</text></svg>"
+    );
+  },
+  colonnes: function (axes, A, B, o) {
+    o = o || {};
+    var W = 640,
+      H = o.h || 230,
+      L = 34,
+      Rm = 64,
+      T = 24,
+      Bm = 30,
+      F = OEV.f1,
+      n = Math.max(1, axes.length),
+      col = o.col || "var(--p)";
+    var y = function (v) {
+      return T + ((H - T - Bm) * (4 - Math.max(0, Math.min(4, v)))) / 4;
+    };
+    var gw = (W - L - Rm) / n,
+      bw = Math.min(26, gw * 0.32);
+    var g = '<svg class="evr-col" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Niveau moyen par étape avant et après la formation">';
+    for (var k = 0; k <= 4; k++)
+      g +=
+        '<line x1="' +
+        L +
+        '" x2="' +
+        (W - Rm) +
+        '" y1="' +
+        F(y(k)) +
+        '" y2="' +
+        F(y(k)) +
+        '" stroke="' +
+        (k ? "#e3e6ee" : "#9aa2b8") +
+        '" stroke-width="' +
+        (k ? 0.8 : 1) +
+        '"/><text x="' +
+        (L - 7) +
+        '" y="' +
+        F(y(k) + 4) +
+        '" text-anchor="end" font-size="11" fill="#6b7390" font-family="IBM Plex Sans,Arial,sans-serif">' +
+        k +
+        "</text>";
+    g +=
+      '<line x1="' +
+      L +
+      '" x2="' +
+      (W - Rm) +
+      '" y1="' +
+      F(y(3)) +
+      '" y2="' +
+      F(y(3)) +
+      '" stroke="#c9932e" stroke-width="1.2" stroke-dasharray="5 3"/><text x="' +
+      (W - Rm + 4) +
+      '" y="' +
+      F(y(3) + 4) +
+      '" font-size="10.5" fill="#9a6512" font-family="IBM Plex Sans,Arial,sans-serif">Acquis</text>';
+    g +=
+      '<line x1="' +
+      L +
+      '" x2="' +
+      (W - Rm) +
+      '" y1="' +
+      F(y(2.4)) +
+      '" y2="' +
+      F(y(2.4)) +
+      '" stroke="#2f7d4f" stroke-width="1" stroke-dasharray="2 3"/><text x="' +
+      (W - Rm + 4) +
+      '" y="' +
+      F(y(2.4) + 4) +
+      '" font-size="10.5" fill="#2f7d4f" font-family="IBM Plex Sans,Arial,sans-serif">Seuil 60 %</text>';
+    axes.forEach(function (a, i) {
+      var x0 = L + gw * i + gw / 2,
+        va = A[i],
+        vb = B[i];
+      if (va !== null && va !== undefined) {
+        g += '<rect x="' + F(x0 - bw - 2) + '" y="' + F(y(va)) + '" width="' + F(bw) + '" height="' + F(y(0) - y(va)) + '" rx="2" fill="#b9bfce"/>';
+        g += '<text x="' + F(x0 - bw / 2 - 2) + '" y="' + F(y(va) - 4) + '" text-anchor="middle" font-size="10" fill="#6b7390" font-family="IBM Plex Sans,Arial,sans-serif">' + fmtN(va, 1) + "</text>";
+      }
+      if (vb !== null && vb !== undefined) {
+        g += '<rect x="' + F(x0 + 2) + '" y="' + F(y(vb)) + '" width="' + F(bw) + '" height="' + F(y(0) - y(vb)) + '" rx="2" style="fill:' + col + '"/>';
+        g +=
+          '<text x="' +
+          F(x0 + bw / 2 + 2) +
+          '" y="' +
+          F(y(vb) - 4) +
+          '" text-anchor="middle" font-size="11" font-weight="700" fill="#1b2238" font-family="IBM Plex Sans,Arial,sans-serif">' +
+          fmtN(vb, 1) +
+          "</text>";
+      }
+      g += '<text x="' + F(x0) + '" y="' + (H - Bm + 17) + '" text-anchor="middle" font-size="11.5" fill="#1b2238" font-family="IBM Plex Sans,Arial,sans-serif">' + esc(a.l) + "</text>";
+    });
+    g +=
+      '<rect x="' +
+      L +
+      '" y="4" width="11" height="11" rx="2" fill="#b9bfce"/><text x="' +
+      (L + 16) +
+      '" y="13.5" font-size="11" fill="#4a536b" font-family="IBM Plex Sans,Arial,sans-serif">Avant la formation</text>' +
+      '<rect x="' +
+      (L + 136) +
+      '" y="4" width="11" height="11" rx="2" style="fill:' +
+      col +
+      '"/><text x="' +
+      (L + 152) +
+      '" y="13.5" font-size="11" fill="#4a536b" font-family="IBM Plex Sans,Arial,sans-serif">Après la formation</text>';
+    return g + "</svg>";
+  },
+  rapport: function (regId, rv) {
     var C = OEV.classe(regId);
     var ev = C.rows.filter(function (x) {
       return x.a.n || x.b.n;
@@ -4056,12 +4520,210 @@ var OEV = {
         })
         .join(", ");
     };
+    rv = rv || {};
+    var reg = get("formation/registre", regId) || OEV.src(regId) || {};
+    var evP = ev.filter(function (x) {
+      return C.parApres ? x.b.n : x.a.n;
+    });
+    var prevus = Number(reg.nbEtudiants) || Number(rv.inscrits) || 0,
+      formes = Number(rv.formes) || nB || ev.length;
+    var nComp = ev.filter(function (x) {
+      return x.b.n && OEV.avisDe(x.r, crits) === "competent";
+    }).length;
+    var tauxComp = nB ? nComp / nB : null,
+      tauxEff = prevus ? Math.min(1, formes / prevus) : null;
+    var moyL = function (L) {
+      return L.length
+        ? sum(L, function (z) {
+            return z;
+          }) / L.length
+        : null;
+    };
+    var mesure = function (es) {
+      var L = evP
+        .map(function (x) {
+          return moyL(
+            es
+              .map(function (e) {
+                return x[ph][e] ? x[ph][e].moy : null;
+              })
+              .filter(function (z) {
+                return z !== null;
+              }),
+          );
+        })
+        .filter(function (z) {
+          return z !== null;
+        });
+      var ok = L.filter(function (m) {
+        return m >= 2.4 - 1e-9;
+      }).length;
+      return { n: L.length, ok: ok, taux: L.length ? ok / L.length : null, moy: moyL(L) };
+    };
+    var dispo = C.etapes.map(function (t) {
+      return t[0];
+    });
+    var lignesObj = lignesDe(rv.objectifsSpec);
+    var objs = (
+      lignesObj.length
+        ? lignesObj.map(function (t) {
+            return { t: t, es: OEV.etapesObjectif(t) };
+          })
+        : etT.map(function (t) {
+            return { t: "Maîtriser " + OEV_ART[t[0]][1], es: [t[0]] };
+          })
+    ).map(function (o) {
+      o.es = o.es.filter(function (e) {
+        return dispo.indexOf(e) >= 0;
+      });
+      return Object.assign(o, o.es.length ? mesure(o.es) : { n: 0, ok: 0, taux: null, moy: null });
+    });
+    var objsMes = objs.filter(function (o) {
+      return o.taux !== null;
+    });
+    var tauxSpec = moyL(
+      objsMes.map(function (o) {
+        return o.taux;
+      }),
+    );
+    var txtInd = "Les indicateurs ci-dessous mesurent l'atteinte des objectifs de la formation à partir de l'évaluation des apprenants.";
+    if (tauxEff !== null)
+      txtInd +=
+        " L'objectif d'effectif est atteint à " +
+        Math.round(tauxEff * 100) +
+        " % (" +
+        plural(formes, "apprenant formé", "apprenants formés") +
+        " sur " +
+        prevus +
+        " prévu" +
+        (prevus > 1 ? "s" : "") +
+        ").";
+    if (tauxComp !== null)
+      txtInd +=
+        " L'objectif général est atteint à " +
+        Math.round(tauxComp * 100) +
+        " % : " +
+        nComp +
+        " apprenant" +
+        (nComp > 1 ? "s" : "") +
+        " sur " +
+        nB +
+        (nComp > 1 ? " ont" : " a") +
+        " atteint le niveau de compétence attendu (score d'au moins 60 %).";
+    if (tauxSpec !== null) {
+      txtInd += " Les objectifs spécifiques sont atteints en moyenne à " + Math.round(tauxSpec * 100) + " %";
+      var tri = objsMes.slice().sort(function (x, y) {
+        return y.taux - x.taux;
+      });
+      if (tri.length > 1 && tri[0].taux > tri[tri.length - 1].taux)
+        txtInd +=
+          " ; le mieux atteint est « " +
+          tri[0].t +
+          " » (" +
+          Math.round(tri[0].taux * 100) +
+          " %), le moins atteint « " +
+          tri[tri.length - 1].t +
+          " » (" +
+          Math.round(tri[tri.length - 1].taux * 100) +
+          " %)";
+      txtInd += ".";
+    }
+    var axesC = OEV.axesEtapes(C.cs),
+      moyE = function (k) {
+        return axesC.map(function (a) {
+          return moyL(
+            ev
+              .map(function (x) {
+                return x[k][a.k] ? x[k][a.k].moy : null;
+              })
+              .filter(function (z) {
+                return z !== null;
+              }),
+          );
+        });
+      };
+    var kpi = function (p, titre, sous) {
+      return '<div class="evr-kpi">' + OEV.donut(p) + "<b>" + esc(titre) + "</b><i>" + esc(sous) + "</i></div>";
+    };
+    var kpis =
+      '<div class="evr-kpis">' +
+      kpi(tauxEff, "Effectif formé", prevus ? formes + " sur " + prevus + " prévus" : "effectif prévu non renseigné") +
+      kpi(tauxComp, "Objectif général", nB ? nComp + " apprenant" + (nComp > 1 ? "s" : "") + " compétent" + (nComp > 1 ? "s" : "") + " sur " + nB : "pas encore d'évaluation après") +
+      kpi(tauxSpec, "Objectifs spécifiques", objsMes.length ? "moyenne de " + plural(objsMes.length, "objectif") : "non mesurés") +
+      kpi(mb, "Niveau moyen atteint", ma !== null && mb !== null ? OEV.pct(ma) + " avant → " + OEV.pct(mb) + " après (" + OEV.progTxt(OEV.prog(ma, mb)) + ")" : mb !== null ? "après la formation" : "—") +
+      "</div>";
+    var ligneObj = function (lib, sousLib, o, fort) {
+      var p = o.taux;
+      return (
+        '<div class="evr-ob' +
+        (fort ? " evr-og" : "") +
+        '"><div class="evr-ot">' +
+        lib +
+        (sousLib ? "<small>" + esc(sousLib) + "</small>" : "") +
+        '</div><div class="evr-bar"><i style="width:' +
+        (p === null ? 0 : Math.max(1.5, Math.round(p * 100))) +
+        "%;background:" +
+        OEV.colTaux(p) +
+        '"></i></div><div class="evr-ov"><b>' +
+        (p === null ? "—" : Math.round(p * 100) + " %") +
+        "</b><small>" +
+        (p === null ? "non mesuré" : o.ok + " sur " + o.n) +
+        "</small></div></div>"
+      );
+    };
+    css = css.replace(
+      "</style>",
+      ".evr-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5mm;margin:1mm 0 3mm}.evr-kpi{border:.3mm solid #c9cedb;border-radius:1.8mm;padding:2mm 1.5mm 1.8mm;text-align:center;background:linear-gradient(180deg,#fff,var(--l))}" +
+        '.evr-kpi .evr-dn{display:block;width:21mm;height:21mm;margin:0 auto 1mm}.evr-kpi b{display:block;font:700 calc(var(--fs) - .9pt) "IBM Plex Sans",Arial,sans-serif;color:var(--d)}.evr-kpi i{display:block;font-style:normal;font-size:calc(var(--fs) - 2.2pt);color:#4a536b;line-height:1.2;margin-top:.4mm}' +
+        ".evr-fig{border:.3mm solid #c9cedb;border-radius:1.8mm;padding:2mm 3mm 1mm;margin:0 0 1mm}.evr-fig svg{display:block;width:100%;height:auto}" +
+        '.evr-cap{font-style:italic;font-size:calc(var(--fs) - 1.8pt);color:#4a536b;text-align:center;margin:0 0 3mm}' +
+        '.evr-ob{display:grid;grid-template-columns:minmax(0,1fr) 52mm 19mm;gap:3mm;align-items:center;padding:1.2mm 0;border-bottom:.3mm solid #e3e6ee}.evr-oh{font:700 calc(var(--fs) - 1.4pt) "IBM Plex Sans",Arial,sans-serif;color:#fff;background:var(--d);padding:1mm 2mm;border:0}' +
+        ".evr-ot{font-size:calc(var(--fs) - .8pt);line-height:1.25}.evr-ot small{display:block;font-size:calc(var(--fs) - 2.4pt);color:#6b7390}.evr-og .evr-ot{font-weight:700}" +
+        ".evr-bar{position:relative;height:4.2mm;border-radius:2.1mm;background:repeating-linear-gradient(90deg,#eef0f5 0,#eef0f5 calc(25% - .3mm),#fff calc(25% - .3mm),#fff 25%)}.evr-bar i{display:block;height:100%;border-radius:2.1mm}" +
+        '.evr-ov{text-align:right;line-height:1.1}.evr-ov b{display:block;font:700 calc(var(--fs) + .5pt) "IBM Plex Sans",Arial,sans-serif;color:var(--d)}.evr-ov small{font-size:calc(var(--fs) - 2.4pt);color:#6b7390}' +
+        "</style>",
+    );
     return {
       css: css,
       titre: "Évaluation des apprenants",
       blocs: function (num) {
         var out = ['<p class="p">' + esc(txt) + "</p>"];
-        out.push('<h3 class="sub keep">' + num + ".1. Classement des apprenants</h3>");
+        out.push('<h3 class="sub keep">' + num + ".1. Indicateurs de résultat et atteinte des objectifs</h3>");
+        out.push('<p class="p">' + esc(txtInd) + "</p>");
+        out.push(kpis);
+        if (axesC.length) {
+          out.push('<div class="evr-fig keep">' + OEV.colonnes(axesC, moyE("ea"), moyE("eb")) + "</div>");
+          out.push('<p class="evr-cap">Figure — Niveau moyen de la classe par étape du tissage, avant et après la formation (sur 4).</p>');
+        }
+        out.push('<div class="evr-ob evr-oh keep"><div>Objectif de la formation</div><div>Taux d\'atteinte</div><div style="text-align:right">Apprenants</div></div>');
+        out.push(
+          ligneObj(
+            "Objectif général" + (rv.objectifGeneral ? " — " + esc(rv.objectifGeneral) : " — être compétent à l'issue de la formation"),
+            "Mesuré par la part des apprenants jugés compétents",
+            { taux: tauxComp, ok: nComp, n: nB },
+            true,
+          ),
+        );
+        objs.forEach(function (o, i) {
+          out.push(
+            ligneObj(
+              esc(o.t),
+              o.es.length
+                ? "Étapes évaluées : " +
+                    o.es
+                      .map(function (e) {
+                        return OEV.etapeNom(e, true);
+                      })
+                      .join(", ")
+                : "Pas de critère d'évaluation correspondant",
+              o,
+            ),
+          );
+        });
+        out.push(
+          '<p class="note">Un objectif est atteint par un apprenant lorsque sa moyenne sur les étapes correspondantes est d\'au moins 2,4 sur 4 (60 %), seuil de compétence retenu pour l\'avis final. Couleurs : vert à partir de 80 %, bleu de 60 à 79 %, or de 40 à 59 %, rouge en dessous.</p>',
+        );
+        out.push('<h3 class="sub keep">' + num + ".2. Classement des apprenants</h3>");
         out.push(
           '<table class="evr keep"><tr><th class="w1 c">Rang</th><th class="w2 c">Photo</th><th>Apprenant</th><th class="w4 c">Avant</th><th class="w5 c">Après</th><th class="w6 c">Progr.</th><th class="w7">Points forts (acquis)</th><th class="w8">Avis final</th></tr></table>',
         );
@@ -4091,7 +4753,7 @@ var OEV = {
             (C.parApres ? "après" : "avant") +
             " la formation, calculé à partir des notes de chaque critère sur l'ensemble des étapes ; à égalité, la plus forte progression passe devant. Avant et Après : scores sur 20. Points forts : étapes où l'apprenant atteint au moins le niveau « Acquis » (3 sur 4).</p>",
         );
-        out.push('<h3 class="sub keep">' + num + ".2. Les apprenants les plus compétents par étape</h3>");
+        out.push('<h3 class="sub keep">' + num + ".3. Les apprenants les plus compétents par étape</h3>");
         var cartes = C.etapes.map(function (t) {
           var L = OEV.meilleurs(C, t[0], 3);
           return (
@@ -4346,6 +5008,7 @@ view("formation/evaleleves", {
       UI.btn(icon("print") + " Grille vierge", "grilleVierge", "ghost sm", ' data-id="' + attr(key) + '"') +
       (els.length ? UI.btn(icon("print") + " Résultats de la classe", "resultats", "ghost sm", ' data-id="' + attr(key) + '"') : "") +
       (els.length ? UI.btn(icon("print") + " Toutes les fiches", "fiches", "ghost sm", ' data-id="' + attr(key) + '"') : "") +
+      (ed && els.length ? UI.btn(icon("grad") + " Générer les attestations", "attestations", "ghost sm", ' data-id="' + attr(key) + '" data-needs-net') : "") +
       "</div></div></section>" +
       tiles([
         { t: "Élèves", v: els.length, s: plural(A.filter(function (x) { return x.n; }).length, "évalué") + " avant, " + B.filter(function (x) { return x.n; }).length + " après" },
@@ -4398,6 +5061,23 @@ view("formation/evaleleves", {
             t: "Élève",
             f: function (r) {
               return '<span class="ev-who">' + OEV.avatar(r._rec, 36) + "<strong>" + esc(r._nom) + "</strong></span>";
+            },
+          },
+          {
+            k: "_pf",
+            t: "Profil",
+            nosort: true,
+            f: function (r) {
+              if (!r._ra && !r._rb) return "";
+              var axes = OEV.axesEtapes(crits),
+                va = OEV.valsEtapes(axes, (r._rec.avant || {}).notes, crits),
+                vb = OEV.valsEtapes(axes, (r._rec.apres || {}).notes, crits);
+              var tip = axes
+                .map(function (x, i) {
+                  return x.l + " : " + (va[i] === null ? "—" : fmtN(va[i], 1)) + " → " + (vb[i] === null ? "—" : fmtN(vb[i], 1));
+                })
+                .join(" · ");
+              return '<div class="ev-mini" title="' + attr(tip) + '">' + OEV.radar(axes, va, vb, { w: 120, labels: false, points: false, trait: 1.5 }) + "</div>";
             },
           },
           {
@@ -4481,6 +5161,11 @@ view("formation/evaleleves", {
     },
     fiches: function (key) {
       OEV.imprimerFiches(key);
+    },
+    attestations: function (key) {
+      Data.need(["formation/certificats"]).then(function () {
+        OEV.attestations(key);
+      });
     },
   },
 });
