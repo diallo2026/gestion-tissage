@@ -914,7 +914,7 @@ p.note { display: block; }
 <div id="modals"></div>
 <div id="toasts" aria-live="polite"></div>
 <noscript><p style="padding:20px">AGAT a besoin de JavaScript pour fonctionner.</p></noscript>
-<script>"use strict";var NERP=window.NERP=window.NERP||{};var APP={nom:"AGAT",long:"Application de gestion des ateliers de tissage"};NERP.version="1.0.0";NERP.build="20261116-1130";function $(s,el){return(el||document).querySelector(s)}function $$(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))}function esc(v){if(v===null||v===undefined)return"";return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function attr(v){return esc(v)}var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}},json:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},setJson:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};function parseNum(v){if(v===null||v===undefined||v==="")return NaN;if(typeof v==="number")return v;var s=String(v).replace(/\s| | /g,"").replace(",",".");if(!/^-?\d*\.?\d+$/.test(s)&&!/^-?\d+\.?$/.test(s))return NaN;return parseFloat(s)}function toQ(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n*1e3)}function fromQ(q){return(Number(q)||0)/1e3}function toMoney(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n)}function grp(intStr){return intStr.replace(/\B(?=(\d{3})+(?!\d))/g," ")}function fmtN(n,dec){n=Number(n)||0;dec=dec===undefined?0:dec;var neg=n<0;n=Math.abs(n);var s=n.toFixed(dec);var p=s.split(".");var out=grp(p[0]);if(dec>0){var d=p[1].replace(/0+$/,"");if(d)out+=","+d}return(neg?"−":"")+out}function fmtGNF(n){return fmtN(Math.round(Number(n)||0))+" GNF"}function fmtMoney(n){return fmtN(Math.round(Number(n)||0))}function fmtQ(q,unite){var s=fmtN(fromQ(q),3);return unite?s+" "+unite:s}function enLettres(n){n=Math.round(Math.abs(Number(n)||0));if(!n)return"zéro"
+<script>"use strict";var NERP=window.NERP=window.NERP||{};var APP={nom:"AGAT",long:"Application de gestion des ateliers de tissage"};NERP.version="1.0.0";NERP.build="20261118-1230";function $(s,el){return(el||document).querySelector(s)}function $$(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))}function esc(v){if(v===null||v===undefined)return"";return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function attr(v){return esc(v)}var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}},json:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},setJson:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};function parseNum(v){if(v===null||v===undefined||v==="")return NaN;if(typeof v==="number")return v;var s=String(v).replace(/\s| | /g,"").replace(",",".");if(!/^-?\d*\.?\d+$/.test(s)&&!/^-?\d+\.?$/.test(s))return NaN;return parseFloat(s)}function toQ(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n*1e3)}function fromQ(q){return(Number(q)||0)/1e3}function toMoney(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n)}function grp(intStr){return intStr.replace(/\B(?=(\d{3})+(?!\d))/g," ")}function fmtN(n,dec){n=Number(n)||0;dec=dec===undefined?0:dec;var neg=n<0;n=Math.abs(n);var s=n.toFixed(dec);var p=s.split(".");var out=grp(p[0]);if(dec>0){var d=p[1].replace(/0+$/,"");if(d)out+=","+d}return(neg?"−":"")+out}function fmtGNF(n){return fmtN(Math.round(Number(n)||0))+" GNF"}function fmtMoney(n){return fmtN(Math.round(Number(n)||0))}function fmtQ(q,unite){var s=fmtN(fromQ(q),3);return unite?s+" "+unite:s}function enLettres(n){n=Math.round(Math.abs(Number(n)||0));if(!n)return"zéro"
 ;var U=["","un","deux","trois","quatre","cinq","six","sept","huit","neuf","dix","onze","douze","treize","quatorze","quinze","seize","dix-sept","dix-huit","dix-neuf"];var D=["","dix","vingt","trente","quarante","cinquante","soixante","soixante","quatre-vingt","quatre-vingt"];var deux=function(x,fin){if(x<20)return U[x];var d=Math.floor(x/10),u=x%10;if(d===7||d===9){var r=x-(d===7?60:80);return D[d]+(d===7&&r===11?" et ":"-")+U[r]}if(!u)return d===8?fin?"quatre-vingts":"quatre-vingt":D[d];if(u===1&&d!==8)return D[d]+" et un";return D[d]+"-"+U[u]};var trois=function(x,fin){var c=Math.floor(x/100),r=x%100,s="";if(c)s=(c>1?U[c]+" ":"")+"cent"+(c>1&&!r&&fin?"s":"");if(r)s+=(s?" ":"")+deux(r,fin);return s};var mds=Math.floor(n/1e9),mns=Math.floor(n%1e9/1e6),mls=Math.floor(n%1e6/1e3),r=n%1e3,out=[];if(mds)out.push(trois(mds,true)+" milliard"+(mds>1?"s":""));if(mns)out.push(trois(mns,true)+" million"+(mns>1?"s":""));if(mls)out.push(mls===1?"mille":trois(mls,false)+" mille");if(r)out.push(trois(r,true));return out.join(" ")}function majuscule(s){s=String(s||"");return s.charAt(0).toUpperCase()+s.slice(1)}function fmtPct(x,dec){if(!isFinite(x))return"—";return fmtN(x*100,dec===undefined?1:dec)+" %"}function qInput(q){return q===null||q===undefined||q===""?"":String(fromQ(q)).replace(".",",")}function pad2(n){return(n<10?"0":"")+n}function isoDate(d){d=d||new Date;return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate())}function today(){return isoDate(new Date)}function monthOf(iso){return String(iso||"").slice(0,7)}function yearOf(iso){return String(iso||"").slice(0,4)}function addDays(iso,n){var d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);return isoDate(d)}function daysBetween(a,b){return Math.round((new Date(b+"T12:00:00")-new Date(a+"T12:00:00"))/864e5)}function fmtDate(iso){if(!iso)return"—";if(typeof iso==="number")return new Date(iso).toLocaleDateString("fr-FR");var p=String(iso).slice(0,10).split("-")
 ;return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:esc(iso)}function fmtDateTime(ts){if(!ts)return"—";var d=new Date(ts);return d.toLocaleDateString("fr-FR")+" "+pad2(d.getHours())+":"+pad2(d.getMinutes())}var MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];function fmtMois(ym){var p=String(ym).split("-");return MOIS[Number(p[1])-1]+" "+p[0]}function startOfMonth(iso){return monthOf(iso||today())+"-01"}function startOfYear(iso){return yearOf(iso||today())+"-01-01"}function debounce(fn,ms){var t;return function(){var a=arguments,c=this;clearTimeout(t);t=setTimeout((function(){fn.apply(c,a)}),ms)}}function vals(obj){return obj?Object.keys(obj).map((function(k){var v=obj[k];if(v&&typeof v==="object"&&!v.id)v.id=k;return v})):[]}function byKey(k,dir){dir=dir||1;return function(a,b){var x=a[k],y=b[k];if(x===y)return 0;if(x===undefined||x===null)return 1;if(y===undefined||y===null)return-1;return(x>y?1:-1)*dir}}function sum(arr,f){var s=0;(arr||[]).forEach((function(x){s+=Number(f?f(x):x)||0}));return s}function groupBy(arr,f){var o={};(arr||[]).forEach((function(x){var k=f(x);(o[k]=o[k]||[]).push(x)}));return o}function clone(o){return o===undefined?undefined:JSON.parse(JSON.stringify(o))}function norm(s){s=String(s||"").toLowerCase();try{s=s.normalize("NFD").replace(/[̀-ͯ]/g,"")}catch(e){}return s}function normIdent(t){return norm(t).trim().replace(/\s+/g,".").replace(/[^a-z0-9._-]/g,"").slice(0,30)}function randomCode(n){var c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",r="";var a=new Uint32Array(n);(window.crypto||{}).getRandomValues?crypto.getRandomValues(a):a.forEach((function(_,i){a[i]=Math.random()*1e9}));for(var i=0;i<n;i++)r+=c[a[i]%c.length];return r}function strip(o){var r={};Object.keys(o||{}).forEach((function(k){if(k!=="id"&&k.charAt(0)!=="_")r[k]=o[k]}));return r}function initials(n){var p=String(n||"?").trim().split(/\s+/);return((p[0]||"?")[0]+(p[1]?p[1][0]:"")).toUpperCase()}function plural(n,s,p){
 return n+" "+(Math.abs(n)>1?p||s+"s":s)}var Bus={h:{},on:function(e,f){(this.h[e]=this.h[e]||[]).push(f)},emit:function(e,d){(this.h[e]||[]).forEach((function(f){try{f(d)}catch(x){console.error("[NERP]",e,x)}}))}};var S={tid:null,code:null,user:null,member:null,role:null,tenant:null,info:{},params:{},roles:{},members:{},blocs:{},bloc:"A",mode:"gestion",d:{},loaded:{},online:true,admin:false};var MODULES=[{k:"tableau",n:"Tableau de bord"},{k:"tissage",n:"Tissage (matières premières)"},{k:"distributeur",n:"Distributeur (fils remis aux tisserands)"},{k:"achats",n:"Achats"},{k:"stock",n:"Stock"},{k:"teinture",n:"Teinture"},{k:"production",n:"Production"},{k:"qualite",n:"Qualité"},{k:"ouvriers",n:"Ouvriers et déclarations"},{k:"paie",n:"Paie des ouvriers"},{k:"ventes",n:"Ventes"},{k:"boutique",n:"Boutique (stock et caisse)"},{k:"formation",n:"Formation"},{k:"catalogue",n:"Catalogue des modèles"},{k:"finances",n:"Finances"},{k:"rapports",n:"Rapports"},{k:"parametres",n:"Paramètres"},{k:"utilisateurs",n:"Utilisateurs et rôles"},{k:"admin",n:"Audit et validations"}];var ACTIONS=[{k:"consulter",n:"Consulter"},{k:"creer",n:"Créer"},{k:"modifier",n:"Modifier"},{k:"supprimer",n:"Supprimer"},{k:"valider",n:"Valider"},{k:"annuler",n:"Annuler"},{k:"exporter",n:"Exporter"},{k:"livrer",n:"Livrer",only:["ventes"]}];var WRITE_ACTIONS=["creer","modifier","supprimer","valider","annuler","livrer"];function actionFor(mod,a){return!a.only||a.only.indexOf(mod)>=0}var BLOC_IDS=["A","B","C","D","E","F","G","H","I","J"];var BLOCS_INCLUS=3;var EMPLACEMENTS_DEFAUT=[{id:"MAG-MP",nom:"Magasin des matières",type:"matieres",dispo:true,ordre:1},{id:"ENC-TEI",nom:"Encours teinture",type:"encours",dispo:false,ordre:2},{id:"QUAR",nom:"Quarantaine (à contrôler)",type:"quarantaine",dispo:false,ordre:3},{id:"MAG-FT",nom:"Magasin des fils teints",type:"fils_teints",dispo:true,ordre:4},{id:"ENC-PROD",nom:"Encours métiers",type:"encours",dispo:false,ordre:5},{id:"PF",nom:"Produits finis",
@@ -1719,12 +1719,12 @@ conclusion:"La formation « "+(reg.intitule||"")+" » s'est déroulée "+(aLieu?
 ;return FB.tref("d/formation/rapportsPhotos/"+id).once("value").then((function(snap){var o=snap.val()||{};st.photos=Object.keys(o).map((function(k){return Object.assign({id:k},o[k])})).sort(byKey("ordre"));st.photos.forEach((function(p){st.orig[p.id]=p.leg+"|"+p.sec+"|"+p.ordre}));st.chargement=false;return st.photos})).catch((function(){st.photos=[];st.chargement=false;return st.photos}))},secOpts:function(st){return st.phases.map((function(p,i){return["p"+i,"Phase "+(i+1)+(p.titre?" — "+p.titre:"")]})).concat([["ann","Annexes photographiques"]])},enregistrer:function(id,btn){var st=RapF.etat(id);if(!st.photos){UI.toast("Les photos se chargent encore : patientez un instant.","info");return Promise.resolve(false)}var v=Object.assign({},st.v);if(!(v.titre||"").trim()||!(v.sousTitre||"").trim()||!(v.organisme||"").trim()){UI.toast("Indiquez au moins le titre, l'intitulé de la formation et l'organisme.","err");return Promise.resolve(false)}["inscrits","formes","femmes","hommes"].forEach((function(k){var n=parseNum(v[k]);v[k]=isNaN(n)||v[k]===""||v[k]===null?null:n}));return runOp(btn,(function(){var tx=new Tx("rapport de formation");var doc=Object.assign({},st.meta||{});Object.keys(v).forEach((function(k){if(k!=="id"&&v[k]!==undefined)doc[k]=v[k]===""?null:v[k]}));doc.registre=id;doc.phases=st.phases.map((function(p){return{titre:p.titre||"",texte:p.texte||""}}));doc.nbPhotos=st.photos.length;doc.majLe=today();doc.majPar=S.member.nom;doc.majTs=FB.TS();if(st.nouveau){doc.creeLe=today();doc.par=S.user.uid;doc.parNom=S.member.nom}tx.doc("formation/rapports",id,doc);var vus={};st.photos.forEach((function(p,i){p.ordre=i;vus[p.id]=true;if(p._img||st.orig[p.id]!==p.leg+"|"+p.sec+"|"+p.ordre){if(p._img)tx.doc("formation/rapportsPhotos/"+id,p.id,{img:p.img,leg:p.leg||"",sec:p.sec||"ann",ordre:i});else{tx.field("formation/rapportsPhotos/"+id,p.id,"leg",p.leg||"");tx.field("formation/rapportsPhotos/"+id,p.id,"sec",p.sec||"ann")
 ;tx.field("formation/rapportsPhotos/"+id,p.id,"ordre",i)}}}));Object.keys(st.orig).forEach((function(k){if(!vus[k])tx.doc("formation/rapportsPhotos/"+id,k,null)}));tx.audit((st.nouveau?"Rédaction":"Modification")+" du rapport de la formation « "+(v.sousTitre||"")+" » ("+plural(st.photos.length,"photo")+")","formation",id);return tx.commit().then((function(){if(st.nouveau)st.meta={creeLe:doc.creeLe,par:doc.par,parNom:doc.parNom};st.nouveau=false;st.orig={};st.photos.forEach((function(p){delete p._img;st.orig[p.id]=p.leg+"|"+p.sec+"|"+p.ordre}))}))}),"Rapport enregistré.")},ajouterPhotos:function(id,files){var st=RapF.etat(id),max=18,L=Array.prototype.slice.call(files||[]);if(!st.photos)return;if(st.photos.length+L.length>max){UI.toast("Au plus "+max+" photos par rapport : le rapport tient en 3 ou 4 pages.","err");L=L.slice(0,Math.max(0,max-st.photos.length))}var sec=st.dernSec||(st.phases.length?"p0":"ann");return L.reduce((function(pr,f){return pr.then((function(){return UI.resizeImage(f,1100,.72).then((function(url){st.photos.push({id:FB.newId(),img:url,_img:true,leg:String(f.name||"").replace(/\.[a-z0-9]+$/i,"").replace(/[_-]+/g," ").replace(/^(IMG|DSC|PXL|WA)\s?\d+.*$/i,""),sec:sec,ordre:st.photos.length})}))}))}),Promise.resolve()).then((function(){App.render(true)}))},css:function(pal){
 return'@import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@500;600;700&display=swap");'+"@page{size:A4 portrait;margin:0}:root{--fs:10.5pt;--ph:50mm;--sp:1;--p:"+pal.p+";--d:"+pal.d+";--s:"+pal.s+";--l:"+pal.l+"}"+"*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}html,body{margin:0;background:#e9ebf1}"+'body{font-family:"Source Serif 4",Georgia,"Times New Roman",serif;color:#1b2238;font-size:var(--fs);line-height:1.42}'+'.barre{position:sticky;top:0;z-index:9;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 16px;background:#141b3d;color:#fff;font:14px "IBM Plex Sans",Arial,sans-serif}.barre button{font:inherit;font-weight:600;border:0;border-radius:8px;padding:9px 16px;background:#c9932e;color:#141b3d;cursor:pointer}.barre .warn{color:#ffb4b4}'+"#src{display:none}.page{width:210mm;height:297mm;margin:14px auto;background:#fff;position:relative;overflow:hidden;box-shadow:0 2px 14px rgba(20,27,61,.18);padding:17mm 18mm 0}"+".page.first{padding-top:12mm}.content{height:calc(297mm - 17mm - 19mm);overflow:hidden}.page.first .content{height:calc(297mm - 12mm - 19mm)}"+'.hdr{position:absolute;top:8mm;left:18mm;right:18mm;font:8pt "IBM Plex Sans",Arial,sans-serif;color:#6b7390;text-align:center;border-bottom:.3mm solid #c9cedb;padding-bottom:1.6mm;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'+'.ftr{position:absolute;bottom:8mm;left:18mm;right:18mm;font:8pt "IBM Plex Sans",Arial,sans-serif;color:#6b7390;text-align:center;border-top:.3mm solid #c9cedb;padding-top:1.6mm}'+".cv-rep{text-align:center;font-weight:700;letter-spacing:.06em;font-size:calc(var(--fs) + .5pt)}.cv-rep i{display:block;font-weight:400;letter-spacing:0;font-size:calc(var(--fs) - .5pt)}"+".cv-logos{display:flex;margin:calc(4mm * var(--sp)) 0;height:calc(34mm + 6mm * var(--sp));border:.3mm solid #c9cedb}.cv-logos div{flex:1;display:flex;align-items:center;justify-content:center;padding:3mm}.cv-logos div+div{border-left:.3mm solid #c9cedb;background:var(--l)}.cv-logos img{max-width:100%;max-height:100%;object-fit:contain}"+".cv-logos.seul div{background:linear-gradient(90deg,#fff,var(--l),#fff)}"+".cv-titre{text-align:center;font-weight:700;font-size:calc(var(--fs) * 2.05);letter-spacing:.04em;color:var(--d);margin-top:calc(3mm * var(--sp))}"+'.cv-sous{text-align:center;font:700 calc(var(--fs) * 1.18) "IBM Plex Sans",Arial,sans-serif;letter-spacing:.02em;color:var(--p);text-transform:uppercase;margin:1mm 6mm 0}'+".cv-acc{text-align:center;font-style:italic;border-top:.4mm solid var(--p);border-bottom:.4mm solid var(--p);padding:1.2mm 0;margin:calc(2.5mm * var(--sp)) 0 calc(4mm * var(--sp))}"+"table{border-collapse:collapse;width:100%}.kv{margin:0}.kv th,.kv td{border:.3mm solid #9aa2b8;padding:1.1mm 2.2mm;vertical-align:top;text-align:left;font-size:calc(var(--fs) - .4pt)}.kv th{width:34%;background:var(--l);font-weight:700}.kv+.kv th,.kv+.kv td{border-top:0}"+'.sec{font:700 calc(var(--fs) + 2pt) "IBM Plex Sans",Arial,sans-serif;color:var(--d);text-transform:uppercase;border-bottom:.45mm solid var(--p);padding-bottom:.8mm;margin:calc(5mm * var(--sp)) 0 calc(2mm * var(--sp))}'+'.sub{font:700 calc(var(--fs) + .4pt) "IBM Plex Sans",Arial,sans-serif;color:var(--p);margin:calc(3mm * var(--sp)) 0 calc(1.2mm * var(--sp))}'+".p{margin:0 0 calc(2mm * var(--sp));text-align:justify;hyphens:auto}.p.coupe{margin-bottom:0;text-align-last:justify}.p.suite{margin-top:0}"+'.li{padding-left:5mm;text-indent:-3.2mm;margin:0 0 calc(.6mm * var(--sp));text-align:justify}.li:before{content:"•";color:var(--s);font-weight:700;display:inline-block;width:3.2mm;text-indent:0}'+'.flux{text-align:center;font:700 calc(var(--fs) - .6pt) "IBM Plex Sans",Arial,sans-serif;letter-spacing:.02em;color:var(--d);margin:calc(1.5mm * var(--sp)) 0 calc(2.5mm * var(--sp))}'+'.et th,.et td{border:.3mm solid #9aa2b8;padding:1mm 2mm;font-size:calc(var(--fs) - .5pt)}.et th{background:var(--d);color:#fff;font-family:"IBM Plex Sans",Arial,sans-serif}.et td:first-child,.et th:first-child{width:14mm;text-align:center}.et+.et th,.et+.et td{border-top:0}'+".note{font-style:italic;font-size:calc(var(--fs) - 1.2pt);color:#4a536b;margin:1mm 0 calc(2mm * var(--sp))}"+".photos{display:flex;gap:2.5mm;justify-content:center;margin:calc(1.5mm * var(--sp)) 0 calc(3mm * var(--sp))}.photos figure{margin:0;flex:0 0 calc((100% - 5mm) / 3)}"+".photos img{display:block;width:100%;height:var(--ph);object-fit:cover;border:.3mm solid #c9cedb}.photos figcaption{font-style:italic;font-size:calc(var(--fs) - 1.8pt);color:#4a536b;text-align:center;margin-top:.8mm}"+".sign{margin-top:calc(5mm * var(--sp));text-align:right}.sign b{display:block;margin-top:2mm}.sign i{display:block;font-size:calc(var(--fs) - 1pt);color:#4a536b}.sign .visa{position:relative;display:block;height:24mm;width:80mm;margin:1mm 0 0 auto}.sign .visa .sgi{position:absolute;right:4mm;bottom:2mm;height:17mm;max-width:62mm;object-fit:contain}.sign .visa .cci{position:absolute;right:36mm;bottom:-1mm;height:25mm;object-fit:contain;transform:rotate(-9deg);opacity:.92;mix-blend-mode:multiply}"+"@media print{html,body{background:#fff}.barre{display:none}.page{margin:0;box-shadow:none;break-after:page}.page:last-child{break-after:auto}}"
-},ROM:["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"],blocs:function(v,phases,photos,logo){var h=[],n=0,P=function(t){lignesBrutes(t).forEach((function(x){h.push('<p class="p">'+esc(x)+"</p>")}))};var lignesBrutes=function(t){return String(t||"").split(/\n+/).map((function(x){return x.trim()})).filter(Boolean)};var L=function(t){lignesDe(t).forEach((function(x){h.push('<div class="li">'+esc(x)+"</div>")}))};var SEC=function(t){h.push('<h2 class="sec keep">'+RapF.ROM[n++]+". "+esc(t)+"</h2>")};var SUB=function(t){h.push('<h3 class="sub keep">'+esc(t)+"</h3>")};var KV=function(k,val){if(val)h.push('<table class="kv"><tr><th>'+esc(k)+"</th><td>"+esc(val)+"</td></tr></table>")};var PH=function(sec){var ps=(photos||[]).filter((function(p){return(p.sec||"ann")===sec}));for(var i=0;i<ps.length;i+=3){var g=ps.slice(i,i+3);h.push('<div class="photos n'+g.length+'">'+g.map((function(p){return'<figure><img src="'+attr(p.img)+'" alt=""><figcaption>'+(p.leg?"Photo : "+esc(p.leg):"")+"</figcaption></figure>"})).join("")+"</div>")}};if(v.pays||v.devise)h.push('<div class="cv-rep">'+esc(v.pays||"")+(v.devise?"<i>"+esc(v.devise)+"</i>":"")+"</div>");h.push(v.logoPartenaire?'<div class="cv-logos"><div><img src="'+attr(logo)+'" alt=""></div><div><img src="'+attr(v.logoPartenaire)+'" alt=""></div></div>':'<div class="cv-logos seul"><div><img src="'+attr(logo)+'" alt=""></div></div>');h.push('<div class="cv-titre keep">'+esc(v.titre||"RAPPORT DE FORMATION")+"</div>");h.push('<div class="cv-sous keep">'+esc(v.sousTitre||"")+"</div>");if(v.accroche)h.push('<div class="cv-acc keep">'+esc(v.accroche)+"</div>");KV("Organisme de formation",v.organisme);KV("Formateur",v.formateurTxt);KV("Durée",v.duree);KV("Période",v.periode);KV("Lieu",v.lieu);KV("Cadre de référence",v.cadre);KV("Destinataire",v.destinataire);if(v.intro){SEC("Introduction");P(v.intro)}if(v.contexte){SEC("Contexte et justification");P(v.contexte)}SEC("Présentation de la formation");KV("Intitulé",v.sousTitre)
+},ROM:["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"],blocs:function(v,phases,photos,logo,regId){var h=[],n=0,P=function(t){lignesBrutes(t).forEach((function(x){h.push('<p class="p">'+esc(x)+"</p>")}))};var lignesBrutes=function(t){return String(t||"").split(/\n+/).map((function(x){return x.trim()})).filter(Boolean)};var L=function(t){lignesDe(t).forEach((function(x){h.push('<div class="li">'+esc(x)+"</div>")}))};var SEC=function(t){h.push('<h2 class="sec keep">'+RapF.ROM[n++]+". "+esc(t)+"</h2>")};var SUB=function(t){h.push('<h3 class="sub keep">'+esc(t)+"</h3>")};var KV=function(k,val){if(val)h.push('<table class="kv"><tr><th>'+esc(k)+"</th><td>"+esc(val)+"</td></tr></table>")};var PH=function(sec){var ps=(photos||[]).filter((function(p){return(p.sec||"ann")===sec}));for(var i=0;i<ps.length;i+=3){var g=ps.slice(i,i+3);h.push('<div class="photos n'+g.length+'">'+g.map((function(p){return'<figure><img src="'+attr(p.img)+'" alt=""><figcaption>'+(p.leg?"Photo : "+esc(p.leg):"")+"</figcaption></figure>"})).join("")+"</div>")}};if(v.pays||v.devise)h.push('<div class="cv-rep">'+esc(v.pays||"")+(v.devise?"<i>"+esc(v.devise)+"</i>":"")+"</div>");h.push(v.logoPartenaire?'<div class="cv-logos"><div><img src="'+attr(logo)+'" alt=""></div><div><img src="'+attr(v.logoPartenaire)+'" alt=""></div></div>':'<div class="cv-logos seul"><div><img src="'+attr(logo)+'" alt=""></div></div>');h.push('<div class="cv-titre keep">'+esc(v.titre||"RAPPORT DE FORMATION")+"</div>");h.push('<div class="cv-sous keep">'+esc(v.sousTitre||"")+"</div>");if(v.accroche)h.push('<div class="cv-acc keep">'+esc(v.accroche)+"</div>");KV("Organisme de formation",v.organisme);KV("Formateur",v.formateurTxt);KV("Durée",v.duree);KV("Période",v.periode);KV("Lieu",v.lieu);KV("Cadre de référence",v.cadre);KV("Destinataire",v.destinataire);if(v.intro){SEC("Introduction");P(v.intro)}if(v.contexte){SEC("Contexte et justification");P(v.contexte)}SEC("Présentation de la formation");KV("Intitulé",v.sousTitre)
 ;KV("Organisme de formation",v.organisme);KV("Formateur",v.formateurTxt);KV("Lieu",v.lieu);KV("Durée effectivement réalisée",[v.duree,v.periode].filter(Boolean).join(" — "));if(v.dureePrevue||v.periodePrevue)KV("Durée prévue",[v.dureePrevue,v.periodePrevue].filter(Boolean).join(" — "));KV("Public bénéficiaire",v.public);var eff=[];if(v.inscrits)eff.push(plural(Number(v.inscrits),"inscrit"));if(v.formes)eff.push(plural(Number(v.formes),"participant","participants")+" ayant terminé");if(v.femmes||v.hommes)eff.push(plural(Number(v.femmes)||0,"femme")+", "+plural(Number(v.hommes)||0,"homme"));KV("Effectif",eff.join(" — "));KV("Cadre institutionnel",v.cadreInst);KV("Financement",v.financement);if(v.observation){SUB("Observation relative à la durée");P(v.observation)}if(v.objectifGeneral||v.objectifsSpec){SEC("Objectifs de la formation");if(v.objectifGeneral){SUB(n+".1. Objectif général");P(v.objectifGeneral)}if(v.objectifsSpec){SUB(n+".2. Objectifs spécifiques");h.push('<p class="p">La formation visait à rendre les participants capables de :</p>');L(v.objectifsSpec)}if(v.objectifsPlus)P(v.objectifsPlus)}var ets=lignesDe(v.etapes);if(ets.length||phases.some((function(p){return p.titre||p.texte}))){SEC("Déroulement et contenu de la formation");h.push('<p class="p">La formation a été conduite selon une progression logique, de la préparation de la matière première jusqu\'à la réalisation des articles finis :</p>');if(v.progression)h.push('<div class="flux">'+esc(v.progression)+"</div>");if(ets.length){h.push('<table class="et keep"><tr><th>Étape</th><th>Contenu pratique</th></tr></table>');ets.forEach((function(e,i){h.push('<table class="et"><tr><td>'+(i+1)+"</td><td>"+esc(e)+"</td></tr></table>")}));h.push('<p class="note">Le tableau présente la progression pédagogique par grandes étapes ; il ne correspond pas à un découpage hebdomadaire strict.</p>')}var num=n;phases.forEach((function(ph,i){if(!ph.titre&&!ph.texte){PH("p"+i);return}
-SUB(num+"."+(i+1)+". Phase "+(i+1)+(ph.titre?" : "+ph.titre.charAt(0).toLowerCase()+ph.titre.slice(1):""));P(ph.texte);PH("p"+i)}))}if(v.methodoTexte||v.methodologie){SEC("Méthodologie");P(v.methodoTexte);L(v.methodologie)}if(v.resultats||v.resultatsTexte){SEC("Résultats et productions réalisées");if(v.resultats){h.push('<p class="p">À l\'issue de la formation, les participants sont en mesure de :</p>');L(v.resultats)}P(v.resultatsTexte)}if(v.difficultes){SEC("Difficultés et enseignements");P(v.difficultes)}if(v.recommandations){SEC("Recommandations");L(v.recommandations)}if(v.conclusion){SEC("Conclusion");P(v.conclusion)}h.push('<div class="sign">Fait à '+esc(v.villeSignature||"……………")+", le "+(v.dateRapport?esc(dateLongue(v.dateRapport)):"……………………")+"<b>"+esc(v.signataire||"")+"</b>"+Sig.visa("rapports")+"<i>(Signature et cachet)</i></div>");if((photos||[]).some((function(p){return(p.sec||"ann")==="ann"||!/^p\d+$/.test(p.sec)||Number(p.sec.slice(1))>=phases.length}))){h.push('<h2 class="sec keep">Annexes photographiques</h2>');PH("ann");var orph=(photos||[]).filter((function(p){return/^p\d+$/.test(p.sec||"")&&Number(p.sec.slice(1))>=phases.length}));if(orph.length){var keep=photos;photos=orph.map((function(p){return Object.assign({},p,{sec:"x"})}));PH("x");photos=keep}}return h.join("\n")},paginer:function(opts){var src=document.getElementById("src"),out=document.getElementById("pages"),info=document.getElementById("pinfo");var polices=[[11,1],[10.5,.9],[10,.8],[9.6,.72],[9.2,.64],[8.8,.56],[8.4,.5]],hauteurs=[56,48,41,35,30,26];var blocs=Array.prototype.slice.call(src.children);var page=function(n){var pg=document.createElement("section");pg.className="page"+(n===0?" first":"");pg.innerHTML=(n?'<div class="hdr"></div>':"")+'<div class="content"></div><div class="ftr"></div>';if(n)pg.querySelector(".hdr").textContent=opts.entete;out.appendChild(pg);return pg.querySelector(".content")};var deborde=function(c){return c.scrollHeight>c.clientHeight}
+SUB(num+"."+(i+1)+". Phase "+(i+1)+(ph.titre?" : "+ph.titre.charAt(0).toLowerCase()+ph.titre.slice(1):""));P(ph.texte);PH("p"+i)}))}if(v.methodoTexte||v.methodologie){SEC("Méthodologie");P(v.methodoTexte);L(v.methodologie)}if(v.resultats||v.resultatsTexte){SEC("Résultats et productions réalisées");if(v.resultats){h.push('<p class="p">À l\'issue de la formation, les participants sont en mesure de :</p>');L(v.resultats)}P(v.resultatsTexte)}var EVR=regId&&typeof OEV!=="undefined"?OEV.rapport(regId):null;if(EVR){h.push(EVR.css);SEC(EVR.titre);EVR.blocs(n).forEach(function(x){h.push(x)})}if(v.difficultes){SEC("Difficultés et enseignements");P(v.difficultes)}if(v.recommandations){SEC("Recommandations");L(v.recommandations)}if(v.conclusion){SEC("Conclusion");P(v.conclusion)}h.push('<div class="sign">Fait à '+esc(v.villeSignature||"……………")+", le "+(v.dateRapport?esc(dateLongue(v.dateRapport)):"……………………")+"<b>"+esc(v.signataire||"")+"</b>"+Sig.visa("rapports")+"<i>(Signature et cachet)</i></div>");if((photos||[]).some((function(p){return(p.sec||"ann")==="ann"||!/^p\d+$/.test(p.sec)||Number(p.sec.slice(1))>=phases.length}))){h.push('<h2 class="sec keep">Annexes photographiques</h2>');PH("ann");var orph=(photos||[]).filter((function(p){return/^p\d+$/.test(p.sec||"")&&Number(p.sec.slice(1))>=phases.length}));if(orph.length){var keep=photos;photos=orph.map((function(p){return Object.assign({},p,{sec:"x"})}));PH("x");photos=keep}}return h.join("\n")},paginer:function(opts){var src=document.getElementById("src"),out=document.getElementById("pages"),info=document.getElementById("pinfo");var polices=[[11,1],[10.5,.9],[10,.8],[9.6,.72],[9.2,.64],[8.8,.56],[8.4,.5]],hauteurs=[56,48,41,35,30,26];var blocs=Array.prototype.slice.call(src.children);var page=function(n){var pg=document.createElement("section");pg.className="page"+(n===0?" first":"");pg.innerHTML=(n?'<div class="hdr"></div>':"")+'<div class="content"></div><div class="ftr"></div>';if(n)pg.querySelector(".hdr").textContent=opts.entete;out.appendChild(pg);return pg.querySelector(".content")};var deborde=function(c){return c.scrollHeight>c.clientHeight}
 ;var couper=function(c,el){var mots=el.textContent.split(" "),lo=0,hi=mots.length-1,essai=el.cloneNode(false);c.appendChild(essai);while(lo<hi){var mid=Math.ceil((lo+hi)/2);essai.textContent=mots.slice(0,mid).join(" ");if(deborde(c))hi=mid-1;else lo=mid}if(lo<4){c.removeChild(essai);return null}essai.textContent=mots.slice(0,lo).join(" ");essai.classList.add("coupe");var reste=el.cloneNode(false);reste.classList.remove("coupe");reste.classList.add("suite");reste.textContent=mots.slice(lo).join(" ");return reste};var mettre=function(niv){var r=document.documentElement.style;r.setProperty("--fs",niv[0]+"pt");r.setProperty("--ph",niv[1]+"mm");r.setProperty("--sp",String(niv[2]));cur=niv;out.innerHTML="";var n=0,c=page(n),i,el,garde;for(i=0;i<blocs.length;i++){el=blocs[i].cloneNode(true);c.appendChild(el);if(!deborde(c))continue;c.removeChild(el);if(el.classList.contains("p")){var reste=couper(c,el);if(!reste){if(!c.children.length){c.appendChild(el);continue}garde=[];while(c.lastElementChild&&c.lastElementChild.classList.contains("keep"))garde.unshift(c.removeChild(c.lastElementChild));if(!c.children.length){garde.forEach((function(g){c.appendChild(g)}));c.appendChild(el);continue}n++;c=page(n);garde.forEach((function(g){c.appendChild(g)}));c.appendChild(el);if(deborde(c)){c.removeChild(el);var r2=couper(c,el);if(r2){n++;c=page(n);c.appendChild(r2)}else c.appendChild(el)}continue}n++;c=page(n);c.appendChild(reste);var garde2=0;while(deborde(c)&&garde2++<6){c.removeChild(reste);var r3=couper(c,reste);if(!r3){c.appendChild(reste);break}n++;c=page(n);c.appendChild(r3);reste=r3}continue}garde=[];while(c.lastElementChild&&c.lastElementChild.classList.contains("keep"))garde.unshift(c.removeChild(c.lastElementChild));if(!c.children.length){garde.forEach((function(g){c.appendChild(g)}));c.appendChild(el);continue}n++;c=page(n);garde.forEach((function(g){c.appendChild(g)}));c.appendChild(el)}var pages=out.querySelectorAll(".page")
-;for(var k=0;k<pages.length;k++)pages[k].querySelector(".ftr").textContent=opts.pied+"  |  Page "+(k+1)+" sur "+pages.length;return pages.length};var cur=null,avecPhotos=!!src.querySelector(".photos");var essai=function(max,nPolices){for(var f=0;f<nPolices;f++){var hs=avecPhotos?hauteurs:[hauteurs[0]];for(var h=0;h<hs.length;h++){var nb=mettre([polices[f][0],hs[h],polices[f][1]]);if(nb<=max)return nb}}return null};var go=function(){var nb=null;if(opts.cible==="auto"){nb=essai(3,4);if(nb===null)nb=essai(4,polices.length)}else nb=essai(Number(opts.cible)||4,polices.length);var trop=nb===null;if(trop)nb=mettre([polices[polices.length-1][0],hauteurs[hauteurs.length-1],polices[polices.length-1][1]]);info.innerHTML="<strong>"+nb+" page"+(nb>1?"s":"")+"</strong> — texte "+String(cur[0]).replace(".",",")+" pt"+(avecPhotos?", photos de "+cur[1]+" mm":"")+(trop?' <span class="warn">— le contenu dépasse '+(opts.cible==="auto"?4:opts.cible)+" pages : raccourcissez les textes ou retirez des photos.</span>":"")};var imgs=Array.prototype.slice.call(src.querySelectorAll("img"));var attente=imgs.map((function(im){return new Promise((function(res){if(im.complete)res();else{im.onload=res;im.onerror=res}}))}));var fontes=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();Promise.all(attente.concat([fontes])).then((function(){setTimeout(go,60)}))},imprimer:function(id){var st=RapF.etat(id),reg=get("formation/registre",id)||{};return RapF.chargerPhotos(id).then((function(photos){return Coul.atelier().then((function(pal){var v=st.v,logo=LogoGen.pourDocument(pal),info=S.info||{}
-;var html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>'+esc((v.titre||"Rapport")+" — "+(v.sousTitre||reg.intitule||""))+"</title><style>"+RapF.css(pal)+"</style></head><body>"+'<div class="barre"><span><strong>'+esc(v.titre||"Rapport de formation")+'</strong> — <span id="pinfo">mise en page…</span></span><button type="button" onclick="window.print()">Imprimer ou enregistrer en PDF</button></div>'+'<div id="src">'+RapF.blocs(v,st.phases,photos||[],logo)+'</div><div id="pages"></div>'+"<script>("+RapF.paginer.toString()+")("+JSON.stringify({cible:v.pages||"auto",entete:(v.titre?v.titre.charAt(0)+v.titre.slice(1).toLowerCase():"Rapport de formation")+" — "+(v.sousTitre||"")+" — "+(v.organisme||info.raisonSociale||""),pied:[v.lieu||info.ville||"",String(v.pays||"").toLowerCase().replace(/(^|[\s'’-])([a-zà-ÿ])/g,(function(m,a,c){return a+c.toUpperCase()})).replace(/ (De|Du|Des|La|Le|Les|Et) /g,(function(m){return m.toLowerCase()}))].filter(Boolean).join(" – ")}).replace(/</g,"\\u003c")+");<\/script></body></html>";var w=window.open("","_blank");if(!w){UI.toast("Le navigateur a bloqué la fenêtre d'impression. Autorisez les fenêtres pour ce site.","err");return}w.document.open();w.document.write(html);w.document.close()}))}))}};view("formation/rapports",{mod:"formation",title:"Rapports de formation",need:["formation/registre","formation/rapports","formation/apprenants","parametres/personnel"],render:function(){var rows=list("formation/registre",(function(r){return!r.archive&&r.statut!=="annulee"})).map((function(r){var d=get("formation/rapports",r.id);return Object.assign({},r,{_e:regEtat(r),_r:d||null,_rs:d?"ok":"non"})}));var faits=rows.filter((function(r){return r._r}))
+;for(var k=0;k<pages.length;k++)pages[k].querySelector(".ftr").textContent=opts.pied+"  |  Page "+(k+1)+" sur "+pages.length;return pages.length};var cur=null,avecPhotos=!!src.querySelector(".photos");var essai=function(max,nPolices){for(var f=0;f<nPolices;f++){var hs=avecPhotos?hauteurs:[hauteurs[0]];for(var h=0;h<hs.length;h++){var nb=mettre([polices[f][0],hs[h],polices[f][1]]);if(nb<=max)return nb}}return null};var go=function(){var nb=null,bo=opts.bonus||0;if(opts.cible==="auto"){nb=essai(3+bo,4);if(nb===null)nb=essai(4+bo,polices.length)}else nb=essai((Number(opts.cible)||4)+bo,polices.length);var trop=nb===null;if(trop)nb=mettre([polices[polices.length-1][0],hauteurs[hauteurs.length-1],polices[polices.length-1][1]]);info.innerHTML="<strong>"+nb+" page"+(nb>1?"s":"")+"</strong> — texte "+String(cur[0]).replace(".",",")+" pt"+(avecPhotos?", photos de "+cur[1]+" mm":"")+(trop?' <span class="warn">— le contenu dépasse '+((opts.cible==="auto"?4:Number(opts.cible))+(opts.bonus||0))+" pages : raccourcissez les textes ou retirez des photos.</span>":"")};var imgs=Array.prototype.slice.call(src.querySelectorAll("img"));var attente=imgs.map((function(im){return new Promise((function(res){if(im.complete)res();else{im.onload=res;im.onerror=res}}))}));var fontes=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();Promise.all(attente.concat([fontes])).then((function(){setTimeout(go,60)}))},imprimer:function(id){var st=RapF.etat(id),reg=get("formation/registre",id)||{};return OEV.charger().then(function(){return RapF.chargerPhotos(id)}).then((function(photos){return Coul.atelier().then((function(pal){var v=st.v,logo=LogoGen.pourDocument(pal),info=S.info||{}
+;var html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>'+esc((v.titre||"Rapport")+" — "+(v.sousTitre||reg.intitule||""))+"</title><style>"+RapF.css(pal)+"</style></head><body>"+'<div class="barre"><span><strong>'+esc(v.titre||"Rapport de formation")+'</strong> — <span id="pinfo">mise en page…</span></span><button type="button" onclick="window.print()">Imprimer ou enregistrer en PDF</button></div>'+'<div id="src">'+RapF.blocs(v,st.phases,photos||[],logo,id)+'</div><div id="pages"></div>'+"<script>("+RapF.paginer.toString()+")("+JSON.stringify({cible:v.pages||"auto",bonus:OEV.rapport(id)?1:0,entete:(v.titre?v.titre.charAt(0)+v.titre.slice(1).toLowerCase():"Rapport de formation")+" — "+(v.sousTitre||"")+" — "+(v.organisme||info.raisonSociale||""),pied:[v.lieu||info.ville||"",String(v.pays||"").toLowerCase().replace(/(^|[\s'’-])([a-zà-ÿ])/g,(function(m,a,c){return a+c.toUpperCase()})).replace(/ (De|Du|Des|La|Le|Les|Et) /g,(function(m){return m.toLowerCase()}))].filter(Boolean).join(" – ")}).replace(/</g,"\\u003c")+");<\/script></body></html>";var w=window.open("","_blank");if(!w){UI.toast("Le navigateur a bloqué la fenêtre d'impression. Autorisez les fenêtres pour ce site.","err");return}w.document.open();w.document.write(html);w.document.close()}))}))}};view("formation/rapports",{mod:"formation",title:"Rapports de formation",need:["formation/registre","formation/rapports","formation/apprenants","parametres/personnel"],render:function(){var rows=list("formation/registre",(function(r){return!r.archive&&r.statut!=="annulee"})).map((function(r){var d=get("formation/rapports",r.id);return Object.assign({},r,{_e:regEtat(r),_r:d||null,_rs:d?"ok":"non"})}));var faits=rows.filter((function(r){return r._r}))
 ;return pageHead("Rapports de formation","Un rapport par formation enregistrée, adapté à la formation réellement exécutée : ses types, ses dates, son lieu, son effectif et son financement écrivent le brouillon, que vous complétez et illustrez de photos. Le rapport imprimé tient en 3 pages (4 au plus), avec la page de garde, les sections numérotées et les photos légendées.",UI.btn(icon("grad")+" Attestations et satisfecit","go","ghost",' data-id="formation/certificats"'))+tiles([{t:"Formations",v:rows.length},{t:"Rapports rédigés",v:faits.length},{t:"Formations terminées sans rapport",v:rows.filter((function(r){return r._e==="terminee"&&!r._r})).length,tone:rows.some((function(r){return r._e==="terminee"&&!r._r}))?"warn":""}])+UI.table({id:"rapports",rows:rows,sort:"debut",dir:-1,filters:[{k:"_rs",t:"Rapport",opts:[["ok","Rédigé"],["non","À rédiger"]]},{k:"_e",t:"État",opts:[["planifiee","À venir"],["en_cours","En cours"],["terminee","Terminée"]]}],text:function(r){return[r.intitule,r.lieu,r.financeur].join(" ")},cols:[{k:"intitule",t:"Formation",f:function(r){return"<strong>"+esc(r.intitule)+'</strong><br><small class="muted">'+esc(regTypes(r).map((function(k){return pname("typesFormation",k,TYPES_FORMATION_DEFAUT)})).join(", "))+"</small>"}},{k:"debut",t:"Dates",f:function(r){return fmtDate(r.debut)+" — "+fmtDate(r.fin)}},{k:"lieu",t:"Lieu"},{k:"_e",t:"État",f:function(r){return statutBadge(r._e)}},{k:"_rs",t:"Rapport",f:function(r){return r._r?UI.badge("Rédigé","ok")+'<br><small class="muted">'+fmtDate(r._r.majLe)+" — "+esc(r._r.majPar||"")+(r._r.nbPhotos?" — "+plural(r._r.nbPhotos,"photo"):"")+"</small>":'<span class="muted">à rédiger</span>'}}],rowAct:"ouvrir",actions:function(r){return(can("formation","modifier")||can("formation","creer")?UI.btn(icon("edit")+(r._r?" Modifier":" Rédiger le rapport"),"ouvrir",r._r?"ghost sm":"sm",' data-id="'+attr(r.id)+'"'):"")+(r._r?" "+UI.btn(icon("print")+" Imprimer","imprimer","ghost sm",' data-id="'+attr(r.id)+'"'):"")},
 empty:"Aucune formation enregistrée. Enregistrez d'abord une formation : son rapport se rédige ensuite ici."})},acts:{ouvrir:function(id){App.go("formation/rapport/"+id)},imprimer:function(id){RapF.imprimer(id)}}});view("formation/rapport",{mod:"formation",parent:"formation/rapports",noTabs:true,title:function(id){var r=get("formation/registre",id);return r?"Rapport — "+r.intitule:"Rapport de formation"},need:["formation/registre","formation/rapports","formation/apprenants","parametres/personnel"],render:function(id){var reg=get("formation/registre",id);if(!reg)return UI.empty("Formation introuvable","Cette formation n'existe plus dans le registre.");var st=RapF.etat(id),ed=can("formation","modifier")||can("formation","creer");if(!st.photos&&!st.chargement)RapF.chargerPhotos(id).then((function(){if(App.route==="formation/rapport"&&App.arg===id)App.render(true)}));var secs=RapF.secOpts(st);var phot=function(sec){if(!st.photos)return"";var ps=st.photos.map((function(p,i){return{p:p,i:i}})).filter((function(x){return(x.p.sec||"ann")===sec}));return ps.length?'<div class="rap-ths">'+ps.map((function(x){return'<img src="'+attr(x.p.img)+'" alt="" title="'+attr(x.p.leg||"")+'">'})).join("")+"</div>":""}
 ;return'<button type="button" class="linkbtn" data-act="go" data-id="formation/rapports">'+icon("back")+" Tous les rapports</button>"+pageHead("Rapport de formation","<strong>"+esc(reg.intitule)+"</strong> — du "+fmtDate(reg.debut)+" au "+fmtDate(reg.fin)+(reg.lieu?" — "+esc(reg.lieu):"")+(st.nouveau?' — <span class="tx-warn">brouillon écrit à partir de la formation, pas encore enregistré</span>':""),UI.btn(icon("bolt")+" Réécrire le brouillon","brouillon","ghost")+UI.btn(icon("eye")+" Aperçu et impression","imprimer","ghost")+(ed?UI.btn(icon("check")+" Enregistrer","save","primary"," data-needs-net"):""))+'<form id="rap-form" class="card pad form-page" novalidate>'+UI.fields(RAP_CHAMPS,st.v)+'<div class="fsec span2"><h3>Phases de la formation</h3><p class="muted">Une phase par grande étape réellement conduite. Les photos rattachées à une phase s\'impriment juste après son texte.</p></div>'+'<div class="span2 rap-phases">'+st.phases.map((function(p,i){return'<div class="rap-phase"><div class="row between"><strong>Phase '+(i+1)+'</strong><span class="row">'+UI.ibtn("back","phHaut",i,"Monter")+UI.ibtn("trash","phSuppr",i,"Retirer la phase")+"</span></div>"+'<label class="fld"><span>Titre</span><input data-phi="'+i+'" data-phk="titre" value="'+attr(p.titre||"")+'"></label>'+'<label class="fld"><span>Ce qui a été fait</span><textarea rows="5" data-phi="'+i+'" data-phk="texte">'+esc(p.texte||"")+"</textarea></label>"+phot("p"+i)+"</div>"
@@ -2497,6 +2497,16 @@ var OEV_CRIT = [
   { id: "att_materiel", e: "attitudes", n: "Soin du matériel, hygiène et sécurité", a: "Range, entretient le métier et les outils, respecte les consignes.", apres: true },
   { id: "att_autonomie", e: "attitudes", n: "Autonomie et esprit d'initiative", a: "Travaille sans attendre qu'on lui dise tout, propose des solutions.", apres: true },
 ];
+var OEV_ART = {
+  teinture: ["en teinture", "la teinture"],
+  bobinage: ["en bobinage", "le bobinage"],
+  etalonnage: ["en étalonnage", "l'étalonnage"],
+  montage: ["au montage du métier", "le montage du métier"],
+  tissage: ["en tissage", "le tissage"],
+  echantillonnage: ["en échantillonnage et calcul des modèles", "l'échantillonnage et le calcul des modèles"],
+  finitions: ["dans les finitions", "les finitions"],
+  autres: ["dans les autres critères", "les autres critères"],
+};
 var OEV_AVIS = [
   ["competent", "Compétent", "ok"],
   ["renforcer", "À renforcer", "warn"],
@@ -2661,6 +2671,146 @@ var OEV = {
     var p = src && src.formateur ? get("parametres/personnel", src.formateur) : null;
     return p ? p.nom : "";
   },
+  photo: function (r) {
+    if (!r) return "";
+    if (r.photo) return r.photo;
+    var a = r.apprenant ? apprenantOf(r.apprenant) : null;
+    return (a && a.photo) || "";
+  },
+  avatar: function (r, taille, unite, cls) {
+    var p = OEV.photo(r),
+      u = unite || "px",
+      st = "width:" + taille + u + ";height:" + taille + u;
+    return p
+      ? '<img class="ev-ph' + (cls ? " " + cls : "") + '" src="' + attr(p) + '" alt="" style="' + st + '">'
+      : '<span class="ev-ph ev-in' + (cls ? " " + cls : "") + '" style="' + st + ";font-size:" + Math.round(taille * 0.36 * 10) / 10 + u + '">' + esc(initials(OEV.nomComplet(r))) + "</span>";
+  },
+  charger: function () {
+    var p;
+    try {
+      p = Data.need(["formation/evaluations", "formation/apprenants", "formation/sessions", "formation/inscriptions", "parametres/personnel"]).catch(function () {});
+    } catch (e) {
+      p = Promise.resolve();
+    }
+    return Promise.race([
+      p,
+      new Promise(function (r) {
+        setTimeout(r, 4000);
+      }),
+    ]);
+  },
+  classe: function (key, sel) {
+    var crits = OEV.crits(key);
+    var cs = sel
+      ? crits.filter(function (c) {
+          return sel[c.e];
+        })
+      : crits;
+    var score = cs.filter(function (c) {
+      return c.e !== "attitudes";
+    });
+    if (!score.length) score = cs;
+    var rows = OEV.eleves(key).map(function (r) {
+      var av = (r.avant || {}).notes,
+        ap = (r.apres || {}).notes,
+        a = OEV.res(av, score),
+        b = OEV.res(ap, score);
+      return { r: r, a: a, b: b, ea: OEV.res(av, cs).parE, eb: OEV.res(ap, cs).parE, d: OEV.prog(a.pct, b.pct) };
+    });
+    var parApres = rows.some(function (x) {
+      return x.b.n;
+    });
+    var cle = function (x) {
+      return parApres ? x.b.pct : x.a.pct;
+    };
+    rows.sort(function (x, y) {
+      var p = cle(x),
+        q = cle(y);
+      if (p === null && q !== null) return 1;
+      if (q === null && p !== null) return -1;
+      if (p !== q) return q - p;
+      return (y.d || 0) - (x.d || 0) || OEV.nomComplet(x.r).localeCompare(OEV.nomComplet(y.r), "fr");
+    });
+    var rang = 0,
+      prec = null;
+    rows.forEach(function (x, i) {
+      var p = cle(x);
+      if (p === null) {
+        x.rang = null;
+        return;
+      }
+      if (p !== prec) {
+        rang = i + 1;
+        prec = p;
+      }
+      x.rang = rang;
+    });
+    return {
+      crits: crits,
+      cs: cs,
+      score: score,
+      rows: rows,
+      parApres: parApres,
+      etapes: OEV_ETAPES.filter(function (t) {
+        return cs.some(function (c) {
+          return c.e === t[0];
+        });
+      }),
+    };
+  },
+  nivMoy: function (m) {
+    return OEV_NIV[Math.max(0, Math.min(4, Math.floor(m + 0.25)))];
+  },
+  meilleurs: function (C, e, max) {
+    var ph = C.parApres || e === "attitudes" ? "eb" : "ea",
+      sc = C.parApres ? "b" : "a";
+    return C.rows
+      .filter(function (x) {
+        return x[ph][e];
+      })
+      .sort(function (x, y) {
+        return y[ph][e].moy - x[ph][e].moy || (y[sc].pct || 0) - (x[sc].pct || 0);
+      })
+      .slice(0, max || 3)
+      .map(function (x) {
+        return { r: x.r, moy: x[ph][e].moy };
+      });
+  },
+  rangTxt: function (n) {
+    return n === null || n === undefined ? "—" : n === 1 ? "1er" : n + "e";
+  },
+  topsHtml: function (C, max, taille, unite) {
+    var h = C.etapes
+      .map(function (t) {
+        var L = OEV.meilleurs(C, t[0], max);
+        return (
+          '<div class="ev-top"><h4>' +
+          esc(t[2]) +
+          "</h4>" +
+          (L.length
+            ? L.map(function (x) {
+                var nv = OEV.nivMoy(x.moy);
+                return (
+                  '<div class="ev-chip">' +
+                  (taille ? OEV.avatar(x.r, taille, unite) : "") +
+                  "<span><b>" +
+                  esc(OEV.nomComplet(x.r)) +
+                  '</b><small><i style="color:' +
+                  nv[3] +
+                  '">' +
+                  esc(nv[1]) +
+                  "</i> — " +
+                  fmtN(x.moy, 1) +
+                  " /4</small></span></div>"
+                );
+              }).join("")
+            : '<small class="muted">Pas encore évalué</small>') +
+          "</div>"
+        );
+      })
+      .join("");
+    return h ? '<div class="ev-tops">' + h + "</div>" : "";
+  },
   css: function () {
     return (
       "<style>" +
@@ -2679,6 +2829,11 @@ var OEV = {
       ".ev-bt{display:flex;flex-direction:column;gap:3px}.ev-bt i{display:block;height:9px;border-radius:5px;background:#c9cedb;min-width:2px}.ev-bt i.ap{background:var(--vat)}.ev-b .v{text-align:right;color:var(--ink-2);white-space:nowrap}" +
       ".ev-k{display:flex;gap:14px;font-size:12px;color:var(--ink-2);margin:4px 0 8px}.ev-k i{display:inline-block;width:11px;height:11px;border-radius:3px;background:#c9cedb;margin-right:5px;vertical-align:-1px}.ev-k i.ap{background:var(--vat)}" +
       ".ev-up{color:var(--ok);font-weight:700}.ev-down{color:var(--err);font-weight:700}" +
+      ".ev-ph{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;object-fit:cover;flex:none;vertical-align:middle;background:#dfe4f2;color:#22306b;font-weight:700;border:1px solid #c9cedb}" +
+      ".ev-who{display:flex;gap:10px;align-items:center}.ev-rg{display:inline-block;min-width:34px;font-weight:700;color:var(--ink-2)}" +
+      ".ev-tops{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}.ev-top{border:1px solid var(--line);border-radius:var(--r);padding:8px 10px;background:var(--surface)}.ev-top h4{margin:0 0 6px;font-size:13.5px}" +
+      ".ev-chip{display:flex;gap:9px;align-items:center;padding:3px 0}.ev-chip b{display:block;font-size:13px;font-weight:600}.ev-chip small{display:block;color:var(--ink-3);font-size:12px}.ev-chip i{font-style:normal;font-weight:700}" +
+      ".ev-phfld{display:flex;gap:12px;align-items:center}" +
       "@media (max-width:640px){.ev-c{grid-template-columns:1fr}.ev-lv span{width:40px;height:38px}.ev-b{grid-template-columns:1fr 80px}.ev-b .ev-bt{grid-column:1/-1;order:3}}" +
       "</style>"
     );
@@ -2801,7 +2956,7 @@ var OEV = {
           return [a.id, [a.prenom, a.nom].filter(Boolean).join(" ") + (a.matricule ? " (" + a.matricule + ")" : "")];
         }),
       });
-    F1.push({ k: "prenom", t: "Prénom(s)", req: true }, { k: "nom", t: "Nom", req: true });
+    F1.push({ k: "prenom", t: "Prénom(s)", req: true }, { k: "nom", t: "Nom", req: true }, OEV.champPhoto(rec));
     F1.push({ type: "section", t: nouveau ? "L'évaluation" : phase === "avant" ? "Évaluation avant la formation" : "Évaluation après la formation" });
     if (nouveau)
       F1.push({
@@ -2843,6 +2998,7 @@ var OEV = {
     var vals = {
       prenom: rec ? rec.prenom : "",
       nom: rec ? rec.nom : "",
+      photo: rec ? rec.photo || "" : "",
       phase: phase,
       date: ph.date || today(),
       par: ph.par || (rec && rec.avant && rec.avant.par) || OEV.formateurNom(src) || S.member.nom,
@@ -2881,6 +3037,7 @@ var OEV = {
         var el = mm.el,
           foot = $(".mfoot", el);
         if (foot) foot.insertAdjacentHTML("afterbegin", '<span class="ev-live" aria-live="polite"></span>');
+        UI.bindImages(el);
         $("form", el).addEventListener("submit", function (e) {
           e.preventDefault();
         });
@@ -2954,6 +3111,7 @@ var OEV = {
             apprenant: v.app || null,
             prenom: v.prenom,
             nom: v.nom,
+            photo: v.photo || null,
             creeLe: today(),
             par: S.user.uid,
             parNom: S.member.nom,
@@ -2969,6 +3127,7 @@ var OEV = {
         } else {
           tx.field(OEV_COL, nid, "prenom", v.prenom);
           tx.field(OEV_COL, nid, "nom", v.nom);
+          if ((v.photo || null) !== (rec.photo || null)) tx.field(OEV_COL, nid, "photo", v.photo || null);
           tx.field(OEV_COL, nid, ps, bloc);
           if (ps === "apres") {
             tx.field(OEV_COL, nid, "appreciation", v.appreciation || null);
@@ -3137,6 +3296,41 @@ var OEV = {
       if (v) App.render(true);
     });
   },
+  champPhoto: function (rec) {
+    var deListe = rec && !rec.photo && OEV.photo(rec);
+    return {
+      k: "photo",
+      t: "Photo de l'élève (facultative)",
+      type: "image",
+      maxPx: 240,
+      quality: 0.72,
+      span: 2,
+      help: deListe
+        ? "La photo de la liste des étudiants est utilisée tant que vous n'en mettez pas une ici."
+        : "Petite photo du visage, prise de face : elle sert à reconnaître l'élève sur les résultats et dans le rapport de formation.",
+    };
+  },
+  changerPhoto: function (id) {
+    var r = get(OEV_COL, id);
+    if (!r || !OEV.peut()) return;
+    UI.formModal({
+      title: "Photo — " + OEV.nomComplet(r),
+      size: "s",
+      fields: [OEV.champPhoto(r)],
+      values: { photo: r.photo || "" },
+      save: function (v) {
+        var tx = new Tx("photo d'élève");
+        tx.field(OEV_COL, id, "photo", v.photo || null);
+        tx.field(OEV_COL, id, "majLe", today());
+        tx.field(OEV_COL, id, "majPar", S.member.nom);
+        tx.audit((v.photo ? "Photo ajoutée pour " : "Photo retirée pour ") + OEV.nomComplet(r) + " — évaluation « " + (r.intitule || "") + " »", "formation", id);
+        return tx.commit();
+      },
+      okMsg: "Photo enregistrée.",
+    }).then(function (v) {
+      if (v) App.render(true);
+    });
+  },
   retirer: function (id) {
     var r = get(OEV_COL, id);
     if (!r || !OEV.peutRetirer()) return;
@@ -3175,12 +3369,24 @@ var OEV = {
     var av = (r.avant || {}).notes || {},
       ap = (r.apres || {}).notes || {};
     var acts = [];
-    if (ed) acts.push({ t: icon("edit") + " Avant la formation", act: "av", cls: "ghost" }, { t: icon("edit") + " Après la formation", act: "ap", cls: "ghost" });
+    if (ed)
+      acts.push(
+        { t: icon("image") + " Photo", act: "photo", cls: "ghost" },
+        { t: icon("edit") + " Avant la formation", act: "av", cls: "ghost" },
+        { t: icon("edit") + " Après la formation", act: "ap", cls: "ghost" },
+      );
     acts.push({ t: icon("print") + " Imprimer la fiche", act: "print", cls: "primary" });
     if (OEV.peutRetirer()) acts.unshift({ t: icon("trash") + " Retirer", act: "del", cls: "ghost del" });
     detailModal(
       OEV.nomComplet(r) + " — " + (r.intitule || ""),
       OEV.css() +
+        '<div class="ev-who" style="margin-bottom:8px">' +
+        OEV.avatar(r, 64) +
+        "<div><strong>" +
+        esc(OEV.nomComplet(r)) +
+        '</strong><br><small class="muted">' +
+        (OEV.photo(r) ? (r.photo ? "Photo de l'évaluation" : "Photo de la liste des étudiants") : "Pas encore de photo : bouton « Photo »") +
+        "</small></div></div>" +
         UI.kv([
           ["Avant la formation", r.avant ? fmtDate(r.avant.date) + " — " + esc(r.avant.par || "") + " — <strong>" + OEV.pct(a.pct) + "</strong> (" + OEV.s20(a.pct) + ")" : ""],
           ["Après la formation", r.apres ? fmtDate(r.apres.date) + " — " + esc(r.apres.par || "") + " — <strong>" + OEV.pct(b.pct) + "</strong> (" + OEV.s20(b.pct) + ")" : ""],
@@ -3216,6 +3422,10 @@ var OEV = {
           OEV.evaluer(r.source, id, act === "av" ? "avant" : "apres");
         }
         if (act === "print") OEV.imprimerFiches(r.source, [id]);
+        if (act === "photo") {
+          mm.close();
+          OEV.changerPhoto(id);
+        }
         if (act === "del") {
           mm.close();
           OEV.retirer(id);
@@ -3281,6 +3491,10 @@ var OEV = {
       "tr.ev-et td{background:#eef1fa;font-weight:700}.ev-up{color:#2f7d4f;font-weight:700}.ev-down{color:#b23a3a;font-weight:700}" +
       ".ev-leg{display:flex;flex-wrap:wrap;gap:2px 12px;font-size:9.5px;color:#4a536b;margin-top:4px}.ev-leg b{display:inline-block;width:13px;height:13px;border-radius:3px;color:#fff;text-align:center;font-size:9px;line-height:13px;margin-right:3px}" +
       ".ev-ap{white-space:pre-line}.sig{margin-top:22px!important}.ev-pg+.ev-pg{break-before:page;page-break-before:always}" +
+      ".ev-ph{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;object-fit:cover;flex:none;vertical-align:middle;background:#e6e9f3;color:#22306b;font-weight:700;border:1px solid #c9cedb}" +
+      ".ev-id{display:flex;gap:9px;align-items:flex-start}.ev-id .ev-ph{border-radius:6px}.ev-who{display:flex;gap:6px;align-items:center}" +
+      ".ev-tops{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}.ev-top{border:1px solid #d9dce6;border-radius:6px;padding:4px 6px;break-inside:avoid}.ev-top h4{margin:0 0 3px;font-size:10.5px;color:#22306b}" +
+      ".ev-chip{display:flex;gap:5px;align-items:center;padding:1.5px 0;font-size:9.5px;line-height:1.2}.ev-chip b{display:block;font-size:10px}.ev-chip small{display:block;color:#4a536b;font-size:9px}.ev-chip i{font-style:normal;font-weight:700}" +
       "</style>"
     );
   },
@@ -3335,7 +3549,8 @@ var OEV = {
     }).join("");
     var form = OEV.formateurNom(src);
     return (
-      '<div class="ev-2"><div class="ev-bx">' +
+      '<div class="ev-2"><div class="ev-bx"><div class="ev-id">' +
+      (OEV.photo(r) ? OEV.avatar(r, 21, "mm") : "") +
       '<dl class="kv"><dt>Élève</dt><dd>' +
       esc(OEV.nomComplet(r)) +
       "</dd><dt>Formation</dt><dd>" +
@@ -3347,7 +3562,7 @@ var OEV = {
       (r.avant ? fmtDate(r.avant.date) + " — " + esc(r.avant.par || "") : "non évalué") +
       "</dd><dt>Après</dt><dd>" +
       (r.apres ? fmtDate(r.apres.date) + " — " + esc(r.apres.par || "") : "non évalué") +
-      "</dd></dl>" +
+      "</dd></dl></div>" +
       '<div class="ev-sc"><div><span>Avant</span><strong>' +
       OEV.pct(a.pct) +
       "</strong><small>" +
@@ -3417,10 +3632,9 @@ var OEV = {
     });
   },
   imprimerResultats: function (key) {
-    var src = OEV.src(key),
-      crits = OEV.crits(key),
-      rs = OEV.eleves(key);
-    if (!rs.length) {
+    var crits = OEV.crits(key),
+      src = OEV.src(key);
+    if (!OEV.eleves(key).length) {
       UI.toast("Aucun élève dans cette évaluation.", "info");
       return;
     }
@@ -3429,44 +3643,176 @@ var OEV = {
         return c.e === t[0];
       });
     });
-    var A = rs.map(function (r) {
-        return OEV.phaseRes(r, "avant", crits);
-      }),
-      B = rs.map(function (r) {
-        return OEV.phaseRes(r, "apres", crits);
-      }),
-      ATT = rs.map(function (r) {
-        return OEV.res((r.apres || {}).notes, crits.filter(function (c) {
-          return c.e === "attitudes";
-        }));
-      });
-    var moy = function (L) {
-      var v = L.filter(function (x) {
-        return x.pct !== null;
-      });
-      return v.length ? sum(v, function (x) {
-        return x.pct;
-      }) / v.length : null;
-    };
-    var ma = moy(A),
-      mb = moy(B);
-    var cpt = {};
-    rs.forEach(function (r) {
-      var k = OEV.avisDe(r, crits);
-      if (k) cpt[k] = (cpt[k] || 0) + 1;
+    var tout = {};
+    es.forEach(function (t) {
+      tout[t[0]] = true;
     });
+    UI.formModal({
+      title: "Imprimer les résultats — " + (src.intitule || ""),
+      size: "m",
+      intro:
+        "Cochez l'étape (la catégorie) voulue : résultats, classement et élèves les plus compétents sont calculés sur les étapes cochées. Une seule étape cochée : le détail de ses critères pour chaque élève. Toutes cochées : les résultats d'ensemble.",
+      fields: [
+        {
+          k: "etapes",
+          t: "Étapes à imprimer",
+          type: "checks",
+          req: true,
+          opts: es.map(function (t) {
+            var n = crits.filter(function (c) {
+              return c.e === t[0];
+            }).length;
+            return [t[0], t[2], plural(n, "critère")];
+          }),
+        },
+        { k: "photos", t: "Avec les photos des élèves", type: "checkbox" },
+      ],
+      values: { etapes: tout, photos: true },
+      ok: icon("print") + " Imprimer",
+      onOpen: function (mm) {
+        var fs = $('[data-k="etapes"]', mm.el);
+        if (fs)
+          fs.insertAdjacentHTML(
+            "afterbegin",
+            '<div class="row wrap" style="margin:2px 0 6px"><button type="button" class="btn ghost sm" data-mact="tout">Tout cocher</button><button type="button" class="btn ghost sm" data-mact="rien">Tout décocher</button></div>',
+          );
+      },
+      onAct: function (act, b, mm) {
+        $$('[data-k="etapes"] input[data-ck]', mm.el).forEach(function (c) {
+          c.checked = act === "tout";
+        });
+      },
+    }).then(function (v) {
+      if (v) OEV.imprimerResultatsSel(key, v.etapes || tout, v.photos);
+    });
+  },
+  imprimerResultatsSel: function (key, sel, avecPh) {
+    var src = OEV.src(key),
+      C = OEV.classe(key, sel),
+      crits = C.crits;
+    var es = OEV_ETAPES.filter(function (t) {
+      return crits.some(function (c) {
+        return c.e === t[0];
+      });
+    });
+    var tous = es.every(function (t) {
+      return sel[t[0]];
+    });
+    var une = C.etapes.length === 1 ? C.etapes[0] : null,
+      cu = une
+        ? C.cs.filter(function (c) {
+            return c.e === une[0];
+          })
+        : [];
+    var rows = C.rows;
+    var moy = function (k) {
+      var v = rows.filter(function (x) {
+        return x[k].pct !== null;
+      });
+      return v.length
+        ? sum(v, function (x) {
+            return x[k].pct;
+          }) / v.length
+        : null;
+    };
+    var ma = moy("a"),
+      mb = moy("b");
+    var cpt = {};
+    if (tous)
+      rows.forEach(function (x) {
+        var k = OEV.avisDe(x.r, crits);
+        if (k) cpt[k] = (cpt[k] || 0) + 1;
+      });
+    var capables = rows.filter(function (x) {
+      return x.b.pct !== null && x.b.pct >= 0.75;
+    }).length;
+    var nomsEt = C.etapes
+      .map(function (t) {
+        return t[2];
+      })
+      .join(", ");
+    var ph = function (r) {
+      return avecPh ? '<td class="c">' + OEV.avatar(r, 8.5, "mm") + "</td>" : "";
+    };
+    var fl = function (x, y) {
+      return (x === undefined || x === null ? "—" : x) + " → " + (y === undefined || y === null ? "—" : "<b>" + y + "</b>");
+    };
+    var tete =
+      "<th>Rang</th>" +
+      (avecPh ? '<th class="c">Photo</th>' : "") +
+      "<th>Élève</th>" +
+      (une
+        ? cu
+            .map(function (c) {
+              return '<th class="c" style="max-width:26mm;white-space:normal">' + esc(c.n) + "</th>";
+            })
+            .join("")
+        : C.etapes
+            .map(function (t) {
+              return '<th class="c">' + esc(t[2]) + "</th>";
+            })
+            .join("")) +
+      '<th class="c">Avant</th><th class="c">Après</th><th class="c">Progr.</th><th>' +
+      (tous ? "Mention</th><th>Avis" : "Niveau atteint") +
+      "</th>";
+    var lignes = rows
+      .map(function (x) {
+        var r = x.r,
+          av = (r.avant || {}).notes || {},
+          ap = (r.apres || {}).notes || {};
+        var cases = une
+          ? cu
+              .map(function (c) {
+                return '<td class="c">' + fl(av[c.id], ap[c.id]) + "</td>";
+              })
+              .join("")
+          : C.etapes
+              .map(function (t) {
+                var p = x.ea[t[0]],
+                  q = x.eb[t[0]];
+                return '<td class="c">' + fl(p ? fmtN(p.moy, 1) : null, q ? fmtN(q.moy, 1) : null) + "</td>";
+              })
+              .join("");
+        var nv = x.b.pct !== null ? OEV.nivMoy(x.b.pct * 4) : null;
+        return (
+          "<tr><td><b>" +
+          OEV.rangTxt(x.rang) +
+          "</b></td>" +
+          ph(r) +
+          "<td><strong>" +
+          esc(OEV.nomComplet(r)) +
+          "</strong></td>" +
+          cases +
+          '<td class="c">' +
+          OEV.s20(x.a.pct) +
+          '</td><td class="c"><b>' +
+          OEV.s20(x.b.pct) +
+          '</b></td><td class="c' +
+          (x.d > 0 ? " ev-up" : x.d < 0 ? " ev-down" : "") +
+          '">' +
+          OEV.progTxt(x.d) +
+          "</td><td>" +
+          (tous
+            ? esc(OEV.mention(x.b.pct)) + "</td><td>" + esc(OEV.avisNom(OEV.avisDe(r, crits)))
+            : nv
+              ? '<b style="color:' + nv[3] + '">' + esc(nv[1]) + "</b>"
+              : "—") +
+          "</td></tr>"
+        );
+      })
+      .join("");
     var corps =
       OEV.printCss() +
-      "<style>.ev-t td,.ev-t th{font-size:10px}.ev-t td.c,.ev-t th.c{text-align:center;white-space:nowrap}</style>" +
+      "<style>.ev-t td,.ev-t th{font-size:9.5px;vertical-align:middle}.ev-t td.c,.ev-t th.c{text-align:center;white-space:nowrap}.ev-t .ev-ph{font-size:3mm}</style>" +
       '<div class="tiles"><div class="tile"><span>Élèves</span><strong>' +
-      rs.length +
+      rows.length +
       "</strong><small>" +
-      A.filter(function (x) {
-        return x.n;
+      rows.filter(function (x) {
+        return x.a.n;
       }).length +
       " évalués avant, " +
-      B.filter(function (x) {
-        return x.n;
+      rows.filter(function (x) {
+        return x.b.n;
       }).length +
       ' après</small></div><div class="tile"><span>Moyenne avant</span><strong>' +
       OEV.pct(ma) +
@@ -3477,74 +3823,308 @@ var OEV = {
       "</strong><small>" +
       OEV.s20(mb) +
       "</small></div>" +
-      '<div class="tile"><span>Avis final</span><strong>' +
-      (cpt.competent || 0) +
-      " compétent" +
-      ((cpt.competent || 0) > 1 ? "s" : "") +
-      "</strong><small>" +
-      (cpt.renforcer || 0) +
-      " à renforcer, " +
-      (cpt.pas_encore || 0) +
-      " pas encore</small></div></div>" +
-      "<h3>Résultats par étape (moyenne de la classe, niveau sur 4)</h3>" +
-      '<div class="ev-k"><span><i></i>Avant la formation</span><span><i class="ap"></i>Après la formation</span></div>' +
-      OEV.barres(crits, A, B, true) +
-      "<h3>Résultats par élève</h3>" +
-      '<table class="ev-t"><thead><tr><th>N°</th><th>Élève</th>' +
-      es
-        .map(function (t) {
-          return '<th class="c">' + esc(t[2]) + "</th>";
-        })
-        .join("") +
-      '<th class="c">Avant</th><th class="c">Après</th><th class="c">Progr.</th><th>Mention</th><th>Avis</th></tr></thead><tbody>' +
-      rs
-        .map(function (r, i) {
-          var a = A[i],
-            b = B[i],
-            d = OEV.prog(a.pct, b.pct);
-          return (
-            "<tr><td>" +
-            (i + 1) +
-            "</td><td><strong>" +
-            esc(OEV.nomComplet(r)) +
-            "</strong></td>" +
-            es
-              .map(function (t) {
-                var x = (t[0] === "attitudes" ? null : a.parE[t[0]]),
-                  y = t[0] === "attitudes" ? ATT[i].parE.attitudes : b.parE[t[0]];
-                return '<td class="c">' + (x ? fmtN(x.moy, 1) : "—") + " → " + (y ? "<b>" + fmtN(y.moy, 1) + "</b>" : "—") + "</td>";
-              })
-              .join("") +
-            '<td class="c">' +
-            OEV.s20(a.pct) +
-            '</td><td class="c"><b>' +
-            OEV.s20(b.pct) +
-            '</b></td><td class="c' +
-            (d > 0 ? " ev-up" : d < 0 ? " ev-down" : "") +
-            '">' +
-            OEV.progTxt(d) +
-            "</td><td>" +
-            esc(OEV.mention(b.pct)) +
-            "</td><td>" +
-            esc(OEV.avisNom(OEV.avisDe(r, crits))) +
-            "</td></tr>"
-          );
-        })
-        .join("") +
+      (tous
+        ? '<div class="tile"><span>Avis final</span><strong>' +
+          (cpt.competent || 0) +
+          " compétent" +
+          ((cpt.competent || 0) > 1 ? "s" : "") +
+          "</strong><small>" +
+          (cpt.renforcer || 0) +
+          " à renforcer, " +
+          (cpt.pas_encore || 0) +
+          " pas encore</small></div>"
+        : '<div class="tile"><span>Font seuls (Acquis ou Expert)</span><strong>' +
+          capables +
+          " sur " +
+          rows.filter(function (x) {
+            return x.b.n;
+          }).length +
+          "</strong><small>niveau moyen de 3 sur 4 ou plus</small></div>") +
+      "</div>" +
+      (C.etapes.some(function (t) {
+        return t[0] !== "attitudes";
+      })
+        ? "<h3>Résultats par étape (moyenne de la classe, niveau sur 4)</h3>" +
+          '<div class="ev-k"><span><i></i>Avant la formation</span><span><i class="ap"></i>Après la formation</span></div>' +
+          OEV.barres(
+            C.cs,
+            rows.map(function (x) {
+              return { parE: x.ea };
+            }),
+            rows.map(function (x) {
+              return { parE: x.eb };
+            }),
+            true,
+          )
+        : "") +
+      "<h3>Classement des élèves" +
+      (tous ? "" : " — " + esc(une ? une[1] : nomsEt)) +
+      "</h3>" +
+      '<table class="ev-t"><thead><tr>' +
+      tete +
+      "</tr></thead><tbody>" +
+      lignes +
       "</tbody></table>" +
-      '<p class="small muted">Chaque case d\'étape : niveau moyen avant → après (sur 4). Avant et Après : score des compétences techniques sur 20. Progr. : progression en points de pourcentage. Les attitudes ne se notent qu\'après la formation et ne comptent pas dans le score.</p>' +
+      '<p class="small muted">' +
+      (C.parApres ? "Classement selon le score après la formation" : "Classement selon le score avant la formation (pas encore d'évaluation après)") +
+      ", calculé à partir des notes de chaque critère " +
+      (tous ? "de toutes les étapes" : "des étapes imprimées") +
+      " ; à égalité, la plus forte progression passe devant. " +
+      (une ? "Chaque case : niveau avant → après (sur 4)." : "Chaque case d'étape : niveau moyen avant → après (sur 4).") +
+      " Avant et Après : score sur 20." +
+      (tous ? " Les attitudes ne comptent pas dans le score." : "") +
+      "</p>" +
+      '<section style="break-inside:avoid;page-break-inside:avoid"><h3>Les plus compétents par étape</h3>' +
+      OEV.topsHtml(C, 3, avecPh ? 8 : 0, "mm") +
+      "</section>" +
       OEV.legendePrint() +
       '<div class="sig"><div>Le formateur' +
       (OEV.formateurNom(src) ? " — " + esc(OEV.formateurNom(src)) : "") +
       "</div><div>La Direction</div></div>";
     UI.print({
-      title: "Résultats de l'évaluation — " + (src.intitule || ""),
+      title: "Résultats de l'évaluation — " + (src.intitule || "") + (tous ? "" : " — " + nomsEt),
       docTitle: "Résultats de l'évaluation des élèves",
       docMeta:
-        "<div>" + esc(src.intitule || "") + "</div>" + (src.debut ? "<div>du " + fmtDate(src.debut) + " au " + fmtDate(src.fin) + "</div>" : "") + (src.lieu ? "<div>" + esc(src.lieu) + "</div>" : ""),
+        "<div>" +
+        esc(src.intitule || "") +
+        "</div>" +
+        (src.debut ? "<div>du " + fmtDate(src.debut) + " au " + fmtDate(src.fin) + (src.lieu ? " — " + esc(src.lieu) : "") + "</div>" : "") +
+        "<div><strong>" +
+        (tous ? "Toutes les étapes" : (C.etapes.length > 1 ? "Étapes : " : "Étape : ") + esc(nomsEt)) +
+        "</strong></div>",
       landscape: true,
       body: corps,
     });
+  },
+  rapport: function (regId) {
+    var C = OEV.classe(regId);
+    var ev = C.rows.filter(function (x) {
+      return x.a.n || x.b.n;
+    });
+    if (!ev.length) return null;
+    var crits = C.crits,
+      tech = OEV.tech(crits),
+      etT = C.etapes.filter(function (t) {
+        return t[0] !== "attitudes";
+      });
+    var nA = ev.filter(function (x) {
+        return x.a.n;
+      }).length,
+      nB = ev.filter(function (x) {
+        return x.b.n;
+      }).length;
+    var moy = function (k) {
+      var v = ev.filter(function (x) {
+        return x[k].pct !== null;
+      });
+      return v.length
+        ? sum(v, function (x) {
+            return x[k].pct;
+          }) / v.length
+        : null;
+    };
+    var ma = moy("a"),
+      mb = moy("b"),
+      ph = C.parApres ? "eb" : "ea";
+    var cpt = { competent: 0, renforcer: 0, pas_encore: 0 };
+    ev.forEach(function (x) {
+      var k = x.b.n ? OEV.avisDe(x.r, crits) : "";
+      if (k) cpt[k]++;
+    });
+    var parEt = etT
+      .map(function (t) {
+        var L = ev
+          .map(function (x) {
+            return x[ph][t[0]];
+          })
+          .filter(Boolean);
+        return {
+          t: t,
+          m: L.length
+            ? sum(L, function (p) {
+                return p.moy;
+              }) / L.length
+            : null,
+        };
+      })
+      .filter(function (o) {
+        return o.m !== null;
+      })
+      .sort(function (a, b) {
+        return b.m - a.m;
+      });
+    var txt =
+      (ev.length > 1 ? "Les " + ev.length + " apprenants ont été évalués" : "L'apprenant a été évalué") +
+      " par le formateur " +
+      (nA && nB ? "avant et après la formation" : nB ? "à l'issue de la formation" : "au début de la formation") +
+      ", sur " +
+      plural(tech.length, "critère") +
+      " répartis en " +
+      plural(etT.length, "étape") +
+      " du tissage (" +
+      etT
+        .map(function (t) {
+          return t[2].toLowerCase();
+        })
+        .join(", ") +
+      "), chacun noté de 0 (ne sait pas faire) à 4 (expert, capable de créer et d'enseigner)" +
+      (crits.some(function (c) {
+        return c.e === "attitudes";
+      })
+        ? ", ainsi que sur leurs attitudes professionnelles"
+        : "") +
+      ".";
+    if (ma !== null && mb !== null)
+      txt +=
+        " Le niveau moyen de la classe est passé de " +
+        OEV.pct(ma) +
+        " (" +
+        OEV.s20(ma) +
+        ") avant la formation à " +
+        OEV.pct(mb) +
+        " (" +
+        OEV.s20(mb) +
+        ") après, soit une progression de " +
+        OEV.progTxt(OEV.prog(ma, mb)).replace("pts", "points") +
+        ".";
+    else if (mb !== null) txt += " Le niveau moyen atteint en fin de formation est de " + OEV.pct(mb) + " (" + OEV.s20(mb) + ").";
+    else if (ma !== null) txt += " Le niveau moyen de départ est de " + OEV.pct(ma) + " (" + OEV.s20(ma) + ").";
+    if (nB)
+      txt +=
+        " À l'issue de la formation, l'avis du formateur est le suivant : " +
+        [
+          cpt.competent ? plural(cpt.competent, "compétent") : "",
+          cpt.renforcer ? cpt.renforcer + " à renforcer" : "",
+          cpt.pas_encore ? plural(cpt.pas_encore, "pas encore compétent", "pas encore compétents") : "",
+        ]
+          .filter(Boolean)
+          .join(", ") +
+        ".";
+    if (parEt.length > 1) {
+      var fort = parEt[0],
+        faible = parEt[parEt.length - 1];
+      if (fort.m > faible.m)
+        txt +=
+          " Les meilleurs résultats sont obtenus " +
+          OEV_ART[fort.t[0]][0] +
+          " (" +
+          fmtN(fort.m, 1) +
+          "/4) ; l'étape la moins maîtrisée est " +
+          OEV_ART[faible.t[0]][1] +
+          " (" +
+          fmtN(faible.m, 1) +
+          "/4).";
+    }
+    var av = function (r, cls) {
+      var p = OEV.photo(r);
+      return p
+        ? '<img class="evr-ph ' + cls + '" src="' + attr(p) + '" alt="">'
+        : '<span class="evr-ph evr-in ' + cls + '">' + esc(initials(OEV.nomComplet(r))) + "</span>";
+    };
+    var css =
+      "<style>table.evr{table-layout:fixed;width:100%}.evr th,.evr td{border:.3mm solid #9aa2b8;padding:.6mm 1.4mm;font-size:calc(var(--fs) - 1.2pt);vertical-align:middle;text-align:left;line-height:1.2}" +
+      '.evr th{background:var(--d);color:#fff;font-family:"IBM Plex Sans",Arial,sans-serif;font-weight:600}.evr+.evr th,.evr+.evr td{border-top:0}' +
+      ".evr .c{text-align:center}.evr .w1{width:11.5mm}.evr .w2{width:12mm}.evr .w4,.evr .w5{width:15mm}.evr .w6{width:15mm}.evr .w7{width:42mm}.evr .w8{width:23mm}" +
+      ".evr-ph{display:flex;align-items:center;justify-content:center;border-radius:50%;object-fit:cover;border:.3mm solid #c9cedb;background:var(--l);color:var(--d);font:700 6.5pt \"IBM Plex Sans\",Arial,sans-serif}" +
+      ".evr-ph.s{width:6.5mm;height:6.5mm;margin:0 auto}.evr-ph.m{width:12mm;height:12mm;font-size:9pt;margin:0 auto .7mm}" +
+      ".evr-tops{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm;margin:0 0 2.5mm}.evr-top{border:.3mm solid #c9cedb;border-radius:1.5mm;padding:1.2mm 2mm 1.5mm}" +
+      '.evr-top h4{margin:0 0 1.2mm;font:700 calc(var(--fs) - .8pt) "IBM Plex Sans",Arial,sans-serif;color:var(--d)}.evr-ch{display:flex;gap:1.5mm}' +
+      ".evr-c{flex:0 0 calc((100% - 3mm) / 3);text-align:center;font-size:calc(var(--fs) - 2pt);line-height:1.15}.evr-c b{display:block;font-weight:700}.evr-c i{display:block;font-style:normal;color:#4a536b}" +
+      "</style>";
+    var forts = function (x) {
+      var ok = etT.filter(function (t) {
+          var p = x[ph][t[0]];
+          return p && p.moy >= 3;
+        }),
+        non = etT.filter(function (t) {
+          return ok.indexOf(t) < 0;
+        });
+      if (!ok.length) return "";
+      if (!non.length) return "Toutes les étapes";
+      if (etT.length > 3 && non.length <= 2)
+        return (
+          "Toutes sauf " +
+          non
+            .map(function (t) {
+              return t[2].toLowerCase();
+            })
+            .join(" et ")
+        );
+      return ok
+        .map(function (t) {
+          return t[2];
+        })
+        .join(", ");
+    };
+    return {
+      css: css,
+      titre: "Évaluation des apprenants",
+      blocs: function (num) {
+        var out = ['<p class="p">' + esc(txt) + "</p>"];
+        out.push('<h3 class="sub keep">' + num + ".1. Classement des apprenants</h3>");
+        out.push(
+          '<table class="evr keep"><tr><th class="w1 c">Rang</th><th class="w2 c">Photo</th><th>Apprenant</th><th class="w4 c">Avant</th><th class="w5 c">Après</th><th class="w6 c">Progr.</th><th class="w7">Points forts (acquis)</th><th class="w8">Avis final</th></tr></table>',
+        );
+        ev.forEach(function (x) {
+          out.push(
+            '<table class="evr"><tr><td class="w1 c"><b>' +
+              OEV.rangTxt(x.rang) +
+              '</b></td><td class="w2 c">' +
+              av(x.r, "s") +
+              "</td><td><b>" +
+              esc(OEV.nomComplet(x.r)) +
+              '</b></td><td class="w4 c">' +
+              OEV.s20(x.a.pct) +
+              '</td><td class="w5 c"><b>' +
+              OEV.s20(x.b.pct) +
+              '</b></td><td class="w6 c">' +
+              OEV.progTxt(x.d) +
+              '</td><td class="w7">' +
+              esc(forts(x) || "—") +
+              '</td><td class="w8">' +
+              esc(x.b.n ? OEV.avisNom(OEV.avisDe(x.r, crits)) : "—") +
+              "</td></tr></table>",
+          );
+        });
+        out.push(
+          '<p class="note">Classement établi d\'après le score ' +
+            (C.parApres ? "après" : "avant") +
+            " la formation, calculé à partir des notes de chaque critère sur l'ensemble des étapes ; à égalité, la plus forte progression passe devant. Avant et Après : scores sur 20. Points forts : étapes où l'apprenant atteint au moins le niveau « Acquis » (3 sur 4).</p>",
+        );
+        out.push('<h3 class="sub keep">' + num + ".2. Les apprenants les plus compétents par étape</h3>");
+        var cartes = C.etapes.map(function (t) {
+          var L = OEV.meilleurs(C, t[0], 3);
+          return (
+            '<div class="evr-top"><h4>' +
+            esc(t[1]) +
+            '</h4><div class="evr-ch">' +
+            (L.length
+              ? L.map(function (y) {
+                  return (
+                    '<div class="evr-c">' +
+                    av(y.r, "m") +
+                    "<b>" +
+                    esc(OEV.nomComplet(y.r)) +
+                    "</b><i>" +
+                    esc(OEV.nivMoy(y.moy)[1]) +
+                    " — " +
+                    fmtN(y.moy, 1) +
+                    "/4</i></div>"
+                  );
+                }).join("")
+              : "<i>Non évalué</i>") +
+            "</div></div>"
+          );
+        });
+        for (var i = 0; i < cartes.length; i += 2) out.push('<div class="evr-tops">' + cartes[i] + (cartes[i + 1] || "") + "</div>");
+        out.push(
+          '<p class="note">Niveaux : 0 ne sait pas faire — 1 notions — 2 en progrès — 3 acquis (fait seul) — 4 expert (maîtrise, crée et peut enseigner). Pour chaque étape, les trois meilleurs niveaux ' +
+            (C.parApres ? "après" : "avant") +
+            " la formation.</p>",
+        );
+        return out;
+      },
+    };
   },
   imprimerGrille: function (key) {
     var src = OEV.src(key),
@@ -3722,11 +4302,18 @@ view("formation/evaleleves", {
     }).length;
     var g = OEV.grille(key),
       nbCrit = crits.length;
+    var C = OEV.classe(key),
+      rangs = {};
+    C.rows.forEach(function (x) {
+      rangs[x.r.id] = x.rang;
+    });
     var rows2 = els.map(function (r, i) {
       var a = A[i],
         b = B[i];
       return {
         id: r.id,
+        _rec: r,
+        _rang: rangs[r.id] === undefined ? null : rangs[r.id],
         _nom: OEV.nomComplet(r),
         nom: r.nom || "",
         _a: a.pct,
@@ -3782,21 +4369,35 @@ view("formation/evaleleves", {
       B.some(function (x) {
         return x.n;
       })
-        ? '<section class="card pad"><h3 style="margin-top:0">Résultats par étape du tissage (moyenne de la classe, niveau sur 4)</h3>' + OEV.barres(crits, A, B) + "</section>"
+        ? '<section class="card pad"><h3 style="margin-top:0">Résultats par étape du tissage (moyenne de la classe, niveau sur 4)</h3>' +
+          OEV.barres(crits, A, B) +
+          "</section>" +
+          '<section class="card pad"><h3 style="margin-top:0">Les plus compétents par étape</h3><p class="muted small">Les trois meilleurs niveaux de chaque étape ' +
+          (C.parApres ? "après la formation" : "avant la formation (pas encore d'évaluation après)") +
+          ". Ajoutez la photo d'un élève depuis sa fiche (bouton « Photo ») ou dans son évaluation.</p>" +
+          OEV.topsHtml(C, 3, 34, "px") +
+          "</section>"
         : "") +
       UI.table({
         id: "ev-eleves",
         rows: rows2,
-        sort: "nom",
+        sort: "_rang",
         text: function (r) {
           return r._nom;
         },
         cols: [
           {
+            k: "_rang",
+            t: "Rang",
+            f: function (r) {
+              return '<span class="ev-rg">' + OEV.rangTxt(r._rang) + "</span>";
+            },
+          },
+          {
             k: "nom",
             t: "Élève",
             f: function (r) {
-              return "<strong>" + esc(r._nom) + "</strong>";
+              return '<span class="ev-who">' + OEV.avatar(r._rec, 36) + "<strong>" + esc(r._nom) + "</strong></span>";
             },
           },
           {
