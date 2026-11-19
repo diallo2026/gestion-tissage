@@ -914,7 +914,7 @@ p.note { display: block; }
 <div id="modals"></div>
 <div id="toasts" aria-live="polite"></div>
 <noscript><p style="padding:20px">AGAT a besoin de JavaScript pour fonctionner.</p></noscript>
-<script>"use strict";var NERP=window.NERP=window.NERP||{};var APP={nom:"AGAT",long:"Application de gestion des ateliers de tissage"};NERP.version="1.0.0";NERP.build="20261118-1300";function $(s,el){return(el||document).querySelector(s)}function $$(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))}function esc(v){if(v===null||v===undefined)return"";return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function attr(v){return esc(v)}var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}},json:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},setJson:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};function parseNum(v){if(v===null||v===undefined||v==="")return NaN;if(typeof v==="number")return v;var s=String(v).replace(/\s| | /g,"").replace(",",".");if(!/^-?\d*\.?\d+$/.test(s)&&!/^-?\d+\.?$/.test(s))return NaN;return parseFloat(s)}function toQ(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n*1e3)}function fromQ(q){return(Number(q)||0)/1e3}function toMoney(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n)}function grp(intStr){return intStr.replace(/\B(?=(\d{3})+(?!\d))/g," ")}function fmtN(n,dec){n=Number(n)||0;dec=dec===undefined?0:dec;var neg=n<0;n=Math.abs(n);var s=n.toFixed(dec);var p=s.split(".");var out=grp(p[0]);if(dec>0){var d=p[1].replace(/0+$/,"");if(d)out+=","+d}return(neg?"−":"")+out}function fmtGNF(n){return fmtN(Math.round(Number(n)||0))+" GNF"}function fmtMoney(n){return fmtN(Math.round(Number(n)||0))}function fmtQ(q,unite){var s=fmtN(fromQ(q),3);return unite?s+" "+unite:s}function enLettres(n){n=Math.round(Math.abs(Number(n)||0));if(!n)return"zéro"
+<script>"use strict";var NERP=window.NERP=window.NERP||{};var APP={nom:"AGAT",long:"Application de gestion des ateliers de tissage"};NERP.version="1.0.0";NERP.build="20261119-2030";function $(s,el){return(el||document).querySelector(s)}function $$(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))}function esc(v){if(v===null||v===undefined)return"";return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function attr(v){return esc(v)}var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}},json:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},setJson:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};function parseNum(v){if(v===null||v===undefined||v==="")return NaN;if(typeof v==="number")return v;var s=String(v).replace(/\s| | /g,"").replace(",",".");if(!/^-?\d*\.?\d+$/.test(s)&&!/^-?\d+\.?$/.test(s))return NaN;return parseFloat(s)}function toQ(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n*1e3)}function fromQ(q){return(Number(q)||0)/1e3}function toMoney(v){var n=parseNum(v);return isNaN(n)?NaN:Math.round(n)}function grp(intStr){return intStr.replace(/\B(?=(\d{3})+(?!\d))/g," ")}function fmtN(n,dec){n=Number(n)||0;dec=dec===undefined?0:dec;var neg=n<0;n=Math.abs(n);var s=n.toFixed(dec);var p=s.split(".");var out=grp(p[0]);if(dec>0){var d=p[1].replace(/0+$/,"");if(d)out+=","+d}return(neg?"−":"")+out}function fmtGNF(n){return fmtN(Math.round(Number(n)||0))+" GNF"}function fmtMoney(n){return fmtN(Math.round(Number(n)||0))}function fmtQ(q,unite){var s=fmtN(fromQ(q),3);return unite?s+" "+unite:s}function enLettres(n){n=Math.round(Math.abs(Number(n)||0));if(!n)return"zéro"
 ;var U=["","un","deux","trois","quatre","cinq","six","sept","huit","neuf","dix","onze","douze","treize","quatorze","quinze","seize","dix-sept","dix-huit","dix-neuf"];var D=["","dix","vingt","trente","quarante","cinquante","soixante","soixante","quatre-vingt","quatre-vingt"];var deux=function(x,fin){if(x<20)return U[x];var d=Math.floor(x/10),u=x%10;if(d===7||d===9){var r=x-(d===7?60:80);return D[d]+(d===7&&r===11?" et ":"-")+U[r]}if(!u)return d===8?fin?"quatre-vingts":"quatre-vingt":D[d];if(u===1&&d!==8)return D[d]+" et un";return D[d]+"-"+U[u]};var trois=function(x,fin){var c=Math.floor(x/100),r=x%100,s="";if(c)s=(c>1?U[c]+" ":"")+"cent"+(c>1&&!r&&fin?"s":"");if(r)s+=(s?" ":"")+deux(r,fin);return s};var mds=Math.floor(n/1e9),mns=Math.floor(n%1e9/1e6),mls=Math.floor(n%1e6/1e3),r=n%1e3,out=[];if(mds)out.push(trois(mds,true)+" milliard"+(mds>1?"s":""));if(mns)out.push(trois(mns,true)+" million"+(mns>1?"s":""));if(mls)out.push(mls===1?"mille":trois(mls,false)+" mille");if(r)out.push(trois(r,true));return out.join(" ")}function majuscule(s){s=String(s||"");return s.charAt(0).toUpperCase()+s.slice(1)}function fmtPct(x,dec){if(!isFinite(x))return"—";return fmtN(x*100,dec===undefined?1:dec)+" %"}function qInput(q){return q===null||q===undefined||q===""?"":String(fromQ(q)).replace(".",",")}function pad2(n){return(n<10?"0":"")+n}function isoDate(d){d=d||new Date;return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate())}function today(){return isoDate(new Date)}function monthOf(iso){return String(iso||"").slice(0,7)}function yearOf(iso){return String(iso||"").slice(0,4)}function addDays(iso,n){var d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);return isoDate(d)}function daysBetween(a,b){return Math.round((new Date(b+"T12:00:00")-new Date(a+"T12:00:00"))/864e5)}function fmtDate(iso){if(!iso)return"—";if(typeof iso==="number")return new Date(iso).toLocaleDateString("fr-FR");var p=String(iso).slice(0,10).split("-")
 ;return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:esc(iso)}function fmtDateTime(ts){if(!ts)return"—";var d=new Date(ts);return d.toLocaleDateString("fr-FR")+" "+pad2(d.getHours())+":"+pad2(d.getMinutes())}var MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];function fmtMois(ym){var p=String(ym).split("-");return MOIS[Number(p[1])-1]+" "+p[0]}function startOfMonth(iso){return monthOf(iso||today())+"-01"}function startOfYear(iso){return yearOf(iso||today())+"-01-01"}function debounce(fn,ms){var t;return function(){var a=arguments,c=this;clearTimeout(t);t=setTimeout((function(){fn.apply(c,a)}),ms)}}function vals(obj){return obj?Object.keys(obj).map((function(k){var v=obj[k];if(v&&typeof v==="object"&&!v.id)v.id=k;return v})):[]}function byKey(k,dir){dir=dir||1;return function(a,b){var x=a[k],y=b[k];if(x===y)return 0;if(x===undefined||x===null)return 1;if(y===undefined||y===null)return-1;return(x>y?1:-1)*dir}}function sum(arr,f){var s=0;(arr||[]).forEach((function(x){s+=Number(f?f(x):x)||0}));return s}function groupBy(arr,f){var o={};(arr||[]).forEach((function(x){var k=f(x);(o[k]=o[k]||[]).push(x)}));return o}function clone(o){return o===undefined?undefined:JSON.parse(JSON.stringify(o))}function norm(s){s=String(s||"").toLowerCase();try{s=s.normalize("NFD").replace(/[̀-ͯ]/g,"")}catch(e){}return s}function normIdent(t){return norm(t).trim().replace(/\s+/g,".").replace(/[^a-z0-9._-]/g,"").slice(0,30)}function randomCode(n){var c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",r="";var a=new Uint32Array(n);(window.crypto||{}).getRandomValues?crypto.getRandomValues(a):a.forEach((function(_,i){a[i]=Math.random()*1e9}));for(var i=0;i<n;i++)r+=c[a[i]%c.length];return r}function strip(o){var r={};Object.keys(o||{}).forEach((function(k){if(k!=="id"&&k.charAt(0)!=="_")r[k]=o[k]}));return r}function initials(n){var p=String(n||"?").trim().split(/\s+/);return((p[0]||"?")[0]+(p[1]?p[1][0]:"")).toUpperCase()}function plural(n,s,p){
 return n+" "+(Math.abs(n)>1?p||s+"s":s)}var Bus={h:{},on:function(e,f){(this.h[e]=this.h[e]||[]).push(f)},emit:function(e,d){(this.h[e]||[]).forEach((function(f){try{f(d)}catch(x){console.error("[NERP]",e,x)}}))}};var S={tid:null,code:null,user:null,member:null,role:null,tenant:null,info:{},params:{},roles:{},members:{},blocs:{},bloc:"A",mode:"gestion",d:{},loaded:{},online:true,admin:false};var MODULES=[{k:"tableau",n:"Tableau de bord"},{k:"tissage",n:"Tissage (matières premières)"},{k:"distributeur",n:"Distributeur (fils remis aux tisserands)"},{k:"achats",n:"Achats"},{k:"stock",n:"Stock"},{k:"teinture",n:"Teinture"},{k:"production",n:"Production"},{k:"qualite",n:"Qualité"},{k:"ouvriers",n:"Ouvriers et déclarations"},{k:"paie",n:"Paie des ouvriers"},{k:"ventes",n:"Ventes"},{k:"boutique",n:"Boutique (stock et caisse)"},{k:"formation",n:"Formation"},{k:"catalogue",n:"Catalogue des modèles"},{k:"finances",n:"Finances"},{k:"rapports",n:"Rapports"},{k:"parametres",n:"Paramètres"},{k:"utilisateurs",n:"Utilisateurs et rôles"},{k:"admin",n:"Audit et validations"}];var ACTIONS=[{k:"consulter",n:"Consulter"},{k:"creer",n:"Créer"},{k:"modifier",n:"Modifier"},{k:"supprimer",n:"Supprimer"},{k:"valider",n:"Valider"},{k:"annuler",n:"Annuler"},{k:"exporter",n:"Exporter"},{k:"livrer",n:"Livrer",only:["ventes"]}];var WRITE_ACTIONS=["creer","modifier","supprimer","valider","annuler","livrer"];function actionFor(mod,a){return!a.only||a.only.indexOf(mod)>=0}var BLOC_IDS=["A","B","C","D","E","F","G","H","I","J"];var BLOCS_INCLUS=3;var EMPLACEMENTS_DEFAUT=[{id:"MAG-MP",nom:"Magasin des matières",type:"matieres",dispo:true,ordre:1},{id:"ENC-TEI",nom:"Encours teinture",type:"encours",dispo:false,ordre:2},{id:"QUAR",nom:"Quarantaine (à contrôler)",type:"quarantaine",dispo:false,ordre:3},{id:"MAG-FT",nom:"Magasin des fils teints",type:"fils_teints",dispo:true,ordre:4},{id:"ENC-PROD",nom:"Encours métiers",type:"encours",dispo:false,ordre:5},{id:"PF",nom:"Produits finis",
@@ -989,14 +989,14 @@ message:etat==="suspendu"?"Les utilisateurs n'auront plus accès aux données. R
 intro:"Le propriétaire recevra le code de l'atelier, son identifiant et son mot de passe provisoire.",ok:"Créer l'espace",save:function(v){v.ident=normIdent(v.ident);if(v.offre!=="essai"){var o=Concepteur.offres[v.offre];v.jours=o.jours;v.etat="actif";v.offreNom=o.nom;v.maxUsers=o.maxUsers}return Tenant.create(v,true).then((function(res){Concepteur.journal("Entreprise créée",v.nom,res.code);UI.modal({title:"Espace créé",size:"s",body:"<p>Transmettez ces informations au propriétaire :</p>"+UI.kv([["Code",'<span class="code">'+esc(res.code)+"</span>"],["Identifiant",esc(res.ident)],["Mot de passe provisoire","celui que vous avez saisi"]])+'<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/'+attr(String(v.tel).replace(/\D/g,""))+"?text="+encodeURIComponent("Votre atelier AGAT est prêt. Code de l'atelier : "+res.code+" — identifiant : "+res.ident+". Lien : "+location.origin+location.pathname+"?e="+res.code)+'">'+icon("whatsapp")+" Envoyer par WhatsApp</a>",actions:[{t:"Fermer",act:"x",cls:"primary"}],onAct:function(a,b,m){m.close()}})}))}})},imprimerRecu:function(p,facture){if(!p)return;var pl=Object.assign({},Platform.defaults,Concepteur.pub||{});var mode={om:"Orange Money",momo:"Mobile Money",especes:"Espèces",banque:"Virement bancaire"}[p.mode]||p.mode;var titre=facture?"Facture de licence":"Reçu de paiement";var num=facture?String(p.recu).replace(/^RC/,"FL"):p.recu
 ;var html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>'+esc(titre+" "+num)+"</title><style>"+"@page{size:A5 landscape;margin:12mm}*{-webkit-print-color-adjust:exact;print-color-adjust:exact;box-sizing:border-box}body{font-family:Arial,sans-serif;color:#1b2238;font-size:13px}"+".h{display:flex;justify-content:space-between;border-bottom:3px solid #22306b;padding-bottom:8px;margin-bottom:14px}.h h1{margin:0;color:#22306b;font-size:20px}.h h2{margin:0;font-size:17px;text-align:right}"+"table{width:100%;border-collapse:collapse}td{padding:6px 4px;border-bottom:1px solid #dde}td.n{text-align:right;font-weight:700}.pay{margin-top:14px;font-size:16px;font-weight:700;text-align:right;color:#22306b}"+".stamp{display:inline-block;border:2px solid #2f7d4f;color:#2f7d4f;padding:4px 12px;border-radius:6px;font-weight:700;transform:rotate(-4deg)}.f{margin-top:22px;font-size:11px;color:#556}</style></head><body>"+'<div class="h"><div><h1>'+esc(pl.nom)+"</h1><div>"+esc(pl.tel)+" — "+esc(pl.email||"")+"</div></div><div><h2>"+esc(titre)+"</h2><div>N° "+esc(num)+"</div><div>Date : "+fmtDate(p.date)+"</div></div></div>"+'<table><tr><td>Entreprise</td><td class="n">'+esc(p.tnom)+" ("+esc(p.code||"")+')</td></tr><tr><td>Formule</td><td class="n">'+esc(p.offreNom)+" — "+plural(p.jours||0,"jour")+"</td></tr>"+'<tr><td>Période couverte</td><td class="n">du '+fmtDate(isoDate(new Date(p.debut||Date.now())))+" au "+fmtDate(isoDate(new Date(p.fin||Date.now())))+"</td></tr>"+'<tr><td>Moyen de paiement</td><td class="n">'+esc(mode)+(p.reference?" — réf. "+esc(p.reference):"")+"</td></tr></table>"+'<div class="pay">Montant '+(facture?"facturé":"reçu")+" : "+fmtGNF(p.montant)+"</div>"+(facture?'<p><span class="stamp">PAYÉE</span></p>':"")+'<div class="f">Établi par '+esc(p.parNom||"")+" — "+esc(pl.concepteur||"")+"</div><script>window.onload=function(){setTimeout(function(){print()},300)}<\/script></body></html>";var w=window.open("","_blank");if(!w){
 UI.toast("Autorisez les fenêtres pour imprimer.","err");return}w.document.write(html);w.document.close()}};Concepteur.loaded={};var Views={};function view(route,def){def.route=route;Views[route]=def}function navCommun(p,P,m,opts){var x=function(r){return p+"/"+r};return[{g:"Clients",items:[{r:p+"-clients",t:"Clients et dettes",i:"users",mod:"ventes",tabs:[["ventes/clients","Clients"],[x("dettes"),"Gestion des dettes"],["ventes/creances","Créances et échéances"],[x("versements"),"Versements"]].concat(opts.clients||[])}]},{g:"Caisse",items:[{r:p+"-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[[x("caisse"),"Caisse"],[x("depenses"),"Dépenses"],[x("journalier"),"Historique journalier"],[ptRoute(p,"mensuel"),"Caisse mois par mois"],[x("repartition"),"Répartition des fonds"]]}]},{g:"Analyses",items:[{r:p+"-rap",t:"Rapports et palmarès",i:"chart",mod:m,tabs:[[x("rapport"),"Rapports"],[x("recap"),"Récapitulatif annuel"],[x("palmares"),"Palmarès"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}]}var FOURNISSEURS_ITEM={r:"achats",t:"Fournisseurs et commandes",i:"cart",mod:"achats",tabs:[["achats/fournisseurs","Fournisseurs"],["achats/commandes","Commandes"],["achats/receptions","Réceptions"],["achats/factures","Factures et dettes"],["achats/demandes","Demandes d'achat"]]};function fournisseursBloc(p){return{r:p+"-four",t:"Fournisseurs",i:"cart",mod:partieOf(p).mod,tabs:[["achats/fournisseurs","Fournisseurs"],["achats/commandes","Commandes"],["achats/receptions","Réceptions"]]}}var NAV_PARTIES={tissage:[{g:"Pilotage",items:[{r:"tissage/tableau",t:"Tableau de bord",i:"home",mod:"tissage"}]},{g:"Saisie",items:[{r:"tissage-saisie",t:"Saisie rapide",i:"bolt",mod:"tissage",tabs:[["tissage/rapide","Entrée ou vente rapide"],["tissage/ventes","Ventes"],["ventes/factures","Facturation client"]]}]},{g:"Matières premières",items:[{r:"tissage-stock",t:"Produits et stock",i:"box",mod:"tissage",
-tabs:[["tissage/produits","Produits"],["tissage/entrees","Entrées mensuelles"],["tissage/sorties","Sorties mensuelles"],["tissage/inventaire","Inventaire"],["tissage/transferts","Transferts"],["tissage/alertes","Stock disponible et dormant"]]},{r:"stock",t:"Magasin détaillé",i:"clip",mod:"stock",tabs:[["stock/etat","État du stock"],["stock/articles","Articles"],["stock/lots","Lots"],["stock/mouvements","Mouvements"],["stock/inventaires","Inventaires"]]}]},{g:"Fournisseurs",items:[FOURNISSEURS_ITEM]}],production:[{g:"Pilotage",items:[{r:"production/tableau",t:"Tableau de bord",i:"home",mod:"production"}]},{g:"Mes déclarations",items:[{r:"moi",t:"Mes déclarations",i:"clip",mod:"*",tabs:[["ouvriers/moi","Mes déclarations"],["ouvriers/mapaie","Ma paie"]]}]},{g:"Producteurs",items:[{r:"prod-decl",t:"Déclarations de production",i:"bolt",mod:"ouvriers",tabs:[["production/rapide","Déclaration rapide"],["ouvriers/declarations","À valider et historique"],["production/producteurs","Producteurs"]]},{r:"prod-paie",t:"Versements et paie",i:"wallet",mod:"paie",tabs:[["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/paie","Versements aux producteurs"],["ouvriers/rapports","Rapports par producteur"],["parametres/personnel","Fiches du personnel"]]},{r:"prod-obj",t:"Objectifs et prévisions",i:"chart",mod:"ouvriers",tabs:[["ouvriers/objectifs","Objectifs de chaque travailleur"],["ouvriers/previsions","Prévision mensuelle"]]},{r:"prod-badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]},{g:"Production",items:[{r:"prod-suivi",t:"Suivi de la production",i:"chart",mod:"production",tabs:[["production/mensuel","Production mensuelle"],["production/inventaire","Inventaire de production"],["production/sorties","Sorties mensuelles"],["production/transferts","Transferts"]]},{r:"prod-stock",
+tabs:[["tissage/produits","Produits"],["tissage/entrees","Entrées mensuelles"],["tissage/sorties","Sorties mensuelles"],["tissage/inventaire","Inventaire"],["tissage/transferts","Transferts"],["tissage/alertes","Stock disponible et dormant"]]},{r:"stock",t:"Magasin détaillé",i:"clip",mod:"stock",tabs:[["stock/etat","État du stock"],["stock/articles","Articles"],["stock/lots","Lots"],["stock/mouvements","Mouvements"],["stock/inventaires","Inventaires"]]}]},{g:"Fournisseurs",items:[FOURNISSEURS_ITEM]}],production:[{g:"Pilotage",items:[{r:"production/tableau",t:"Tableau de bord",i:"home",mod:"production"}]},{g:"Mes déclarations",items:[{r:"moi",t:"Mes déclarations",i:"clip",mod:"*",tabs:[["ouvriers/moi","Mes déclarations"],["ouvriers/mapaie","Ma paie"]]}]},{g:"Producteurs",items:[{r:"prod-decl",t:"Déclarations de production",i:"bolt",mod:"ouvriers",tabs:[["production/rapide","Déclaration rapide"],["ouvriers/declarations","À valider et historique"],["production/producteurs","Producteurs"]]},{r:"prod-paie",t:"Versements et paie",i:"wallet",mod:"paie",tabs:[["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/paie","Versements aux producteurs"],["ouvriers/rapports","Rapports par producteur"],["parametres/personnel","Fiches du personnel"]]},{r:"prod-obj",t:"Objectifs et prévisions",i:"chart",mod:"ouvriers",tabs:[["ouvriers/objectifs","Objectifs de chaque travailleur"],["ouvriers/previsions","Prévision mensuelle"],["ouvriers/emplois","Emploi du temps"]]},{r:"prod-badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]},{g:"Production",items:[{r:"prod-suivi",t:"Suivi de la production",i:"chart",mod:"production",tabs:[["production/mensuel","Production mensuelle"],["production/inventaire","Inventaire de production"],["production/sorties","Sorties mensuelles"],["production/transferts","Transferts"]]},{r:"prod-stock",
 t:"Stock produit",i:"box",mod:"production",tabs:[["production/produits","Produits"],["production/entrees","Entrées mensuelles"],["production/inventaire-stock","Comptage du stock"],["production/alertes","Stock disponible et dormant"]]},{r:"prod-fab",t:"Ordres et métiers",i:"loom",mod:"production",tabs:[["production/ordres","Ordres de production"],["production/suivi","Suivi du jour"],["production/metiers","Métiers à tisser"],["production/modeles","Modèles de tissu"],["qualite/controles","Contrôles qualité"],["qualite/nc","Non-conformités"]]}]},{g:"Ventes",items:[{r:"prod-ventes",t:"Ventes et facturation",i:"tag",mod:"production",tabs:[["production/vente","Vente rapide"],["production/ventes","Ventes"],["ventes/factures","Facturation"]]}]},{g:"Fournisseurs",items:[FOURNISSEURS_ITEM]}],teinture:[{g:"Pilotage",items:[{r:"teinture/tableau",t:"Tableau de bord",i:"home",mod:"teinture"}]},{g:"Saisie",items:[{r:"teinture-saisie",t:"Saisie rapide",i:"bolt",mod:"teinture",tabs:[["teinture/rapide","Entrée ou vente rapide"],["teinture/ventes","Ventes"],["ventes/factures","Facturation client"]]}]},{g:"Teinture",items:[{r:"teinture",t:"Lots et recettes",i:"drop",mod:"teinture",tabs:[["teinture/lots","Lots de teinture"],["teinture/recettes","Recettes"],["qualite/controles","Contrôles qualité"]]},{r:"teinture-stock",t:"Produits et stock",i:"box",mod:"teinture",tabs:[["teinture/produits","Produits"],["teinture/entrees","Entrées mensuelles"],["teinture/sorties","Sorties mensuelles"],["teinture/inventaire","Inventaire"],["teinture/transferts","Transferts"],["teinture/alertes","Stock disponible et dormant"]]}]},{g:"Fournisseurs",items:[FOURNISSEURS_ITEM]}],boutique:[{g:"Boutique",items:[{r:"boutique/tableau",t:"Tableau de bord",i:"home",mod:"boutique"},{r:"bstock",t:"Produits",i:"box",mod:"boutique",tabs:[["boutique/produits","Produits en boutique"],["boutique/appro","Approvisionnement"],["boutique/transferts","Transferts"]]},{r:"binv",t:"Inventaire",i:"clip",mod:"boutique",
 tabs:[["boutique/inventaire","Inventaire"],["boutique/corrections","Corrections du stock"]]},{r:"ventes",t:"Ventes",i:"tag",mod:"ventes",tabs:[["boutique/rapide","Vente rapide"],["ventes/caisse","Vente avec facture"],["boutique/ventes","Ventes"],["ventes/devis","Devis et commandes"],["ventes/livraisons","Livraisons"],["ventes/tarifs","Prix de vente"]]},{r:"bsorties",t:"Sorties mensuelles",i:"upload",mod:"boutique",tabs:[["boutique/sorties","Sorties mensuelles"]]},{r:"bentrees",t:"Entrées mensuelles",i:"download",mod:"boutique",tabs:[["boutique/entrees","Entrées mensuelles"]]},{r:"bfact",t:"Facturation",i:"audit",mod:"ventes",tabs:[["ventes/factures","Facturation"]]},{r:"bpalm",t:"Palmarès",i:"chart",mod:"boutique",tabs:[["boutique/palmares","Palmarès"],["boutique/rapport","Rapports"],["boutique/recap","Récapitulatif annuel"]]},{r:"bdormant",t:"Produits dormants",i:"alert",mod:"boutique",tabs:[["boutique/alertes","Produits dormants et alertes"]]},fournisseursBloc("boutique"),{r:"boutique-clients",t:"Clients et factures",i:"users",mod:"ventes",tabs:[["ventes/clients","Clients"],["boutique/dettes","Dettes et factures dues"],["ventes/creances","Créances et échéances"],["boutique/versements","Versements"]]},{r:"boutique/vclients",t:"Versements des clients",i:"wallet",mod:"ventes"}]},{g:"Caisse et vitrine",items:[{r:"boutique-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["boutique/caisse","Caisse"],["boutique/depenses","Dépenses"],["boutique/journalier","Historique journalier"],["boutique/mensuel","Caisse mois par mois"],["boutique/repartition","Répartition des fonds"]]},{r:"boutique-vitrine",t:"Catalogue des modèles",i:"image",mod:"catalogue",tabs:[["catalogue/modeles","Catalogue"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],formation:[{g:"Formation",items:[{r:"formation/tableau",t:"Tableau de bord",i:"home",mod:"formation"},{r:"form-new",t:"Enregistrer une formation",i:"plus",
-mod:"formation",tabs:[["formation/nouvelle","Enregistrer une formation"],["formation/registre","Formations enregistrées"]]},{r:"form-etud",t:"Liste des étudiants",i:"users",mod:"formation",tabs:[["formation/apprenants","Liste des étudiants"]]},{r:"form-eval",t:"Évaluation des élèves",i:"clip",mod:"formation",tabs:[["formation/evaleleves","Évaluation des élèves"]]},{r:"form-fact",t:"Factures de formation",i:"audit",mod:"formation",tabs:[["formation/factures","Factures de formation"]]},{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]},{r:"form-om",t:"Ordres de mission",i:"truck",mod:"formation",tabs:[["formation/missions","Ordres de mission"]]}]},{g:"Organisation et caisse",items:[{r:"formation",t:"Sessions et paiements",i:"grad",mod:"formation",tabs:[["formation/sessions","Sessions"],["formation/paiements","Paiements et impayés"],["formation/catalogue","Catalogue des formations"]]},{r:"formation-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["formation/caisse","Caisse"],["formation/depenses","Dépenses"],["formation/journalier","Historique journalier"],["formation/mensuel","Caisse mois par mois"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],tisserand:[{g:"Tisserands",items:[{r:"tisserand/nouveau",t:"Nouveau tisserand",i:"plus",mod:"ouvriers"},{r:"tisserand/liste",t:"Liste des tisserands",i:"users",mod:"ouvriers"},{r:"tis-sal",t:"Salaires",i:"wallet",mod:"paie",tabs:[["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/rapports","Rapports journaliers et mensuels"],["ouvriers/paie","Versements et avances"]]},{r:"tis-obj",t:"Objectifs et prévisions",i:"chart",mod:"ouvriers",tabs:[["ouvriers/objectifs","Objectifs de chaque travailleur"],["ouvriers/previsions","Prévision mensuelle"]]},{r:"tis-badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",
+mod:"formation",tabs:[["formation/nouvelle","Enregistrer une formation"],["formation/registre","Formations enregistrées"]]},{r:"form-etud",t:"Liste des étudiants",i:"users",mod:"formation",tabs:[["formation/apprenants","Liste des étudiants"]]},{r:"form-eval",t:"Évaluation des élèves",i:"clip",mod:"formation",tabs:[["formation/evaleleves","Évaluation des élèves"]]},{r:"form-fact",t:"Factures de formation",i:"audit",mod:"formation",tabs:[["formation/factures","Factures de formation"]]},{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]},{r:"form-om",t:"Ordres de mission",i:"truck",mod:"formation",tabs:[["formation/missions","Ordres de mission"]]}]},{g:"Organisation et caisse",items:[{r:"formation",t:"Sessions et paiements",i:"grad",mod:"formation",tabs:[["formation/sessions","Sessions"],["formation/paiements","Paiements et impayés"],["formation/catalogue","Catalogue des formations"]]},{r:"formation-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["formation/caisse","Caisse"],["formation/depenses","Dépenses"],["formation/journalier","Historique journalier"],["formation/mensuel","Caisse mois par mois"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],tisserand:[{g:"Tisserands",items:[{r:"tisserand/nouveau",t:"Nouveau tisserand",i:"plus",mod:"ouvriers"},{r:"tisserand/liste",t:"Liste des tisserands",i:"users",mod:"ouvriers"},{r:"tis-sal",t:"Salaires",i:"wallet",mod:"paie",tabs:[["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/rapports","Rapports journaliers et mensuels"],["ouvriers/paie","Versements et avances"]]},{r:"tis-obj",t:"Objectifs et prévisions",i:"chart",mod:"ouvriers",tabs:[["ouvriers/objectifs","Objectifs de chaque travailleur"],["ouvriers/previsions","Prévision mensuelle"],["ouvriers/emplois","Emploi du temps"]]},{r:"tis-badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",
 tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]}],distributeur:[{g:"Pilotage",items:[{r:"distributeur/tableau",t:"Tableau de bord",i:"home",mod:"distributeur"}]},{g:"Tisserands sous-traitants",items:[{r:"dist-remise",t:"Fils remis aux tisserands",i:"share",mod:"distributeur",tabs:[["distributeur/remise","Remettre des fils"],["distributeur/remises","Bons de fils remis"]]},{r:"dist-retours",t:"Remboursements",i:"download",mod:"distributeur",tabs:[["distributeur/retours","Remboursements"]]},{r:"dist-comptes",t:"Comptes des tisserands",i:"users",mod:"distributeur",tabs:[["distributeur/comptes","Comptes des tisserands"],["distributeur/distributeurs","Tisserands-distributeurs"]]}]},{g:"Distributeur",items:[{r:"dist-prod",t:"Produits",i:"box",mod:"distributeur",tabs:[["distributeur/produits","Produits"],["distributeur/alertes","Stock disponible et dormant"],["distributeur/transferts","Transferts"]]},{r:"dist-inv",t:"Inventaire",i:"clip",mod:"distributeur",tabs:[["distributeur/inventaire","Inventaire"]]},{r:"dist-ventes",t:"Ventes",i:"tag",mod:"distributeur",tabs:[["distributeur/rapide","Vente ou entrée rapide"],["distributeur/ventes","Ventes"]]},{r:"dist-sorties",t:"Sorties mensuelles",i:"upload",mod:"distributeur",tabs:[["distributeur/sorties","Sorties mensuelles"]]},{r:"dist-entrees",t:"Entrées mensuelles",i:"download",mod:"distributeur",tabs:[["distributeur/entrees","Entrées mensuelles"]]},{r:"dist-appro",t:"Approvisionnement",i:"cart",mod:"distributeur",tabs:[["distributeur/appro","Approvisionnement"]]},{r:"dist-dettes",t:"Gestion des dettes",i:"wallet",mod:"distributeur",tabs:[["distributeur/dettes","Clients et fournisseurs"],["distributeur/versements","Versements"]]},{r:"dist-fact",t:"Facturation",i:"audit",mod:"ventes",tabs:[["ventes/factures","Facturation"]]},{r:"dist-palm",t:"Palmarès",i:"chart",mod:"distributeur",tabs:[["distributeur/palmares","Palmarès"]]},{
 r:"dist-rap",t:"Rapports",i:"chart",mod:"distributeur",tabs:[["distributeur/rapport","Rapports"],["distributeur/recap","Récapitulatif annuel"]]},fournisseursBloc("distributeur"),{r:"dist-clients",t:"Clients",i:"users",mod:"ventes",tabs:[["ventes/clients","Clients"],["ventes/creances","Créances et échéances"]]}]},{g:"Caisse",items:[{r:"distributeur-caisse",t:"Caisse et dépenses",i:"wallet",mod:"finances",tabs:[["distributeur/caisse","Caisse"],["distributeur/depenses","Dépenses"],["distributeur/journalier","Historique journalier"],["distributeur/mensuel","Caisse mois par mois"],["distributeur/repartition","Répartition des fonds"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"]]}]}],catalogue:[{g:"Catalogue",items:[{r:"catalogue",t:"Modèles de léppi",i:"image",mod:"catalogue",tabs:[["catalogue/modeles","Catalogue"],["production/modeles","Fiches techniques des modèles"]]}]}]};["tissage","production","teinture"].forEach((function(p){var P=partieOf(p);NAV_PARTIES[p]=NAV_PARTIES[p].concat(navCommun(p,P,P.mod,{}))}));var NAV=[{g:"Pilotage",items:[{r:"tableau",t:"Tableau de bord",i:"home",mod:"tableau"}]},{g:"Gestion générale",items:[{r:"finances",t:"Caisse principale et finances",i:"wallet",mod:"finances",tabs:[["finances/tresorerie","Trésorerie"],["finances/depenses","Dépenses"],["finances/journal","Journal de caisse"],["finances/clotures","Clôtures"]]},{r:"rapports",t:"Rapports généraux",i:"chart",mod:"rapports"}]},{g:"Formation",items:[{r:"form-att",t:"Attestations et satisfecit",i:"grad",mod:"formation",tabs:[["formation/certificats","Attestations et satisfecit"]]},{r:"form-rap",t:"Rapports de formation",i:"audit",mod:"formation",tabs:[["formation/rapports","Rapports de formation"]]},{r:"form-om",t:"Ordres de mission",i:"truck",mod:"formation",tabs:[["formation/missions","Ordres de mission"]]},{r:"form-eval",t:"Évaluation des élèves",i:"clip",mod:"formation",tabs:[["formation/evaleleves","Évaluation des élèves"]]}]},{g:"Contrôle",items:[{r:"admin",t:"Validations et audit",i:"audit",mod:"admin",tabs:[["admin/validations","Validations"],["admin/audit","Journal d'audit"],["admin/sauvegarde","Sauvegarde"]]}]}]
-;var NAV_BOUTIQUE=NAV_PARTIES.boutique;var NAV_ADMIN=[{g:"Administration",items:[{r:"admin/accueil",t:"Accueil",i:"gear",mod:"*"}]},{g:"L'atelier",items:[{r:"parametres",t:"Atelier et BLOCS",i:"home",mod:"parametres",tabs:[["parametres/entreprise","Informations"],["parametres/blocs","Ateliers (BLOCS)"],["parametres/reglages","Réglages"],["parametres/listes","Listes"],["parametres/signature","Signature et cachet"],["parametres/abonnement","Licence et abonnement"]]}]},{g:"Les personnes",items:[{r:"gerants",t:"Gérants et rôles",i:"users",mod:"utilisateurs",tabs:[["parametres/utilisateurs","Gérants et accès"],["parametres/roles","Rôles et autorisations"]]},{r:"ouvriers",t:"Personnel et paie",i:"clip",mod:"ouvriers",tabs:[["parametres/personnel","Personnel"],["ouvriers/declarations","Déclarations"],["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/paie","Paie"],["ouvriers/rapports","Rapports par personne"],["ouvriers/objectifs","Objectifs"],["ouvriers/previsions","Prévisions"]]},{r:"badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]},{g:"Le contrôle",items:[{r:"admin",t:"Contrôle",i:"audit",mod:"admin",tabs:[["admin/audit","Journal d'audit"],["admin/reinit","Réinitialisation"],["admin/sauvegarde","Sauvegarde"]]}]}];var ESPACES=PARTIE_KEYS.concat(["gestion"]);function navList(mode){mode=mode||S.mode;if(mode==="admin")return NAV_ADMIN;if(mode==="bloc")mode="gestion";return NAV_PARTIES[mode]||NAV}var TAB_MOD={"parametres/utilisateurs":"utilisateurs","parametres/roles":"utilisateurs","parametres/abonnement":"parametres","parametres/blocs":"parametres","parametres/reglages":"parametres","admin/accueil":"*","ouvriers/paie":"paie"};var TAB_CHECK={"ventes/caisse":function(){return can("ventes","creer")},"ventes/livraisons":function(){return can("ventes","livrer")||can("ventes","creer")},
-"boutique/envois":function(){return can("stock")},"parametres/personnel":function(){return can("parametres")||can("ouvriers")},"ouvriers/rapports":function(){return can("ouvriers")||can("paie")},"ouvriers/declarations":function(){return can("ouvriers")},"ouvriers/moi":function(){return Ouv.estOuvrier()},"ouvriers/mapaie":function(){return Ouv.estOuvrier()},"tisserand/nouveau":function(){return Perso.peut()},"tisserand/liste":function(){return can("ouvriers")||can("parametres")},"achats/fournisseurs":function(){var P=curPartie()&&partieOf(curPartie());return can("achats")||!!(P&&P.pre&&can(P.mod))},"ventes/clients":function(){var P=curPartie()&&partieOf(curPartie());return can("ventes")||!!(P&&P.pre&&can(P.mod))},"admin/reinit":function(){return isOwnerRole()},"parametres/signature":function(){return isOwnerRole()},"admin/validations":function(){return isOwnerRole()||can("admin")||MODULES.some((function(m){return canWrite(m.k)}))}};var ADMIN_ROUTES=["parametres/entreprise","parametres/blocs","parametres/listes","parametres/reglages","parametres/abonnement","parametres/signature","parametres/utilisateurs","parametres/roles","admin/accueil","admin/reinit"];function navItemFor(route,mode){var pv=Views[route];if(pv&&pv.parent)route=pv.parent;var top=route.split("/")[0],found=null;navList(mode).forEach((function(g){g.items.forEach((function(it){if(!found&&(it.r===route||it.tabs&&it.tabs.some((function(t){return t[0]===route}))))found=it}))}));if(!found)navList(mode).forEach((function(g){g.items.forEach((function(it){if(!found&&it.r===top)found=it}))}));return found}function inMenu(route,mode){var v=Views[route];if(v&&v.parent)route=v.parent;var ok=false;navList(mode).forEach((function(g){g.items.forEach((function(it){if(it.r===route||it.tabs&&it.tabs.some((function(t){return t[0]===route})))ok=true}))}));return ok}function tabAllowed(route,mode){mode=mode||S.mode;var v=Views[route];if(!(v&&v.free)&&!inMenu(route,mode))return false
+;var NAV_BOUTIQUE=NAV_PARTIES.boutique;var NAV_ADMIN=[{g:"Administration",items:[{r:"admin/accueil",t:"Accueil",i:"gear",mod:"*"}]},{g:"L'atelier",items:[{r:"parametres",t:"Atelier et BLOCS",i:"home",mod:"parametres",tabs:[["parametres/entreprise","Informations"],["parametres/blocs","Ateliers (BLOCS)"],["parametres/reglages","Réglages"],["parametres/listes","Listes"],["parametres/signature","Signature et cachet"],["parametres/abonnement","Licence et abonnement"]]}]},{g:"Les personnes",items:[{r:"gerants",t:"Gérants et rôles",i:"users",mod:"utilisateurs",tabs:[["parametres/utilisateurs","Gérants et accès"],["parametres/roles","Rôles et autorisations"],["parametres/onglets","Onglets visibles"]]},{r:"ouvriers",t:"Personnel et paie",i:"clip",mod:"ouvriers",tabs:[["parametres/personnel","Personnel"],["ouvriers/declarations","Déclarations"],["ouvriers/salaires","Salaires du mois"],["ouvriers/bulletins","Bulletins de paie"],["ouvriers/paie","Paie"],["ouvriers/rapports","Rapports par personne"],["ouvriers/objectifs","Objectifs"],["ouvriers/previsions","Prévisions"],["ouvriers/emplois","Emploi du temps"]]},{r:"badges",t:"Badges du personnel",i:"shield",mod:"ouvriers",tabs:[["ouvriers/badges","Badges"],["ouvriers/badges-planche","Badges multiples (8 par page)"],["ouvriers/badges-logo","Logo de l'atelier"]]}]},{g:"Le contrôle",items:[{r:"admin",t:"Contrôle",i:"audit",mod:"admin",tabs:[["admin/audit","Journal d'audit"],["admin/reinit","Réinitialisation"],["admin/sauvegarde","Sauvegarde"]]}]}];var ESPACES=PARTIE_KEYS.concat(["gestion"]);function navList(mode){mode=mode||S.mode;if(mode==="admin")return NAV_ADMIN;if(mode==="bloc")mode="gestion";return NAV_PARTIES[mode]||NAV}var TAB_MOD={"parametres/utilisateurs":"utilisateurs","parametres/roles":"utilisateurs","parametres/abonnement":"parametres","parametres/blocs":"parametres","parametres/reglages":"parametres","admin/accueil":"*","ouvriers/paie":"paie"};var TAB_CHECK={"ventes/caisse":function(){return can("ventes","creer")},"ventes/livraisons":function(){return can("ventes","livrer")||can("ventes","creer")},
+"boutique/envois":function(){return can("stock")},"parametres/personnel":function(){return can("parametres")||can("ouvriers")},"ouvriers/rapports":function(){return can("ouvriers")||can("paie")},"ouvriers/declarations":function(){return can("ouvriers")},"ouvriers/moi":function(){return Ouv.estOuvrier()},"ouvriers/mapaie":function(){return Ouv.estOuvrier()},"tisserand/nouveau":function(){return Perso.peut()},"tisserand/liste":function(){return can("ouvriers")||can("parametres")},"achats/fournisseurs":function(){var P=curPartie()&&partieOf(curPartie());return can("achats")||!!(P&&P.pre&&can(P.mod))},"ventes/clients":function(){var P=curPartie()&&partieOf(curPartie());return can("ventes")||!!(P&&P.pre&&can(P.mod))},"admin/reinit":function(){return isOwnerRole()},"parametres/signature":function(){return isOwnerRole()},"admin/validations":function(){return isOwnerRole()||can("admin")||MODULES.some((function(m){return canWrite(m.k)}))}};var ADMIN_ROUTES=["parametres/entreprise","parametres/blocs","parametres/listes","parametres/reglages","parametres/abonnement","parametres/signature","parametres/utilisateurs","parametres/roles","admin/accueil","admin/reinit"];function navItemFor(route,mode){var pv=Views[route];if(pv&&pv.parent)route=pv.parent;var top=route.split("/")[0],found=null;navList(mode).forEach((function(g){g.items.forEach((function(it){if(!found&&(it.r===route||it.tabs&&it.tabs.some((function(t){return t[0]===route}))))found=it}))}));if(!found)navList(mode).forEach((function(g){g.items.forEach((function(it){if(!found&&it.r===top)found=it}))}));return found}function inMenu(route,mode){var v=Views[route];if(v&&v.parent)route=v.parent;var ok=false;navList(mode).forEach((function(g){g.items.forEach((function(it){if(it.r===route||it.tabs&&it.tabs.some((function(t){return t[0]===route})))ok=true}))}));return ok}function tabAllowed(route,mode){mode=mode||S.mode;var v=Views[route];if(typeof ONG!=="undefined"&&!ONG.voit(route))return false;if(!(v&&v.free)&&!inMenu(route,mode))return false
 ;if(mode!=="admin"&&ADMIN_ROUTES.indexOf(route)>=0)return false;var need=TAB_MOD[route];if(need==="*")return true;if(TAB_CHECK[route])return TAB_CHECK[route]();if(v&&v.check)return!!v.check();return can(need||v&&v.mod||route.split("/")[0],"consulter")}function itemAllowed(it,mode){if(it.tabs)return it.tabs.some((function(t){return tabAllowed(t[0],mode)}));if(it.mod==="*")return true;return tabAllowed(it.r,mode)}var ROUTE_ESPACE={tisserand:"tisserand",distributeur:"distributeur",ventes:"boutique",boutique:"boutique",achats:"tissage",stock:"tissage",tissage:"tissage",teinture:"teinture",production:"production",qualite:"production",ouvriers:"production",paie:"production",formation:"formation",catalogue:"catalogue",finances:"gestion",rapports:"gestion",admin:"gestion",tableau:"gestion"};var ESPACE_MODS={tisserand:["ouvriers","parametres"],distributeur:["distributeur"],tissage:["tissage"],production:["production","ouvriers","paie"],teinture:["teinture"],boutique:["boutique","ventes"],formation:["formation"],catalogue:["catalogue"]};var Espace={est:function(mode){return ESPACES.indexOf(mode)>=0},affecte:function(mode){return mode==="gestion"||memberParties(S.member).indexOf(mode)>=0},droit:function(mode){var ms=ESPACE_MODS[mode];return!ms||ms.some((function(m){return can(m)&&moduleOn(m)}))||mode==="production"&&Ouv.estOuvrier()},can:function(mode){if(mode==="bloc")mode="gestion";if(mode!=="admin"&&!Espace.affecte(mode))return false;if(!Espace.droit(mode))return false;return navList(mode).some((function(g){return g.items.some((function(it){return!/(^|\/)tableau$/.test(it.r)&&it.r!=="admin"&&moduleOn(it.mod)&&itemAllowed(it,mode)}))}))},liste:function(){return ESPACES.filter((function(e){return Espace.can(e)}))},defaut:function(){var pref=["boutique","production","distributeur","tisserand","tissage","teinture","formation","catalogue","gestion"];return pref.filter((function(e){return Espace.can(e)}))[0]||"gestion"},nom:function(mode){
 return mode==="admin"?"Administration":mode==="gestion"||mode==="bloc"?"Gestion générale":partieNom(mode)},icone:function(mode){var P=partieOf(mode);return P?P.icon:mode==="gestion"?"direction":"gear"},plusieurs:function(){return Espace.liste().filter((function(e){return e!=="catalogue"})).length>1},deux:function(){return Espace.plusieurs()},pour:function(route){var top=route.split("/")[0],pref=ROUTE_ESPACE[top];var cands=ESPACES.filter((function(e){return e!==S.mode&&Espace.can(e)&&tabAllowed(route,e)}));if(pref&&cands.indexOf(pref)>=0)return pref;return cands[0]||null}};var App={route:null,arg:null,pending:false,timer:null,tenantRef:null,enter:function(tid,code){Screens.show("scr-boot");var bm=$("#boot-msg");if(bm)bm.textContent="Ouverture de votre atelier…";var uid=FB.auth.currentUser&&FB.auth.currentUser.uid;if(!uid){Landing.render();return Promise.resolve()}S.tid=tid;S.code=code;S.user=FB.auth.currentUser;S.support=false;S.bloc="A";S.mode="portail";return Promise.all([FB.get("tenants/"+tid,2e4),FB.get("t/"+tid+"/members/"+uid,2e4)]).then((function(r){var tenant=r[0],member=r[1];if(!tenant||!member){Device.clearSession();FB.auth.signOut();throw new Error("Ce compte n'appartient pas à cet atelier.")}if(!member.actif){Device.clearSession();FB.auth.signOut();throw new Error("Ce compte est désactivé. Contactez le propriétaire de votre atelier.")}tenant.id=tid;S.tenant=tenant;S.member=member;S.member.uid=uid;var prev=Device.session()||{};Device.setSession({tid:tid,code:code||tenant.code,uid:uid,bloc:prev.uid===uid?prev.bloc:null,mode:prev.uid===uid?prev.mode:null});S.code=code||tenant.code;var known=Device.list().filter((function(x){return x.code===S.code}))[0]||{};Device.remember({code:S.code,tid:tid,nom:tenant.nom,ville:tenant.ville,logo:known.logo||"",ident:member.ident});App.watchTenant();var etat=App.tenantEtat();if(etat!=="ok"){Blocked.render(tenant,etat);return}return App.loadBase().then((function(){App.start()}))})).catch((function(e){console.error(e)
 ;var msg=FB.errMsg(e);if(e&&/PERMISSION_DENIED/i.test(String(e.code||"")+" "+String(e.message||""))){Device.clearSession();try{FB.auth.signOut()}catch(x){}msg="Ce compte n'a plus accès à cet atelier. Reconnectez-vous ; si un nouveau mot de passe vous a été remis, utilisez-le.";var c=code||S.code;if(c){Landing.lookup(c).then((function(pub){Login.render(pub);var er2=$("#lg-err");if(er2)er2.textContent=msg})).catch((function(){Landing.render(msg)}));return}}if(Login.pub&&Login.pub.tid===tid){Login.render(Login.pub);var er=$("#lg-err");if(er)er.textContent=msg}else Landing.render(msg)}))},tenantEtat:function(){var t=S.tenant;if(!t)return"suspendu";if(t.etat==="suspendu"||t.etat==="archive")return"suspendu";if(!t.finAcces||t.finAcces<=FB.now())return"expire";return"ok"},watchTenant:function(){if(App.tenantRef)App.tenantRef.off();App.tenantRef=FB.ref("tenants/"+S.tid);App.tenantRef.on("value",(function(s){var t=s.val();if(!t)return;t.id=S.tid;S.tenant=t;var etat=App.tenantEtat();if(etat!=="ok"&&/scr-app|scr-portail/.test(document.body.dataset.screen)){Data.stopAll();UI.closeAll();Blocked.render(t,etat)}else if(etat==="ok"&&document.body.dataset.screen==="scr-blocked"){App.loadBase().then((function(){App.start()}))}else App.banners()}));clearInterval(App.clock);App.clock=setInterval((function(){if(/scr-app|scr-portail/.test(document.body.dataset.screen)&&App.tenantEtat()!=="ok"){Data.stopAll();UI.closeAll();Blocked.render(S.tenant,App.tenantEtat())}}),6e4)},loadBase:function(){return Data.need(["info","params","roles","members","blocsInfo"]).then((function(){S.info=S.d.info||{};S.params=S.d.params||{};S.roles=S.d.roles||{};S.members=S.d.members||{};S.blocs=S.d.blocsInfo||{};var me=S.members[S.user.uid];if(me){S.member=me;S.member.uid=S.user.uid}App.setRole()}))},setRole:function(){S.role=isOwnerRole()?null:mergeRoles(memberRoleIds(S.member),S.roles)},start:function(){var blocs=memberBlocs(S.member);if(!blocs.length){
@@ -5166,6 +5166,1004 @@ view("formation/evaleleves", {
       Data.need(["formation/certificats"]).then(function () {
         OEV.attestations(key);
       });
+    },
+  },
+});
+;var ONG = {
+  off: false,
+  cle: function (r) {
+    return String(r).replace(/\//g, "|");
+  },
+  cfg: function (uid) {
+    var o = (S.params && S.params.onglets) || {},
+      c = o[uid];
+    return c && c.ok && typeof c.ok === "object" ? c : null;
+  },
+  voit: function (route) {
+    if (ONG.off || !S.member || !S.user || isOwnerRole()) return true;
+    var c = ONG.cfg(S.user.uid);
+    if (!c) return true;
+    var v = Views[route];
+    if (v && v.free) return true;
+    if (v && v.parent) route = v.parent;
+    return !!c.ok[ONG.cle(route)];
+  },
+  simuler: function (m, fn) {
+    var sm = S.member,
+      sr = S.role,
+      so = ONG.off;
+    try {
+      S.member = Object.assign({}, m);
+      S.role = m.role === "proprietaire" ? null : mergeRoles(memberRoleIds(m), S.roles);
+      ONG.off = true;
+      return fn();
+    } finally {
+      S.member = sm;
+      S.role = sr;
+      ONG.off = so;
+    }
+  },
+  arbre: function (m) {
+    return ONG.simuler(m, function () {
+      var esp = ESPACES.filter(function (e) {
+        try {
+          return Espace.can(e);
+        } catch (x) {
+          return false;
+        }
+      });
+      if (Portail.canAdmin()) esp.push("admin");
+      return esp
+        .map(function (e) {
+          var groupes = navList(e)
+            .map(function (g) {
+              var lignes = [];
+              g.items.forEach(function (it) {
+                if (it.tabs) {
+                  var ts = it.tabs.filter(function (t) {
+                    try {
+                      return tabAllowed(t[0], e);
+                    } catch (x) {
+                      return false;
+                    }
+                  });
+                  if (ts.length)
+                    lignes.push({
+                      item: it.t,
+                      tabs: ts.map(function (t) {
+                        return { r: t[0], t: t[1] };
+                      }),
+                    });
+                } else {
+                  var ok = false;
+                  try {
+                    ok = it.mod === "*" || tabAllowed(it.r, e);
+                  } catch (x) {}
+                  if (ok) lignes.push({ item: it.t, tabs: [{ r: it.r, t: it.t }] });
+                }
+              });
+              return { g: g.g, lignes: lignes };
+            })
+            .filter(function (g) {
+              return g.lignes.length;
+            });
+          return { e: e, nom: Espace.nom(e), groupes: groupes };
+        })
+        .filter(function (x) {
+          return x.groupes.length;
+        });
+    });
+  },
+  routes: function (arbre) {
+    var o = {};
+    arbre.forEach(function (es) {
+      es.groupes.forEach(function (g) {
+        g.lignes.forEach(function (l) {
+          l.tabs.forEach(function (t) {
+            o[ONG.cle(t.r)] = t.r;
+          });
+        });
+      });
+    });
+    return o;
+  },
+  membres: function () {
+    return vals(S.members)
+      .filter(function (m) {
+        return m.role !== "proprietaire" && m.id !== S.user.uid;
+      })
+      .sort(byKey("nom"));
+  },
+  css: function () {
+    return (
+      "<style>.ong-es{border:1px solid var(--line);border-radius:var(--r-l);margin:0 0 12px;overflow:hidden;background:var(--surface)}" +
+      ".ong-es>header{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 12px;background:var(--vat-50)}.ong-es>header h3{margin:0;font-size:15px}" +
+      ".ong-g{padding:8px 12px 4px;border-top:1px solid var(--line-2)}.ong-g h4{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3)}" +
+      ".ong-l{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:4px 12px;align-items:start;padding:4px 0}.ong-l>b{font-weight:600;font-size:13.5px;padding-top:6px}" +
+      ".ong-t{display:flex;flex-wrap:wrap;gap:6px}.ong-t label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:5px 11px 5px 8px;font-size:13px;cursor:pointer;background:#fff}" +
+      ".ong-t label:has(input:checked){background:var(--vat-50);border-color:var(--vat);color:var(--indigo-800)}.ong-t input{width:16px;height:16px;margin:0}" +
+      ".ong-sum{font-size:13.5px}.ong-sum b{font-size:15px}" +
+      "@media (max-width:640px){.ong-l{grid-template-columns:1fr}.ong-l>b{padding-top:0}}</style>"
+    );
+  },
+  editer: function (uid) {
+    if (!isOwnerRole()) {
+      UI.toast("Seul le fondateur choisit les onglets visibles.", "err");
+      return;
+    }
+    var m = S.members[uid];
+    if (!m) return;
+    var arbre = ONG.arbre(Object.assign({ id: uid }, m)),
+      tous = ONG.routes(arbre),
+      cles = Object.keys(tous),
+      c = ONG.cfg(uid);
+    if (!cles.length) {
+      UI.toast("Les rôles de " + m.nom + " ne lui ouvrent encore aucun onglet : réglez d'abord ses rôles.", "info", 7e3);
+      return;
+    }
+    var coche = function (r) {
+      return c ? !!c.ok[ONG.cle(r)] : true;
+    };
+    var h =
+      ONG.css() +
+      '<p class="muted">Cochez les onglets que <strong>' +
+      esc(m.nom) +
+      "</strong> peut ouvrir. Seuls les onglets permis par ses rôles sont proposés ; un onglet décoché disparaît de ses menus et ne s'ouvre plus, même par un lien. Un onglet présent dans plusieurs blocs se coche ou se décoche partout à la fois.</p>" +
+      '<div class="row wrap" style="margin:0 0 10px"><button type="button" class="btn ghost sm" data-mact="tout">Tout cocher</button><button type="button" class="btn ghost sm" data-mact="rien">Tout décocher</button></div>';
+    arbre.forEach(function (es) {
+      h +=
+        '<section class="ong-es" data-es="' +
+        attr(es.e) +
+        '"><header><h3>' +
+        esc(es.nom) +
+        '</h3><span class="row"><button type="button" class="btn ghost sm" data-mact="esTout" data-es="' +
+        attr(es.e) +
+        '">Tout</button><button type="button" class="btn ghost sm" data-mact="esRien" data-es="' +
+        attr(es.e) +
+        '">Rien</button></span></header>';
+      es.groupes.forEach(function (g) {
+        h += '<div class="ong-g"><h4>' + esc(g.g) + "</h4>";
+        g.lignes.forEach(function (l) {
+          h +=
+            '<div class="ong-l"><b>' +
+            esc(l.item) +
+            '</b><div class="ong-t">' +
+            l.tabs
+              .map(function (t) {
+                return (
+                  '<label><input type="checkbox" data-r="' +
+                  attr(ONG.cle(t.r)) +
+                  '"' +
+                  (coche(t.r) ? " checked" : "") +
+                  "><span>" +
+                  esc(l.tabs.length === 1 && t.t === l.item ? "Visible" : t.t) +
+                  "</span></label>"
+                );
+              })
+              .join("") +
+            "</div></div>";
+        });
+        h += "</div>";
+      });
+      h += "</section>";
+    });
+    var acts = [{ t: "Annuler", act: "__close", cls: "ghost" }];
+    if (c) acts.push({ t: "Revenir aux droits de ses rôles", act: "reset", cls: "ghost" });
+    acts.push({ t: icon("check") + " Enregistrer", act: "save", cls: "primary" });
+    var md = UI.modal({
+      title: "Onglets visibles — " + m.nom,
+      size: "xl",
+      body: h,
+      actions: acts,
+      onOpen: function (mm) {
+        var foot = $(".mfoot", mm.el);
+        if (foot) foot.insertAdjacentHTML("afterbegin", '<span class="ong-sum" style="margin-right:auto;align-self:center"></span>');
+        var maj = function () {
+          var vus = {};
+          $$("input[data-r]", mm.el).forEach(function (x) {
+            if (x.checked) vus[x.dataset.r] = true;
+          });
+          var n = Object.keys(vus).length,
+            z = $(".ong-sum", mm.el);
+          if (z) z.innerHTML = "<b>" + n + "</b> onglet" + (n > 1 ? "s" : "") + " visible" + (n > 1 ? "s" : "") + " sur " + cles.length;
+        };
+        mm.el.addEventListener("change", function (e) {
+          var x = e.target;
+          if (x && x.dataset && x.dataset.r)
+            $$('input[data-r="' + x.dataset.r + '"]', mm.el).forEach(function (y) {
+              y.checked = x.checked;
+            });
+          maj();
+        });
+        maj();
+      },
+      onAct: function (act, btn, mm) {
+        if (act === "tout" || act === "rien" || act === "esTout" || act === "esRien") {
+          var on = act === "tout" || act === "esTout",
+            zone = act === "tout" || act === "rien" ? mm.el : $('section[data-es="' + btn.dataset.es + '"]', mm.el);
+          $$("input[data-r]", zone).forEach(function (x) {
+            x.checked = on;
+            $$('input[data-r="' + x.dataset.r + '"]', mm.el).forEach(function (y) {
+              y.checked = on;
+            });
+          });
+          mm.el.dispatchEvent(new Event("change"));
+          return;
+        }
+        var ok = {};
+        $$("input[data-r]", mm.el).forEach(function (x) {
+          if (x.checked) ok[x.dataset.r] = true;
+        });
+        var n = Object.keys(ok).length,
+          complet = n === cles.length;
+        if (act === "save" && !n) {
+          UI.toast("Cochez au moins un onglet : sans onglet, la personne ne verrait que son espace personnel.", "err", 7e3);
+          return;
+        }
+        var val = act === "reset" || complet ? null : { ok: ok, majLe: today(), majPar: S.member.nom };
+        var tx = new Tx("onglets visibles");
+        tx.set("params/onglets/" + uid, val);
+        tx.audit(
+          val ? "Onglets visibles de " + m.nom + " : " + n + " sur " + cles.length : "Onglets de " + m.nom + " : tous ceux permis par ses rôles",
+          "utilisateurs",
+          uid,
+        );
+        runOp(
+          btn,
+          function () {
+            return tx.commit();
+          },
+          val ? "Onglets enregistrés : " + n + " visible" + (n > 1 ? "s" : "") + "." : "La personne voit tous les onglets permis par ses rôles.",
+        ).then(function (r) {
+          if (!r) return;
+          S.params.onglets = S.params.onglets || {};
+          if (val) S.params.onglets[uid] = val;
+          else delete S.params.onglets[uid];
+          mm.close();
+          App.render(true);
+        });
+      },
+    });
+    return md;
+  },
+};
+view("parametres/onglets", {
+  mod: "utilisateurs",
+  title: "Onglets visibles",
+  check: function () {
+    return isOwnerRole();
+  },
+  render: function () {
+    var ms = ONG.membres();
+    var rows = ms.map(function (m) {
+      var c = ONG.cfg(m.id),
+        tous = 0;
+      try {
+        tous = Object.keys(ONG.routes(ONG.arbre(m))).length;
+      } catch (x) {}
+      var n = c ? Object.keys(c.ok).filter(function (k) {
+        return c.ok[k];
+      }).length : tous;
+      return { id: m.id, nom: m.nom, poste: m.poste || "", roles: App.rolesLabel(m), actif: !!m.actif, _c: !!c, _n: n, _t: tous, _maj: c ? c.majLe : "" };
+    });
+    return (
+      ONG.css() +
+      pageHead(
+        "Onglets visibles par chaque personne",
+        "Le fondateur choisit, personne par personne, les onglets qu'elle peut ouvrir. Les rôles donnent les droits (consulter, créer, valider…) ; ici, vous fermez en plus les onglets dont la personne n'a pas besoin. Un onglet fermé disparaît de ses menus et ne s'ouvre plus, même par un lien. Le fondateur voit toujours tout.",
+      ) +
+      tiles([
+        { t: "Comptes du personnel", v: rows.length },
+        {
+          t: "Onglets choisis par le fondateur",
+          v: rows.filter(function (r) {
+            return r._c;
+          }).length,
+          s: "les autres voient tout ce que leurs rôles permettent",
+        },
+      ]) +
+      UI.table({
+        id: "onglets",
+        rows: rows,
+        sort: "nom",
+        cols: [
+          {
+            k: "nom",
+            t: "Personne",
+            f: function (r) {
+              return "<strong>" + esc(r.nom) + "</strong>" + (r.poste ? '<br><small class="muted">' + esc(r.poste) + "</small>" : "") + (r.actif ? "" : " " + UI.badge("Désactivé", "err"));
+            },
+          },
+          { k: "roles", t: "Rôles" },
+          {
+            k: "_n",
+            t: "Onglets visibles",
+            f: function (r) {
+              return r._c
+                ? "<strong>" + r._n + "</strong> sur " + r._t + '<br><small class="muted">choisis le ' + fmtDate(r._maj) + "</small>"
+                : '<span class="muted">Tous ceux de ses rôles (' + r._t + ")</span>";
+            },
+          },
+        ],
+        rowAct: "choisir",
+        actions: function (r) {
+          return UI.btn(icon("eye") + " Choisir les onglets", "choisir", r._c ? "ghost sm" : "sm", ' data-id="' + attr(r.id) + '" data-needs-net');
+        },
+        empty: "Aucun autre compte pour le moment : créez d'abord les gérants dans « Gérants et accès ».",
+      })
+    );
+  },
+  acts: {
+    choisir: function (id) {
+      ONG.editer(id);
+    },
+  },
+});
+var EDT_JOURS = [
+  ["1", "Lundi", "Lun"],
+  ["2", "Mardi", "Mar"],
+  ["3", "Mercredi", "Mer"],
+  ["4", "Jeudi", "Jeu"],
+  ["5", "Vendredi", "Ven"],
+  ["6", "Samedi", "Sam"],
+  ["7", "Dimanche", "Dim"],
+];
+var EDT_UNITES = [
+  ["complet", "Complets"],
+  ["pagne", "Pagnes"],
+  ["m", "Mètres"],
+  ["piece", "Pièces"],
+];
+var EDT = {
+  st: { mois: monthOf(today()) },
+  COL: "ouvriers/emplois",
+  peut: function () {
+    return can("ouvriers", "creer") || can("ouvriers", "modifier");
+  },
+  de: function (p) {
+    var e = get(EDT.COL, p);
+    return e && e.jours ? e : null;
+  },
+  personnes: function () {
+    return list("parametres/personnel", function (x) {
+      return !x.archive && x.actif !== false;
+    }).sort(byKey("nom"));
+  },
+  cleJour: function (iso) {
+    var d = new Date(iso + "T12:00:00");
+    return String(((d.getDay() + 6) % 7) + 1);
+  },
+  min: function (h) {
+    var m = /^(\d{1,2}):(\d{2})/.exec(h || "");
+    return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+  },
+  duree: function (j) {
+    var a = EDT.min(j && j.d),
+      b = EDT.min(j && j.f);
+    return a !== null && b !== null && b > a ? b - a : 0;
+  },
+  hTxt: function (mn) {
+    var h = Math.floor(mn / 60),
+      r = mn % 60;
+    return h + " h" + (r ? " " + pad2(r) : "");
+  },
+  heure: function (x) {
+    return String(x || "").replace(/^0(\d)/, "$1").replace(":", " h ").replace(/ h 00$/, " h");
+  },
+  nbJours: function (e) {
+    return e
+      ? EDT_JOURS.filter(function (x) {
+          return e.jours[x[0]];
+        }).length
+      : 0;
+  },
+  minSemaine: function (e) {
+    return e
+      ? sum(
+          EDT_JOURS.filter(function (x) {
+            return e.jours[x[0]];
+          }),
+          function (x) {
+            return EDT.duree(e.jours[x[0]]);
+          },
+        )
+      : 0;
+  },
+  finMois: function (mois) {
+    var p = mois.split("-").map(Number);
+    return mois + "-" + pad2(new Date(p[0], p[1], 0).getDate());
+  },
+  joursMois: function (e, mois, jusqua) {
+    if (!e) return 0;
+    var d = mois + "-01",
+      fin = EDT.finMois(mois),
+      n = 0;
+    if (jusqua && jusqua < fin) fin = jusqua;
+    while (d <= fin) {
+      if (e.jours[EDT.cleJour(d)]) n++;
+      d = addDays(d, 1);
+    }
+    return n;
+  },
+  uNom: function (u, n) {
+    var pl = Math.abs(Number(n) || 0) >= 2;
+    return u === "m" ? "m" : u === "pagne" ? (pl ? "pagnes" : "pagne") : u === "piece" ? (pl ? "pièces" : "pièce") : pl ? "complets" : "complet";
+  },
+  calc: function (pers, mois) {
+    var e = EDT.de(pers.id),
+      t = today(),
+      fin = EDT.finMois(mois),
+      cur = mois === monthOf(t),
+      passe = mois < monthOf(t);
+    var sal = Sal.calc(pers.id, mois);
+    var jP = e ? EDT.joursMois(e, mois) : null,
+      jPA = e ? (cur ? EDT.joursMois(e, mois, t) : passe ? jP : 0) : null;
+    var r = { pers: pers, e: e, jP: jP, jPA: jPA, jT: sal.jours, src: null, prevu: null, prevuAuj: null, reel: null, u: null, o: null };
+    r.presence = jPA ? sal.jours / jPA : null;
+    var pr = e && e.prev && Number(e.prev.q) > 0 ? e.prev : null;
+    if (pr) {
+      var u = pr.unite || "complet",
+        q = Number(pr.q);
+      r.src = "prev";
+      r.u = u;
+      r.base = pr.base === "jour" ? "jour" : "mois";
+      r.reel = u === "piece" ? sal.pieces : sal.tissu / tissuFacteurU(u);
+      if (r.base === "jour") {
+        r.prevu = q * (jP || 0);
+        r.prevuAuj = q * (jPA || 0);
+      } else {
+        r.prevu = q;
+        r.prevuAuj = jP ? (q * (jPA || 0)) / jP : cur ? null : passe ? q : 0;
+      }
+    } else {
+      var o = Prev.ref(pers.id, mois);
+      if (o) {
+        var k = Obj.calc(o),
+          dim = Number(fin.slice(8)),
+          jours = jP !== null ? jP : k.jm;
+        r.src = "obj";
+        r.o = o;
+        r.parJour = k.cJ;
+        r.prevu = k.cJ * jours;
+        r.prevuAuj = k.cJ * (jP !== null ? jPA : cur ? (k.jm * Number(t.slice(8))) / dim : passe ? k.jm : 0);
+        r.reel = Obj.produit(o, mois + "-01", fin);
+      }
+    }
+    r.taux = r.prevu > 0 ? r.reel / r.prevu : null;
+    r.tauxAuj = r.prevuAuj > 0 ? r.reel / r.prevuAuj : null;
+    return r;
+  },
+  qTxt: function (r, n) {
+    if (n === null || n === undefined) return "—";
+    return r.src === "obj" ? Obj.qTxt(r.o, n) : fmtN(n, 1) + " " + EDT.uNom(r.u, n);
+  },
+  css: function () {
+    return (
+      "<style>.edt-sem td.j{text-align:center;white-space:nowrap;font-size:12.5px}.edt-c{display:inline-block;min-width:74px;border-radius:7px;padding:4px 6px;background:var(--vat-50);color:var(--indigo-800);font-weight:600;line-height:1.25}.edt-c small{display:block;font-weight:500;color:var(--ink-3);font-size:11px}" +
+      ".edt-o{color:var(--ink-3);font-size:12px}.edt-n{font-weight:700;font-size:15px}" +
+      ".edt-bar{position:relative;height:10px;border-radius:5px;background:#e9ecf3;min-width:110px;margin:4px 0 2px}.edt-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:5px}.edt-bar b{position:absolute;top:-3px;bottom:-3px;width:2px;background:#1b2238;border-radius:1px}" +
+      ".edt-k{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink-2);margin:2px 0 8px}.edt-k i{display:inline-block;width:12px;height:8px;border-radius:3px;margin-right:5px;vertical-align:0}" +
+      ".edt-g{display:grid;gap:6px;margin:4px 0 12px}.edt-r{display:grid;grid-template-columns:150px 1fr 1fr 70px;gap:10px;align-items:center;border:1px solid var(--line);border-radius:var(--r);padding:6px 10px}.edt-r.h{border:0;padding:0 10px;font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}" +
+      ".edt-r label{display:flex;gap:8px;align-items:center;font-weight:600;cursor:pointer}.edt-r input[type=time]{width:100%;min-height:36px;border:1px solid var(--line);border-radius:7px;padding:4px 8px;font:inherit}.edt-r.off{background:#f6f7fb}.edt-r.off input[type=time]{opacity:.45}.edt-r .du{text-align:right;color:var(--ink-2);font-weight:600}" +
+      ".edt-sum{font-size:13.5px;margin-right:auto;align-self:center}.edt-sum b{font-size:15px}" +
+      "@media (max-width:640px){.edt-r{grid-template-columns:1fr 1fr;}.edt-r label{grid-column:1/-1}.edt-r .du{grid-column:1/-1;text-align:left}.edt-r.h{display:none}}</style>"
+    );
+  },
+  cellule: function (e, k, print) {
+    var j = e && e.jours[k];
+    if (!j) return '<td class="j"><span class="edt-o">' + (print ? "—" : "repos") + "</span></td>";
+    var du = EDT.duree(j);
+    return (
+      '<td class="j"><span class="edt-c">' +
+      (j.d && j.f ? esc(EDT.heure(j.d)) + " – " + esc(EDT.heure(j.f)) : "Travail") +
+      (du ? "<small>" + EDT.hTxt(du) + "</small>" : "") +
+      "</span></td>"
+    );
+  },
+  couleur: function (t) {
+    return t === null || t === undefined ? "#9aa2b8" : t >= 1 ? "#2f7d4f" : t >= 0.7 ? "#c9932e" : "#b23a3a";
+  },
+  barre: function (r) {
+    if (!(r.prevu > 0)) return "";
+    var w = Math.max(0, Math.min(100, Math.round((r.reel / r.prevu) * 100))),
+      m = r.prevuAuj !== null && r.prevuAuj !== undefined ? Math.max(0, Math.min(100, (r.prevuAuj / r.prevu) * 100)) : null;
+    return (
+      '<div class="edt-bar" title="Réalisé ' +
+      attr(EDT.qTxt(r, r.reel)) +
+      " sur " +
+      attr(EDT.qTxt(r, r.prevu)) +
+      ' prévus"><i style="width:' +
+      w +
+      "%;background:" +
+      EDT.couleur(r.tauxAuj !== null ? r.tauxAuj : r.taux) +
+      '"></i>' +
+      (m !== null && m < 100 ? '<b style="left:calc(' + F2(m) + '% - 1px)"></b>' : "") +
+      "</div>"
+    );
+  },
+  editer: function (p) {
+    if (!EDT.peut()) {
+      UI.toast("Votre rôle ne permet pas de modifier les emplois du temps.", "err");
+      return;
+    }
+    var pers = get("parametres/personnel", p);
+    if (!pers) return;
+    var e = EDT.de(p),
+      o = Prev.ref(p, EDT.st.mois);
+    var jours = e
+      ? e.jours
+      : (function () {
+          var x = {};
+          ["1", "2", "3", "4", "5", "6"].forEach(function (k) {
+            x[k] = { d: "08:00", f: "17:00" };
+          });
+          return x;
+        })();
+    var pr = (e && e.prev) || {};
+    var F = [
+      { type: "section", t: "Prévision mensuelle (objectif de production)" },
+      { k: "q", t: "Quantité prévue", type: "number", min: 0, ph: "ex. 12" },
+      { k: "unite", t: "Unité", type: "select", empty: false, opts: EDT_UNITES },
+      {
+        k: "base",
+        t: "Cette quantité est prévue",
+        type: "select",
+        empty: false,
+        span: 2,
+        opts: [
+          ["mois", "Pour le mois entier"],
+          ["jour", "Par jour de travail (le mois se calcule avec l'emploi du temps)"],
+        ],
+        help: o
+          ? "Laissez la quantité vide pour reprendre l'objectif du travailleur (" +
+            Obj.qTxt(o, Obj.calc(o).N) +
+            " en " +
+            Obj.jTxt(Obj.calc(o).D) +
+            "), calculé sur ses jours de travail du mois."
+          : "Sans quantité, la comparaison se fait avec l'objectif du travailleur s'il en a un (onglet Objectifs).",
+      },
+      { k: "note", t: "Remarque (facultatif)", type: "textarea", rows: 2, span: 2, ph: "Repos, horaires particuliers, saison…" },
+    ];
+    var grille =
+      '<div class="edt-g"><div class="edt-r h"><span>Jour</span><span>Arrivée</span><span>Départ</span><span style="text-align:right">Durée</span></div>' +
+      EDT_JOURS.map(function (x) {
+        var j = jours[x[0]];
+        return (
+          '<div class="edt-r' +
+          (j ? "" : " off") +
+          '" data-row="' +
+          x[0] +
+          '"><label><input type="checkbox" data-j="' +
+          x[0] +
+          '"' +
+          (j ? " checked" : "") +
+          ">" +
+          x[1] +
+          '</label><input type="time" data-d="' +
+          x[0] +
+          '" value="' +
+          attr((j && j.d) || "08:00") +
+          '" aria-label="Arrivée ' +
+          x[1] +
+          '"><input type="time" data-f="' +
+          x[0] +
+          '" value="' +
+          attr((j && j.f) || "17:00") +
+          '" aria-label="Départ ' +
+          x[1] +
+          '"><span class="du" data-du="' +
+          x[0] +
+          '"></span></div>'
+        );
+      }).join("") +
+      "</div>";
+    var m = UI.modal({
+      title: "Emploi du temps — " + pers.nom,
+      size: "l",
+      body:
+        EDT.css() +
+        '<p class="muted">Cochez les jours où ' +
+        esc(pers.nom) +
+        " travaille, avec ses heures d'arrivée et de départ. Le nombre de jours par semaine et les jours de travail de chaque mois en découlent ; ils servent à comparer sa prévision à sa production réelle.</p>" +
+        '<div class="row wrap" style="margin:0 0 8px"><button type="button" class="btn ghost sm" data-mact="ls">Lundi → samedi</button><button type="button" class="btn ghost sm" data-mact="lv">Lundi → vendredi</button><button type="button" class="btn ghost sm" data-mact="memes">Mêmes heures pour tous les jours</button><button type="button" class="btn ghost sm" data-mact="aucun">Tout décocher</button></div>' +
+        grille +
+        '<form class="mform" novalidate>' +
+        UI.fields(F, { q: pr.q, unite: pr.unite || "complet", base: pr.base || "mois", note: (e && e.note) || "" }) +
+        "</form>",
+      actions: (e ? [{ t: icon("trash") + " Supprimer", act: "del", cls: "ghost del" }] : []).concat([
+        { t: "Annuler", act: "__close", cls: "ghost" },
+        { t: icon("check") + " Enregistrer", act: "save", cls: "primary" },
+      ]),
+      onOpen: function (mm) {
+        var el = mm.el,
+          foot = $(".mfoot", el);
+        if (foot) foot.insertAdjacentHTML("afterbegin", '<span class="edt-sum"></span>');
+        $("form", el).addEventListener("submit", function (ev) {
+          ev.preventDefault();
+        });
+        var maj = function () {
+          var x = EDT.lire(el),
+            n = EDT.nbJours(x),
+            mn = EDT.minSemaine(x);
+          EDT_JOURS.forEach(function (d) {
+            var row = $('[data-row="' + d[0] + '"]', el),
+              du = $('[data-du="' + d[0] + '"]', el),
+              j = x.jours[d[0]];
+            if (row) row.classList.toggle("off", !j);
+            if (du) du.textContent = j ? (EDT.duree(j) ? EDT.hTxt(EDT.duree(j)) : "heures ?") : "repos";
+          });
+          var z = $(".edt-sum", el);
+          if (z)
+            z.innerHTML =
+              "<b>" +
+              n +
+              " jour" +
+              (n > 1 ? "s" : "") +
+              "</b> par semaine" +
+              (mn ? " · " + EDT.hTxt(mn) : "") +
+              ' <span class="muted">· ' +
+              EDT.joursMois(x, EDT.st.mois) +
+              " jours de travail en " +
+              esc(fmtMois(EDT.st.mois)) +
+              "</span>";
+        };
+        el.addEventListener("change", maj);
+        el.addEventListener("input", maj);
+        maj();
+      },
+      onAct: function (act, btn) {
+        var el = m.el;
+        if (act === "ls" || act === "lv" || act === "aucun") {
+          EDT_JOURS.forEach(function (d) {
+            var c = $('[data-j="' + d[0] + '"]', el);
+            c.checked = act === "aucun" ? false : act === "ls" ? Number(d[0]) <= 6 : Number(d[0]) <= 5;
+          });
+          el.dispatchEvent(new Event("change"));
+          return;
+        }
+        if (act === "memes") {
+          var pre = EDT_JOURS.filter(function (d) {
+            return $('[data-j="' + d[0] + '"]', el).checked;
+          })[0];
+          if (!pre) return;
+          var dd = $('[data-d="' + pre[0] + '"]', el).value,
+            ff = $('[data-f="' + pre[0] + '"]', el).value;
+          EDT_JOURS.forEach(function (d) {
+            $('[data-d="' + d[0] + '"]', el).value = dd;
+            $('[data-f="' + d[0] + '"]', el).value = ff;
+          });
+          el.dispatchEvent(new Event("change"));
+          return;
+        }
+        if (act === "del") {
+          m.close();
+          UI.confirm({
+            title: "Supprimer l'emploi du temps de " + pers.nom,
+            message: "Sa prévision ne sera plus calculée sur ses jours de travail. Ses déclarations et sa paie ne changent pas.",
+            ok: "Supprimer",
+            danger: true,
+          }).then(function (c) {
+            if (!c.ok) return;
+            var tx = new Tx("emploi du temps");
+            tx.doc(EDT.COL, p, null);
+            tx.audit("Emploi du temps supprimé — " + pers.nom, "ouvriers", p);
+            runOp(
+              null,
+              function () {
+                return tx.commit();
+              },
+              "Emploi du temps supprimé.",
+            ).then(function () {
+              App.render(true);
+            });
+          });
+          return;
+        }
+        if (act !== "save") return;
+        var x = EDT.lire(el);
+        if (!EDT.nbJours(x)) {
+          UI.toast("Cochez au moins un jour de travail.", "err");
+          return;
+        }
+        var faux = EDT_JOURS.filter(function (d) {
+          var j = x.jours[d[0]];
+          return j && !EDT.duree(j);
+        });
+        if (faux.length) {
+          UI.toast("Heures à corriger pour : " + faux.map(function (d) {
+            return d[1].toLowerCase();
+          }).join(", ") + " (le départ doit suivre l'arrivée).", "err", 7e3);
+          return;
+        }
+        var v = UI.readFields(el, F);
+        if (!v) return;
+        var rec = {
+          jours: x.jours,
+          prev: v.q > 0 ? { q: v.q, unite: v.unite || "complet", base: v.base || "mois" } : null,
+          note: v.note || null,
+          nom: pers.nom,
+          majLe: today(),
+          majPar: S.member.nom,
+        };
+        var tx = new Tx("emploi du temps");
+        tx.doc(EDT.COL, p, rec);
+        tx.audit(
+          "Emploi du temps de " +
+            pers.nom +
+            " : " +
+            EDT.nbJours(x) +
+            " jours par semaine" +
+            (rec.prev ? ", prévision " + fmtN(rec.prev.q, 1) + " " + EDT.uNom(rec.prev.unite, rec.prev.q) + (rec.prev.base === "jour" ? " par jour" : " par mois") : ""),
+          "ouvriers",
+          p,
+        );
+        runOp(
+          btn,
+          function () {
+            return tx.commit();
+          },
+          "Emploi du temps enregistré.",
+        ).then(function (r) {
+          if (!r) return;
+          m.close();
+          App.render(true);
+        });
+      },
+    });
+    return m;
+  },
+  lire: function (el) {
+    var j = {};
+    EDT_JOURS.forEach(function (d) {
+      var c = $('[data-j="' + d[0] + '"]', el);
+      if (c && c.checked) j[d[0]] = { d: $('[data-d="' + d[0] + '"]', el).value || "", f: $('[data-f="' + d[0] + '"]', el).value || "" };
+    });
+    return { jours: j };
+  },
+  tableSemaine: function (pers, print) {
+    return (
+      '<div class="tscroll"><table class="grid edt-sem"><thead><tr><th>Personne</th>' +
+      EDT_JOURS.map(function (x) {
+        return '<th class="j" style="text-align:center">' + x[1] + "</th>";
+      }).join("") +
+      '<th class="num">Jours / semaine</th><th class="num">Heures / semaine</th>' +
+      (print ? "" : '<th class="act"><span class="sr">Actions</span></th>') +
+      "</tr></thead><tbody>" +
+      (pers.length
+        ? pers
+            .map(function (x) {
+              var e = EDT.de(x.id),
+                n = EDT.nbJours(e),
+                mn = EDT.minSemaine(e);
+              return (
+                "<tr><td><strong>" +
+                esc(x.nom) +
+                "</strong>" +
+                (x.fonction ? '<br><small class="muted">' + esc(x.fonction) + "</small>" : "") +
+                "</td>" +
+                (e
+                  ? EDT_JOURS.map(function (d) {
+                      return EDT.cellule(e, d[0], print);
+                    }).join("")
+                  : '<td colspan="7" class="muted" style="text-align:center">Pas encore d\'emploi du temps</td>') +
+                '<td class="num"><span class="edt-n">' +
+                (e ? n : "—") +
+                "</span>" +
+                (e ? '<br><small class="muted">jour' + (n > 1 ? "s" : "") + "</small>" : "") +
+                '</td><td class="num">' +
+                (mn ? EDT.hTxt(mn) : "—") +
+                "</td>" +
+                (print
+                  ? ""
+                  : '<td class="act">' +
+                    (EDT.peut() ? UI.btn(icon(e ? "edit" : "plus") + (e ? " Modifier" : " Créer"), "edt", e ? "ghost sm" : "sm", ' data-id="' + attr(x.id) + '"') : "") +
+                    "</td>") +
+                "</tr>"
+              );
+            })
+            .join("")
+        : '<tr><td class="empty" colspan="11">Aucun travailleur actif.</td></tr>') +
+      "</tbody></table></div>"
+    );
+  },
+  tableMois: function (rows, print) {
+    var n = print ? "n" : "num";
+    return (
+      '<div class="tscroll"><table class="grid"><thead><tr><th>Personne</th><th class="' +
+      n +
+      '">Jours prévus</th><th class="' +
+      n +
+      '">Jours travaillés</th><th class="' +
+      n +
+      '">Présence</th><th class="' +
+      n +
+      '">Prévision du mois</th><th class="' +
+      n +
+      '">Prévu à ce jour</th><th class="' +
+      n +
+      '">Réalisé</th><th style="min-width:150px">Atteinte de la prévision</th></tr></thead><tbody>' +
+      (rows.length
+        ? rows
+            .map(function (r) {
+              var pc = function (t) {
+                return t === null || t === undefined ? "—" : Math.round(t * 100) + " %";
+              };
+              return (
+                "<tr><td><strong>" +
+                esc(r.pers.nom) +
+                "</strong>" +
+                (r.e ? '<br><small class="muted">' + EDT.nbJours(r.e) + " j / semaine</small>" : '<br><small class="muted">sans emploi du temps</small>') +
+                '</td><td class="' +
+                n +
+                '">' +
+                (r.jP === null ? "—" : r.jP + (r.jPA !== r.jP ? '<br><small class="muted">' + r.jPA + " à ce jour</small>" : "")) +
+                '</td><td class="' +
+                n +
+                '">' +
+                r.jT +
+                '</td><td class="' +
+                n +
+                '"><b style="color:' +
+                EDT.couleur(r.presence) +
+                '">' +
+                pc(r.presence) +
+                '</b></td><td class="' +
+                n +
+                '">' +
+                (r.src
+                  ? "<strong>" +
+                    esc(EDT.qTxt(r, r.prevu)) +
+                    '</strong><br><small class="muted">' +
+                    (r.src === "prev" ? (r.base === "jour" ? "prévision par jour × jours prévus" : "prévision mensuelle") : "d'après l'objectif") +
+                    "</small>"
+                  : '<span class="muted">Aucune prévision</span>') +
+                '</td><td class="' +
+                n +
+                '">' +
+                (r.src ? esc(EDT.qTxt(r, r.prevuAuj)) : "—") +
+                '</td><td class="' +
+                n +
+                '"><strong>' +
+                (r.src ? esc(EDT.qTxt(r, r.reel)) : "—") +
+                "</strong></td><td>" +
+                (r.src && r.prevu > 0
+                  ? EDT.barre(r) +
+                    '<small><b style="color:' +
+                    EDT.couleur(r.tauxAuj !== null ? r.tauxAuj : r.taux) +
+                    '">' +
+                    pc(r.tauxAuj !== null ? r.tauxAuj : r.taux) +
+                    "</b> à ce jour · " +
+                    pc(r.taux) +
+                    " du mois</small>"
+                  : '<span class="muted">—</span>') +
+                "</td></tr>"
+              );
+            })
+            .join("")
+        : '<tr><td class="empty" colspan="8">Aucun travailleur actif.</td></tr>') +
+      "</tbody></table></div>"
+    );
+  },
+  legende: function () {
+    return '<div class="edt-k"><span><i style="background:#2f7d4f"></i>Prévision atteinte</span><span><i style="background:#c9932e"></i>70 à 99 %</span><span><i style="background:#b23a3a"></i>Moins de 70 %</span><span><i style="background:#1b2238;width:2px;height:12px"></i>Prévu à ce jour</span></div>';
+  },
+  imprimer: function (quoi) {
+    var mois = EDT.st.mois,
+      pers = EDT.personnes();
+    if (quoi === "semaine")
+      UI.print({
+        title: "Emploi du temps du personnel",
+        docTitle: "Emploi du temps du personnel",
+        docMeta: "<div>" + esc(blocLabel(S.bloc)) + "</div><div>Semaine type</div>",
+        landscape: true,
+        body:
+          EDT.css().replace("<style>", "<style>.edt-c{background:#eef1fa!important;color:#1f2a5a!important}.edt-c small{color:#4a536b!important}.edt-o{color:#9aa1b5}td.j{text-align:center}") +
+          EDT.tableSemaine(pers, true) +
+          '<div class="sig"><div>Le responsable du personnel</div><div>La Direction</div></div>',
+      });
+    else {
+      var rows = pers.map(function (x) {
+        return EDT.calc(x, mois);
+      });
+      UI.print({
+        title: "Prévision et production réelle — " + fmtMois(mois),
+        docTitle: "Prévision et production réelle",
+        docMeta: "<div>" + esc(fmtMois(mois)) + "</div><div>" + esc(blocLabel(S.bloc)) + "</div>",
+        landscape: true,
+        body: EDT.css() + EDT.legende() + EDT.tableMois(rows, true) + '<div class="sig"><div>Le responsable du personnel</div><div>La Direction</div></div>',
+      });
+    }
+  },
+};
+function F2(x) {
+  return Math.round(x * 100) / 100;
+}
+view("ouvriers/emplois", {
+  mod: "ouvriers",
+  title: "Emploi du temps",
+  check: function () {
+    return can("ouvriers") || can("paie");
+  },
+  need: function () {
+    return Obj.need().concat(["ouvriers/emplois", "stock/articles"]);
+  },
+  render: function () {
+    var mois = EDT.st.mois,
+      pers = EDT.personnes();
+    var rows = pers.map(function (x) {
+      return EDT.calc(x, mois);
+    });
+    var avec = rows.filter(function (r) {
+      return r.e;
+    });
+    var mes = rows.filter(function (r) {
+      return r.src && r.prevu > 0;
+    });
+    var tPres = avec.filter(function (r) {
+      return r.jPA;
+    });
+    var presG = tPres.length
+      ? sum(tPres, function (r) {
+          return r.jT;
+        }) /
+        sum(tPres, function (r) {
+          return r.jPA;
+        })
+      : null;
+    var attG = mes.length
+      ? sum(mes, function (r) {
+          return r.tauxAuj !== null ? r.tauxAuj : r.taux || 0;
+        }) / mes.length
+      : null;
+    var pc = function (t) {
+      return t === null ? "—" : Math.round(t * 100) + " %";
+    };
+    return (
+      EDT.css() +
+      pageHead(
+        "Emploi du temps et prévision du mois",
+        "L'emploi du temps de chaque personne indique ses jours de travail dans la semaine et ses heures. Avec sa prévision mensuelle (son objectif), il donne ce qu'elle doit produire dans le mois ; la production réelle vient de ses déclarations validées.",
+        UI.btn(icon("print") + " Emploi du temps", "imprimer", "ghost", ' data-id="semaine"') + UI.btn(icon("print") + " Prévision et réalisé", "imprimer", "ghost", ' data-id="mois"'),
+      ) +
+      '<label class="inline">Mois <input type="month" data-chg="mois" value="' +
+      attr(mois) +
+      '"></label>' +
+      tiles([
+        { t: "Personnes avec emploi du temps", v: avec.length + " / " + pers.length },
+        {
+          t: "Jours de travail prévus en " + fmtMois(mois),
+          v: sum(avec, function (r) {
+            return r.jP;
+          }),
+          s:
+            sum(rows, function (r) {
+              return r.jT;
+            }) + " jours travaillés",
+        },
+        { t: "Présence à ce jour", v: pc(presG), tone: presG !== null && presG < 0.7 ? "warn" : "" },
+        { t: "Atteinte moyenne de la prévision", v: pc(attG), s: plural(mes.length, "personne") + " avec prévision", tone: attG !== null && attG < 0.7 ? "warn" : "" },
+      ]) +
+      '<section class="card pad"><h2 style="margin-top:0">Emploi du temps de la semaine</h2>' +
+      EDT.tableSemaine(pers, false) +
+      "</section>" +
+      '<section class="card pad"><h2 style="margin-top:0">Prévision et production réelle — ' +
+      esc(fmtMois(mois)) +
+      "</h2>" +
+      EDT.legende() +
+      EDT.tableMois(rows, false) +
+      '<p class="muted small">Jours prévus : jours de l\'emploi du temps dans le mois. Jours travaillés et réalisé : déclarations validées du mois. Sans prévision saisie dans l\'emploi du temps, la comparaison reprend l\'objectif du travailleur, calculé sur ses jours de travail prévus.</p></section>'
+    );
+  },
+  acts: {
+    mois: function (v) {
+      if (/^\d{4}-\d{2}$/.test(v || "")) EDT.st.mois = v;
+      App.render(true);
+    },
+    edt: function (id) {
+      EDT.editer(id);
+    },
+    imprimer: function (q) {
+      EDT.imprimer(q);
     },
   },
 });
